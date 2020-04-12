@@ -1,0 +1,6 @@
+framework module Pods_SWFrame_Tests {
+  umbrella header "Pods-SWFrame_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}

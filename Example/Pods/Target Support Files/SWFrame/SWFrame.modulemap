@@ -1,0 +1,6 @@
+framework module SWFrame {
+  umbrella header "SWFrame-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,6 @@
+framework module Moya_ObjectMapper_Swift5 {
+  umbrella header "Moya-ObjectMapper-Swift5-umbrella.h"
+
+  export *
+  module * { export * }
+}

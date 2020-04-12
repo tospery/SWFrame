@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'SWFrame_Example' do
+  pod 'SWFrame', :path => '../'
+
+  target 'SWFrame_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
