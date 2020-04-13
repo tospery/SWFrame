@@ -1,6 +1,6 @@
 //
 //  NetworkingType.swift
-//  SwiftFrame
+//  SWFrame
 //
 //  Created by 杨建祥 on 2020/4/9.
 //
@@ -26,10 +26,10 @@ public extension NetworkingType {
     }
     
     static func APIKeysBasedStubBehaviour<T>(_: T) -> Moya.StubBehavior {
-//        if true {
-//            // return .immediate
-//            return .delayed(seconds: TimeInterval(1.5))
-//        }
+        if true {
+            // return .immediate
+            return .delayed(seconds: TimeInterval(1.5))
+        }
         return .never
     }
     

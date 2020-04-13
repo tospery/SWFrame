@@ -9,7 +9,7 @@ import UIKit
 
 open class BaseItem: ReactorType {
 
-    let model: ModelType
+    public let model: ModelType
     
     required public init(_ model: ModelType) {
         self.model = model

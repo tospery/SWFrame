@@ -42,6 +42,7 @@ Pod::Spec.new do |s|
   s.frameworks = 'Foundation', 'UIKit', 'Accelerate', 'QuartzCore', 'CoreLocation', 'SystemConfiguration', 'AdSupport', 'WebKit', 'CoreGraphics', 'Photos'
   s.dependency 'RxCocoa', '5.0.0'
   s.dependency 'RxViewController', '1.0.0'
+  s.dependency 'RxDataSources', '4.0.1'
   s.dependency 'NSObject+Rx', '5.0.0'
   s.dependency 'Moya-ObjectMapper-Swift5', '2.8-swift5'
   s.dependency 'URLNavigator', '2.3.0'

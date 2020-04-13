@@ -1,6 +1,6 @@
 //
 //  NetworkProvider.swift
-//  SwiftFrame
+//  SWFrame
 //
 //  Created by 杨建祥 on 2020/4/9.
 //
@@ -12,6 +12,7 @@ import RxCocoa
 import Alamofire
 
 final public class NetworkProvider<Target> where Target: Moya.TargetType {
+    fileprivate var retryTimes = 0
     fileprivate let network: Observable<Bool>
     fileprivate let provider: MoyaProvider<Target>
 
@@ -45,7 +46,22 @@ final public class NetworkProvider<Target> where Target: Moya.TargetType {
 //            })
 //        })
         
+        
+//        return self.network.flatMap { hasNetwork -> Observable<Int> in
+//            if hasNetwork {
+//                self.retryTimes = 0
+//                return Observable.just(1)
+//            }
+//            if self.retryTimes != 5 {
+//                self.retryTimes += 1
+//                return Observable.timer(.seconds(3), scheduler: MainScheduler.instance)
+//            }
+//            return Observable.error(AppError.network)
+//        }.flatMap { withNetwork -> Observable<Moya.Response> in
+//            return self.provider.rx.request(token).asObservable()
+//        }
         // YJX_TODO 无网重试
+        // https://www.jianshu.com/p/92c70f7d4fc4
         return self.provider.rx.request(token).asObservable()
     }
 }

@@ -1,6 +1,6 @@
 //
 //  Function.swift
-//  SwiftFrame
+//  SWFrame
 //
 //  Created by 杨建祥 on 2020/4/6.
 //
@@ -59,7 +59,9 @@ public func metric(_ value: CGFloat) -> CGFloat {
 }
 
 public func connectedToInternet() -> Observable<Bool> {
-    return ReachabilityManager.shared.reach
+    let reachability = try! Reachability()
+    return Observable.just(reachability.connection != .unavailable)
+    // return ReachabilityManager.shared.reach
 }
 
 // 区分全面屏（iPhone X 系列）和非全面屏

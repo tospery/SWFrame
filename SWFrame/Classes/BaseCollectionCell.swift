@@ -1,6 +1,6 @@
 //
 //  BaseCollectionCell.swift
-//  SwiftFrame
+//  SWFrame
 //
 //  Created by 杨建祥 on 2020/4/10.
 //
@@ -14,7 +14,7 @@ open class BaseCollectionCell: UICollectionViewCell {
     public var disposeBag = DisposeBag()
     
     // MARK: - Public
-    public func bind(item: BaseCollectionItem) {
+    open func bind(item: BaseCollectionItem) {
 //        // Bind
 //        item.cell = self
 ////        self.setNeedsLayout()

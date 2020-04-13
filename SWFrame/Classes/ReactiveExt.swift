@@ -1,6 +1,6 @@
 //
 //  ReactiveExt.swift
-//  SwiftFrame
+//  SWFrame
 //
 //  Created by 杨建祥 on 2020/4/7.
 //
@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxDataSources
 import QMUIKit
 import Toast_Swift
 
@@ -33,6 +34,15 @@ public extension Reactive where Base: UIView {
         }
     }
     
+}
+
+public extension Reactive where Base: UICollectionView {
+    func itemSelected<Section>(dataSource: CollectionViewSectionedDataSource<Section>) -> ControlEvent<Section.Item> {
+        let source = self.itemSelected.map { indexPath in
+            dataSource[indexPath]
+        }
+        return ControlEvent(events: source)
+    }
 }
 
 //public extension Reactive where Base: UIViewController {

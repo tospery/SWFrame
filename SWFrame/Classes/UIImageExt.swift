@@ -10,7 +10,7 @@ import UIKit
 public extension UIImage {
     
     fileprivate class func resource() -> Bundle? {
-        return Bundle(path: Bundle(module: "SwiftFrame")!.path(forResource: "SwiftFrame", ofType: "bundle")!)
+        return Bundle(path: Bundle(module: "SWFrame")!.path(forResource: "SWFrame", ofType: "bundle")!)
     }
     
     static var back: UIImage {
