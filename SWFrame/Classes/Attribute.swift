@@ -55,3 +55,6 @@ public var toolBarHeight: CGFloat {
 
 public var safeArea: UIEdgeInsets { QMUIHelper.safeAreaInsetsForDeviceWithNotch() }
 public var safeBottom: CGFloat { QMUIHelper.safeAreaInsetsForDeviceWithNotch().bottom }
+
+public var screenWidth: CGFloat { UIScreen.width }
+public var screenHeight: CGFloat { UIScreen.height }
