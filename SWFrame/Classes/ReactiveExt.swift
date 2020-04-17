@@ -11,6 +11,8 @@ import RxCocoa
 import RxDataSources
 import QMUIKit
 import Toast_Swift
+import ESPullToRefresh
+import Kingfisher
 
 // MARK: - UIView
 public extension Reactive where Base: UIView {
@@ -34,6 +36,14 @@ public extension Reactive where Base: UIView {
         }
     }
     
+}
+
+public extension Reactive where Base: UIImageView {
+    func image(placeholder: Placeholder? = nil, options: KingfisherOptionsInfo? = nil) -> Binder<Resource?> {
+        return Binder(self.base) { imageView, resource in
+            imageView.kf.setImage(with: resource, placeholder: placeholder, options: options)
+        }
+    }
 }
 
 public extension Reactive where Base: UICollectionView {
@@ -95,8 +105,56 @@ public extension Reactive where Base: BaseViewController {
 // MARK: - ScrollViewController
 public extension Reactive where Base: ScrollViewController {
     
-    var emptyDataSetTap: ControlEvent<Void> {
+    var noMoreData: Binder<Bool> {
+        return Binder(self.base) { viewController, noMoreData in
+            viewController.noMoreData = noMoreData
+        }
+    }
+    
+    var emptyDataSet: ControlEvent<Void> {
         let source = self.base.emptyDataSetSubject.map{ _ in }
+        return ControlEvent(events: source)
+    }
+    
+//    var shouldRefresh: Binder<Bool> {
+//        return Binder(self.base) { viewController, shouldRefresh in
+//            viewController.setupRefresh(should: shouldRefresh)
+//        }
+//    }
+//    
+//    var shouldLoadMore: Binder<Bool> {
+//        return Binder(self.base) { viewController, shouldLoadMore in
+//            viewController.setupLoadMore(should: shouldLoadMore)
+//        }
+//    }
+    
+    var isRefreshing: Binder<Bool> {
+        return Binder(self.base) { viewController, isRefreshing in
+            if let scrollView = viewController.scrollView, !isRefreshing {
+                scrollView.es.stopPullToRefresh()
+            }
+        }
+    }
+    
+    var isLoadingMore: Binder<Bool> {
+        return Binder(self.base) { viewController, isLoadingMore in
+            if let scrollView = viewController.scrollView, !isLoadingMore {
+                if !viewController.noMoreData {
+                    scrollView.es.stopLoadingMore()
+                } else {
+                    scrollView.es.noticeNoMoreData()
+                }
+            }
+        }
+    }
+    
+    var refresh: ControlEvent<Void> {
+        let source = self.base.refreshSubject.map{ _ in }
+        return ControlEvent(events: source)
+    }
+    
+    var loadMore: ControlEvent<Void> {
+        let source = self.base.loadMoreSubject.map{ _ in }
         return ControlEvent(events: source)
     }
     

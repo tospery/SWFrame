@@ -22,6 +22,7 @@ open class CollectionViewController: ScrollViewController {
     public override init(_ navigator: NavigatorType, _ reactor: BaseViewReactor) {
         super.init(navigator, reactor)
         self.collectionView = (self.scrollView as! UICollectionView)
+        self.collectionView.alwaysBounceVertical = true
     }
     
     required public init?(coder: NSCoder) {

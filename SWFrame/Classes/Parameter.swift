@@ -16,4 +16,6 @@ public struct Parameter {
     public static let keyword = "keyword"
     public static let hideNavBar = "hideNavBar"
     public static let hideNavLine = "hideNavLine"
+    // public static let shouldPullToRefresh = "shouldPullToRefresh"
+    // public static let shouldInfiniteScrolling = "shouldInfiniteScrolling"
 }

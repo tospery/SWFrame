@@ -11,11 +11,21 @@ import RxCocoa
 import URLNavigator
 import DZNEmptyDataSet
 import BonMot
+import ESPullToRefresh
 
 open class ScrollViewController: BaseViewController {
     
+//    public var shouldPullToRefresh = false
+//    public var shouldInfiniteScrolling = false
+    
     public let emptyDataSetSubject = PublishSubject<Void>()
+    public let refreshSubject = PublishSubject<Void>()
+    public let loadMoreSubject = PublishSubject<Void>()
     public var scrollView: UIScrollView!
+    public var noMoreData = false
+    
+    public var shouldRefresh = false
+    public var shouldLoadMore = false
     
     // MARK: - Init
     public override init(_ navigator: NavigatorType, _ reactor: BaseViewReactor) {
@@ -45,17 +55,59 @@ open class ScrollViewController: BaseViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(self.scrollView)
-        self.scrollView.frame = self.contentFrame
+        self.scrollView.frame = self.contentFrame // YJX_TODO iPhoneX测试
+        
+        self.setupRefresh(should: self.shouldRefresh)
+        self.setupLoadMore(should: self.shouldLoadMore)
+        
+        self.scrollView.rx
+            .setDelegate(self)
+            .disposed(by: self.disposeBag)
     }
     
     // MARK: - Method
     public override func bind(reactor: BaseViewReactor) {
         super.bind(reactor: reactor)
+//        guard let reactor = reactor as? ScrollViewReactor else { return }
+//        self.shouldPullToRefresh = reactor.shouldPullToRefresh
+//        self.shouldInfiniteScrolling = reactor.shouldInfiniteScrolling
         // bind
-        self.scrollView.rx
-            .setDelegate(self)
-            .disposed(by: self.disposeBag)
     }
+    
+    open func setupRefresh(should: Bool) {
+        if should {
+            let animator = ESRefreshHeaderAnimator.init(frame: .zero)
+            self.scrollView.es.addPullToRefresh(animator: animator) { [weak self] in
+                guard let `self` = self else { return }
+                self.refreshSubject.onNext(())
+            }
+            self.scrollView.refreshIdentifier = "Refresh"
+            self.scrollView.expiredTimeInterval = 30.0
+        } else {
+            self.scrollView.es.removeRefreshHeader()
+        }
+    }
+    
+    open func setupLoadMore(should: Bool) {
+        if should {
+            let animator = ESRefreshFooterAnimator.init(frame: .zero)
+            self.scrollView.es.addInfiniteScrolling(animator: animator) { [weak self] in
+                guard let `self` = self else { return }
+                self.loadMoreSubject.onNext(())
+            }
+        } else {
+            self.scrollView.es.removeRefreshFooter()
+        }
+    }
+    
+//    open func refresh() {
+//
+//    }
+//
+//    open func loadMore() {
+//
+//    }
+    
 }
 
 extension ScrollViewController: DZNEmptyDataSetSource {
