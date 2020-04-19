@@ -12,6 +12,8 @@ import Reachability
 final class ReachabilityManager {
 
     static let shared = ReachabilityManager()
+    
+    var reachability: Reachability?
 
     let reachSubject = ReplaySubject<Bool>.create(bufferSize: 1)
     var reach: Observable<Bool> {
@@ -20,7 +22,8 @@ final class ReachabilityManager {
 
     init() {
         do {
-            let reachability = try Reachability()
+            reachability = try Reachability()
+            guard let reachability = reachability else { return }
 
             reachability.whenReachable = { reachability in
                 DispatchQueue.main.async {
@@ -36,7 +39,7 @@ final class ReachabilityManager {
 
             do {
                 try reachability.startNotifier()
-                reachSubject.onNext(reachability.connection != Reachability.Connection.unavailable)
+                // reachSubject.onNext(reachability.connection != Reachability.Connection.unavailable)
             } catch {
                 // log.error("Unable to start notifier") YJX_TODO
             }

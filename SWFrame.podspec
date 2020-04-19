@@ -57,7 +57,7 @@ Pod::Spec.new do |s|
   s.dependency 'BonMot', '5.4.1'
   s.dependency 'Cache', '5.2.0'
   s.dependency 'CGFloatLiteral', '0.5.0'
-  s.dependency 'ReachabilitySwift', '5.0.0-beta1'
+  s.dependency 'ReachabilitySwift', '5.0.0'
   s.dependency 'KeychainAccess', '3.2.0'
   s.dependency 'FCUUID', '1.3.1'
   s.dependency 'QMUIKit/QMUICore', '4.0.4'

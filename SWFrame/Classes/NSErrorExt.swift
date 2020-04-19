@@ -21,4 +21,8 @@ public extension NSError {
         return self.code == 500
     }
     
+    var isExpire: Bool {
+        return self.code == 401
+    }
+    
 }

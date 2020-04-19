@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import QMUIKit
 import RxSwift
 import RxCocoa
 import URLNavigator
@@ -100,40 +101,47 @@ open class ScrollViewController: BaseViewController {
         }
     }
     
-//    open func refresh() {
-//
-//    }
-//
-//    open func loadMore() {
-//
-//    }
-    
 }
 
 extension ScrollViewController: DZNEmptyDataSetSource {
     
-    public func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+    open func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         if let title = self.error?.title, !title.isEmpty {
             return title.styled(with: .alignment(.center), .font(.normal(20)), .color(.darkGray))
         }
         return nil
     }
     
-    public func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+    open func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         if let message = self.error?.message, !message.isEmpty {
             return message.styled(with: .alignment(.center), .font(.normal(14)), .color(.lightGray))
         }
         return nil
     }
     
-    public func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
+    open func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
         if let image = self.error?.image {
             return image
         }
         return UIImage.loading
     }
     
-    public func imageAnimation(forEmptyDataSet scrollView: UIScrollView!) -> CAAnimation! {
+    open func buttonTitle(forEmptyDataSet scrollView: UIScrollView!, for state: UIControl.State) -> NSAttributedString! {
+        if let buttonTitle = self.error?.retryTitle {
+            return buttonTitle.styled(with: .font(.normal(15)), .color(state == UIControl.State.normal ? .white : UIColor.white.withAlphaComponent(0.8)))
+        }
+        return nil
+    }
+    
+    open func buttonBackgroundImage(forEmptyDataSet scrollView: UIScrollView!, for state: UIControl.State) -> UIImage! {
+        if state == UIControl.State.normal,
+            let image = UIImage.qmui_image(with: .blue, size: CGSize(width: 120, height: 40), cornerRadius: 2.f) {
+            return image.withAlignmentRectInsets(UIEdgeInsets(horizontal: (self.view.width - 120) / 2.f * -1.f, vertical: 0))
+        }
+        return nil
+    }
+    
+    open func imageAnimation(forEmptyDataSet scrollView: UIScrollView!) -> CAAnimation! {
         let animation = CABasicAnimation(keyPath: "transform")
         animation.fromValue = NSValue(caTransform3D: CATransform3DIdentity)
         animation.toValue = NSValue(caTransform3D: CATransform3DMakeRotation(CGFloat(M_PI_2), 0.0, 0.0, 1.0))
@@ -144,7 +152,7 @@ extension ScrollViewController: DZNEmptyDataSetSource {
         return animation
     }
     
-    public func backgroundColor(forEmptyDataSet scrollView: UIScrollView!) -> UIColor! {
+    open func backgroundColor(forEmptyDataSet scrollView: UIScrollView!) -> UIColor! {
         return .white
     }
 }
@@ -160,8 +168,10 @@ extension ScrollViewController: DZNEmptyDataSetDelegate {
     }
     
     public func emptyDataSet(_ scrollView: UIScrollView!, didTap view: UIView!) {
-        // guard let error = self as? AppError else { return .serverError }
-        //self.error = nil
+        self.emptyDataSetSubject.onNext(())
+    }
+    
+    public func emptyDataSet(_ scrollView: UIScrollView!, didTap button: UIButton!) {
         self.emptyDataSetSubject.onNext(())
     }
     

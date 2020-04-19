@@ -26,10 +26,10 @@ public extension NetworkingType {
     }
     
     static func APIKeysBasedStubBehaviour<T>(_: T) -> Moya.StubBehavior {
-        if true {
-            // return .immediate
-            return .delayed(seconds: TimeInterval(1.5))
-        }
+//        if true {
+//            // return .immediate
+//            return .delayed(seconds: TimeInterval(1.5))
+//        }
         return .never
     }
     
@@ -52,5 +52,22 @@ public extension NetworkingType {
                 // log.error(error.localizedDescription) YJX_TODO
             }
         }
+    }
+    
+    func convert(error: Error) -> AppError {
+        if let error = error as? MoyaError {
+            switch error {
+            case .underlying(let error, _):
+                if (error as NSError).isNetwork {
+                    return .network
+                } else if (error as NSError).isExpire {
+                    return .expire
+                }
+                return .server
+            default:
+                return .server
+            }
+        }
+        return .server
     }
 }

@@ -9,36 +9,49 @@ import UIKit
 
 public extension UIImage {
     
-    fileprivate class func resource() -> Bundle? {
-        return Bundle(path: Bundle(module: "SWFrame")!.path(forResource: "SWFrame", ofType: "bundle")!)
+    fileprivate class func image(name: String) -> UIImage {
+        var image = UIImage(named: name, in: Bundle.main, compatibleWith: nil)
+        if image == nil {
+            let bundle = Bundle(path: Bundle(module: "SWFrame")!.path(forResource: "SWFrame", ofType: "bundle")!)
+            image = UIImage(named: name, in: bundle, compatibleWith: nil)
+        }
+        return image!
     }
     
     static var back: UIImage {
-        return UIImage(named: "back", in: self.resource(), compatibleWith: nil)!
+        return self.image(name: "back")
     }
     
     static var close: UIImage {
-        return UIImage(named: "close", in: self.resource(), compatibleWith: nil)!
+        return self.image(name: "close")
     }
     
     static var indicator: UIImage {
-        return UIImage(named: "indicator", in: self.resource(), compatibleWith: nil)!
+        return self.image(name: "indicator")
     }
     
     static var loading: UIImage {
-        return UIImage(named: "loading", in: self.resource(), compatibleWith: nil)!
+        return self.image(name: "loading")
     }
     
     static var waiting: UIImage {
-        return UIImage(named: "waiting", in: self.resource(), compatibleWith: nil)!
+        return self.image(name: "waiting")
     }
     
     static var networkError: UIImage {
-        return UIImage(named: "errorNetwork", in: self.resource(), compatibleWith: nil)!
+        return self.image(name: "errorNetwork")
     }
     
     static var serverError: UIImage {
-        return UIImage(named: "errorServer", in: self.resource(), compatibleWith: nil)!
+        return self.image(name: "errorServer")
+    }
+    
+    static var emptyError: UIImage {
+        return self.image(name: "errorEmpty")
+    }
+    
+    static var expireError: UIImage {
+        return self.image(name: "errorExpire")
     }
     
 }

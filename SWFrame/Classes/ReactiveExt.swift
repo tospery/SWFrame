@@ -13,6 +13,7 @@ import QMUIKit
 import Toast_Swift
 import ESPullToRefresh
 import Kingfisher
+import URLNavigator
 
 // MARK: - UIView
 public extension Reactive where Base: UIView {
@@ -85,6 +86,14 @@ public extension Reactive where Base: BaseViewController {
     
     var error: Binder<Error?> {
         return Binder(self.base) { viewController, error in
+            if let error = error as? AppError, viewController.error == nil {
+                switch error {
+                case .expire:
+                    viewController.navigator.present(UIApplication.shared.scheme + "://login", wrap: NavigationController.self)
+                default:
+                    break
+                }
+            }
             viewController.error = error
         }
     }
