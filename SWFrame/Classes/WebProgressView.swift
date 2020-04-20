@@ -16,7 +16,7 @@ public class WebProgressView: UIView {
     
     var progress = 0.f
     
-    lazy var barView: UIView = {
+    public lazy var barView: UIView = {
         let view = UIView()
         return view
     }()

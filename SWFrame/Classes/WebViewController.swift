@@ -15,9 +15,9 @@ open class WebViewController: ScrollViewController, View {
     private let estimatedProgress = "estimatedProgress"
     
     public var url: URL?
+    public var progressColor: UIColor?
     public var swHandlers: [String]?
     public var jsHandlers: [String]?
-    public var progressColor = UIColor.orange
     
     public lazy var webView: WKWebView = {
         let webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
@@ -38,7 +38,7 @@ open class WebViewController: ScrollViewController, View {
         }
         super.init(navigator, reactor)
         self.url = urlMember(reactor.parameters, Parameter.url, nil)
-        self.progressColor = colorMember(reactor.parameters, Parameter.progressColor, .orange)!
+        self.progressColor = colorMember(reactor.parameters, Parameter.progressColor, nil)
     }
     
     required public init?(coder: NSCoder) {
@@ -52,7 +52,7 @@ open class WebViewController: ScrollViewController, View {
         self.view.addSubview(self.webView)
         self.webView.frame = self.contentFrame
         
-        self.progressView.barView.backgroundColor = self.progressColor
+        self.progressView.barView.backgroundColor = self.progressColor ?? UIColor.orange
         self.view.addSubview(self.progressView)
         self.progressView.frame = CGRect(x: 0, y: self.contentTop, width: self.view.width, height: 1.5)
         
