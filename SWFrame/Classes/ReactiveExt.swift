@@ -56,31 +56,17 @@ public extension Reactive where Base: UICollectionView {
     }
 }
 
-//public extension Reactive where Base: UIViewController {
-//
-//    var loading: Binder<Bool> {
-//        return Binder(self.base) { viewController, loading in
-//            if viewController.qmui_isViewLoadedAndVisible() {
-//                let view = viewController.view!
-//                view.isUserInteractionEnabled = !loading
-//                loading ? view.makeToastActivity(.center) : view.hideToastActivity()
-//            }
-//        }
-//    }
-//
-//}
-
 // MARK: - BaseViewController
 public extension Reactive where Base: BaseViewController {
     
-    var loading: Binder<Bool> {
+    func loading(active: Bool = false, text: String? = nil) -> Binder<Bool> {
         return Binder(self.base) { viewController, loading in
             viewController.loading = loading
-//            if viewController.qmui_isViewLoadedAndVisible() {
-//                let view = viewController.view!
-//                view.isUserInteractionEnabled = !loading
-//                loading ? view.makeToastActivity(.center) : view.hideToastActivity()
-//            }
+            if active, viewController.qmui_isViewLoadedAndVisible() {
+                let view = viewController.view!
+                view.isUserInteractionEnabled = !loading
+                loading ? view.makeToastActivity(.center) : view.hideToastActivity()
+            }
         }
     }
     
@@ -167,4 +153,13 @@ public extension Reactive where Base: ScrollViewController {
         return ControlEvent(events: source)
     }
     
+}
+
+// MARK: - BaseViewController
+public extension Reactive where Base: WebViewController {
+    var url: Binder<URL?> {
+        return Binder(self.base) { viewController, url in
+            viewController.url = url
+        }
+    }
 }

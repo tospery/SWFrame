@@ -33,6 +33,20 @@ public func stringMember(_ params: Dictionary<String, Any>?, _ key: String, _ de
     return `default`
 }
 
+public func colorMember(_ params: Dictionary<String, Any>?, _ key: String, _ default: UIColor?) -> UIColor? {
+    if let value = params?[key] as? String, let color = UIColor(value) {
+        return color
+    }
+    return `default`
+}
+
+public func urlMember(_ params: Dictionary<String, Any>?, _ key: String, _ default: URL?) -> URL? {
+    if let value = params?[key] as? String, let url = URL(string: value) {
+        return url
+    }
+    return `default`
+}
+
 public func arrayMember(_ params: Dictionary<String, Any>?, _ key: String, _ default: Array<Any>?) -> Array<Any>? {
     if let value = params?[key] as? Array<Any> {
         return value

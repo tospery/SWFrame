@@ -10,3 +10,8 @@ import UIKit
 public protocol ReactorType {
     
 }
+
+public protocol WithModel {
+    var model: ModelType { get set }
+    init(_ model: ModelType)
+}

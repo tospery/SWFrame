@@ -1,13 +1,13 @@
 //
-//  BaseCollectionItem.swift
+//  BaseSupplementaryReactor.swift
 //  SWFrame
 //
-//  Created by 杨建祥 on 2020/4/10.
+//  Created by 杨建祥 on 2020/4/20.
 //
 
 import UIKit
 
-open class BaseCollectionItem: ReactorType, WithModel {
+open class BaseSupplementaryReactor: ReactorType, WithModel {
     
     public var model: ModelType
     

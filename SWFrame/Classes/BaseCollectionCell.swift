@@ -13,6 +13,15 @@ open class BaseCollectionCell: UICollectionViewCell {
     
     public var disposeBag = DisposeBag()
     
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.contentView.backgroundColor = .white
+    }
+    
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Public
     open func bind(item: BaseCollectionItem) {
 //        // Bind
