@@ -29,10 +29,16 @@ open class NormalCollectionCell: BaseCollectionCell, View {
         return label
     }()
     
-    lazy var indicatorImageView: UIImageView = {
+    public lazy var indicatorImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage.indicator.withRenderingMode(.alwaysTemplate)
         imageView.tintColor = .gray
+        imageView.sizeToFit()
+        return imageView
+    }()
+    
+    public lazy var avatarImageView: UIImageView = {
+        let imageView = UIImageView()
         imageView.sizeToFit()
         return imageView
     }()
@@ -46,11 +52,20 @@ open class NormalCollectionCell: BaseCollectionCell, View {
         
         self.contentView.addSubview(self.titleLabel)
         self.contentView.addSubview(self.detailLabel)
+        self.contentView.addSubview(self.avatarImageView)
         self.contentView.addSubview(self.indicatorImageView)
     }
     
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    open override func prepareForReuse() {
+        super.prepareForReuse()
+        self.titleLabel.text = nil
+        self.detailLabel.text = nil
+        self.avatarImageView.image = nil
+        self.indicatorImageView.isHidden = true
     }
     
     override open func layoutSubviews() {
@@ -62,20 +77,40 @@ open class NormalCollectionCell: BaseCollectionCell, View {
         self.titleLabel.sizeToFit()
         self.titleLabel.left = 15
         self.titleLabel.top = self.titleLabel.topWhenCenter
-        self.titleLabel.width = min(self.titleLabel.width, self.contentView.width / 2)
         
         self.detailLabel.sizeToFit()
         self.detailLabel.top = self.detailLabel.topWhenCenter
-        self.detailLabel.right = self.indicatorImageView.left - 8
+        if self.indicatorImageView.isHidden {
+            self.detailLabel.right = self.indicatorImageView.right
+        } else {
+            self.detailLabel.right = self.indicatorImageView.left - 8
+        }
+        
+        if self.avatarImageView.isHidden {
+            self.avatarImageView.frame = .zero
+        } else {
+            self.avatarImageView.sizeToFit()
+            self.avatarImageView.height = flat(self.contentView.height * 0.6)
+            self.avatarImageView.width = self.avatarImageView.height
+            self.avatarImageView.top = self.avatarImageView.topWhenCenter
+            self.avatarImageView.right = self.detailLabel.left - 8
+            self.avatarImageView.cornerRadius = self.avatarImageView.height / 2.0
+        }
     }
     
     public func bind(reactor: NormalCollectionItem) {
         super.bind(item: reactor)
+        reactor.state.map{ !$0.indicated }
+            .bind(to: self.indicatorImageView.rx.isHidden)
+            .disposed(by: self.disposeBag)
         reactor.state.map{ $0.title }
             .bind(to: self.titleLabel.rx.text)
             .disposed(by: self.disposeBag)
         reactor.state.map{ $0.detail }
             .bind(to: self.detailLabel.rx.text)
+            .disposed(by: self.disposeBag)
+        reactor.state.map{ $0.avatar }
+            .bind(to: self.avatarImageView.rx.image)
             .disposed(by: self.disposeBag)
         reactor.state.map{ _ in }
             .bind(to: self.rx.setNeedsLayout)

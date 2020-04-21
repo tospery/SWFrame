@@ -22,6 +22,11 @@ open class BaseCollectionCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    open override func prepareForReuse() {
+        super.prepareForReuse()
+        self.disposeBag = DisposeBag()
+    }
+    
     // MARK: - Public
     open func bind(item: BaseCollectionItem) {
 //        // Bind

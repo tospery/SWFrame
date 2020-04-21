@@ -22,6 +22,11 @@ open class BaseSupplementaryView: UICollectionReusableView, Supplementary {
         fatalError("init(coder:) has not been implemented")
     }
     
+    open override func prepareForReuse() {
+        super.prepareForReuse()
+        self.disposeBag = DisposeBag()
+    }
+    
     public func bind(reactor: BaseSupplementaryReactor) {
         
     }

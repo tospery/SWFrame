@@ -16,8 +16,10 @@ open class NormalCollectionItem: BaseCollectionItem, Reactor {
     public typealias Action = NoAction
     
     public struct State {
+        public var indicated = true
         public var title: String?
         public var detail: String?
+        public var avatar: ImageSource?
     }
     
     public var initialState = State()
