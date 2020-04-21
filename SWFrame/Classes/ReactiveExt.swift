@@ -155,11 +155,34 @@ public extension Reactive where Base: ScrollViewController {
     
 }
 
-// MARK: - BaseViewController
+// MARK: - WebViewController
 public extension Reactive where Base: WebViewController {
     var url: Binder<URL?> {
         return Binder(self.base) { viewController, url in
             viewController.url = url
         }
+    }
+}
+
+// MARK: - ImageCache
+extension ImageCache: ReactiveCompatible {}
+public extension Reactive where Base: ImageCache {
+    func cacheSize() -> Observable<Int> {
+        return Single.create { single in
+            self.base.calculateDiskCacheSize { size in
+                single(.success(Int(size)))
+            }
+            return Disposables.create {}
+        }.asObservable()
+    }
+    
+    public func clearCache() -> Observable<Void> {
+        return Single.create { single in
+            self.base.clearMemoryCache()
+            self.base.clearDiskCache(completion: {
+                single(.success(()))
+            })
+            return Disposables.create {}
+        }.asObservable()
     }
 }

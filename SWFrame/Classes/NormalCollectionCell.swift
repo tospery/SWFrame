@@ -20,10 +20,19 @@ open class NormalCollectionCell: BaseCollectionCell, View {
         return label
     }()
     
+    public lazy var detailLabel: Label = {
+        let label = Label()
+        label.font = .normal(13)
+        label.textAlignment = .right
+        label.textColor = .gray
+        label.sizeToFit()
+        return label
+    }()
+    
     lazy var indicatorImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage.indicator.withRenderingMode(.alwaysTemplate)
-        imageView.tintColor = .darkGray
+        imageView.tintColor = .gray
         imageView.sizeToFit()
         return imageView
     }()
@@ -36,6 +45,7 @@ open class NormalCollectionCell: BaseCollectionCell, View {
         self.qmui_borderColor = .lightGray
         
         self.contentView.addSubview(self.titleLabel)
+        self.contentView.addSubview(self.detailLabel)
         self.contentView.addSubview(self.indicatorImageView)
     }
     
@@ -45,13 +55,18 @@ open class NormalCollectionCell: BaseCollectionCell, View {
     
     override open func layoutSubviews() {
         super.layoutSubviews()
-        self.titleLabel.sizeToFit()
-        self.titleLabel.left = 15
-        self.titleLabel.top = self.titleLabel.topWhenCenter
-        
         self.indicatorImageView.sizeToFit()
         self.indicatorImageView.top = self.indicatorImageView.topWhenCenter
         self.indicatorImageView.right = self.contentView.width - 15
+        
+        self.titleLabel.sizeToFit()
+        self.titleLabel.left = 15
+        self.titleLabel.top = self.titleLabel.topWhenCenter
+        self.titleLabel.width = min(self.titleLabel.width, self.contentView.width / 2)
+        
+        self.detailLabel.sizeToFit()
+        self.detailLabel.top = self.detailLabel.topWhenCenter
+        self.detailLabel.right = self.indicatorImageView.left - 8
     }
     
     public func bind(reactor: NormalCollectionItem) {
@@ -59,20 +74,13 @@ open class NormalCollectionCell: BaseCollectionCell, View {
         reactor.state.map{ $0.title }
             .bind(to: self.titleLabel.rx.text)
             .disposed(by: self.disposeBag)
+        reactor.state.map{ $0.detail }
+            .bind(to: self.detailLabel.rx.text)
+            .disposed(by: self.disposeBag)
         reactor.state.map{ _ in }
             .bind(to: self.rx.setNeedsLayout)
             .disposed(by: self.disposeBag)
-//        reactor.state.map{ $0.message }
-//            .bind(to: self.messageLabel.rx.text)
-//            .disposed(by: self.rx.disposeBag)
-//        reactor.state.map{ $0.time }
-//            .bind(to: self.timeLabel.rx.text)
-//            .disposed(by: self.rx.disposeBag)
     }
-    
-//    override class func size(width: CGFloat, item: BaseCollectionItem) -> CGSize {
-//        return CGSize(width: width, height: metric(44))
-//    }
     
 }
 

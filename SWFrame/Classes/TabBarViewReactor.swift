@@ -11,7 +11,6 @@ open class TabBarViewReactor: ScrollViewReactor {
     
     public required init(_ provider: ProviderType, _ parameters: Dictionary<String, Any>?) {
         super.init(provider, parameters)
-        self.hidesNavigationBar = boolMember(parameters, Parameter.hideNavBar, true)
     }
     
 }

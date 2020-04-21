@@ -18,6 +18,7 @@ open class TabBarViewController: ScrollViewController {
     
     public override init(_ navigator: NavigatorType, _ reactor: BaseViewReactor) {
         super.init(navigator, reactor)
+        self.hidesNavigationBar = boolMember(reactor.parameters, Parameter.hideNavBar, true)
     }
     
     required public init?(coder: NSCoder) {
