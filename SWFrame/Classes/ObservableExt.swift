@@ -45,4 +45,10 @@ public extension Observable where Element: Equatable {
             return value != selfE
         }
     }
+    
+    func pass(value: Element) -> Observable<Element> {
+        return filter { (selfE) -> Bool in
+            return value == selfE
+        }
+    }
 }

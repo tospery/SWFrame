@@ -18,7 +18,10 @@ private var storage: Storage = try! Storage(diskConfig: DiskConfig(name: "shared
 
 // MARK: - 标识协议
 public protocol Identifiable {
-    var id: String? { get }
+//    associatedtype Identity: Hashable
+//    var id: Identity { get }
+    
+    var id: String { get }
 }
 
 // MARK: - 模型协议
@@ -121,7 +124,7 @@ public extension Storable {
 public protocol Subjective: Storable {
     static func subject() -> BehaviorRelay<Self?>
     static func current() -> Self?
-    static func update(value: Self?)
+    static func update(_ value: Self?)
 }
 
 public extension Subjective {
@@ -139,7 +142,7 @@ public extension Subjective {
         self.subject().value
     }
 
-    static func update(value: Self?) {
+    static func update(_ value: Self?) {
         let subject = self.subject()
         guard let value = value else {
             Self.eraseObject()
