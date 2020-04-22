@@ -18,14 +18,25 @@ private var storage: Storage = try! Storage(diskConfig: DiskConfig(name: "shared
 
 // MARK: - 标识协议
 public protocol Identifiable {
-//    associatedtype Identity: Hashable
-//    var id: Identity { get }
+    associatedtype Identity: Hashable
+    var id: Identity { get set }
     
-    var id: String { get }
+    // var id: String { get }
 }
 
+//public extension Identifiable {
+//    var id: String {
+//        get {
+//            id
+//        }
+//        set {
+//            id = newValue
+//        }
+//    }
+//}
+
 // MARK: - 模型协议
-public protocol ModelType: Identifiable, Mappable {
+public protocol ModelType: Mappable {
     init()
 }
 
@@ -48,7 +59,7 @@ public extension Eventable {
 }
 
 // MARK: - 存储协议
-public protocol Storable: Codable, Equatable, Identifiable, Mappable {
+public protocol Storable: ModelType, Identifiable, Codable, Equatable {
     func save(_ ignoreKey: Bool)
     
     static func objectStoreKey(id: String?) -> String
@@ -65,7 +76,7 @@ public protocol Storable: Codable, Equatable, Identifiable, Mappable {
 public extension Storable {
 
     func save(_ ignoreKey: Bool = true) {
-        type(of: self).storeObject(self, id: ignoreKey ? nil : self.id)
+        type(of: self).storeObject(self, id: ignoreKey ? nil : self.id as? String)
     }
 
     static func arrayStoreKey() -> String {

@@ -7,6 +7,7 @@
 
 import UIKit
 import QMUIKit
+import SwifterSwift
 import CGFloatLiteral
 
 public extension String {
@@ -34,6 +35,19 @@ public extension String {
     func height(thatFitsWidth width: CGFloat, font: UIFont, maxLines: Int = 0) -> CGFloat {
         let size = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
         return self.size(thatFits: size, font: font, maxLines: maxLines).height
+    }
+    
+    var camelCasedWithoutUnderline: String {
+        var result = ""
+        let cmps = self.components(separatedBy: "_")
+        for (index, cmp) in cmps.enumerated() {
+            if index == 0 {
+                result += cmp.lowercased()
+            } else {
+                result += cmp.lowercased().capitalized
+            }
+        }
+        return result
     }
     
 }

@@ -9,6 +9,8 @@ import UIKit
 import WebKit
 import URLNavigator
 import ReactorKit
+import SwifterSwift
+import WebViewJavascriptBridge
 
 open class WebViewController: ScrollViewController, View {
     
@@ -16,8 +18,9 @@ open class WebViewController: ScrollViewController, View {
     
     public var url: URL?
     public var progressColor: UIColor?
-    public var swHandlers: [String]?
-    public var jsHandlers: [String]?
+    public var handlers = [String]()
+    // public var jsHandlers: [String]?
+    public var bridge: WebViewJavascriptBridge!
     
     public lazy var webView: WKWebView = {
         let webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
@@ -39,6 +42,7 @@ open class WebViewController: ScrollViewController, View {
         super.init(navigator, reactor)
         self.url = urlMember(reactor.parameters, Parameter.url, nil)
         self.progressColor = colorMember(reactor.parameters, Parameter.progressColor, nil)
+        self.handlers = arrayMember(reactor.parameters, Parameter.handers, nil) as? [String] ?? []
     }
     
     required public init?(coder: NSCoder) {
@@ -56,15 +60,34 @@ open class WebViewController: ScrollViewController, View {
         self.view.addSubview(self.progressView)
         self.progressView.frame = CGRect(x: 0, y: self.contentTop, width: self.view.width, height: 1.5)
         
-        if let url = self.url {
-            let request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10)
-            self.webView.load(request)
-        }
-        
         self.webView.rx.observeWeakly(CGFloat.self, self.estimatedProgress, options: .new).subscribe(onNext: { [weak self] value in
             guard let `self` = self, let value = value else { return }
             self.progress(value)
         }).disposed(by: self.disposeBag)
+        
+        self.bridge = WebViewJavascriptBridge.init(forWebView: self.webView)
+        self.bridge.setWebViewDelegate(self)
+        for handler in self.handlers {
+            self.bridge.registerHandler(handler) { [weak self] data, callback in
+                guard let `self` = self else { return }
+                let method = handler.camelCasedWithoutUnderline + ":callback:"
+                let result = self.myTest()
+                callback!(result)
+                print("")
+//                let selector = NSSelectorFromString(method)
+//                if self.responds(to: selector) {
+//                    self.perform(selector, with: data, with: callback)
+//                } else {
+//                    print("找不到方法" + method)
+//                }
+            }
+        }
+        
+        self.loadPage()
+    }
+    
+    open func myTest() -> String {
+        return ""
     }
     
     deinit {
@@ -81,6 +104,13 @@ open class WebViewController: ScrollViewController, View {
                     self.navigationItem.title = title
                 }
             }
+        }
+    }
+    
+    open func loadPage() {
+        if let url = self.url {
+            let request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10)
+            self.webView.load(request)
         }
     }
     
