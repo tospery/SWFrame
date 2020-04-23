@@ -50,4 +50,12 @@ public extension String {
         return result
     }
     
+//    func jsonArray() -> Array<Any>? {
+//        if let data = self.data(using: .utf8),
+//            let object = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) {
+//            return object as? Array<Any>
+//        }
+//        return nil
+//    }
+    
 }

@@ -70,24 +70,12 @@ open class WebViewController: ScrollViewController, View {
         for handler in self.handlers {
             self.bridge.registerHandler(handler) { [weak self] data, callback in
                 guard let `self` = self else { return }
-                let method = handler.camelCasedWithoutUnderline + ":callback:"
-                let result = self.myTest()
+                let result = self.handle(handler, data)
                 callback!(result)
-                print("")
-//                let selector = NSSelectorFromString(method)
-//                if self.responds(to: selector) {
-//                    self.perform(selector, with: data, with: callback)
-//                } else {
-//                    print("找不到方法" + method)
-//                }
             }
         }
         
         self.loadPage()
-    }
-    
-    open func myTest() -> String {
-        return ""
     }
     
     deinit {
@@ -112,6 +100,10 @@ open class WebViewController: ScrollViewController, View {
             let request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10)
             self.webView.load(request)
         }
+    }
+    
+    open func handle(_ handler: String, _ data: Any?) -> Any? {
+        return nil
     }
     
     public func bind(reactor: WebViewReactor) {
