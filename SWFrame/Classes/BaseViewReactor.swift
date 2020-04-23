@@ -10,12 +10,12 @@ import UIKit
 open class BaseViewReactor: ReactorType {
     
     public let provider: ProviderType
-    public let parameters: Dictionary<String, Any>?
+    public let parameters: Dictionary<String, Any>
     public var title: String?
     
     required public init(_ provider: ProviderType, _ parameters: Dictionary<String, Any>?) {
         self.provider = provider
-        self.parameters = parameters
+        self.parameters = parameters ?? [:]
         self.title = stringMember(parameters, Parameter.title, nil)
     }
     
