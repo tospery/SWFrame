@@ -20,6 +20,6 @@ public struct Parameter {
     public static let url = "url"
     public static let hideNavBar = "hideNavBar"
     public static let hideNavLine = "hideNavLine"
-    // public static let shouldPullToRefresh = "shouldPullToRefresh"
-    // public static let shouldInfiniteScrolling = "shouldInfiniteScrolling"
+    public static let shouldRefresh = "shouldRefresh"
+    public static let shouldLoadMore = "shouldLoadMore"
 }

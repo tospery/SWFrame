@@ -16,9 +16,6 @@ import ESPullToRefresh
 
 open class ScrollViewController: BaseViewController {
     
-//    public var shouldPullToRefresh = false
-//    public var shouldInfiniteScrolling = false
-    
     public let emptyDataSetSubject = PublishSubject<Void>()
     public let refreshSubject = PublishSubject<Void>()
     public let loadMoreSubject = PublishSubject<Void>()
@@ -69,10 +66,6 @@ open class ScrollViewController: BaseViewController {
     // MARK: - Method
     public override func bind(reactor: BaseViewReactor) {
         super.bind(reactor: reactor)
-//        guard let reactor = reactor as? ScrollViewReactor else { return }
-//        self.shouldPullToRefresh = reactor.shouldPullToRefresh
-//        self.shouldInfiniteScrolling = reactor.shouldInfiniteScrolling
-        // bind
     }
     
     open func setupRefresh(should: Bool) {

@@ -133,18 +133,6 @@ public extension Reactive where Base: ScrollViewController {
         return ControlEvent(events: source)
     }
     
-//    var shouldRefresh: Binder<Bool> {
-//        return Binder(self.base) { viewController, shouldRefresh in
-//            viewController.setupRefresh(should: shouldRefresh)
-//        }
-//    }
-//    
-//    var shouldLoadMore: Binder<Bool> {
-//        return Binder(self.base) { viewController, shouldLoadMore in
-//            viewController.setupLoadMore(should: shouldLoadMore)
-//        }
-//    }
-    
     var isRefreshing: Binder<Bool> {
         return Binder(self.base) { viewController, isRefreshing in
             if let scrollView = viewController.scrollView, !isRefreshing {
