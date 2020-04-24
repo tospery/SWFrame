@@ -40,6 +40,17 @@ public protocol ModelType: Mappable {
     init()
 }
 
+public struct BaseModel: ModelType {
+    public init() {
+    }
+    
+    public init?(map: Map) {
+    }
+    
+    public mutating func mapping(map: Map) {
+    }
+}
+
 // MARK: - 事件协议
 public protocol Eventable {
     associatedtype Event

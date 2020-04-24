@@ -8,11 +8,37 @@
 import UIKit
 import ObjectMapper
 
-public protocol ListType: ModelType {
-    associatedtype Item: ModelType
-    
-    var hasNext: Bool { get }
-    var count: Int { get }
-    var items: [Item]? { get }
-    
+//public protocol ListType: ModelType {
+//    associatedtype Item: ModelType // YJX_TODO 不需要关联类型
+//
+//    var hasNext: Bool { get }
+//    var count: Int { get }
+//    var items: [Item]? { get }
+//}
+
+public struct List<Item: ModelType>: ModelType {
+
+    public var hasNext = false
+    public var count = 0
+    public var items: [Item]?
+
+    public init() {
+    }
+
+    public init?(map: Map) {
+    }
+
+    mutating public func mapping(map: Map) {
+        hasNext     <- map["has_next"]
+        count       <- map["count"]
+        items       <- map["items"]
+        if items == nil {
+            items       <- map["objects"]
+        }
+        if items == nil {
+            items       <- map["messages"]
+        }
+    }
+
 }
+
