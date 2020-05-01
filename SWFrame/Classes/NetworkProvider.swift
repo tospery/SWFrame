@@ -34,6 +34,21 @@ final public class NetworkProvider<Target> where Target: Moya.TargetType {
                 return self.provider.rx.request(token).asObservable()
             }
             return .error(AppError.network)
+        }.catchError { error -> Observable<Moya.Response> in
+            var appError = AppError.server
+            if let error = error as? MoyaError {
+                switch error {
+                case .underlying(let error, _):
+                    if (error as NSError).isNetwork {
+                        appError = .network
+                    } else if (error as NSError).isExpire {
+                        appError = .expire
+                    }
+                default:
+                    break
+                }
+            }
+            return .error(appError)
         }
         
         // 1

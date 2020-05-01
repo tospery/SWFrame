@@ -100,7 +100,7 @@ open class NormalCollectionCell: BaseCollectionCell, View {
     
     public func bind(reactor: NormalCollectionItem) {
         super.bind(item: reactor)
-        reactor.state.map{ !$0.indicated }
+        reactor.state.map{ !$0.showIndicator }
             .bind(to: self.indicatorImageView.rx.isHidden)
             .disposed(by: self.disposeBag)
         reactor.state.map{ $0.title }

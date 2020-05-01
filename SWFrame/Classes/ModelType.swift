@@ -71,7 +71,7 @@ public extension Eventable {
 
 // MARK: - 存储协议
 public protocol Storable: ModelType, Identifiable, Codable, Equatable {
-    func save(_ ignoreKey: Bool)
+    func save(ignoreKey: Bool)
     
     static func objectStoreKey(id: String?) -> String
     static func arrayStoreKey() -> String
@@ -86,7 +86,7 @@ public protocol Storable: ModelType, Identifiable, Codable, Equatable {
 
 public extension Storable {
 
-    func save(_ ignoreKey: Bool = true) {
+    func save(ignoreKey: Bool = false) {
         type(of: self).storeObject(self, id: ignoreKey ? nil : String(any: self.id))
     }
 
