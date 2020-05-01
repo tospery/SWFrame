@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 import URLNavigator
 
 public protocol AppDependencyType {
@@ -14,6 +16,8 @@ public protocol AppDependencyType {
     
     var navigator: NavigatorType { get }
     var provider: ProviderType { get }
+    
+    var disposeBag: DisposeBag { get }
     
     func initialScreen(with window: inout UIWindow?)
     

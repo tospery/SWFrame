@@ -61,6 +61,7 @@ Pod::Spec.new do |s|
   s.dependency 'KeychainAccess', '3.2.0'
   s.dependency 'FCUUID', '1.3.1'
   s.dependency 'WebViewJavascriptBridge', '6.0.3'
+  s.dependency 'SwiftyBeaver', '1.9.0'
   s.dependency 'QMUIKit/QMUICore', '4.0.4'
   s.dependency 'QMUIKit/QMUIComponents/QMUILabel', '4.0.4'
   s.dependency 'QMUIKit/QMUIComponents/QMUIButton', '4.0.4'

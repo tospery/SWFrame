@@ -23,7 +23,7 @@ open class BaseViewController: UIViewController {
     public var loading = false
     public var error: Error?
     
-    var contentTop: CGFloat {
+    public var contentTop: CGFloat {
         var height = statusBarHeightConstant
         if let navBar = self.navigationController?.navigationBar, !navBar.isHidden {
             height += navBar.height
@@ -31,7 +31,7 @@ open class BaseViewController: UIViewController {
         return height
     }
     
-    var contentBottom: CGFloat {
+    public var contentBottom: CGFloat {
         var height = safeBottom
         if let tabBar = self.tabBarController?.tabBar, !tabBar.isHidden, !self.hidesBottomBarWhenPushed {
             height += tabBar.height
@@ -39,15 +39,15 @@ open class BaseViewController: UIViewController {
         return height
     }
     
-    var contentFrame: CGRect {
+    public var contentFrame: CGRect {
         return CGRect(x: 0, y: self.contentTop, width: self.view.width, height: self.view.height - self.contentTop - self.contentBottom)
     }
     
-    lazy var backBarItem: UIBarButtonItem = {
+    lazy public var backBarItem: UIBarButtonItem = {
         return UIBarButtonItem(image: UIImage.back.qmui_image(withTintColor: .red), style: .plain, target: nil, action: nil)
     }()
 
-    lazy var closeBarItem: UIBarButtonItem = {
+    lazy public var closeBarItem: UIBarButtonItem = {
         let abc = UIImage.close
         return UIBarButtonItem(image: UIImage.close.qmui_image(withTintColor: .red), style: .plain, target: nil, action: nil)
     }()

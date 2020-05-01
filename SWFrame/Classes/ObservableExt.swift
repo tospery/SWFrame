@@ -40,13 +40,13 @@ public extension Observable where Element: BooleanType {
 }
 
 public extension Observable where Element: Equatable {
-    func ignore(value: Element) -> Observable<Element> {
+    func ignore(_ value: Element) -> Observable<Element> {
         return filter { (selfE) -> Bool in
             return value != selfE
         }
     }
     
-    func pass(value: Element) -> Observable<Element> {
+    func pass(_ value: Element) -> Observable<Element> {
         return filter { (selfE) -> Bool in
             return value == selfE
         }

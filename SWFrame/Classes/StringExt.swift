@@ -12,6 +12,18 @@ import CGFloatLiteral
 
 public extension String {
     
+    init?(any: Any) {
+        if let number = any as? Int {
+            self.init(number)
+            return
+        }
+        if let string = any as? String {
+            self = string
+            return
+        }
+        return nil
+    }
+    
     func rect(with size: CGSize, attributes: [NSAttributedString.Key: Any]) -> CGRect {
         let options: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
         let rect = self.boundingRect(with: size, options: options, attributes: attributes, context: nil)
