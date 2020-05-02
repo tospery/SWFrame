@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import QMUIKit
+import RxSwift
+import RxCocoa
 import WebKit
 import URLNavigator
 import ReactorKit
@@ -122,4 +125,12 @@ extension WebViewController: WKNavigationDelegate {
 
 extension WebViewController: WKUIDelegate {
     
+}
+
+public extension Reactive where Base: WebViewController {
+    var url: Binder<URL?> {
+        return Binder(self.base) { viewController, url in
+            viewController.url = url
+        }
+    }
 }

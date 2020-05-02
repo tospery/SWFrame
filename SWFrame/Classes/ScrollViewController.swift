@@ -173,3 +173,48 @@ extension ScrollViewController: DZNEmptyDataSetDelegate {
 extension ScrollViewController: UIScrollViewDelegate {
     
 }
+
+public extension Reactive where Base: ScrollViewController {
+    
+    var noMoreData: Binder<Bool> {
+        return Binder(self.base) { viewController, noMoreData in
+            viewController.noMoreData = noMoreData
+        }
+    }
+    
+    var emptyDataSet: ControlEvent<Void> {
+        let source = self.base.emptyDataSetSubject.map{ _ in }
+        return ControlEvent(events: source)
+    }
+    
+    var isRefreshing: Binder<Bool> {
+        return Binder(self.base) { viewController, isRefreshing in
+            if let scrollView = viewController.scrollView, !isRefreshing {
+                scrollView.es.stopPullToRefresh()
+            }
+        }
+    }
+    
+    var isLoadingMore: Binder<Bool> {
+        return Binder(self.base) { viewController, isLoadingMore in
+            if let scrollView = viewController.scrollView, !isLoadingMore {
+                if !viewController.noMoreData {
+                    scrollView.es.stopLoadingMore()
+                } else {
+                    scrollView.es.noticeNoMoreData()
+                }
+            }
+        }
+    }
+    
+    var refresh: ControlEvent<Void> {
+        let source = self.base.refreshSubject.map{ _ in }
+        return ControlEvent(events: source)
+    }
+    
+    var loadMore: ControlEvent<Void> {
+        let source = self.base.loadMoreSubject.map{ _ in }
+        return ControlEvent(events: source)
+    }
+    
+}

@@ -7,6 +7,8 @@
 
 import UIKit
 import QMUIKit
+import RxSwift
+import RxCocoa
 
 public extension UIView {
     
@@ -92,6 +94,35 @@ public extension UIView {
     
     var topWhenCenter: CGFloat {
         return self.qmui_topWhenCenterInSuperview
+    }
+    
+}
+
+public extension Reactive where Base: UIView {
+    
+//    var loading: Binder<Bool> {
+//        return Binder(self.base) { view, loading in
+//            view.isUserInteractionEnabled = !loading
+//            loading ? view.makeToastActivity(.center) : view.hideToastActivity()
+//        }
+//    }
+    
+    var setNeedsLayout: Binder<Void> {
+        return Binder(self.base) { view, _ in
+            view.setNeedsLayout()
+        }
+    }
+    
+    var borderColor: Binder<UIColor?> {
+        return Binder(self.base) { view, color in
+            view.borderColor = color
+        }
+    }
+    
+    var qmui_borderColor: Binder<UIColor?> {
+        return Binder(self.base) { view, color in
+            view.qmui_borderColor = color
+        }
     }
     
 }

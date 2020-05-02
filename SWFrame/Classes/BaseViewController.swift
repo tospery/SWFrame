@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import QMUIKit
 import SwifterSwift
+import Toast_Swift
 import URLNavigator
 
 open class BaseViewController: UIViewController {
@@ -113,3 +114,42 @@ open class BaseViewController: UIViewController {
      
 }
 
+public extension Reactive where Base: BaseViewController {
+    
+    func loading(active: Bool = false, text: String? = nil) -> Binder<Bool> {
+        return Binder(self.base) { viewController, loading in
+            viewController.loading = loading
+            if active, viewController.qmui_isViewLoadedAndVisible() {
+                let view = viewController.view!
+                view.isUserInteractionEnabled = !loading
+                loading ? view.makeToastActivity(.center) : view.hideToastActivity()
+            }
+        }
+    }
+    
+    var error: Binder<Error?> {
+        return Binder(self.base) { viewController, error in
+            if let error = error as? AppError, viewController.error == nil {
+                switch error {
+                case .expire:
+                    viewController.navigator.present(UIApplication.shared.scheme + "://login", wrap: NavigationController.self)
+                default:
+                    break
+                }
+            }
+            viewController.error = error
+        }
+    }
+    
+//    var emptyDataSetImageTintColorBinder: Binder<UIColor?> {
+//        return Binder(self.base) { viewController, attr in
+//            viewController.emptyDataSetImageTintColor.accept(attr)
+//        }
+//    }
+    
+//    var emptyDataSetTap: ControlEvent<Void> {
+//        let source = self.base.emptyDataSetSubject.map{ _ in }
+//        return ControlEvent(events: source)
+//    }
+    
+}

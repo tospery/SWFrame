@@ -6,6 +6,10 @@
 //
 
 import UIKit
+import QMUIKit
+import RxSwift
+import RxCocoa
+import RxDataSources
 
 public extension UICollectionView {
 
@@ -59,4 +63,15 @@ public extension UICollectionView {
         return view
     }
 
+}
+
+public extension Reactive where Base: UICollectionView {
+    
+    func itemSelected<Section>(dataSource: CollectionViewSectionedDataSource<Section>) -> ControlEvent<Section.Item> {
+        let source = self.itemSelected.map { indexPath in
+            dataSource[indexPath]
+        }
+        return ControlEvent(events: source)
+    }
+    
 }

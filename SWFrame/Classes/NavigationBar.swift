@@ -7,9 +7,13 @@
 
 import UIKit
 import QMUIKit
+import RxSwift
+import RxCocoa
 import SwifterSwift
 
 public class NavigationBar: UIView {
+    
+    var itemColor: UIColor?
     
     public var leftButtons: [UIButton] = []
     public var rightButtons: [UIButton] = []
@@ -92,7 +96,7 @@ public class NavigationBar: UIView {
     public func addButtonToLeft(_ image: UIImage) -> UIButton {
         let button = UIButton(type: .custom)
         button.backgroundColor = .clear
-        button.tintColor = .darkGray
+        button.tintColor = self.itemColor
         button.setImage(image.template, for: .normal)
         button.sizeToFit()
         self.addSubview(button)
@@ -112,6 +116,23 @@ public class NavigationBar: UIView {
     public func reset() {
         self.backgroundColor = .white
         self.qmui_borderPosition = .bottom
+    }
+    
+}
+
+// MARK: - UIView
+public extension Reactive where Base: NavigationBar {
+    
+    var itemColor: Binder<UIColor?> {
+        return Binder(self.base) { view, color in
+            view.itemColor = color
+            for button in view.leftButtons {
+                button.tintColor = color
+            }
+            for button in view.rightButtons {
+                button.tintColor = color
+            }
+        }
     }
     
 }
