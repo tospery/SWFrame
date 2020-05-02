@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import QMUIKit
 
 public extension UIImage {
     
@@ -28,6 +29,10 @@ public extension UIImage {
     
     static var indicator: UIImage {
         return self.image(name: "indicator")
+    }
+    
+    static var checkmark1: UIImage {
+        return self.image(name: "checkmark")
     }
     
     static var loading: UIImage {
