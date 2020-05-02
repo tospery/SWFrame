@@ -110,7 +110,7 @@ open class WebViewController: ScrollViewController, View {
         super.bind(reactor: reactor)
         // state
         reactor.state.map { $0.title }
-            .bind(to: self.navigationItem.rx.title)
+            .bind(to: self.navigationBar.titleLabel.rx.text)
             .disposed(by: self.disposeBag)
     }
     

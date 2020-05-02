@@ -6,9 +6,8 @@
 //
 
 import UIKit
-import HBDNavigationBar
 
-open class NavigationController: UINavigationController /*HBDNavigationController*/ {
+open class NavigationController: UINavigationController {
         
     open override var shouldAutorotate: Bool {
         return (self.topViewController?.shouldAutorotate)!

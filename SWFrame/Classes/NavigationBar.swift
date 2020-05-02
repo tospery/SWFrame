@@ -93,7 +93,7 @@ public class NavigationBar: UIView {
         let button = UIButton(type: .custom)
         button.backgroundColor = .clear
         button.tintColor = .darkGray
-        button.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.setImage(image.template, for: .normal)
         button.sizeToFit()
         self.addSubview(button)
         

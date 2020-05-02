@@ -51,7 +51,6 @@ Pod::Spec.new do |s|
   s.dependency 'SnapKit', '4.2.0'
   s.dependency 'ReactorKit', '2.0.1'
   s.dependency 'Toast-Swift', '5.0.0'
-  s.dependency 'HBDNavigationBar', '1.6.6'
   s.dependency 'ESPullToRefresh', '2.9.2'
   s.dependency 'Kingfisher', '4.10.1'
   s.dependency 'BonMot', '5.4.1'
