@@ -78,10 +78,16 @@ open class BaseViewController: UIViewController {
                 self.navigationBar.qmui_borderPosition = QMUIViewBorderPosition(rawValue: 0)
             }
             if self.navigationController?.viewControllers.count ?? 0 > 1 {
-                self.navigationBar.addBackButtonToLeft()
+                self.navigationBar.addBackButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
+                    guard let `self` = self else { return }
+                    self.navigationController?.popViewController()
+                }).disposed(by: self.disposeBag)
             } else {
                 if self.qmui_isPresented() {
-                    self.navigationBar.addCloseButtonToLeft()
+                    self.navigationBar.addCloseButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
+                        guard let `self` = self else { return }
+                        self.dismiss(animated: true, completion: nil)
+                    }).disposed(by: self.disposeBag)
                 }
             }
         }

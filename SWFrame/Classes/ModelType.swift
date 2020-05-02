@@ -115,18 +115,18 @@ public extension Storable {
 
 // MARK: - 流协议
 public protocol Subjective: Storable {
-    static func subject() -> BehaviorRelay<Self?>
+    static func subject(_ fromCache: Bool) -> BehaviorRelay<Self?>
     static func current() -> Self?
-    static func update(_ value: Self?)
+    static func update(_ value: Self?, _ toCache: Bool)
 }
 
 public extension Subjective {
-    static func subject() -> BehaviorRelay<Self?> {
+    static func subject(_ fromCache: Bool = true) -> BehaviorRelay<Self?> {
         let key = String(describing: self)
         if let subject = subjects[key] as? BehaviorRelay<Self?> {
             return subject
         }
-        let subject = BehaviorRelay<Self?>(value: Self.cachedObject())
+        let subject = BehaviorRelay<Self?>(value: fromCache ? Self.cachedObject() : Self.init())
         subjects[key] = subject
         return subject
     }
@@ -135,15 +135,19 @@ public extension Subjective {
         self.subject().value
     }
 
-    static func update(_ value: Self?) {
+    static func update(_ value: Self?, _ toCache: Bool = true) {
         let subject = self.subject()
         guard let value = value else {
-            Self.eraseObject()
+            if toCache {
+                Self.eraseObject()
+            }
             subject.accept(nil)
             return
         }
         
-        Self.storeObject(value)
+        if toCache {
+            Self.storeObject(value)
+        }
         subject.accept(value)
     }
 

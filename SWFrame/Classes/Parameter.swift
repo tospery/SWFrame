@@ -22,4 +22,6 @@ public struct Parameter {
     public static let hideNavLine = "hideNavLine"
     public static let shouldRefresh = "shouldRefresh"
     public static let shouldLoadMore = "shouldLoadMore"
+    public static let routeContext = "routeContext"
+    public static let routeObserver = "routeObserver"
 }
