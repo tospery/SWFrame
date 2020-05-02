@@ -40,35 +40,6 @@ public protocol ModelType: Mappable {
     init()
 }
 
-//public struct BaseModel: ModelType {
-//    public init() {
-//    }
-//
-//    public init?(map: Map) {
-//    }
-//
-//    public mutating func mapping(map: Map) {
-//    }
-//}
-
-// MARK: - 事件协议
-public protocol Eventable {
-    associatedtype Event
-    static var event: PublishSubject<Event> { get }
-}
-
-public extension Eventable {
-    static var event: PublishSubject<Event> {
-        let key = String(describing: self)
-        if let stream = streams[key] as? PublishSubject<Event> {
-            return stream
-        }
-        let stream = PublishSubject<Event>()
-        streams[key] = stream
-        return stream
-    }
-}
-
 // MARK: - 存储协议
 public protocol Storable: ModelType, Identifiable, Codable, Equatable {
     func save(ignoreKey: Bool)
@@ -178,3 +149,21 @@ public extension Subjective {
 
 }
 
+
+// MARK: - 事件协议
+public protocol Eventable {
+    associatedtype Event
+    static var event: PublishSubject<Event> { get }
+}
+
+public extension Eventable {
+    static var event: PublishSubject<Event> {
+        let key = String(describing: self)
+        if let stream = streams[key] as? PublishSubject<Event> {
+            return stream
+        }
+        let stream = PublishSubject<Event>()
+        streams[key] = stream
+        return stream
+    }
+}
