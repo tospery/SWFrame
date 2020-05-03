@@ -18,6 +18,19 @@ public class NavigationBar: UIView {
     public var leftButtons: [UIButton] = []
     public var rightButtons: [UIButton] = []
     
+    public var titleView: UIView? {
+        willSet {
+            titleView?.removeFromSuperview()
+            titleView = newValue
+            if let newValue = newValue {
+                self.addSubview(newValue)
+                self.setNeedsLayout()
+                self.layoutIfNeeded()
+            }
+        }
+    }
+    
+    
     public lazy var bgImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .clear
@@ -83,6 +96,7 @@ public class NavigationBar: UIView {
         left = max(leftDistance, rightDistance)
         width = flat(self.width - left * 2)
         self.titleLabel.frame = CGRect(x: left, y: statusBarHeightConstant, width: width, height: navigationBarHeight)
+        self.titleView?.frame = self.titleLabel.frame
     }
     
     func addBackButtonToLeft() -> UIButton {

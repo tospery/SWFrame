@@ -10,7 +10,7 @@ import URLNavigator
 
 open class TabBarViewController: ScrollViewController {
     
-    public let innerTabBarController: UITabBarController = {
+    public let tab: UITabBarController = {
         let tabBarController = UITabBarController()
         tabBarController.tabBar.isTranslucent = false
         return tabBarController
@@ -27,21 +27,21 @@ open class TabBarViewController: ScrollViewController {
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        self.addChild(self.innerTabBarController)
-        self.view.addSubview(self.innerTabBarController.view)
-        self.innerTabBarController.didMove(toParent: self)
+        self.addChild(self.tab)
+        self.view.addSubview(self.tab.view)
+        self.tab.didMove(toParent: self)
     }
     
     open override var shouldAutorotate: Bool {
-        return self.innerTabBarController.selectedViewController?.shouldAutorotate ?? false
+        return self.tab.selectedViewController?.shouldAutorotate ?? false
     }
     
     open override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return self.innerTabBarController.selectedViewController?.supportedInterfaceOrientations ?? UIInterfaceOrientationMask.portrait
+        return self.tab.selectedViewController?.supportedInterfaceOrientations ?? UIInterfaceOrientationMask.portrait
     }
     
     open override var preferredStatusBarStyle: UIStatusBarStyle {
-        return self.innerTabBarController.selectedViewController?.preferredStatusBarStyle ?? UIStatusBarStyle.default
+        return self.tab.selectedViewController?.preferredStatusBarStyle ?? UIStatusBarStyle.default
     }
     
 }
