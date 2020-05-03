@@ -64,7 +64,7 @@ open class ScrollViewController: BaseViewController {
     }
     
     // MARK: - Method
-    public override func bind(reactor: BaseViewReactor) {
+    open override func bind(reactor: BaseViewReactor) {
         super.bind(reactor: reactor)
     }
     
