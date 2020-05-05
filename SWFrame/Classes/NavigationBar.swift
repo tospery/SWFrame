@@ -71,7 +71,7 @@ public class NavigationBar: UIView {
         
         self.bgImageView.frame = self.bounds
         
-        var left = 0.f
+        var left = 5.f
         var top = statusBarHeightConstant
         var width = navigationBarHeight
         var height = width
@@ -82,7 +82,7 @@ public class NavigationBar: UIView {
             button.left = left
             left += button.width
         }
-        var right = self.width
+        var right = self.width - 5.f
         for (index, button) in self.rightButtons.enumerated() {
             button.width = width
             button.height = height
@@ -96,7 +96,12 @@ public class NavigationBar: UIView {
         left = max(leftDistance, rightDistance)
         width = flat(self.width - left * 2)
         self.titleLabel.frame = CGRect(x: left, y: statusBarHeightConstant, width: width, height: navigationBarHeight)
-        self.titleView?.frame = self.titleLabel.frame
+        
+        if let titleView = self.titleView {
+            titleView.width = min(titleView.width, self.titleLabel.width)
+            titleView.height = min(titleView.height, self.titleLabel.height)
+            titleView.center = CGPointGetCenterWithRect(self.titleLabel.frame)
+        }
     }
     
     func addBackButtonToLeft() -> UIButton {
@@ -116,6 +121,21 @@ public class NavigationBar: UIView {
         self.addSubview(button)
         
         self.leftButtons.append(button)
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
+        
+        return button
+    }
+    
+    public func addButtonToRight(_ image: UIImage) -> UIButton {
+        let button = UIButton(type: .custom)
+        button.backgroundColor = .clear
+        button.tintColor = self.itemColor
+        button.setImage(image.template, for: .normal)
+        button.sizeToFit()
+        self.addSubview(button)
+        
+        self.rightButtons.append(button)
         self.setNeedsLayout()
         self.layoutIfNeeded()
         

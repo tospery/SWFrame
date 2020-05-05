@@ -6,9 +6,9 @@
 //
 
 import UIKit
+import QMUIKit
 import RxSwift
 import RxCocoa
-import QMUIKit
 import SwifterSwift
 import Toast_Swift
 import URLNavigator
@@ -25,12 +25,18 @@ open class BaseViewController: UIViewController {
     public var error: Error?
     
     public var contentTop: CGFloat {
-        return self.hidesNavigationBar ? 0 : self.navigationBar.height
+        var height = 0.f
+        if !self.hidesNavigationBar && !self.navigationBar.isHidden {
+            height += self.navigationBar.height
+        }
+        return height
     }
     
     public var contentBottom: CGFloat {
         var height = safeBottom
-        if let tabBar = self.tabBarController?.tabBar, !tabBar.isHidden, !self.hidesBottomBarWhenPushed {
+        if let tabBar = self.tabBarController?.tabBar,
+            tabBar.isHidden == false,
+            self.qmui_previous == nil {
             height += tabBar.height
         }
         return height

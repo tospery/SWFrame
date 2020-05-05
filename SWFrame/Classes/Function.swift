@@ -34,7 +34,7 @@ public func stringMember(_ params: Dictionary<String, Any>?, _ key: String, _ de
 }
 
 public func colorMember(_ params: Dictionary<String, Any>?, _ key: String, _ default: UIColor?) -> UIColor? {
-    if let value = params?[key] as? String, let color = UIColor(value) {
+    if let value = params?[key] as? String, let color = UIColor(hexString: value) {
         return color
     }
     return `default`

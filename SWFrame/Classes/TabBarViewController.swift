@@ -29,6 +29,7 @@ open class TabBarViewController: ScrollViewController {
         super.viewDidLoad()
         self.addChild(self.tab)
         self.view.addSubview(self.tab.view)
+        self.tab.view.frame = self.contentFrame
         self.tab.didMove(toParent: self)
     }
     

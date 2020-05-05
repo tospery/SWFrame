@@ -31,7 +31,7 @@ public extension UIImage {
         return self.image(name: "indicator")
     }
     
-    static var checkmark1: UIImage {
+    static var check: UIImage {
         return self.image(name: "checkmark")
     }
     

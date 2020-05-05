@@ -12,6 +12,12 @@ import CGFloatLiteral
 
 public extension String {
     
+    // MARK: - Properties
+    var color: UIColor? {
+        return UIColor(hexString: self)
+    }
+    
+    // MARK: - Initializers
     init?(any: Any) {
         if let number = any as? Int {
             self.init(number)

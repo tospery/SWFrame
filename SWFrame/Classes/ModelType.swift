@@ -48,6 +48,7 @@ public protocol Storable: ModelType, Identifiable, Codable, Equatable {
     static func arrayStoreKey() -> String
 
     static func storeObject(_ object: Self, id: String?)
+    static func storeArray(_ array: Array<Self>)
 
     static func cachedObject(id: String?) -> Self?
     static func cachedArray() -> Array<Self>?
@@ -73,6 +74,11 @@ public extension Storable {
     static func storeObject(_ object: Self, id: String? = nil) {
         let key = self.objectStoreKey(id: id)
         try? storage.transformCodable(ofType: self).setObject(object, forKey: key)
+    }
+    
+    static func storeArray(_ array: Array<Self>) {
+        let key = self.arrayStoreKey()
+        try? storage.transformCodable(ofType: Array<Self>.self).setObject(array, forKey: key)
     }
 
     static func cachedObject(id: String? = nil) -> Self? {
@@ -115,18 +121,18 @@ public extension Storable {
 
 // MARK: - 流协议
 public protocol Subjective: Storable {
-    static func subject(_ fromCache: Bool) -> BehaviorRelay<Self?>
+    static func subject() -> BehaviorRelay<Self?>
     static func current() -> Self?
     static func update(_ value: Self?, _ toCache: Bool)
 }
 
 public extension Subjective {
-    static func subject(_ fromCache: Bool = true) -> BehaviorRelay<Self?> {
+    static func subject() -> BehaviorRelay<Self?> {
         let key = String(describing: self)
         if let subject = subjects[key] as? BehaviorRelay<Self?> {
             return subject
         }
-        let subject = BehaviorRelay<Self?>(value: fromCache ? Self.cachedObject() : Self.init())
+        let subject = BehaviorRelay<Self?>(value: Self.cachedObject())
         subjects[key] = subject
         return subject
     }
