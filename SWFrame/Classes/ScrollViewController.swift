@@ -217,4 +217,12 @@ public extension Reactive where Base: ScrollViewController {
         return ControlEvent(events: source)
     }
     
+    var startPullToRefresh: Binder<Void> {
+        return Binder(self.base) { viewController, _ in
+            if let scrollView = viewController.scrollView {
+                scrollView.es.startPullToRefresh()
+            }
+        }
+    }
+    
 }

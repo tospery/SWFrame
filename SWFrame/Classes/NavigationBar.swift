@@ -71,20 +71,21 @@ public class NavigationBar: UIView {
         
         self.bgImageView.frame = self.bounds
         
-        var left = 5.f
+        let padding = 8.f
+        var left = padding
         var top = statusBarHeightConstant
         var width = navigationBarHeight
         var height = width
         for (index, button) in self.leftButtons.enumerated() {
-            button.width = width
+            button.width = max(width, button.width)
             button.height = height
             button.top = top
             button.left = left
             left += button.width
         }
-        var right = self.width - 5.f
+        var right = self.width - padding
         for (index, button) in self.rightButtons.enumerated() {
-            button.width = width
+            button.width = max(width, button.width)
             button.height = height
             button.top = top
             button.right = right
@@ -112,11 +113,14 @@ public class NavigationBar: UIView {
         return self.addButtonToLeft(UIImage.close)
     }
     
-    public func addButtonToLeft(_ image: UIImage) -> UIButton {
+    public func addButtonToLeft(_ image: UIImage? = nil, _ title: String? = nil) -> UIButton {
         let button = UIButton(type: .custom)
         button.backgroundColor = .clear
+        button.titleLabel?.font = .systemFont(ofSize: 16)
         button.tintColor = self.itemColor
-        button.setImage(image.template, for: .normal)
+        button.setTitleColor(self.itemColor, for: .normal)
+        button.setTitle(title, for: .normal)
+        button.setImage(image?.template, for: .normal)
         button.sizeToFit()
         self.addSubview(button)
         
@@ -127,11 +131,14 @@ public class NavigationBar: UIView {
         return button
     }
     
-    public func addButtonToRight(_ image: UIImage) -> UIButton {
+    public func addButtonToRight(_ image: UIImage? = nil, _ title: String? = nil) -> UIButton {
         let button = UIButton(type: .custom)
         button.backgroundColor = .clear
+        button.titleLabel?.font = .systemFont(ofSize: 16)
         button.tintColor = self.itemColor
-        button.setImage(image.template, for: .normal)
+        button.setTitleColor(self.itemColor, for: .normal)
+        button.setTitle(title, for: .normal)
+        button.setImage(image?.template, for: .normal)
         button.sizeToFit()
         self.addSubview(button)
         
@@ -162,9 +169,11 @@ public extension Reactive where Base: NavigationBar {
             view.itemColor = color
             for button in view.leftButtons {
                 button.tintColor = color
+                button.setTitleColor(color, for: .normal)
             }
             for button in view.rightButtons {
                 button.tintColor = color
+                button.setTitleColor(color, for: .normal)
             }
         }
     }
