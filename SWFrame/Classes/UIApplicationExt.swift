@@ -54,4 +54,12 @@ public extension UIApplication {
         return UIImage(named: name)
     }
     
+    @objc var baseApiUrl: String {
+        return "https://\(self.scheme).com"
+    }
+    
+    @objc var baseWebUrl: String {
+        return "https://\(self.scheme).com"
+    }
+    
 }
