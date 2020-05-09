@@ -22,6 +22,7 @@ open class BaseViewController: UIViewController {
     public var hidesNavBottomLine = false
     
     public var loading = false
+    public var activating = false
     public var error: Error?
     
     public var contentTop: CGFloat {
@@ -129,6 +130,17 @@ public extension Reactive where Base: BaseViewController {
                 let view = viewController.view!
                 view.isUserInteractionEnabled = !loading
                 loading ? view.makeToastActivity(.center) : view.hideToastActivity()
+            }
+        }
+    }
+    
+    func activating(text: String? = nil) -> Binder<Bool> {
+        return Binder(self.base) { viewController, activating in
+            viewController.activating = activating
+            if viewController.qmui_isViewLoadedAndVisible() {
+                let view = viewController.view!
+                view.isUserInteractionEnabled = !activating
+                activating ? view.makeToastActivity(.center) : view.hideToastActivity()
             }
         }
     }

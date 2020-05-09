@@ -88,11 +88,11 @@ open class WebViewController: ScrollViewController, View {
     
     func progress(_ value: CGFloat) {
         self.progressView.progress(value: value, animated: true)
-        if self.navigationItem.title?.isEmpty ?? true {
+        if self.navigationBar.titleLabel.text?.isEmpty ?? true {
             self.webView.evaluateJavaScript("document.title") { [weak self] response, Error in
                 guard let `self` = self else { return }
                 if let title = response as? String {
-                    self.navigationItem.title = title
+                    self.navigationBar.titleLabel.text = title
                 }
             }
         }
