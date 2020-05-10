@@ -58,3 +58,4 @@ public var safeBottom: CGFloat { QMUIHelper.safeAreaInsetsForDeviceWithNotch().b
 
 public var screenWidth: CGFloat { UIScreen.width }
 public var screenHeight: CGFloat { UIScreen.height }
+

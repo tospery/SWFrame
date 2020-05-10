@@ -95,6 +95,24 @@ public extension UIView {
     var topWhenCenter: CGFloat {
         return self.qmui_topWhenCenterInSuperview
     }
+
+    var centerX: CGFloat {
+        get {
+            return self.center.x
+        }
+        set {
+            self.center = CGPoint(x: newValue, y: self.center.y)
+        }
+    }
+
+    var centerY: CGFloat {
+        get {
+            return self.center.y
+        }
+        set {
+            self.center = CGPoint(x: self.center.x, y: newValue)
+        }
+    }
     
 }
 
