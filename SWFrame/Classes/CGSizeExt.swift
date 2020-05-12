@@ -18,4 +18,8 @@ public extension CGSize {
     static var s512: CGSize { .init(width: 512, height: 512) }
     static var s1024: CGSize { .init(width: 1024, height: 1024) }
 
+    init(_ value: CGFloat) {
+        self.init(width: value, height: value)
+    }
+
 }
