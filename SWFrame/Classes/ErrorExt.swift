@@ -55,23 +55,6 @@ public extension Error {
             }
         }
         
-//        if let error = self as? MoyaError {
-//            switch error {
-//            case .underlying(let error, _):
-//                if let error = error as? NSError {
-//                    if error.isNetwork {
-//                        return NSLocalizedString("Error.Network.Title", comment: "")
-//                    } else if error.isExpire {
-//                        return NSLocalizedString("Error.Expire.Title", comment: "")
-//                    } else {
-//                        return NSLocalizedString("Error.Server.Title", comment: "")
-//                    }
-//                }
-//            default:
-//                return NSLocalizedString("Error.Server.Title", comment: "")
-//            }
-//        }
-        
         if let error = self as? NSError {
             if error.isNetwork {
                 return NSLocalizedString("Error.Network.Title", comment: "")
