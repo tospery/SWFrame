@@ -10,6 +10,7 @@ import UIKit
 public struct Parameter {
     public static let title = "title"
     public static let message = "message"
+    public static let username = "username"
     public static let statusBarStyle = "statusBarStyle"
     public static let progressColor = "progressColor"
     public static let backgroundColor = "backgroundColor"
