@@ -51,7 +51,7 @@ Pod::Spec.new do |s|
   s.dependency 'SwifterSwift', '5.1.0'
   s.dependency 'DZNEmptyDataSet', '1.8.1'
   s.dependency 'SnapKit', '4.2.0'
-  s.dependency 'ReactorKit', '2.0.1'
+  s.dependency 'ReactorKit', '2.1.0'
   s.dependency 'Toast-Swift', '5.0.0'
   s.dependency 'ESPullToRefresh', '2.9.2'
   s.dependency 'Kingfisher', '4.10.1'

@@ -47,10 +47,10 @@ open class BaseViewController: UIViewController {
         return CGRect(x: 0, y: self.contentTop, width: self.view.width, height: self.view.height - self.contentTop - self.contentBottom)
     }
     
+    // public let navigationBar = NavigationBar()
+    
     lazy public var navigationBar: NavigationBar = {
         let navigationBar = NavigationBar()
-        // navigationBar.size = CGSize(width: UIScreen.width, height: navigationContentTopConstant)
-        // navigationBar.layer.zPosition = .greatestFiniteMagnitude
         navigationBar.sizeToFit()
         return navigationBar
     }()
