@@ -44,7 +44,7 @@ Pod::Spec.new do |s|
   s.dependency 'RxViewController', '1.0.0'
   s.dependency 'RxDataSources', '4.0.1'
   s.dependency 'NSObject+Rx', '5.0.0'
-  s.dependency 'Moya-ObjectMapper-Swift5', '2.8-swift5'
+  s.dependency 'Moya-ObjectMapper-JX/RxSwift', '2.8-jx1'
   s.dependency 'URLNavigator', '2.3.0'
   s.dependency 'SwifterSwift', '5.1.0'
   s.dependency 'DZNEmptyDataSet', '1.8.1'
