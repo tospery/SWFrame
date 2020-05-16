@@ -18,7 +18,7 @@ public extension String {
     }
     
     // MARK: - Initializers
-    init?(any: Any) {
+    init?(any: Any?) {
         if let number = any as? Int {
             self.init(number)
             return

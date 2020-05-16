@@ -8,12 +8,13 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RealmSwift
 import ObjectMapper
 import Cache
 
 // MARK: - 私有变量
 private var streams: [String: Any] = [:]
-private var subjects: [String: Any] = [:]
+private var subjects2: [String: Any] = [:]
 private var storage: Storage = try! Storage(diskConfig: DiskConfig(name: "shared"), memoryConfig: MemoryConfig(), transformer: TransformerFactory.forCodable(ofType: String.self))
 
 // MARK: - 标识协议
@@ -40,8 +41,30 @@ public protocol ModelType: Mappable {
     init()
 }
 
+//open class BaseModel: ModelType, Identifiable {
+//
+//    @objc dynamic public var id = UUID().uuidString
+//
+//    public required init() {
+//
+//    }
+//
+//    public required init?(map: Map) {
+//
+//    }
+//
+//    open func mapping(map: Map) {
+//
+//    }
+//
+////    open override class func primaryKey() -> String? {
+////        return "id"
+////    }
+//
+//}
+
 // MARK: - 存储协议
-public protocol Storable: ModelType, Identifiable, Codable, Equatable {
+public protocol Storable2: ModelType, Identifiable, Codable, Equatable {
     func save(ignoreKey: Bool)
     
     static func objectStoreKey(id: String?) -> String
@@ -56,7 +79,7 @@ public protocol Storable: ModelType, Identifiable, Codable, Equatable {
     static func eraseObject(id: String?)
 }
 
-public extension Storable {
+public extension Storable2 {
 
     func save(ignoreKey: Bool = false) {
         type(of: self).storeObject(self, id: ignoreKey ? nil : String(any: self.id))
@@ -120,23 +143,23 @@ public extension Storable {
 }
 
 // MARK: - 流协议
-public protocol Subjective: Storable {
+public protocol Subjective2: Storable2 {
     static func subject() -> BehaviorRelay<Self?>
     static func current() -> Self?
     static func update(_ value: Self?, _ toCache: Bool)
 }
 
-public extension Subjective {
+public extension Subjective2 {
     static func subject() -> BehaviorRelay<Self?> {
         let key = String(describing: self)
-        if let subject = subjects[key] as? BehaviorRelay<Self?> {
+        if let subject = subjects2[key] as? BehaviorRelay<Self?> {
             return subject
         }
         let subject = BehaviorRelay<Self?>(value: Self.cachedObject())
-        subjects[key] = subject
+        subjects2[key] = subject
         return subject
     }
-    
+
     static func current() -> Self? {
         self.subject().value
     }
@@ -150,7 +173,7 @@ public extension Subjective {
             subject.accept(nil)
             return
         }
-        
+
         if toCache {
             Self.storeObject(value)
         }
