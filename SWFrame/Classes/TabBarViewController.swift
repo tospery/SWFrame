@@ -10,6 +10,14 @@ import URLNavigator
 
 open class TabBarViewController: ScrollViewController {
     
+    lazy public var safeBottomView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.isHidden = !isNotchedScreen
+        view.sizeToFit()
+        return view
+    }()
+
     public let tab: UITabBarController = {
         let tabBarController = UITabBarController()
         tabBarController.tabBar.isTranslucent = false
@@ -31,6 +39,13 @@ open class TabBarViewController: ScrollViewController {
         self.view.addSubview(self.tab.view)
         self.tab.view.frame = self.contentFrame
         self.tab.didMove(toParent: self)
+
+        self.view.addSubview(self.safeBottomView)
+        self.safeBottomView.frame = CGRect(x: 0, y: self.tab.view.bottom, width: self.view.width, height: safeBottom)
+    }
+
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
     }
     
     open override var shouldAutorotate: Bool {
