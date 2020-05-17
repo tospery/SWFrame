@@ -12,31 +12,17 @@ import RealmSwift
 import ObjectMapper
 import Cache
 
-private var subjects: [String: Any] = [:]
+private var subjects3: [String: Any] = [:]
 
 final public class SubjectFactory {
-    
-//    public extension Subjective {
-//        static func subject() -> BehaviorRelay<Self?> {
-//            let key = String(describing: self)
-//            if let subject = subjects[key] as? BehaviorRelay<Self?> {
-//                return subject
-//            }
-//            let realm = try! Realm()
-//            let subject = BehaviorRelay<Self?>(value: realm.objects(self).first)
-//            subjects[key] = subject
-//            return subject
-//        }
-//
-    
+
     static public func subject<T: Object>(_ type: T.Type) -> BehaviorRelay<T?> {
         let key = String(describing: T.self)
-        if let subject = subjects[key] as? BehaviorRelay<T?> {
+        if let subject = subjects3[key] as? BehaviorRelay<T?> {
             return subject
         }
-        let realm = try! Realm()
-        let subject = BehaviorRelay<T?>(value: realm.objects(T.self).first)
-        subjects[key] = subject
+        let subject = BehaviorRelay<T?>(value: Realm.default.objects(T.self).first)
+        subjects3[key] = subject
         return subject
     }
     
@@ -49,9 +35,8 @@ final public class SubjectFactory {
         guard let value = value else {
             if toCache {
                 if let old = subject.value {
-                    let realm = try! Realm()
-                    try! realm.write {
-                        realm.delete(old)
+                    try! Realm.default.write {
+                        Realm.default.delete(old)
                     }
                 }
             }
@@ -60,9 +45,8 @@ final public class SubjectFactory {
         }
 
         if toCache {
-            let realm = try! Realm()
-            try! realm.write {
-                realm.add(value)
+            try! Realm.default.write {
+                Realm.default.add(value)
             }
         }
         subject.accept(value)

@@ -17,6 +17,8 @@ private var streams: [String: Any] = [:]
 private var subjects2: [String: Any] = [:]
 private var storage: Storage = try! Storage(diskConfig: DiskConfig(name: "shared"), memoryConfig: MemoryConfig(), transformer: TransformerFactory.forCodable(ofType: String.self))
 
+public var subjects: [String: Any] = [:]
+
 // MARK: - 标识协议
 public protocol Identifiable {
     associatedtype Identity: Hashable
@@ -143,6 +145,18 @@ public extension Storable2 {
 }
 
 // MARK: - 流协议
+//public protocol Subjective {
+//    var subject: BehaviorRelay<ModelType?> { get }
+//}
+//
+//public extension Subjective {
+//
+//    var subject: BehaviorRelay<ModelType?> {
+//        return BehaviorRelay<ModelType?>(value: nil)
+//    }
+//
+//}
+
 public protocol Subjective2: Storable2 {
     static func subject() -> BehaviorRelay<Self?>
     static func current() -> Self?
