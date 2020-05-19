@@ -14,10 +14,7 @@ import Cache
 
 // MARK: - 私有变量
 private var streams: [String: Any] = [:]
-private var subjects2: [String: Any] = [:]
 private var storage: Storage = try! Storage(diskConfig: DiskConfig(name: "shared"), memoryConfig: MemoryConfig(), transformer: TransformerFactory.forCodable(ofType: String.self))
-
-public var subjects: [String: Any] = [:]
 
 // MARK: - 标识协议
 public protocol Identifiable {
@@ -43,27 +40,25 @@ public protocol ModelType: Mappable {
     init()
 }
 
-//open class BaseModel: ModelType, Identifiable {
-//
-//    @objc dynamic public var id = UUID().uuidString
-//
-//    public required init() {
-//
-//    }
-//
-//    public required init?(map: Map) {
-//
-//    }
-//
-//    open func mapping(map: Map) {
-//
-//    }
-//
-////    open override class func primaryKey() -> String? {
-////        return "id"
-////    }
-//
-//}
+open class BaseModel: Object, ModelType {
+
+    public required init() {
+
+    }
+
+    public required init?(map: Map) {
+
+    }
+
+    open func mapping(map: Map) {
+
+    }
+
+    open class var current: Self? {
+        return nil
+    }
+
+}
 
 // MARK: - 存储协议
 public protocol Storable2: ModelType, Identifiable, Codable, Equatable {
@@ -157,44 +152,44 @@ public extension Storable2 {
 //
 //}
 
-public protocol Subjective2: Storable2 {
-    static func subject() -> BehaviorRelay<Self?>
-    static func current() -> Self?
-    static func update(_ value: Self?, _ toCache: Bool)
-}
-
-public extension Subjective2 {
-    static func subject() -> BehaviorRelay<Self?> {
-        let key = String(describing: self)
-        if let subject = subjects2[key] as? BehaviorRelay<Self?> {
-            return subject
-        }
-        let subject = BehaviorRelay<Self?>(value: Self.cachedObject())
-        subjects2[key] = subject
-        return subject
-    }
-
-    static func current() -> Self? {
-        self.subject().value
-    }
-
-    static func update(_ value: Self?, _ toCache: Bool = true) {
-        let subject = self.subject()
-        guard let value = value else {
-            if toCache {
-                Self.eraseObject()
-            }
-            subject.accept(nil)
-            return
-        }
-
-        if toCache {
-            Self.storeObject(value)
-        }
-        subject.accept(value)
-    }
-
-}
+//public protocol Subjective2: Storable2 {
+//    static func subject() -> BehaviorRelay<Self?>
+//    static func current() -> Self?
+//    static func update(_ value: Self?, _ toCache: Bool)
+//}
+//
+//public extension Subjective2 {
+//    static func subject() -> BehaviorRelay<Self?> {
+//        let key = String(describing: self)
+//        if let subject = subjects2[key] as? BehaviorRelay<Self?> {
+//            return subject
+//        }
+//        let subject = BehaviorRelay<Self?>(value: Self.cachedObject())
+//        subjects2[key] = subject
+//        return subject
+//    }
+//
+//    static func current() -> Self? {
+//        self.subject().value
+//    }
+//
+//    static func update(_ value: Self?, _ toCache: Bool = true) {
+//        let subject = self.subject()
+//        guard let value = value else {
+//            if toCache {
+//                Self.eraseObject()
+//            }
+//            subject.accept(nil)
+//            return
+//        }
+//
+//        if toCache {
+//            Self.storeObject(value)
+//        }
+//        subject.accept(value)
+//    }
+//
+//}
 
 
 // MARK: - 事件协议
