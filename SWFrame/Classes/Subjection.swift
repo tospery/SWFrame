@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import RealmSwift
 import ObjectMapper
-import Cache
+// import Cache
 
 public var subjects: [String: Any] = [:]
 

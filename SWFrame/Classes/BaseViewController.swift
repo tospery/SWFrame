@@ -18,6 +18,8 @@ open class BaseViewController: UIViewController {
     public var disposeBag = DisposeBag()
     public let navigator: NavigatorType
     
+    public let shutdown = PublishSubject<()>()
+    
     public var hidesNavigationBar = false
     public var hidesNavBottomLine = false
     
@@ -89,13 +91,17 @@ open class BaseViewController: UIViewController {
             if self.navigationController?.viewControllers.count ?? 0 > 1 {
                 self.navigationBar.addBackButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
                     guard let `self` = self else { return }
-                    self.navigationController?.popViewController()
+                    self.navigationController?.popViewController(animated: true, { [weak self] in
+                        self?.shutdown.on(.next(()))
+                    })
                 }).disposed(by: self.disposeBag)
             } else {
                 if self.qmui_isPresented() {
                     self.navigationBar.addCloseButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
                         guard let `self` = self else { return }
-                        self.dismiss(animated: true, completion: nil)
+                        self.dismiss(animated: true) { [weak self] in
+                            self?.shutdown.on(.next(()))
+                        }
                     }).disposed(by: self.disposeBag)
                 }
             }

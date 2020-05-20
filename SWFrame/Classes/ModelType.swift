@@ -14,7 +14,7 @@ import Cache
 
 // MARK: - 私有变量
 private var streams: [String: Any] = [:]
-private var storage: Storage = try! Storage(diskConfig: DiskConfig(name: "shared"), memoryConfig: MemoryConfig(), transformer: TransformerFactory.forCodable(ofType: String.self))
+//private var storage: Storage = try! Storage(diskConfig: DiskConfig(name: "shared"), memoryConfig: MemoryConfig(), transformer: TransformerFactory.forCodable(ofType: String.self))
 
 // MARK: - 标识协议
 public protocol Identifiable {
@@ -40,104 +40,122 @@ public protocol ModelType: Mappable {
     init()
 }
 
-open class BaseModel: Object, ModelType {
-
-    public required init() {
-
-    }
-
-    public required init?(map: Map) {
-
-    }
-
-    open func mapping(map: Map) {
-
-    }
-
-    open class var current: Self? {
-        return nil
-    }
-
+// MARK: - 事件协议
+public protocol Eventable {
+    associatedtype Event
+    static var event: PublishSubject<Event> { get }
 }
 
-// MARK: - 存储协议
-public protocol Storable2: ModelType, Identifiable, Codable, Equatable {
-    func save(ignoreKey: Bool)
-    
-    static func objectStoreKey(id: String?) -> String
-    static func arrayStoreKey() -> String
-
-    static func storeObject(_ object: Self, id: String?)
-    static func storeArray(_ array: Array<Self>)
-
-    static func cachedObject(id: String?) -> Self?
-    static func cachedArray() -> Array<Self>?
-
-    static func eraseObject(id: String?)
+public extension Eventable {
+    static var event: PublishSubject<Event> {
+        let key = String(describing: self)
+        if let stream = streams[key] as? PublishSubject<Event> {
+            return stream
+        }
+        let stream = PublishSubject<Event>()
+        streams[key] = stream
+        return stream
+    }
 }
 
-public extension Storable2 {
+//open class BaseModel: Object, ModelType {
+//
+//    public required init() {
+//
+//    }
+//
+//    public required init?(map: Map) {
+//
+//    }
+//
+//    open func mapping(map: Map) {
+//
+//    }
+//
+//    open class var current: Self? {
+//        return nil
+//    }
+//
+//}
 
-    func save(ignoreKey: Bool = false) {
-        type(of: self).storeObject(self, id: ignoreKey ? nil : String(any: self.id))
-    }
-
-    static func arrayStoreKey() -> String {
-        return String(describing: self) + "#array"
-    }
-
-    static func objectStoreKey(id: String? = nil) -> String {
-        guard let id = id else { return String(describing: self) + "#object" }
-        return String(describing: self) + "#object#" + id
-    }
-
-    static func storeObject(_ object: Self, id: String? = nil) {
-        let key = self.objectStoreKey(id: id)
-        try? storage.transformCodable(ofType: self).setObject(object, forKey: key)
-    }
-    
-    static func storeArray(_ array: Array<Self>) {
-        let key = self.arrayStoreKey()
-        try? storage.transformCodable(ofType: Array<Self>.self).setObject(array, forKey: key)
-    }
-
-    static func cachedObject(id: String? = nil) -> Self? {
-        let key = self.objectStoreKey(id: id)
-        if let object = try? storage.transformCodable(ofType: self).object(forKey: key) {
-            return object
-        }
-
-        if let path = Bundle.main.path(forResource: key, ofType: "json"),
-            let json = try? String(contentsOfFile: path, encoding: .utf8) {
-            return Self(JSONString: json)
-        }
-
-        return nil
-    }
-
-    static func cachedArray() -> Array<Self>? {
-        let key = self.arrayStoreKey()
-        if let array = try? storage.transformCodable(ofType: Array<Self>.self).object(forKey: key) {
-            return array
-        }
-
-        if let path = Bundle.main.path(forResource: key, ofType: "json"),
-            let json = try? String(contentsOfFile: path, encoding: .utf8) {
-            return Array<Self>(JSONString: json)
-        }
-
-        return nil
-    }
-
-    static func eraseObject(id: String? = nil) {
-        let key = self.objectStoreKey(id: id)
-        try? storage.removeObject(forKey: key)
-    }
-
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        return lhs.id == rhs.id
-    }
-}
+//// MARK: - 存储协议
+//public protocol Storable2: ModelType, Identifiable, Codable, Equatable {
+//    func save(ignoreKey: Bool)
+//
+//    static func objectStoreKey(id: String?) -> String
+//    static func arrayStoreKey() -> String
+//
+//    static func storeObject(_ object: Self, id: String?)
+//    static func storeArray(_ array: Array<Self>)
+//
+//    static func cachedObject(id: String?) -> Self?
+//    static func cachedArray() -> Array<Self>?
+//
+//    static func eraseObject(id: String?)
+//}
+//
+//public extension Storable2 {
+//
+//    func save(ignoreKey: Bool = false) {
+//        type(of: self).storeObject(self, id: ignoreKey ? nil : String(any: self.id))
+//    }
+//
+//    static func arrayStoreKey() -> String {
+//        return String(describing: self) + "#array"
+//    }
+//
+//    static func objectStoreKey(id: String? = nil) -> String {
+//        guard let id = id else { return String(describing: self) + "#object" }
+//        return String(describing: self) + "#object#" + id
+//    }
+//
+//    static func storeObject(_ object: Self, id: String? = nil) {
+//        let key = self.objectStoreKey(id: id)
+//        try? storage.transformCodable(ofType: self).setObject(object, forKey: key)
+//    }
+//
+//    static func storeArray(_ array: Array<Self>) {
+//        let key = self.arrayStoreKey()
+//        try? storage.transformCodable(ofType: Array<Self>.self).setObject(array, forKey: key)
+//    }
+//
+//    static func cachedObject(id: String? = nil) -> Self? {
+//        let key = self.objectStoreKey(id: id)
+//        if let object = try? storage.transformCodable(ofType: self).object(forKey: key) {
+//            return object
+//        }
+//
+//        if let path = Bundle.main.path(forResource: key, ofType: "json"),
+//            let json = try? String(contentsOfFile: path, encoding: .utf8) {
+//            return Self(JSONString: json)
+//        }
+//
+//        return nil
+//    }
+//
+//    static func cachedArray() -> Array<Self>? {
+//        let key = self.arrayStoreKey()
+//        if let array = try? storage.transformCodable(ofType: Array<Self>.self).object(forKey: key) {
+//            return array
+//        }
+//
+//        if let path = Bundle.main.path(forResource: key, ofType: "json"),
+//            let json = try? String(contentsOfFile: path, encoding: .utf8) {
+//            return Array<Self>(JSONString: json)
+//        }
+//
+//        return nil
+//    }
+//
+//    static func eraseObject(id: String? = nil) {
+//        let key = self.objectStoreKey(id: id)
+//        try? storage.removeObject(forKey: key)
+//    }
+//
+//    static func == (lhs: Self, rhs: Self) -> Bool {
+//        return lhs.id == rhs.id
+//    }
+//}
 
 // MARK: - 流协议
 //public protocol Subjective {
@@ -191,21 +209,3 @@ public extension Storable2 {
 //
 //}
 
-
-// MARK: - 事件协议
-public protocol Eventable {
-    associatedtype Event
-    static var event: PublishSubject<Event> { get }
-}
-
-public extension Eventable {
-    static var event: PublishSubject<Event> {
-        let key = String(describing: self)
-        if let stream = streams[key] as? PublishSubject<Event> {
-            return stream
-        }
-        let stream = PublishSubject<Event>()
-        streams[key] = stream
-        return stream
-    }
-}
