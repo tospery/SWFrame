@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 import RealmSwift
 import ObjectMapper
-import Cache
 
 // MARK: - 私有变量
 private var streams: [String: Any] = [:]
