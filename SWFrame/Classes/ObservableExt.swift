@@ -9,8 +9,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-// YJX_TODO 与RxOptional重复
-
 public extension ObservableType {
 
     func catchErrorJustComplete() -> Observable<Element> {
