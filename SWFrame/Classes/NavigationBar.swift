@@ -22,6 +22,15 @@ public class NavigationBar: UIView {
         }
     }
 
+    @objc public dynamic var barColor: UIColor? {
+        get {
+            return self.backgroundColor
+        }
+        set {
+            self.backgroundColor = newValue
+        }
+    }
+
     @objc public dynamic var itemColor: UIColor? {
         get {
             return self.tintColor
@@ -195,7 +204,13 @@ public class NavigationBar: UIView {
 
 // MARK: - UIView
 public extension Reactive where Base: NavigationBar {
-    
+
+    var barColor: Binder<UIColor?> {
+        return Binder(self.base) { view, color in
+            view.barColor = color
+        }
+    }
+
     var itemColor: Binder<UIColor?> {
         return Binder(self.base) { view, color in
             view.itemColor = color
