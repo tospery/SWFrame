@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Toast_Swift
 import SwiftyBeaver
 
 public let log = SwiftyBeaver.self
@@ -14,6 +15,7 @@ open class Library {
     
     open class func setup() {
         self.setupSwiftyBeaver()
+        self.setupToast()
     }
     
     open class func setupSwiftyBeaver() {
@@ -27,6 +29,11 @@ open class Library {
         let cloud = SBPlatformDestination(appID: "B1QMr6", appSecret: "t2isobttbqmdlrGqTgymbmxcnprqgwpi", encryptionKey: "sS1kcjrPbbdFnttbbdhnscvu3sy9zopg")
         log.addDestination(cloud)
     }
-    
+
+    open class func setupToast() {
+        ToastManager.shared.position = .center
+        ToastManager.shared.isQueueEnabled = true
+    }
+
 }
 

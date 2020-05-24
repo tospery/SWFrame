@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 import URLNavigator
 
 open class TabBarViewController: ScrollViewController {
@@ -44,8 +46,12 @@ open class TabBarViewController: ScrollViewController {
         self.safeBottomView.frame = CGRect(x: 0, y: self.tab.view.bottom, width: self.view.width, height: safeBottom)
     }
 
-    open override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
     
     open override var shouldAutorotate: Bool {
