@@ -13,11 +13,53 @@ import SwifterSwift
 
 public class NavigationBar: UIView {
     
-    var itemColor: UIColor?
+    @objc public dynamic var titleColor: UIColor? {
+        get {
+            return self.titleLabel.textColor
+        }
+        set {
+            self.titleLabel.textColor = newValue
+        }
+    }
+
+    @objc public dynamic var barColor: UIColor? {
+        get {
+            return self.backgroundColor
+        }
+        set {
+            self.backgroundColor = newValue
+        }
+    }
+
+    @objc public dynamic var itemColor: UIColor? {
+        get {
+            return self.tintColor
+        }
+        set {
+            self.tintColor = newValue
+            for button in self.leftButtons {
+                button.tintColor = newValue
+                button.setTitleColor(newValue, for: .normal)
+            }
+            for button in self.rightButtons {
+                button.tintColor = newValue
+                button.setTitleColor(newValue, for: .normal)
+            }
+        }
+    }
+
+    @objc public dynamic var lineColor: UIColor? {
+        get {
+            return self.qmui_borderColor
+        }
+        set {
+            self.qmui_borderColor = newValue
+        }
+    }
     
     public var leftButtons: [UIButton] = []
     public var rightButtons: [UIButton] = []
-    
+
     public var titleView: UIView? {
         willSet {
             titleView?.removeFromSuperview()
@@ -50,7 +92,6 @@ public class NavigationBar: UIView {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .white
         self.qmui_borderPosition = .bottom
         self.qmui_borderWidth = pixelOne
         self.qmui_borderColor = .lightGray
@@ -163,18 +204,28 @@ public class NavigationBar: UIView {
 
 // MARK: - UIView
 public extension Reactive where Base: NavigationBar {
-    
+
+    var barColor: Binder<UIColor?> {
+        return Binder(self.base) { view, color in
+            view.barColor = color
+        }
+    }
+
     var itemColor: Binder<UIColor?> {
         return Binder(self.base) { view, color in
             view.itemColor = color
-            for button in view.leftButtons {
-                button.tintColor = color
-                button.setTitleColor(color, for: .normal)
-            }
-            for button in view.rightButtons {
-                button.tintColor = color
-                button.setTitleColor(color, for: .normal)
-            }
+        }
+    }
+    
+    var titleColor: Binder<UIColor?> {
+        return Binder(self.base) { view, color in
+            view.titleColor = color
+        }
+    }
+
+    var lineColor: Binder<UIColor?> {
+        return Binder(self.base) { view, color in
+            view.lineColor = color
         }
     }
     

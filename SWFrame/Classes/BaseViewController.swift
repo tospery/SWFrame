@@ -18,6 +18,8 @@ open class BaseViewController: UIViewController {
     public var disposeBag = DisposeBag()
     public let navigator: NavigatorType
     
+    public let shutdown = PublishSubject<()>()
+    
     public var hidesNavigationBar = false
     public var hidesNavBottomLine = false
     
@@ -34,7 +36,7 @@ open class BaseViewController: UIViewController {
     }
     
     public var contentBottom: CGFloat {
-        var height = safeBottom
+        var height = 0.f
         if let tabBar = self.tabBarController?.tabBar,
             tabBar.isHidden == false,
             self.qmui_previous == nil {
@@ -47,9 +49,10 @@ open class BaseViewController: UIViewController {
         return CGRect(x: 0, y: self.contentTop, width: self.view.width, height: self.view.height - self.contentTop - self.contentBottom)
     }
     
+    // public let navigationBar = NavigationBar()
+    
     lazy public var navigationBar: NavigationBar = {
         let navigationBar = NavigationBar()
-        //navigationBar.layer.zPosition = .greatestFiniteMagnitude
         navigationBar.sizeToFit()
         return navigationBar
     }()
@@ -88,13 +91,17 @@ open class BaseViewController: UIViewController {
             if self.navigationController?.viewControllers.count ?? 0 > 1 {
                 self.navigationBar.addBackButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
                     guard let `self` = self else { return }
-                    self.navigationController?.popViewController()
+                    self.navigationController?.popViewController(animated: true, { [weak self] in
+                        self?.shutdown.on(.next(()))
+                    })
                 }).disposed(by: self.disposeBag)
             } else {
                 if self.qmui_isPresented() {
                     self.navigationBar.addCloseButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
                         guard let `self` = self else { return }
-                        self.dismiss(animated: true, completion: nil)
+                        self.dismiss(animated: true) { [weak self] in
+                            self?.shutdown.on(.next(()))
+                        }
                     }).disposed(by: self.disposeBag)
                 }
             }

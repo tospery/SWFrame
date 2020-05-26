@@ -53,7 +53,7 @@ open class ScrollViewController: BaseViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(self.scrollView)
-        self.scrollView.frame = self.contentFrame // YJX_TODO iPhoneX测试
+        self.scrollView.frame = self.contentFrame
         
         self.setupRefresh(should: self.shouldRefresh)
         self.setupLoadMore(should: self.shouldLoadMore)

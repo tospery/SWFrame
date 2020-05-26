@@ -12,6 +12,7 @@ import RxCocoa
 open class BaseCollectionCell: UICollectionViewCell {
     
     public var disposeBag = DisposeBag()
+    public var model: ModelType?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,10 +30,7 @@ open class BaseCollectionCell: UICollectionViewCell {
     
     // MARK: - Public
     open func bind(item: BaseCollectionItem) {
-//        // Bind
-//        item.cell = self
-////        self.setNeedsLayout()
-////        self.layoutIfNeeded()
+        self.model = item.model
     }
     
     open class func size(width: CGFloat, item: BaseCollectionItem) -> CGSize {

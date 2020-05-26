@@ -39,12 +39,12 @@ final class ReachabilityManager {
 
             do {
                 try reachability.startNotifier()
-                // reachSubject.onNext(reachability.connection != Reachability.Connection.unavailable)
+                reachSubject.onNext(reachability.connection != Reachability.Connection.unavailable)
             } catch {
-                // log.error("Unable to start notifier") YJX_TODO
+                log.error("Unable to start notifier")
             }
         } catch {
-            // log.error(error.localizedDescription) YJX_TODO
+            log.error(error.localizedDescription)
         }
     }
 }

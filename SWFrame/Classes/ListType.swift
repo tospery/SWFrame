@@ -8,14 +8,6 @@
 import UIKit
 import ObjectMapper
 
-//public protocol ListType: ModelType {
-//    associatedtype Item: ModelType // YJX_TODO 不需要关联类型
-//
-//    var hasNext: Bool { get }
-//    var count: Int { get }
-//    var items: [Item]? { get }
-//}
-
 public struct List<Item: ModelType>: ModelType {
 
     public var hasNext = false
