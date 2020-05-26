@@ -52,7 +52,6 @@ Pod::Spec.new do |s|
   s.dependency 'SnapKit', '4.2.0'
   s.dependency 'ReactorKit', '2.1.0'
   s.dependency 'Toast-Swift', '5.0.0'
-  s.dependency 'ESTabBarController-swift', '2.8.0'
   s.dependency 'ESPullToRefresh', '2.9.2'
   s.dependency 'Kingfisher', '4.10.1'
   s.dependency 'BonMot', '5.4.1'

@@ -9,9 +9,8 @@ import UIKit
 import RxSwift
 import RxCocoa
 import URLNavigator
-import ESTabBarController_swift
 
-open class TabBarController: ESTabBarController {
+open class TabBarController: UITabBarController {
 
     public let navigator: NavigatorType
     public var disposeBag = DisposeBag()

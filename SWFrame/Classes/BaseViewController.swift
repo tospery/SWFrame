@@ -36,7 +36,7 @@ open class BaseViewController: UIViewController {
     }
     
     public var contentBottom: CGFloat {
-        var height = safeBottom
+        var height = 0.f
         if let tabBar = self.tabBarController?.tabBar,
             tabBar.isHidden == false,
             self.qmui_previous == nil {
