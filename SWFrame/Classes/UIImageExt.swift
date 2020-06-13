@@ -31,10 +31,6 @@ public extension UIImage {
         return self.image(name: "indicator")
     }
     
-    static var check: UIImage {
-        return self.image(name: "checkmark")
-    }
-    
     static var loading: UIImage {
         return self.image(name: "loading")
     }
