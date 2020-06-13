@@ -6,10 +6,10 @@
 //
 
 import UIKit
-import KeychainAccess
-
-public extension Keychain {
-    
-    static let shared = Keychain(service: Bundle.main.bundleIdentifier!, accessGroup: UIApplication.shared.team + ".shared")
-    
-}
+//import KeychainAccess
+//
+//public extension Keychain {
+//    
+//    static let shared = Keychain(service: Bundle.main.bundleIdentifier!, accessGroup: UIApplication.shared.team + ".shared")
+//    
+//}

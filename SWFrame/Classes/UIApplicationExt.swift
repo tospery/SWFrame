@@ -22,8 +22,7 @@ public extension UIApplication {
         if status == Int(errSecSuccess),
             let attributes = result as? NSDictionary,
             let accessGroup = attributes[kSecAttrAccessGroup as NSString] as? NSString,
-            let components = accessGroup.components(separatedBy: ".") as? NSArray,
-            let bundleSeedID = components.objectEnumerator().nextObject() as? String {
+            let bundleSeedID = (accessGroup.components(separatedBy: ".") as NSArray).objectEnumerator().nextObject() as? String {
             return bundleSeedID
         }
         

@@ -15,14 +15,19 @@ extension ImageCache: ReactiveCompatible {}
 public extension Reactive where Base: ImageCache {
     func cacheSize() -> Observable<Int> {
         return Single.create { single in
-            self.base.calculateDiskCacheSize { size in
-                single(.success(Int(size)))
+            self.base.calculateDiskStorageSize { result in
+                switch result {
+                case .success(let size):
+                    single(.success(Int(size)))
+                case .failure(_):
+                    single(.success(0))
+                }
             }
             return Disposables.create {}
         }.asObservable()
     }
     
-    public func clearCache() -> Observable<Void> {
+    func clearCache() -> Observable<Void> {
         return Single.create { single in
             self.base.clearMemoryCache()
             self.base.clearDiskCache(completion: {

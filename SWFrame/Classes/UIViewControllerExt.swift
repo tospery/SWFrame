@@ -51,7 +51,7 @@ public extension UIViewController {
 
 public extension Reactive where Base: UIViewController {
 
-    public func dismiss(_ animated: Bool = true) -> ControlEvent<()> {
+    func dismiss(_ animated: Bool = true) -> ControlEvent<()> {
         let source: Observable<Void> = Observable.create { [weak viewController = self.base] observer in
             MainScheduler.ensureRunningOnMainThread()
             guard let viewController = viewController else {

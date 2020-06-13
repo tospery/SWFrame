@@ -6,10 +6,10 @@
 //
 
 import UIKit
-import RealmSwift
+//import RealmSwift
 
-public extension Realm {
-
-    static let `default` = try! Realm()
-
-}
+//public extension Realm {
+//
+//    static let `default` = try! Realm()
+//
+//}

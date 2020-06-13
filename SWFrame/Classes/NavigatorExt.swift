@@ -12,7 +12,7 @@ import URLNavigator
 
 extension Navigator: ReactiveCompatible { }
 public extension Reactive where Base: Navigator {
-    public func open(_ url: URLConvertible, context: Any? = nil) -> Observable<AlertActionType> {
+    func open(_ url: URLConvertible, context: Any? = nil) -> Observable<AlertActionType> {
         return .create { [weak base] observer -> Disposable in
             var ctx: Dictionary<String, Any> = [:]
             ctx[Parameter.routeObserver] = observer

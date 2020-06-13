@@ -28,7 +28,7 @@ public var is320WidthScreen: Bool { (is40InchScreen || is35InchScreen) }
 public var isLandscape: Bool { UIApplication.shared.statusBarOrientation.isLandscape }
 public var isDeviceLandscape: Bool { UIDevice.current.orientation.isLandscape }
 
-public var iosVersion: Double { (UIDevice.current.systemVersion as! NSString).doubleValue }
+public var iosVersion: Double { (UIDevice.current.systemVersion as NSString).doubleValue }
 public var iosVersionNumber: Int { QMUIHelper.numbericOSVersion() }
 
 public var statusBarHeight: CGFloat {

@@ -36,7 +36,7 @@ public extension NetworkingType {
     static var plugins: [PluginType] {
         var plugins: [PluginType] = []
         #if DEBUG
-        plugins.append(NetworkLoggerPlugin(verbose: true))
+        plugins.append(NetworkLoggerPlugin())
         #endif
         return plugins
     }
