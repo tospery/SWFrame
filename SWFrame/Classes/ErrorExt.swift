@@ -30,14 +30,12 @@ public extension Error {
                 return .expireError
             }
         }
-        if let error = self as? NSError {
-            if error.isNetwork {
-                return .networkError
-            } else if error.isExpire {
-                return .expireError
-            } else {
-                return .serverError
-            }
+        if (self as NSError).isNetwork {
+            return .networkError
+        } else if (self as NSError).isExpire {
+            return .expireError
+        } else {
+            return .serverError
         }
     }
 
@@ -55,14 +53,12 @@ public extension Error {
             }
         }
         
-        if let error = self as? NSError {
-            if error.isNetwork {
-                return NSLocalizedString("Error.Network.Title", comment: "")
-            } else if error.isExpire {
-                return NSLocalizedString("Error.Expire.Title", comment: "")
-            } else {
-                return NSLocalizedString("Error.Server.Title", comment: "")
-            }
+        if (self as NSError).isNetwork {
+            return NSLocalizedString("Error.Network.Title", comment: "")
+        } else if (self as NSError).isExpire {
+            return NSLocalizedString("Error.Expire.Title", comment: "")
+        } else {
+            return NSLocalizedString("Error.Server.Title", comment: "")
         }
     }
 
@@ -80,14 +76,12 @@ public extension Error {
             }
         }
         
-        if let error = self as? NSError {
-            if error.isNetwork {
-                return NSLocalizedString("Error.Network.Message", comment: "")
-            } else if error.isExpire {
-                return NSLocalizedString("Error.Expire.Message", comment: "")
-            } else {
-                return NSLocalizedString("Error.Server.Message", comment: "")
-            }
+        if (self as NSError).isNetwork {
+            return NSLocalizedString("Error.Network.Message", comment: "")
+        } else if (self as NSError).isExpire {
+            return NSLocalizedString("Error.Expire.Message", comment: "")
+        } else {
+            return NSLocalizedString("Error.Server.Message", comment: "")
         }
     }
     

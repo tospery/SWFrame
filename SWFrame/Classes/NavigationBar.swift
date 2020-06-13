@@ -61,11 +61,10 @@ public class NavigationBar: UIView {
     public var rightButtons: [UIButton] = []
 
     public var titleView: UIView? {
-        willSet {
-            titleView?.removeFromSuperview()
-            titleView = newValue
-            if let newValue = newValue {
-                self.addSubview(newValue)
+        didSet {
+            oldValue?.removeFromSuperview()
+            if let titleView = titleView {
+                self.addSubview(titleView)
                 self.setNeedsLayout()
                 self.layoutIfNeeded()
             }
@@ -114,10 +113,10 @@ public class NavigationBar: UIView {
         
         let padding = 8.f
         var left = padding
-        var top = statusBarHeightConstant
+        let top = statusBarHeightConstant
         var width = navigationBarHeight
-        var height = width
-        for (index, button) in self.leftButtons.enumerated() {
+        let height = width
+        for (_, button) in self.leftButtons.enumerated() {
             button.width = max(width, button.width)
             button.height = height
             button.top = top
@@ -125,7 +124,7 @@ public class NavigationBar: UIView {
             left += button.width
         }
         var right = self.width - padding
-        for (index, button) in self.rightButtons.enumerated() {
+        for (_, button) in self.rightButtons.enumerated() {
             button.width = max(width, button.width)
             button.height = height
             button.top = top

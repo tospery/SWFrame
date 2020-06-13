@@ -20,12 +20,12 @@ final public class NetworkProvider<Target> where Target: Moya.TargetType {
          requestClosure: @escaping MoyaProvider<Target>.RequestClosure = MoyaProvider<Target>.defaultRequestMapping,
          stubClosure: @escaping MoyaProvider<Target>.StubClosure = MoyaProvider<Target>.neverStub,
          callbackQueue: DispatchQueue? = nil,
-         manager: Manager = MoyaProvider<Target>.defaultAlamofireManager(),
+         session: Session = MoyaProvider<Target>.defaultAlamofireSession(),
          plugins: [PluginType] = [],
          trackInflights: Bool = false,
          network: Observable<Bool> = connectedToInternet()) {
         self.network = network
-        self.provider = MoyaProvider(endpointClosure: endpointClosure, requestClosure: requestClosure, stubClosure: stubClosure, callbackQueue: callbackQueue, manager: manager, plugins: plugins, trackInflights: trackInflights)
+        self.provider = MoyaProvider(endpointClosure: endpointClosure, requestClosure: requestClosure, stubClosure: stubClosure, callbackQueue: callbackQueue, session: session, plugins: plugins, trackInflights: trackInflights)
     }
 
     public func request(_ token: Target) -> Observable<Moya.Response> {
