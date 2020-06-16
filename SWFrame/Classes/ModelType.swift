@@ -77,22 +77,42 @@ public extension Eventable {
 //
 //}
 
-//// MARK: - 存储协议
-//public protocol Storable2: ModelType, Identifiable, Codable, Equatable {
-//    func save(ignoreKey: Bool)
-//
-//    static func objectStoreKey(id: String?) -> String
-//    static func arrayStoreKey() -> String
-//
-//    static func storeObject(_ object: Self, id: String?)
-//    static func storeArray(_ array: Array<Self>)
-//
-//    static func cachedObject(id: String?) -> Self?
-//    static func cachedArray() -> Array<Self>?
-//
-//    static func eraseObject(id: String?)
-//}
-//
+// MARK: - 存储协议
+public protocol Storable: ModelType, Identifiable, Codable, Equatable {
+    func save(ignoreId: Bool)
+
+    static func objectKey(id: String?) -> String
+    static func arrayKey(page: Int?) -> String
+
+    static func storeObject(_ object: Self?, id: String?)
+    static func storeArray(_ array: [Self]?, page: Int?)
+
+    static func cachedObject(id: String?) -> Self?
+    static func cachedArray(page: Int?) -> [Self]?
+}
+
+public extension Storable {
+
+    func save(ignoreId: Bool = false) {
+        type(of: self).storeObject(self, id: ignoreId ? nil : String(any: self.id))
+    }
+
+    static func objectKey(id: String? = nil) -> String {
+        guard let id = id, !id.isEmpty else { return String(describing: self) + "#object" }
+        return String(describing: self) + "#object#" + id
+    }
+
+    static func arrayKey(page: Int? = nil) -> String {
+        guard let page = page?.string, !page.isEmpty else { return String(describing: self) + "#array" }
+        return String(describing: self) + "#array#" + page
+    }
+
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.id == rhs.id
+    }
+
+}
+
 //public extension Storable2 {
 //
 //    func save(ignoreKey: Bool = false) {

@@ -14,7 +14,7 @@ open class ScrollViewReactor: BaseViewReactor {
     open var pageIndex = 1
     open var pageSize = 20
     
-    public required init(_ provider: ProviderType, _ parameters: Dictionary<String, Any>?) {
+    public required init(_ provider: ProviderType, _ parameters: [String: Any]?) {
         super.init(provider, parameters)
     }
     

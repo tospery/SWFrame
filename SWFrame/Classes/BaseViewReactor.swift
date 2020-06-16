@@ -17,7 +17,7 @@ open class BaseViewReactor: ReactorType {
     public var title: String?
     public var disposeBag = DisposeBag()
     
-    required public init(_ provider: ProviderType, _ parameters: Dictionary<String, Any>?) {
+    required public init(_ provider: ProviderType, _ parameters: [String: Any]?) {
         self.provider = provider
         self.parameters = parameters ?? [:]
         self.title = stringMember(parameters, Parameter.title, nil)

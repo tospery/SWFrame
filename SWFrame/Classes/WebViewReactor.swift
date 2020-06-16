@@ -18,7 +18,7 @@ open class WebViewReactor: ScrollViewReactor, Reactor {
     
     public var initialState = State()
     
-    public required init(_ provider: ProviderType, _ parameters: Dictionary<String, Any>?) {
+    public required init(_ provider: ProviderType, _ parameters: [String: Any]?) {
         super.init(provider, parameters)
         self.initialState = State(
             title: self.title

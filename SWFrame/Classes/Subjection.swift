@@ -28,13 +28,17 @@ final public class Subjection {
     
 }
 
-public protocol Subjective {
+public protocol Subjective: Storable {
     static var current: Self? { get }
 }
 
 public extension Subjective {
     static var current: Self? {
-        return nil
+        let key = String(describing: self)
+        if let subject = subjects[key] as? BehaviorRelay<Self?> {
+            return subject.value
+        }
+        return Self.cachedObject(id: nil)
     }
 }
 
