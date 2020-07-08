@@ -18,7 +18,10 @@ public extension UIApplication {
         ] as NSDictionary
         
         var result: CFTypeRef?
-        let status = Int(SecItemCopyMatching(query, &result))
+        var status = Int(SecItemCopyMatching(query, &result))
+        if status == Int(errSecItemNotFound) {
+            status = Int(SecItemAdd(query, &result))
+        }
         if status == Int(errSecSuccess),
             let attributes = result as? NSDictionary,
             let accessGroup = attributes[kSecAttrAccessGroup as NSString] as? NSString,

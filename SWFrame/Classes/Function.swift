@@ -11,6 +11,14 @@ import RxSwift
 import Reachability
 import CGFloatLiteral
 
+//// MARK: - log
+//public func oslog(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, line: Int = #line, context: Any? = nil) {
+//    // level: SwiftyBeaver.Level
+//    if <#condition#> {
+//        <#code#>
+//    }
+//}
+
 // MARK: - Dictionary member
 public func boolMember(_ params: Dictionary<String, Any>?, _ key: String, _ default: Bool) -> Bool {
     if let value = params?[key] as? Bool {

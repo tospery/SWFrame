@@ -41,10 +41,10 @@ final class ReachabilityManager {
                 try reachability.startNotifier()
                 reachSubject.onNext(reachability.connection != Reachability.Connection.unavailable)
             } catch {
-                journal.log(.error("Unable to start notifier"))
+                log.error("Unable to start notifier")
             }
         } catch {
-            journal.log(.error(error.localizedDescription))
+            log.error(error.localizedDescription)
         }
     }
 }

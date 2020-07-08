@@ -49,7 +49,7 @@ public extension NetworkingType {
                 request.timeoutInterval = 10 // Constant.Network.timeout
                 closure(.success(request))
             } catch {
-                journal.log(.error(error.localizedDescription))
+                log.error(error.localizedDescription)
             }
         }
     }

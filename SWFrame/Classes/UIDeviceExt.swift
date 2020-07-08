@@ -6,28 +6,24 @@
 //
 
 import UIKit
-//import KeychainAccess
+import UICKeyChainStore
 import FCUUID
 
 public extension UIDevice {
-    
-    struct KeychainKey {
-        static let uuid = "uuid"
-    }
-    
+
     var uuid: String {
-//        let key = KeychainKey.uuid
-//        let service = Bundle.main.bundleIdentifier!
-//        let accessGroup = UIApplication.shared.team + ".shared"
-//        let keychain = Keychain(service: service, accessGroup: accessGroup)
-//
-//        var uuid = keychain[key]
-//        if uuid?.isEmpty ?? true {
-//            uuid = FCUUID.uuidForDevice()
-//            keychain[key] = uuid
-//        }
-        
-        return FCUUID.uuidForDevice() ?? ""
+        let service = Bundle.main.bundleIdentifier!
+        let accessGroup = UIApplication.shared.team + ".shared"
+        let keychain = UICKeyChainStore(service: service, accessGroup: accessGroup)
+
+        let key = "uuid"
+        var uuid = keychain[key]
+        if uuid?.isEmpty ?? true {
+            uuid = FCUUID.uuidForDevice()
+            keychain[key] = uuid
+        }
+
+        return uuid!
     }
     
 }
