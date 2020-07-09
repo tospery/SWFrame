@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 public extension UIApplication {
     
@@ -64,4 +66,14 @@ public extension UIApplication {
         return "https://\(self.scheme).com"
     }
     
+}
+
+extension Reactive where Base: UIApplication {
+
+    var statusBarStyle: Binder<UIStatusBarStyle> {
+        return Binder(self.base) { _, attr in
+            statusBarService.accept(attr)
+        }
+    }
+
 }
