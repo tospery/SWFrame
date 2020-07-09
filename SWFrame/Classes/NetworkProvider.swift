@@ -35,7 +35,7 @@ final public class NetworkProvider<Target> where Target: Moya.TargetType {
             }
             return .error(AppError.network)
         }.catchError { error -> Observable<Moya.Response> in
-            var appError = AppError.server
+            var appError = AppError.server(nil)
             if let error = error as? MoyaError {
                 switch error {
                 case .underlying(let error, _):

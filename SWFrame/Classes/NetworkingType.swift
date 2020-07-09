@@ -56,20 +56,20 @@ public extension NetworkingType {
         }
     }
     
-    func convert(error: Error) -> AppError {
-        if let error = error as? MoyaError {
-            switch error {
-            case .underlying(let error, _):
-                if (error as NSError).isNetwork {
-                    return .network
-                } else if (error as NSError).isExpire {
-                    return .expire
-                }
-                return .server
-            default:
-                return .server
-            }
-        }
-        return .server
-    }
+//    func convert(error: Error) -> AppError {
+//        if let error = error as? MoyaError {
+//            switch error {
+//            case .underlying(let error, _):
+//                if (error as NSError).isNetwork {
+//                    return .network
+//                } else if (error as NSError).isExpire {
+//                    return .expire
+//                }
+//                return .server(nil)
+//            default:
+//                return .server(nil)
+//            }
+//        }
+//        return .server(nil)
+//    }
 }
