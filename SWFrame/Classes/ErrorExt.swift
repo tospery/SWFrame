@@ -44,7 +44,10 @@ public enum AppError: Error {
         switch self {
         case .network:
             return NSLocalizedString("Error.Network.Message", comment: "")
-        case .server:
+        case .server(let message):
+            if let message = message {
+                return message
+            }
             return NSLocalizedString("Error.Server.Message", comment: "")
         case .empty:
             return NSLocalizedString("Error.Empty.Message", comment: "")
