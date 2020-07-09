@@ -166,28 +166,23 @@ public extension Reactive where Base: BaseViewController {
     
     var error: Binder<Error?> {
         return Binder(self.base) { viewController, error in
-//            if let error = error as? AppError, viewController.error == nil {
-//                switch error {
-//                case .expire:
-//                    viewController.navigator.present(UIApplication.shared.scheme + "://login", wrap: NavigationController.self)
-//                default:
-//                    break
-//                }
-//            }
-//            viewController.error = error
+            guard let old = viewController.error as? AnyObject,
+                let new = error as? AnyObject,
+                old !== new else {
+                return
+            }
             
-//            if viewController.qmui_isViewLoadedAndVisible() {
-//                let view = viewController.view!
-//                if let new = error?.asAppError {
-//                    if let old = viewController.error?.asAppError {
-//                        if new != old {
-//                            view.makeToast(new.message)
-//                        }
-//                    } else {
-//                        view.makeToast(new.message)
-//                    }
-//                }
-//            }
+            if let error = error as? AppError {
+                switch error {
+                case .expire:
+                    viewController.navigator.present(UIApplication.shared.scheme + "://login", wrap: NavigationController.self)
+                default:
+                    if viewController.qmui_isViewLoadedAndVisible() {
+                        let view = viewController.view!
+                        view.makeToast(error.message)
+                    }
+                }
+            }
             viewController.error = error
         }
     }

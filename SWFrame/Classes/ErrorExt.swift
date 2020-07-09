@@ -14,6 +14,17 @@ public enum AppError: Error {
     case empty
     case expire
     
+//    static func == (lhs: Self, rhs: Self) -> Bool {
+//        switch (lhs, rhs) {
+//        case (.none, .none),
+//             (.indicator, .indicator),
+//             (.checkmark, .checkmark):
+//            return true
+//        default:
+//            return false
+//        }
+//    }
+    
     var image: UIImage {
         switch self {
         case .network:
