@@ -7,6 +7,5 @@
 
 import UIKit
 import QuartzCore
-import CGFloatLiteral
 
 

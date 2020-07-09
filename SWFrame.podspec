@@ -52,7 +52,6 @@ Pod::Spec.new do |s|
   s.dependency 'URLNavigator', '2.3.0'
   s.dependency 'BonMot', '5.5.1'
   s.dependency 'SwifterSwift', '5.2.0'
-  s.dependency 'CGFloatLiteral', '0.5.0'
   s.dependency 'FCUUID', '1.3.1'
   s.dependency 'Kingfisher', '5.14.0'
   s.dependency 'WebViewJavascriptBridge', '6.0.3'

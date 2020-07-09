@@ -8,7 +8,6 @@
 import UIKit
 import QMUIKit
 import SwifterSwift
-import CGFloatLiteral
 
 public extension String {
     

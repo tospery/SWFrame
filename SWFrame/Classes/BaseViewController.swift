@@ -9,9 +9,12 @@ import UIKit
 import QMUIKit
 import RxSwift
 import RxCocoa
+import RxSwiftExt
 import SwifterSwift
 import Toast_Swift
 import URLNavigator
+
+public let statusBarService = BehaviorRelay<UIStatusBarStyle>(value: .default)
 
 open class BaseViewController: UIViewController {
     
@@ -106,11 +109,20 @@ open class BaseViewController: UIViewController {
                 }
             }
         }
+        
+        statusBarService.mapTo(()).skip(1).subscribe(onNext: { [weak self] _ in
+            guard let `self` = self else { return }
+            self.setNeedsStatusBarAppearanceUpdate()
+        }).disposed(by: self.rx.disposeBag)
     }
     
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.view.bringSubviewToFront(self.navigationBar)
+    }
+
+    open override var preferredStatusBarStyle: UIStatusBarStyle {
+        return statusBarService.value
     }
     
     // MARK: - Method

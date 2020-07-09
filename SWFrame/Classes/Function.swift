@@ -9,7 +9,6 @@ import UIKit
 import QMUIKit
 import RxSwift
 import Reachability
-import CGFloatLiteral
 
 //// MARK: - log
 //public func oslog(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, line: Int = #line, context: Any? = nil) {

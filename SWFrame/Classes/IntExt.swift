@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreGraphics
 
 public extension Int {
     
@@ -13,4 +14,16 @@ public extension Int {
         return ByteCountFormatter.string(fromByteCount: Int64(self), countStyle: .file)
     }
     
+}
+
+public extension IntegerLiteralType {
+    var f: CGFloat {
+        return CGFloat(self)
+    }
+}
+
+public extension FloatLiteralType {
+    var f: CGFloat {
+        return CGFloat(self)
+    }
 }
