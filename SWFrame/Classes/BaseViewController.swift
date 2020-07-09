@@ -166,12 +166,23 @@ public extension Reactive where Base: BaseViewController {
     
     var error: Binder<Error?> {
         return Binder(self.base) { viewController, error in
-            guard let old = viewController.error as? AnyObject,
-                let new = error as? AnyObject,
-                old !== new else {
-                return
-            }
-            
+//            if let new = error as? AppError {
+//                unsafeBitCast(new, to: AppError.self)
+//            }
+//            guard let old = viewController.error as? AnyObject,
+//                let new = error as? AnyObject,
+//                old !== new else {
+//                return
+//            }
+//            if let old = viewController.error as? AppError,
+//                let new = error as? AppError {
+//                let addr1 = unsafeBitCast(old, to: Int.self)
+//                let addr2 = unsafeBitCast(new, to: Int.self)
+//                if addr1 == addr2 {
+//                    return
+//                }
+//            }
+
             if let error = error as? AppError {
                 switch error {
                 case .expire:

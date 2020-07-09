@@ -8,22 +8,23 @@
 import UIKit
 import Moya
 
-public enum AppError: Error {
+public enum AppError: Error, Equatable {
     case network
     case server(String?)
     case empty
     case expire
     
-//    static func == (lhs: Self, rhs: Self) -> Bool {
-//        switch (lhs, rhs) {
-//        case (.none, .none),
-//             (.indicator, .indicator),
-//             (.checkmark, .checkmark):
-//            return true
-//        default:
-//            return false
-//        }
-//    }
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        switch (lhs, rhs) {
+        case (.network, .network),
+             (.server, .server),
+             (.empty, .empty),
+             (.expire, .expire):
+            return true
+        default:
+            return false
+        }
+    }
     
     var image: UIImage {
         switch self {
