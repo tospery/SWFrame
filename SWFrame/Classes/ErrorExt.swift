@@ -10,21 +10,10 @@ import Moya
 
 public enum AppError: Error, Equatable {
     case network
-    case server(String?)
+    case server
     case empty
     case expire
-    
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        switch (lhs, rhs) {
-        case (.network, .network),
-             (.server, .server),
-             (.empty, .empty),
-             (.expire, .expire):
-            return true
-        default:
-            return false
-        }
-    }
+    case invalid(String?)
     
     var image: UIImage {
         switch self {
@@ -36,6 +25,8 @@ public enum AppError: Error, Equatable {
             return .emptyError
         case .expire:
             return .expireError
+        case .invalid:
+            return .serverError
         }
     }
     
@@ -49,6 +40,8 @@ public enum AppError: Error, Equatable {
             return NSLocalizedString("Error.Empty.Title", comment: "")
         case .expire:
             return NSLocalizedString("Error.Expire.Title", comment: "")
+        case .invalid:
+            return NSLocalizedString("Error.Server.Title", comment: "")
         }
     }
 
@@ -56,15 +49,14 @@ public enum AppError: Error, Equatable {
         switch self {
         case .network:
             return NSLocalizedString("Error.Network.Message", comment: "")
-        case .server(let message):
-            if let message = message {
-                return message
-            }
+        case .server:
             return NSLocalizedString("Error.Server.Message", comment: "")
         case .empty:
             return NSLocalizedString("Error.Empty.Message", comment: "")
         case .expire:
             return NSLocalizedString("Error.Expire.Message", comment: "")
+        case .invalid(let message):
+            return message ?? ""
         }
     }
 
@@ -98,13 +90,13 @@ public extension Error {
                 } else if (error as NSError).isExpire {
                     return .expire
                 }
-                return .server(self.localizedDescription)
+                return .server
             default:
-                return .server(self.localizedDescription)
+                return .server
             }
         }
     
-        return .server(self.localizedDescription)
+        return .invalid(self.localizedDescription)
     }
     
 //    func asAppError(or defaultAppError: @autoclosure () -> AppError) -> AppError {
