@@ -8,12 +8,12 @@
 import UIKit
 import Moya
 
-public enum AppError: Error, Equatable {
+public enum AppError: Error/*, Equatable */{
     case network
     case server
     case empty
     case expire
-    case invalid(String?)
+    case illegal(Int?, String?)
     
     var image: UIImage {
         switch self {
@@ -25,7 +25,7 @@ public enum AppError: Error, Equatable {
             return .emptyError
         case .expire:
             return .expireError
-        case .invalid:
+        case .illegal:
             return .serverError
         }
     }
@@ -40,7 +40,7 @@ public enum AppError: Error, Equatable {
             return NSLocalizedString("Error.Empty.Title", comment: "")
         case .expire:
             return NSLocalizedString("Error.Expire.Title", comment: "")
-        case .invalid:
+        case .illegal:
             return NSLocalizedString("Error.Server.Title", comment: "")
         }
     }
@@ -55,7 +55,7 @@ public enum AppError: Error, Equatable {
             return NSLocalizedString("Error.Empty.Message", comment: "")
         case .expire:
             return NSLocalizedString("Error.Expire.Message", comment: "")
-        case .invalid(let message):
+        case let .illegal(_, message):
             return message ?? ""
         }
     }
@@ -96,7 +96,7 @@ public extension Error {
             }
         }
     
-        return .invalid(self.localizedDescription)
+        return .illegal(nil, self.localizedDescription)
     }
     
 //    func asAppError(or defaultAppError: @autoclosure () -> AppError) -> AppError {
