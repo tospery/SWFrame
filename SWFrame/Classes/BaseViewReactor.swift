@@ -13,7 +13,7 @@ import RxCocoa
 open class BaseViewReactor: ReactorType {
     
     public let provider: ProviderType
-    public let parameters: Dictionary<String, Any>
+    public var parameters: [String: Any]
     public var title: String?
     public var disposeBag = DisposeBag()
     

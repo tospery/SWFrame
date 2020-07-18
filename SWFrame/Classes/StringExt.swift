@@ -15,6 +15,10 @@ public extension String {
     var color: UIColor? {
         return UIColor(hexString: self)
     }
+
+//    var attributedString: NSAttributedString {
+//        return NSAttributedString(string: self)
+//    }
     
     // MARK: - Initializers
     init?(any: Any?) {
