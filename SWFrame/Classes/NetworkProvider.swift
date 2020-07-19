@@ -11,6 +11,8 @@ import RxSwift
 import RxCocoa
 import Alamofire
 
+public let successCode = 200   // YJX_TODO 使用
+
 final public class NetworkProvider<Target> where Target: Moya.TargetType {
     fileprivate var retryTimes = 0
     fileprivate let network: Observable<Bool>
