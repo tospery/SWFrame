@@ -90,8 +90,8 @@
     "ESPullToRefresh": [
       "2.9.2"
     ],
-    "SwiftEntryKit": [
-      "1.2.3"
+    "Toast-Swift": [
+      "5.0.1"
     ],
     "QMUIKit/QMUICore": [
       "4.1.3"

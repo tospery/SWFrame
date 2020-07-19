@@ -9,15 +9,15 @@ import UIKit
 import RxSwift
 import Reachability
 
-final class ReachabilityManager {
+final public class ReachabilityManager {
 
-    static let shared = ReachabilityManager()
+    public static let shared = ReachabilityManager()
     
     var reachability: Reachability?
 
-    let reachSubject = ReplaySubject<Bool>.create(bufferSize: 1)
-    var reach: Observable<Bool> {
-        return reachSubject.asObservable()
+    let reachSubject = ReplaySubject<Reachability.Connection>.create(bufferSize: 1)
+    public var reach: Observable<Reachability.Connection> {
+        return reachSubject.asObservable().distinctUntilChanged()
     }
 
     init() {
@@ -27,19 +27,19 @@ final class ReachabilityManager {
 
             reachability.whenReachable = { reachability in
                 DispatchQueue.main.async {
-                    self.reachSubject.onNext(true)
+                    self.reachSubject.onNext(reachability.connection)
                 }
             }
 
             reachability.whenUnreachable = { reachability in
                 DispatchQueue.main.async {
-                    self.reachSubject.onNext(false)
+                    self.reachSubject.onNext(reachability.connection)
                 }
             }
 
             do {
                 try reachability.startNotifier()
-                reachSubject.onNext(reachability.connection != Reachability.Connection.unavailable)
+                reachSubject.onNext(reachability.connection)
             } catch {
                 log.error("Unable to start notifier")
             }
