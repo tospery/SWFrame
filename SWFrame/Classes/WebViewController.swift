@@ -19,19 +19,37 @@ open class WebViewController: ScrollViewController, View {
     
     private let estimatedProgress = "estimatedProgress"
     
+    public var webView: WKWebView!
     public var url: URL?
     public var progressColor: UIColor?
     public var handlers = [String]()
     // public var jsHandlers: [String]?
     public var bridge: WebViewJavascriptBridge!
     
-    public lazy var webView: WKWebView = {
-        let webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
-        webView.backgroundColor = .white
-        webView.sizeToFit()
-        return webView
-    }()
+//    public lazy var webConfig: WKWebViewConfiguration = {
+//        let config = WKWebViewConfiguration.init()
+//        config.processPool = WKProcessPool.shared
+//        if #available(iOS 11, *) {
+//            if let cookies = HTTPCookieStorage.shared.cookies {
+//                let store = config.websiteDataStore.httpCookieStore
+//                for cookie in cookies {
+//                    store.setCookie(cookie, completionHandler: nil)
+//                }
+//            }
+//        }
+//        return config
+//    }()
     
+//    public lazy var webView: WKWebView = {
+//        // configuration在传递给WKWebView后不能修改
+//        let configuration = WKWebViewConfiguration.init()
+//        configuration.processPool = WKProcessPool.shared
+//        let webView = WKWebView(frame: .zero, configuration: configuration)
+//        webView.backgroundColor = .white
+//        webView.sizeToFit()
+//        return webView
+//    }()
+
     public lazy var progressView: WebProgressView = {
         let view = WebProgressView(frame: .zero)
         view.sizeToFit()
@@ -54,6 +72,7 @@ open class WebViewController: ScrollViewController, View {
     
     open override func viewDidLoad() {
         super.viewDidLoad()
+        self.webView = self.createWebView()
         self.webView.navigationDelegate = self
         self.webView.uiDelegate = self
         self.view.addSubview(self.webView)
@@ -69,6 +88,7 @@ open class WebViewController: ScrollViewController, View {
         }).disposed(by: self.disposeBag)
         
         self.bridge = WebViewJavascriptBridge.init(forWebView: self.webView)
+        // weak var weakSelf = self
         self.bridge.setWebViewDelegate(self)
         for handler in self.handlers {
             self.bridge.registerHandler(handler) { [weak self] data, callback in
@@ -81,7 +101,18 @@ open class WebViewController: ScrollViewController, View {
         self.loadPage()
     }
     
+//    open override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        self.bridge.setWebViewDelegate(self)
+//    }
+//
+//    open override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        self.bridge.setWebViewDelegate(nil)
+//    }
+
     deinit {
+        log.debug("回收了Web容器")
         self.webView.navigationDelegate = nil
         self.webView.uiDelegate = nil
     }
@@ -97,7 +128,26 @@ open class WebViewController: ScrollViewController, View {
             }
         }
     }
-    
+
+    open func createWebView() -> WKWebView {
+        // configuration在传递给WKWebView后不能修改
+        let configuration = WKWebViewConfiguration.init()
+        configuration.processPool = WKProcessPool.shared
+        // 同步Cookie
+//        if #available(iOS 11, *) {
+//            if let cookies = HTTPCookieStorage.shared.cookies {
+//                let store = configuration.websiteDataStore.httpCookieStore
+//                for cookie in cookies {
+//                    store.setCookie(cookie, completionHandler: nil)
+//                }
+//            }
+//        }
+        let webView = WKWebView(frame: self.view.bounds, configuration: configuration)
+        webView.backgroundColor = .white
+        webView.sizeToFit()
+        return webView
+    }
+
     open func loadPage() {
         if let url = self.url {
             let request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10)
@@ -123,6 +173,10 @@ extension WebViewController: WKNavigationDelegate {
 
     open func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         log.debug(navigationAction.request.url?.absoluteString)
+        decisionHandler(.allow)
+    }
+    
+    open func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
         decisionHandler(.allow)
     }
 
