@@ -39,6 +39,25 @@ public protocol ModelType: Mappable {
     init()
 }
 
+public struct ValueModel: ModelType {
+    
+    public var data: Any?
+    
+    public init() {
+    }
+    
+    public init(_ data: Any?) {
+        self.data = data
+    }
+    
+    public init?(map: Map) {
+    }
+    
+    public mutating func mapping(map: Map) {
+    }
+    
+}
+
 // MARK: - 事件协议
 public protocol Eventable {
     associatedtype Event

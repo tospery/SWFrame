@@ -7,6 +7,7 @@
 
 import UIKit
 import QMUIKit
+import ObjectMapper
 import SwifterSwift
 
 public extension String {
@@ -80,3 +81,15 @@ public extension String {
 //    }
     
 }
+
+//extension String: ModelType {
+//
+////    public init?(map: Map) {
+////        self.init()
+////    }
+////
+////    public mutating func mapping(map: Map) {
+////
+////    }
+//    
+//}
