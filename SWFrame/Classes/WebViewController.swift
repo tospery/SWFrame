@@ -133,15 +133,15 @@ open class WebViewController: ScrollViewController, View {
         // configuration在传递给WKWebView后不能修改
         let configuration = WKWebViewConfiguration.init()
         configuration.processPool = WKProcessPool.shared
-        // 同步Cookie
-//        if #available(iOS 11, *) {
-//            if let cookies = HTTPCookieStorage.shared.cookies {
-//                let store = configuration.websiteDataStore.httpCookieStore
-//                for cookie in cookies {
-//                    store.setCookie(cookie, completionHandler: nil)
-//                }
-//            }
-//        }
+        if #available(iOS 11.0, *) {
+            let store = configuration.websiteDataStore.httpCookieStore
+            if let cookies = HTTPCookieStorage.shared.cookies {
+                log.debug("【SWFrame】同步Cookie：\(cookies)")
+                for cookie in cookies {
+                    store.setCookie(cookie, completionHandler: nil)
+                }
+            }
+        }
         let webView = WKWebView(frame: self.view.bounds, configuration: configuration)
         webView.backgroundColor = .white
         webView.sizeToFit()
@@ -166,6 +166,21 @@ open class WebViewController: ScrollViewController, View {
             .bind(to: self.navigationBar.titleLabel.rx.text)
             .disposed(by: self.disposeBag)
     }
+  
+    func saveCookies(_ cookies: [HTTPCookie]) {
+        log.debug("【SWFrame】保存Cookies: \(cookies)")
+        for cookie in cookies {
+            HTTPCookieStorage.shared.setCookie(cookie)
+        }
+    }
+    
+//    @available(iOS 11.0, *)
+//    func syncCookies(_ cookieStore: WKHTTPCookieStore) {
+//        guard let cookies = HTTPCookieStorage.shared.cookies else { return }
+//        for cookie in cookies {
+//            cookieStore.setCookie(cookie, completionHandler: nil)
+//        }
+//    }
     
 }
 
@@ -177,6 +192,18 @@ extension WebViewController: WKNavigationDelegate {
     }
     
     open func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+        if #available(iOS 11, *) {
+            webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
+                self.saveCookies(cookies)
+            }
+        } else {
+            if let response = navigationResponse.response as? HTTPURLResponse,
+                let headerFields = response.allHeaderFields as? [String: String],
+                let url = response.url {
+                let cookies = HTTPCookie.cookies(withResponseHeaderFields: headerFields, for: url)
+                self.saveCookies(cookies)
+            }
+        }
         decisionHandler(.allow)
     }
 
