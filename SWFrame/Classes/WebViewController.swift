@@ -17,7 +17,7 @@ import WebViewJavascriptBridge
 
 open class WebViewController: ScrollViewController, View {
     
-    private let estimatedProgress = "estimatedProgress"
+    public let estimatedProgress = "estimatedProgress"
     
     public var webView: WKWebView!
     public var url: URL?
@@ -87,9 +87,12 @@ open class WebViewController: ScrollViewController, View {
             self.progress(value)
         }).disposed(by: self.disposeBag)
         
+        #if DEBUG
+        WebViewJavascriptBridge.enableLogging()
+        #endif
         self.bridge = WebViewJavascriptBridge.init(forWebView: self.webView)
-        // weak var weakSelf = self
         self.bridge.setWebViewDelegate(self)
+        weak var weakSelf = self
         for handler in self.handlers {
             self.bridge.registerHandler(handler) { [weak self] data, callback in
                 guard let `self` = self else { return }
@@ -117,7 +120,7 @@ open class WebViewController: ScrollViewController, View {
         self.webView.uiDelegate = nil
     }
     
-    func progress(_ value: CGFloat) {
+    public func progress(_ value: CGFloat) {
         self.progressView.progress(value: value, animated: true)
         if self.navigationBar.titleLabel.text?.isEmpty ?? true {
             self.webView.evaluateJavaScript("document.title") { [weak self] response, Error in
@@ -133,15 +136,18 @@ open class WebViewController: ScrollViewController, View {
         // configuration在传递给WKWebView后不能修改
         let configuration = WKWebViewConfiguration.init()
         configuration.processPool = WKProcessPool.shared
-        if #available(iOS 11.0, *) {
-            let store = configuration.websiteDataStore.httpCookieStore
-            if let cookies = HTTPCookieStorage.shared.cookies {
-                // log.debug("【SWFrame】同步Cookie：\(cookies)")
-                for cookie in cookies {
-                    store.setCookie(cookie, completionHandler: nil)
-                }
-            }
-        }
+//        if #available(iOS 11.0, *) {
+//            let store = configuration.websiteDataStore.httpCookieStore
+//            store.getAllCookies { cookies in
+//                print("")
+//            }
+////            if let cookies = HTTPCookieStorage.shared.cookies {
+////                // log.debug("【SWFrame】同步Cookie：\(cookies)")
+////                for cookie in cookies {
+////                    store.setCookie(cookie, completionHandler: nil)
+////                }
+////            }
+//        }
         let webView = WKWebView(frame: self.view.bounds, configuration: configuration)
         webView.backgroundColor = .white
         webView.sizeToFit()
@@ -192,18 +198,20 @@ extension WebViewController: WKNavigationDelegate {
     }
     
     open func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
-        if #available(iOS 11, *) {
-            webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
-                self.saveCookies(cookies)
-            }
-        } else {
-            if let response = navigationResponse.response as? HTTPURLResponse,
-                let headerFields = response.allHeaderFields as? [String: String],
-                let url = response.url {
-                let cookies = HTTPCookie.cookies(withResponseHeaderFields: headerFields, for: url)
-                self.saveCookies(cookies)
-            }
-        }
+//        if #available(iOS 11, *) {
+//            webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
+//                let abc = HTTPCookieStorage.shared.cookies
+//                print("")
+//                // self.saveCookies(cookies)
+//            }
+//        } else {
+//            if let response = navigationResponse.response as? HTTPURLResponse,
+//                let headerFields = response.allHeaderFields as? [String: String],
+//                let url = response.url {
+//                let cookies = HTTPCookie.cookies(withResponseHeaderFields: headerFields, for: url)
+//                self.saveCookies(cookies)
+//            }
+//        }
         decisionHandler(.allow)
     }
 
