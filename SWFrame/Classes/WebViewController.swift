@@ -136,7 +136,7 @@ open class WebViewController: ScrollViewController, View {
         if #available(iOS 11.0, *) {
             let store = configuration.websiteDataStore.httpCookieStore
             if let cookies = HTTPCookieStorage.shared.cookies {
-                log.debug("【SWFrame】同步Cookie：\(cookies)")
+                // log.debug("【SWFrame】同步Cookie：\(cookies)")
                 for cookie in cookies {
                     store.setCookie(cookie, completionHandler: nil)
                 }
@@ -168,7 +168,7 @@ open class WebViewController: ScrollViewController, View {
     }
   
     func saveCookies(_ cookies: [HTTPCookie]) {
-        log.debug("【SWFrame】保存Cookies: \(cookies)")
+        // log.debug("【SWFrame】保存Cookies: \(cookies)")
         for cookie in cookies {
             HTTPCookieStorage.shared.setCookie(cookie)
         }
