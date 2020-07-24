@@ -6,13 +6,15 @@
 //
 
 import UIKit
+import RxSwift
 import Moya
 
-public enum AppError: Error/*, Equatable */{
+public enum AppError: Error {
     case network
     case server
     case empty
     case expire
+    case timeout
     case illegal(Int?, String?)
     
     var image: UIImage {
@@ -24,6 +26,8 @@ public enum AppError: Error/*, Equatable */{
         case .empty:
             return .emptyError
         case .expire:
+            return .expireError
+        case .timeout:
             return .expireError
         case .illegal:
             return .serverError
@@ -40,6 +44,8 @@ public enum AppError: Error/*, Equatable */{
             return NSLocalizedString("Error.Empty.Title", comment: "")
         case .expire:
             return NSLocalizedString("Error.Expire.Title", comment: "")
+        case .timeout:
+            return NSLocalizedString("Error.Expire.Title", comment: "")
         case .illegal:
             return NSLocalizedString("Error.Server.Title", comment: "")
         }
@@ -53,6 +59,8 @@ public enum AppError: Error/*, Equatable */{
             return NSLocalizedString("Error.Server.Message", comment: "")
         case .empty:
             return NSLocalizedString("Error.Empty.Message", comment: "")
+        case .timeout:
+            return NSLocalizedString("Error.Expire.Message", comment: "")
         case .expire:
             return NSLocalizedString("Error.Expire.Message", comment: "")
         case let .illegal(_, message):
@@ -78,8 +86,17 @@ public enum AppError: Error/*, Equatable */{
 public extension Error {
 
     public var asAppError: AppError {
-        if let _ = self as? AppError {
-            return self as! AppError
+        if let appError = self as? AppError {
+            return appError
+        }
+        
+        if let error = self as? RxError {
+            switch error {
+            case .timeout:
+                return .timeout
+            default:
+                return .illegal(nil, error.debugDescription)
+            }
         }
         
         if let error = self as? MoyaError {
