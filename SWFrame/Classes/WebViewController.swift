@@ -136,10 +136,11 @@ open class WebViewController: ScrollViewController, View {
         // configuration在传递给WKWebView后不能修改
         let configuration = WKWebViewConfiguration.init()
         configuration.processPool = WKProcessPool.shared
+//        #if DEBUG
 //        if #available(iOS 11.0, *) {
 //            let store = configuration.websiteDataStore.httpCookieStore
 //            store.getAllCookies { cookies in
-//                print("")
+//                log.debug("\(tag)当前Cookies: \(cookies)")
 //            }
 ////            if let cookies = HTTPCookieStorage.shared.cookies {
 ////                // log.debug("【SWFrame】同步Cookie：\(cookies)")
@@ -148,6 +149,7 @@ open class WebViewController: ScrollViewController, View {
 ////                }
 ////            }
 //        }
+//        #endif
         let webView = WKWebView(frame: self.view.bounds, configuration: configuration)
         webView.backgroundColor = .white
         webView.sizeToFit()
