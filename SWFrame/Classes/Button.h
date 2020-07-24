@@ -1,28 +1,20 @@
-/**
- * Tencent is pleased to support the open source community by making QMUI_iOS available.
- * Copyright (C) 2016-2020 THL A29 Limited, a Tencent company. All rights reserved.
- * Licensed under the MIT License (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
- * http://opensource.org/licenses/MIT
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
- */
-
 //
-//  QMUIButton.h
-//  qmui
+//  Button.h
+//  SWFrame
 //
-//  Created by QMUI Team on 14-7-7.
+//  Created by liaoya on 2020/7/24.
 //
 
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// 控制图片在UIButton里的位置，默认为QMUIButtonImagePositionLeft
-typedef NS_ENUM(NSUInteger, QMUIButtonImagePosition) {
-    QMUIButtonImagePositionTop,             // imageView在titleLabel上面
-    QMUIButtonImagePositionLeft,            // imageView在titleLabel左边
-    QMUIButtonImagePositionBottom,          // imageView在titleLabel下面
-    QMUIButtonImagePositionRight,           // imageView在titleLabel右边
+/// 控制图片在UIButton里的位置，默认为ButtonImagePositionLeft
+typedef NS_ENUM(NSUInteger, ButtonImagePosition) {
+    ButtonImagePositionTop,             // imageView在titleLabel上面
+    ButtonImagePositionLeft,            // imageView在titleLabel左边
+    ButtonImagePositionBottom,          // imageView在titleLabel下面
+    ButtonImagePositionRight,           // imageView在titleLabel右边
 };
 
 /**
@@ -33,9 +25,9 @@ typedef NS_ENUM(NSUInteger, QMUIButtonImagePosition) {
  *  4. 支持点击时改变边框颜色（highlightedBorderColor）
  *  5. 支持设置图片相对于 titleLabel 的位置（imagePosition）
  *  6. 支持设置图片和 titleLabel 之间的间距，无需自行调整 titleEdgeInests、imageEdgeInsets（spacingBetweenImageAndTitle）
- *  @warning QMUIButton 重新定义了 UIButton.titleEdgeInests、imageEdgeInsets、contentEdgeInsets 这三者的布局逻辑，sizeThatFits: 里会把 titleEdgeInests 和 imageEdgeInsets 也考虑在内（UIButton 不会），以使这三个接口的使用更符合直觉。
+ *  @warning Button 重新定义了 UIButton.titleEdgeInests、imageEdgeInsets、contentEdgeInsets 这三者的布局逻辑，sizeThatFits: 里会把 titleEdgeInests 和 imageEdgeInsets 也考虑在内（UIButton 不会），以使这三个接口的使用更符合直觉。
  */
-@interface QMUIButton : UIButton
+@interface Button : UIButton
 
 /**
  *  子类继承时重写的方法，一般不建议重写 initWithXxx
@@ -87,10 +79,10 @@ typedef NS_ENUM(NSUInteger, QMUIButtonImagePosition) {
 @property(nonatomic, strong, nullable) IBInspectable UIColor *highlightedBorderColor;
 
 /**
- * 设置按钮里图标和文字的相对位置，默认为QMUIButtonImagePositionLeft<br/>
+ * 设置按钮里图标和文字的相对位置，默认为ButtonImagePositionLeft<br/>
  * 可配合imageEdgeInsets、titleEdgeInsets、contentHorizontalAlignment、contentVerticalAlignment使用
  */
-@property(nonatomic, assign) QMUIButtonImagePosition imagePosition;
+@property(nonatomic, assign) ButtonImagePosition imagePosition;
 
 /**
  * 设置按钮里图标和文字之间的间隔，会自动响应 imagePosition 的变化而变化，默认为0。<br/>

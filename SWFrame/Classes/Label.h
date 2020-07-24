@@ -1,13 +1,12 @@
-/**
- * Tencent is pleased to support the open source community by making QMUI_iOS available.
- * Copyright (C) 2016-2020 THL A29 Limited, a Tencent company. All rights reserved.
- * Licensed under the MIT License (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
- * http://opensource.org/licenses/MIT
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
- */
+//
+//  Label.h
+//  SWFrame
+//
+//  Created by liaoya on 2020/7/24.
+//
 
 //
-//  QMUILabel.h
+//  Label.h
 //  qmui
 //
 //  Created by QMUI Team on 14-7-3.
@@ -16,11 +15,11 @@
 #import <UIKit/UIKit.h>
 
 /**
- * `QMUILabel`支持通过`contentEdgeInsets`属性来实现类似padding的效果。
+ * `Label`支持通过`contentEdgeInsets`属性来实现类似padding的效果。
  *
  * 同时通过将`canPerformCopyAction`置为`YES`来开启长按复制文本的功能，复制 item 的文案可通过 menuItemTitleForCopyAction 修改，长按时label的背景色默认为`highlightedBackgroundColor`
  */
-@interface QMUILabel : UILabel
+@interface Label : UILabel
 
 /// 控制label内容的padding，默认为UIEdgeInsetsZero
 @property(nonatomic,assign) UIEdgeInsets contentEdgeInsets;
@@ -42,6 +41,6 @@
 @property(nonatomic,strong) IBInspectable UIColor *highlightedBackgroundColor UI_APPEARANCE_SELECTOR;
 
 /// 点击了“复制”后的回调
-@property(nonatomic, copy) void (^didCopyBlock)(QMUILabel *label, NSString *stringCopied);
+@property(nonatomic, copy) void (^didCopyBlock)(Label *label, NSString *stringCopied);
 
 @end

@@ -10,8 +10,6 @@
 #endif
 #endif
 
-#import "QMUIButton.h"
-#import "QMUILabel.h"
 #import "QMUIKit.h"
 #import "QMUICommonDefines.h"
 #import "QMUIConfiguration.h"

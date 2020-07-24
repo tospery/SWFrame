@@ -1,31 +1,20 @@
-/**
- * Tencent is pleased to support the open source community by making QMUI_iOS available.
- * Copyright (C) 2016-2020 THL A29 Limited, a Tencent company. All rights reserved.
- * Licensed under the MIT License (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
- * http://opensource.org/licenses/MIT
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
- */
-
 //
-//  QMUIButton.m
-//  qmui
+//  Button.m
+//  SWFrame
 //
-//  Created by QMUI Team on 14-7-7.
+//  Created by liaoya on 2020/7/24.
 //
 
-#import "QMUIButton.h"
-#import "QMUICore.h"
-#import "QMUILog.h"
-#import "CALayer+QMUI.h"
-#import "UIButton+QMUI.h"
+#import "Button.h"
+#import <QMUIKit/QMUIKit.h>
 
-@interface QMUIButton ()
+@interface Button ()
 
 @property(nonatomic, strong) CALayer *highlightedBackgroundLayer;
 @property(nonatomic, strong) UIColor *originBorderColor;
 @end
 
-@implementation QMUIButton
+@implementation Button
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -60,7 +49,7 @@
     self.adjustsButtonWhenDisabled = YES;
     
     // 图片默认在按钮左边，与系统UIButton保持一致
-    self.imagePosition = QMUIButtonImagePositionLeft;
+    self.imagePosition = ButtonImagePositionLeft;
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
@@ -79,8 +68,8 @@
     CGSize contentLimitSize = CGSizeMake(size.width - UIEdgeInsetsGetHorizontalValue(contentEdgeInsets), size.height - UIEdgeInsetsGetVerticalValue(contentEdgeInsets));
     
     switch (self.imagePosition) {
-        case QMUIButtonImagePositionTop:
-        case QMUIButtonImagePositionBottom: {
+        case ButtonImagePositionTop:
+        case ButtonImagePositionBottom: {
             // 图片和文字上下排版时，宽度以文字或图片的最大宽度为最终宽度
             if (isImageViewShowing) {
                 CGFloat imageLimitWidth = contentLimitSize.width - UIEdgeInsetsGetHorizontalValue(self.imageEdgeInsets);
@@ -102,10 +91,10 @@
         }
             break;
             
-        case QMUIButtonImagePositionLeft:
-        case QMUIButtonImagePositionRight: {
+        case ButtonImagePositionLeft:
+        case ButtonImagePositionRight: {
             // 图片和文字水平排版时，高度以文字或图片的最大高度为最终高度
-            // 注意这里有一个和系统不一致的行为：当 titleLabel 为多行时，系统的 sizeThatFits: 计算结果固定是单行的，所以当 QMUIButtonImagePositionLeft 并且titleLabel 多行的情况下，QMUIButton 计算的结果与系统不一致
+            // 注意这里有一个和系统不一致的行为：当 titleLabel 为多行时，系统的 sizeThatFits: 计算结果固定是单行的，所以当 ButtonImagePositionLeft 并且titleLabel 多行的情况下，Button 计算的结果与系统不一致
             
             if (isImageViewShowing) {
                 CGFloat imageLimitHeight = contentLimitSize.height - UIEdgeInsetsGetVerticalValue(self.imageEdgeInsets);
@@ -163,7 +152,7 @@
         imageTotalSize = CGSizeMake(imageSize.width + UIEdgeInsetsGetHorizontalValue(self.imageEdgeInsets), imageSize.height + UIEdgeInsetsGetVerticalValue(self.imageEdgeInsets));
     }
     
-    if (self.imagePosition == QMUIButtonImagePositionTop || self.imagePosition == QMUIButtonImagePositionBottom) {
+    if (self.imagePosition == ButtonImagePositionTop || self.imagePosition == ButtonImagePositionBottom) {
         
         if (isTitleLabelShowing) {
             titleLimitSize = CGSizeMake(contentSize.width - UIEdgeInsetsGetHorizontalValue(self.titleEdgeInsets), contentSize.height - imageTotalSize.height - spacingBetweenImageAndTitle - UIEdgeInsetsGetVerticalValue(self.titleEdgeInsets));
@@ -201,7 +190,7 @@
                 break;
         }
         
-        if (self.imagePosition == QMUIButtonImagePositionTop) {
+        if (self.imagePosition == ButtonImagePositionTop) {
             switch (self.contentVerticalAlignment) {
                 case UIControlContentVerticalAlignmentTop:
                     imageFrame = isImageViewShowing ? CGRectSetY(imageFrame, contentEdgeInsets.top + self.imageEdgeInsets.top) : imageFrame;
@@ -280,7 +269,7 @@
             self.titleLabel.frame = CGRectFlatted(titleFrame);
         }
         
-    } else if (self.imagePosition == QMUIButtonImagePositionLeft || self.imagePosition == QMUIButtonImagePositionRight) {
+    } else if (self.imagePosition == ButtonImagePositionLeft || self.imagePosition == ButtonImagePositionRight) {
         
         if (isTitleLabelShowing) {
             titleLimitSize = CGSizeMake(contentSize.width - UIEdgeInsetsGetHorizontalValue(self.titleEdgeInsets) - imageTotalSize.width - spacingBetweenImageAndTitle, contentSize.height - UIEdgeInsetsGetVerticalValue(self.titleEdgeInsets));
@@ -317,7 +306,7 @@
                 break;
         }
         
-        if (self.imagePosition == QMUIButtonImagePositionLeft) {
+        if (self.imagePosition == ButtonImagePositionLeft) {
             switch (self.contentHorizontalAlignment) {
                 case UIControlContentHorizontalAlignmentLeft:
                     imageFrame = isImageViewShowing ? CGRectSetX(imageFrame, contentEdgeInsets.left + self.imageEdgeInsets.left) : imageFrame;
@@ -421,7 +410,7 @@
     [self setNeedsLayout];
 }
 
-- (void)setImagePosition:(QMUIButtonImagePosition)imagePosition {
+- (void)setImagePosition:(ButtonImagePosition)imagePosition {
     _imagePosition = imagePosition;
     
     [self setNeedsLayout];
@@ -569,3 +558,4 @@
 }
 
 @end
+

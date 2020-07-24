@@ -59,6 +59,4 @@ Pod::Spec.new do |s|
   s.dependency 'ESPullToRefresh', '2.9.2'
   s.dependency 'Toast-Swift', '5.0.1'
   s.dependency 'QMUIKit/QMUICore', '4.1.3'
-  s.dependency 'QMUIKit/QMUIComponents/QMUILabel', '4.1.3'
-  s.dependency 'QMUIKit/QMUIComponents/QMUIButton', '4.1.3'
 end

@@ -10,6 +10,8 @@
 #endif
 #endif
 
+#import "Button.h"
+#import "Label.h"
 
 FOUNDATION_EXPORT double SWFrameVersionNumber;
 FOUNDATION_EXPORT const unsigned char SWFrameVersionString[];
