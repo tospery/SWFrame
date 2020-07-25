@@ -15,7 +15,7 @@ public enum AppError: Error {
     case empty
     case expire
     case timeout
-    case illegal(Int?, String?)
+    case underlying(Error)
     
     var image: UIImage {
         switch self {
@@ -29,7 +29,7 @@ public enum AppError: Error {
             return .expireError
         case .timeout:
             return .expireError
-        case .illegal:
+        case .underlying:
             return .serverError
         }
     }
@@ -46,7 +46,7 @@ public enum AppError: Error {
             return NSLocalizedString("Error.Expire.Title", comment: "")
         case .timeout:
             return NSLocalizedString("Error.Expire.Title", comment: "")
-        case .illegal:
+        case .underlying:
             return NSLocalizedString("Error.Server.Title", comment: "")
         }
     }
@@ -63,8 +63,8 @@ public enum AppError: Error {
             return NSLocalizedString("Error.Expire.Message", comment: "")
         case .expire:
             return NSLocalizedString("Error.Expire.Message", comment: "")
-        case let .illegal(_, message):
-            return message ?? ""
+        case .underlying(let error):
+            return error.localizedDescription
         }
     }
 
@@ -90,12 +90,13 @@ public extension Error {
             return appError
         }
         
+        self.localizedDescription
         if let error = self as? RxError {
             switch error {
             case .timeout:
                 return .timeout
             default:
-                return .illegal(nil, error.debugDescription)
+                return .underlying(self)
             }
         }
         
@@ -113,7 +114,7 @@ public extension Error {
             }
         }
     
-        return .illegal(nil, self.localizedDescription)
+        return .underlying(self)
     }
     
 //    func asAppError(or defaultAppError: @autoclosure () -> AppError) -> AppError {
