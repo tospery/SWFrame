@@ -53,9 +53,9 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
 
 @implementation UILabel (Ext)
 
-+ (CGSize)sizeThatFitsAttributedString:(NSAttributedString *)attributedString
-                       withConstraints:(CGSize)size
-                limitedToNumberOfLines:(NSUInteger)numberOfLines
++ (CGSize)sizeThatFits:(NSAttributedString *)attributedString
+                 limit:(CGSize)size
+                 lines:(NSUInteger)numberOfLines
 {
     if (!attributedString || attributedString.length == 0) {
         return CGSizeZero;

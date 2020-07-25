@@ -10,8 +10,8 @@
 
 @interface UILabel (Ext)
 
-+ (CGSize)sizeThatFitsAttributedString:(NSAttributedString *)attributedString
-                       withConstraints:(CGSize)size
-                limitedToNumberOfLines:(NSUInteger)numberOfLines;
++ (CGSize)sizeThatFits:(NSAttributedString *)attributedString
+                 limit:(CGSize)size
+                 lines:(NSUInteger)numberOfLines;
 
 @end
