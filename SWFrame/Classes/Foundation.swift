@@ -7,4 +7,3 @@
 
 import Foundation
 
-public let tag = "【SWFrame】"

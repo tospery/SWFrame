@@ -17,6 +17,11 @@ public enum AppError: Error {
     case timeout
     case underlying(Error)
     
+    public struct Code {
+        public static let Success   = 200
+        public static let Expire    = 401
+    }
+    
     var image: UIImage {
         switch self {
         case .network:

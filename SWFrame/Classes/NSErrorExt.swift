@@ -22,7 +22,7 @@ public extension NSError {
     }
     
     var isExpire: Bool {
-        return self.code == 401
+        return self.code == AppError.Code.Expire
     }
     
 }
