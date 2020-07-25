@@ -11,7 +11,6 @@ import RxSwift
 import RxCocoa
 import RxSwiftExt
 import SwifterSwift
-import Toast_Swift
 import URLNavigator
 
 public let statusBarService = BehaviorRelay<UIStatusBarStyle>(value: .default)
@@ -145,24 +144,26 @@ public extension Reactive where Base: BaseViewController {
     func loading(active: Bool = false, text: String? = nil) -> Binder<Bool> {
         return Binder(self.base) { viewController, loading in
             viewController.loading = loading
-            if active, viewController.qmui_isViewLoadedAndVisible() {
-                let view = viewController.view!
-                view.isUserInteractionEnabled = !loading
-                loading ? view.makeToastActivity(.center) : view.hideToastActivity()
+            if viewController.qmui_isViewLoadedAndVisible() {
+                var url = "\(UIApplication.shared.scheme)://toast".url!
+                url.appendQueryParameters([
+                    Parameter.active: loading.string
+                ])
+                viewController.navigator.open(url)
             }
         }
     }
     
-    func activating(text: String? = nil) -> Binder<Bool> {
-        return Binder(self.base) { viewController, activating in
-            viewController.activating = activating
-            if viewController.qmui_isViewLoadedAndVisible() {
-                let view = viewController.view!
-                view.isUserInteractionEnabled = !activating
-                activating ? view.makeToastActivity(.center) : view.hideToastActivity()
-            }
-        }
-    }
+//    func activating(text: String? = nil) -> Binder<Bool> {
+//        return Binder(self.base) { viewController, activating in
+//            viewController.activating = activating
+//            if viewController.qmui_isViewLoadedAndVisible() {
+//                let view = viewController.view!
+//                view.isUserInteractionEnabled = !activating
+//                activating ? view.makeToastActivity(.center) : view.hideToastActivity()
+//            }
+//        }
+//    }
     
     var error: Binder<Error?> {
         return Binder(self.base) { viewController, error in
@@ -186,11 +187,14 @@ public extension Reactive where Base: BaseViewController {
             if let error = error as? AppError {
                 switch error {
                 case .expire:
-                    viewController.navigator.present(UIApplication.shared.scheme + "://login", wrap: NavigationController.self)
+                    viewController.navigator.present( "\(UIApplication.shared.scheme)://login", wrap: NavigationController.self)
                 default:
                     if viewController.qmui_isViewLoadedAndVisible() {
-                        let view = viewController.view!
-                        view.makeToast(error.message)
+                        var url = "\(UIApplication.shared.scheme)://toast".url!
+                        url.appendQueryParameters([
+                            Parameter.message: error.message
+                        ])
+                        viewController.navigator.open(url)
                     }
                 }
             }
