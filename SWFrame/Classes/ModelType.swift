@@ -39,15 +39,15 @@ public protocol ModelType: Mappable {
     init()
 }
 
-public struct ValueModel: ModelType {
+public struct BaseModel: ModelType {
     
-    public var data: Any?
+    public var value: Any?
     
     public init() {
     }
     
     public init(_ data: Any?) {
-        self.data = data
+        self.value = data
     }
     
     public init?(map: Map) {

@@ -20,7 +20,7 @@ open class BaseViewController: UIViewController {
     public var disposeBag = DisposeBag()
     public let navigator: NavigatorType
     
-    public let shutdown = PublishSubject<()>()
+    // public let closeSubject = PublishSubject<Void>()
     
     public var hidesNavigationBar = false
     public var hidesNavBottomLine = false
@@ -82,31 +82,10 @@ open class BaseViewController: UIViewController {
         self.extendedLayoutIncludesOpaqueBars = true
         self.automaticallyAdjustsScrollViewInsets = false
         
-        self.navigationController?.navigationBar.isHidden = true
-        self.view.addSubview(self.navigationBar)
-        if self.hidesNavigationBar {
-            self.navigationBar.isHidden = true
-        } else {
-            if self.hidesNavBottomLine {
-                self.navigationBar.qmui_borderPosition = QMUIViewBorderPosition(rawValue: 0)
-            }
-            if self.navigationController?.viewControllers.count ?? 0 > 1 {
-                self.navigationBar.addBackButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
-                    guard let `self` = self else { return }
-                    self.navigationController?.popViewController(animated: true, { [weak self] in
-                        self?.shutdown.on(.next(()))
-                    })
-                }).disposed(by: self.disposeBag)
-            } else {
-                if self.qmui_isPresented() {
-                    self.navigationBar.addCloseButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
-                        guard let `self` = self else { return }
-                        self.dismiss(animated: true) { [weak self] in
-                            self?.shutdown.on(.next(()))
-                        }
-                    }).disposed(by: self.disposeBag)
-                }
-            }
+        self.setupNavBar()
+        
+        if let gestureRecognizer = self.navigationController?.interactivePopGestureRecognizer {
+            gestureRecognizer.addTarget(self, action: #selector(handleInteractivePopGestureRecognizer(_:)))
         }
         
         statusBarService.mapTo(()).skip(1).subscribe(onNext: { [weak self] _ in
@@ -137,14 +116,63 @@ open class BaseViewController: UIViewController {
 //        }).disposed(by: self.disposeBag)
     }
      
+    func setupNavBar() {
+        self.navigationController?.navigationBar.isHidden = true
+        self.view.addSubview(self.navigationBar)
+        if self.hidesNavigationBar {
+            self.navigationBar.isHidden = true
+        } else {
+            if self.hidesNavBottomLine {
+                self.navigationBar.qmui_borderPosition = QMUIViewBorderPosition(rawValue: 0)
+            }
+            if self.navigationController?.viewControllers.count ?? 0 > 1 {
+                self.navigationBar.addBackButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
+                    guard let `self` = self else { return }
+                    self.navigationController?.popViewController(animated: true, { [weak self] in
+                        guard let `self` = self else { return }
+                        self.didClosed()
+                    })
+                }).disposed(by: self.disposeBag)
+            } else {
+                if self.qmui_isPresented() {
+                    self.navigationBar.addCloseButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
+                        guard let `self` = self else { return }
+                        self.dismiss(animated: true) { [weak self] in
+                            guard let `self` = self else { return }
+                            self.didClosed()
+                        }
+                    }).disposed(by: self.disposeBag)
+                }
+            }
+        }
+    }
+    
+    @objc func handleInteractivePopGestureRecognizer(_ gestureRecognizer: UIScreenEdgePanGestureRecognizer) {
+        switch gestureRecognizer.state {
+        case .ended:
+            guard let superview = self.navigationController?.topViewController?.view.superview else { return }
+            if superview.frame.minX == 0.f {
+                self.didClosed()
+            }
+        default: break
+        }
+    }
+    
+    open func didClosed() {
+        // self.closeSubject.onNext(())
+    }
 }
 
 public extension Reactive where Base: BaseViewController {
+//    var close: ControlEvent<Void> {
+//        let source = self.base.closeSubject.map{ _ in }
+//        return ControlEvent(events: source)
+//    }
     
     func loading(active: Bool = false, text: String? = nil) -> Binder<Bool> {
         return Binder(self.base) { viewController, loading in
             viewController.loading = loading
-            if viewController.qmui_isViewLoadedAndVisible() {
+            if viewController.qmui_visibleState != .unknow {
                 var url = "\(UIApplication.shared.scheme)://toast".url!
                 url.appendQueryParameters([
                     Parameter.active: loading.string
@@ -154,42 +182,14 @@ public extension Reactive where Base: BaseViewController {
         }
     }
     
-//    func activating(text: String? = nil) -> Binder<Bool> {
-//        return Binder(self.base) { viewController, activating in
-//            viewController.activating = activating
-//            if viewController.qmui_isViewLoadedAndVisible() {
-//                let view = viewController.view!
-//                view.isUserInteractionEnabled = !activating
-//                activating ? view.makeToastActivity(.center) : view.hideToastActivity()
-//            }
-//        }
-//    }
-    
     var error: Binder<Error?> {
         return Binder(self.base) { viewController, error in
-//            if let new = error as? AppError {
-//                unsafeBitCast(new, to: AppError.self)
-//            }
-//            guard let old = viewController.error as? AnyObject,
-//                let new = error as? AnyObject,
-//                old !== new else {
-//                return
-//            }
-//            if let old = viewController.error as? AppError,
-//                let new = error as? AppError {
-//                let addr1 = unsafeBitCast(old, to: Int.self)
-//                let addr2 = unsafeBitCast(new, to: Int.self)
-//                if addr1 == addr2 {
-//                    return
-//                }
-//            }
-
             if let error = error as? AppError {
                 switch error {
                 case .expire:
                     viewController.navigator.present( "\(UIApplication.shared.scheme)://login", wrap: NavigationController.self)
                 default:
-                    if viewController.qmui_isViewLoadedAndVisible() {
+                    if viewController.qmui_visibleState != .unknow {
                         var url = "\(UIApplication.shared.scheme)://toast".url!
                         url.appendQueryParameters([
                             Parameter.message: error.message
@@ -201,16 +201,4 @@ public extension Reactive where Base: BaseViewController {
             viewController.error = error
         }
     }
-    
-//    var emptyDataSetImageTintColorBinder: Binder<UIColor?> {
-//        return Binder(self.base) { viewController, attr in
-//            viewController.emptyDataSetImageTintColor.accept(attr)
-//        }
-//    }
-    
-//    var emptyDataSetTap: ControlEvent<Void> {
-//        let source = self.base.emptyDataSetSubject.map{ _ in }
-//        return ControlEvent(events: source)
-//    }
-    
 }
