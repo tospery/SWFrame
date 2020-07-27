@@ -12,14 +12,51 @@ import URLNavigator
 
 extension Navigator: ReactiveCompatible { }
 public extension Reactive where Base: Navigator {
+    
+    func push(_ url: URLConvertible, context: Any? = nil, from: UINavigationControllerType? = nil, animated: Bool = true) -> Observable<UIViewController> {
+        return .create { [weak base] observer -> Disposable in
+            guard let base = base else { return Disposables.create { } }
+            var viewController: UIViewController?
+            CATransaction.begin()
+            CATransaction.setCompletionBlock {
+                if viewController != nil {
+                    observer.onCompleted()
+                }
+            }
+            viewController = base.push(url, context: context, from: from, animated: animated)
+            CATransaction.commit()
+            if viewController == nil {
+                observer.onError(AppError.empty)
+            } else {
+                observer.onNext(viewController!)
+            }
+            return Disposables.create { }
+        }
+    }
+
+    func present(_ url: URLConvertible, context: Any? = nil, wrap: UINavigationController.Type? = nil, from: UIViewControllerType? = nil, animated: Bool = true, completion: (() -> Void)? = nil) -> Observable<UIViewController> {
+        return .create { [weak base] observer -> Disposable in
+            guard let base = base else { return Disposables.create { } }
+            guard let viewController = base.present(url, context: context, wrap: wrap, from: from, animated: animated, completion: {
+                observer.onCompleted()
+            }) else {
+                observer.onError(AppError.empty)
+                return Disposables.create { }
+            }
+            observer.onNext(viewController)
+            return Disposables.create { }
+        }
+    }
+    
     func open(_ url: URLConvertible, context: Any? = nil) -> Observable<AlertActionType> {
         return .create { [weak base] observer -> Disposable in
+            guard let base = base else { return Disposables.create { } }
             var ctx: Dictionary<String, Any> = [:]
             ctx[Parameter.routeObserver] = observer
             if let context = context {
                 ctx[Parameter.routeContext] = context
             }
-            base?.open(url, context: ctx)
+            base.open(url, context: ctx)
             return Disposables.create { }
         }
     }
