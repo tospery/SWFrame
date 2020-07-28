@@ -172,18 +172,19 @@ public extension Reactive where Base: BaseViewController {
     func loading(active: Bool = false, text: String? = nil) -> Binder<Bool> {
         return Binder(self.base) { viewController, loading in
             viewController.loading = loading
-            if viewController.qmui_visibleState != .unknow {
-                var url = "\(UIApplication.shared.scheme)://toast".url!
-                url.appendQueryParameters([
-                    Parameter.active: loading.string
-                ])
-                viewController.navigator.open(url)
-            }
+            guard viewController.isViewLoaded else { return }
+            var url = "\(UIApplication.shared.scheme)://toast".url!
+            url.appendQueryParameters([
+                Parameter.active: loading.string
+            ])
+            viewController.navigator.open(url)
         }
     }
     
     var error: Binder<Error?> {
         return Binder(self.base) { viewController, error in
+            viewController.error = error
+            guard viewController.isViewLoaded else { return }
             if let error = error as? AppError {
                 switch error {
                 case .expire:
@@ -198,7 +199,6 @@ public extension Reactive where Base: BaseViewController {
                     }
                 }
             }
-            viewController.error = error
         }
     }
 }

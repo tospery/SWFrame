@@ -27,8 +27,8 @@ public enum SimpleAlertAction: AlertActionType, Equatable {
     
     public var title: String? {
         switch self {
-        case .default:      return NSLocalizedString("Yes", comment: "")
-        case .cancel:       return NSLocalizedString("No", comment: "")
+        case .default:      return NSLocalizedString("Sure", comment: "")
+        case .cancel:       return NSLocalizedString("Cancel", comment: "")
         case .destructive:  return NSLocalizedString("OK", comment: "")
         }
     }
