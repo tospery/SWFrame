@@ -13,7 +13,7 @@ import WebKit
 import URLNavigator
 import ReactorKit
 import SwifterSwift
-import WebViewJavascriptBridge
+// import WebViewJavascriptBridge // YJX_TODO 剔除
 
 open class WebViewController: ScrollViewController, View {
     
@@ -24,7 +24,7 @@ open class WebViewController: ScrollViewController, View {
     public var progressColor: UIColor?
     public var handlers = [String]()
     // public var jsHandlers: [String]?
-    public var bridge: WebViewJavascriptBridge!
+    // public var bridge: WebViewJavascriptBridge!
     
 //    public lazy var webConfig: WKWebViewConfiguration = {
 //        let config = WKWebViewConfiguration.init()
@@ -87,19 +87,19 @@ open class WebViewController: ScrollViewController, View {
             self.progress(value)
         }).disposed(by: self.disposeBag)
         
-        #if DEBUG
-        WebViewJavascriptBridge.enableLogging()
-        #endif
-        self.bridge = WebViewJavascriptBridge.init(forWebView: self.webView)
-        self.bridge.setWebViewDelegate(self)
-        weak var weakSelf = self
-        for handler in self.handlers {
-            self.bridge.registerHandler(handler) { [weak self] data, callback in
-                guard let `self` = self else { return }
-                let result = self.handle(handler, data)
-                callback!(result)
-            }
-        }
+//        #if DEBUG
+//        WebViewJavascriptBridge.enableLogging()
+//        #endif
+//        self.bridge = WebViewJavascriptBridge.init(forWebView: self.webView)
+//        self.bridge.setWebViewDelegate(self)
+//        weak var weakSelf = self
+//        for handler in self.handlers {
+//            self.bridge.registerHandler(handler) { [weak self] data, callback in
+//                guard let `self` = self else { return }
+//                let result = self.handle(handler, data)
+//                callback!(result)
+//            }
+//        }
         
         self.loadPage()
     }
@@ -135,21 +135,12 @@ open class WebViewController: ScrollViewController, View {
     open func createWebView() -> WKWebView {
         // configuration在传递给WKWebView后不能修改
         let configuration = WKWebViewConfiguration.init()
-        configuration.processPool = WKProcessPool.shared
-//        #if DEBUG
-//        if #available(iOS 11.0, *) {
-//            let store = configuration.websiteDataStore.httpCookieStore
-//            store.getAllCookies { cookies in
-//                log.debug("\(tag)当前Cookies: \(cookies)")
-//            }
-////            if let cookies = HTTPCookieStorage.shared.cookies {
-////                // log.debug("【SWFrame】同步Cookie：\(cookies)")
-////                for cookie in cookies {
-////                    store.setCookie(cookie, completionHandler: nil)
-////                }
-////            }
-//        }
-//        #endif
+        configuration.userContentController = .init()
+        for handler in self.handlers {
+            if !handler.isEmpty {
+                configuration.userContentController.add(self, name: handler)
+            }
+        }
         let webView = WKWebView(frame: self.view.bounds, configuration: configuration)
         webView.backgroundColor = .white
         webView.sizeToFit()
@@ -163,8 +154,8 @@ open class WebViewController: ScrollViewController, View {
         }
     }
     
-    open func handle(_ handler: String, _ data: Any?) -> Any? {
-        return nil
+    open func handle(_ handler: String, _ data: Any) {
+        
     }
     
     public func bind(reactor: WebViewReactor) {
@@ -175,12 +166,20 @@ open class WebViewController: ScrollViewController, View {
             .disposed(by: self.disposeBag)
     }
   
-    func saveCookies(_ cookies: [HTTPCookie]) {
-        // log.debug("【SWFrame】保存Cookies: \(cookies)")
-        for cookie in cookies {
-            HTTPCookieStorage.shared.setCookie(cookie)
+    open override func didClosed() {
+        for handler in self.handlers {
+            if !handler.isEmpty {
+                self.webView.configuration.userContentController.removeScriptMessageHandler(forName: handler)
+            }
         }
     }
+    
+//    func saveCookies(_ cookies: [HTTPCookie]) {
+//        // log.debug("【SWFrame】保存Cookies: \(cookies)")
+//        for cookie in cookies {
+//            HTTPCookieStorage.shared.setCookie(cookie)
+//        }
+//    }
     
 //    @available(iOS 11.0, *)
 //    func syncCookies(_ cookieStore: WKHTTPCookieStore) {
@@ -222,6 +221,16 @@ extension WebViewController: WKNavigationDelegate {
 extension WebViewController: WKUIDelegate {
     
 }
+
+extension WebViewController: WKScriptMessageHandler {
+    
+    open func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        log.info("\(message.name): \(message.body)")
+        self.handle(message.name, message.body)
+    }
+    
+}
+
 
 public extension Reactive where Base: WebViewController {
     var url: Binder<URL?> {

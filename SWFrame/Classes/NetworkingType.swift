@@ -37,7 +37,7 @@ public extension NetworkingType {
         var plugins: [PluginType] = []
         #if DEBUG
         let logger = NetworkLoggerPlugin()
-        logger.configuration.logOptions = .verbose
+        logger.configuration.logOptions = [.successResponseBody]
         plugins.append(logger)
         #endif
         return plugins
