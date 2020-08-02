@@ -190,13 +190,11 @@ public extension Reactive where Base: BaseViewController {
                 case .expire:
                     viewController.navigator.present( "\(UIApplication.shared.scheme)://login", wrap: NavigationController.self)
                 default:
-                    if viewController.qmui_visibleState != .unknow {
-                        var url = "\(UIApplication.shared.scheme)://toast".url!
-                        url.appendQueryParameters([
-                            Parameter.message: error.message
-                        ])
-                        viewController.navigator.open(url)
-                    }
+                    var url = "\(UIApplication.shared.scheme)://toast".url!
+                    url.appendQueryParameters([
+                        Parameter.message: error.message
+                    ])
+                    viewController.navigator.open(url)
                 }
             }
         }

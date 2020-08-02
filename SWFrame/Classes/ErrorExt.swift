@@ -22,7 +22,7 @@ public enum AppError: Error {
         public static let Expire    = 401
     }
     
-    var image: UIImage {
+    public var image: UIImage {
         switch self {
         case .network:
             return .networkError
@@ -39,7 +39,7 @@ public enum AppError: Error {
         }
     }
     
-    var title: String {
+    public var title: String {
         switch self {
         case .network:
             return NSLocalizedString("Error.Network.Title", comment: "")
@@ -56,7 +56,7 @@ public enum AppError: Error {
         }
     }
 
-    var message: String {
+    public var message: String {
         switch self {
         case .network:
             return NSLocalizedString("Error.Network.Message", comment: "")
@@ -73,7 +73,7 @@ public enum AppError: Error {
         }
     }
 
-    var retryTitle: String {
+    public var retryTitle: String {
     //        guard let error = self as? AppError else { return "" }
     //        switch error {
     //        case .network:
@@ -95,7 +95,6 @@ public extension Error {
             return appError
         }
         
-        self.localizedDescription
         if let error = self as? RxError {
             switch error {
             case .timeout:
@@ -107,7 +106,7 @@ public extension Error {
         
         if let error = self as? MoyaError {
             switch error {
-            case .underlying(let error, _):
+            case let .underlying(error, response):
                 if (error as NSError).isNetwork {
                     return .network
                 } else if (error as NSError).isExpire {

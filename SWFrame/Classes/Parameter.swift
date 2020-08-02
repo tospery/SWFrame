@@ -13,6 +13,7 @@ public struct Parameter {
     public static let active = "active"
     public static let username = "username"
     public static let type = "type"
+    public static let name = "name"
     public static let statusBarStyle = "statusBarStyle"
     public static let progressColor = "progressColor"
     public static let backgroundColor = "backgroundColor"

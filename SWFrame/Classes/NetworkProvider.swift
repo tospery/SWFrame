@@ -35,19 +35,7 @@ final public class NetworkProvider<Target> where Target: Moya.TargetType {
             }
             return .error(AppError.network)
         }.catchError { error -> Observable<Moya.Response> in
-//            var appError = AppError.server
-//            if let error = error as? MoyaError {
-//                switch error {
-//                case .underlying(let error, _):
-//                    if (error as NSError).isNetwork {
-//                        appError = .network
-//                    } else if (error as NSError).isExpire {
-//                        appError = .expire
-//                    }
-//                default:
-//                    break
-//                }
-//            }
+            // YJX_TODO -1003找不到主机
             return .error(error.asAppError)
         }
     }

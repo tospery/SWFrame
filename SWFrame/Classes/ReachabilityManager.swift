@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 import Reachability
 
 final public class ReachabilityManager {
@@ -15,7 +16,8 @@ final public class ReachabilityManager {
     
     var reachability: Reachability?
 
-    let reachSubject = ReplaySubject<Reachability.Connection>.create(bufferSize: 1)
+    // public let reachSubject = ReplaySubject<Reachability.Connection>.create(bufferSize: 1)
+    public let reachSubject = BehaviorRelay<Reachability.Connection>.init(value: .unavailable)
     public var reach: Observable<Reachability.Connection> {
         return reachSubject.asObservable().distinctUntilChanged()
     }
@@ -27,19 +29,19 @@ final public class ReachabilityManager {
 
             reachability.whenReachable = { reachability in
                 DispatchQueue.main.async {
-                    self.reachSubject.onNext(reachability.connection)
+                    self.reachSubject.accept(reachability.connection)
                 }
             }
 
             reachability.whenUnreachable = { reachability in
                 DispatchQueue.main.async {
-                    self.reachSubject.onNext(reachability.connection)
+                    self.reachSubject.accept(reachability.connection)
                 }
             }
 
             do {
                 try reachability.startNotifier()
-                reachSubject.onNext(reachability.connection)
+                reachSubject.accept(reachability.connection)
             } catch {
                 log.error("Unable to start notifier")
             }
