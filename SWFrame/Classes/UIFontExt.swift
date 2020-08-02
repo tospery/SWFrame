@@ -11,7 +11,13 @@ import QMUIKit
 public extension UIFont {
     
     static var scale: CGFloat {
-        return ((QMUIHelper.is35InchScreen() || QMUIHelper.is40InchScreen()) ? -2 : 0)
+        var value = 0.f
+        if QMUIHelper.is35InchScreen() || QMUIHelper.is40InchScreen() {
+            value = -1
+        } else if QMUIHelper.is55InchScreen() {
+            value = 1
+        }
+        return value
     }
     
     static func normal(_ size: CGFloat) -> UIFont {
