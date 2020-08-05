@@ -184,18 +184,16 @@ public extension Reactive where Base: BaseViewController {
     var error: Binder<Error?> {
         return Binder(self.base) { viewController, error in
             viewController.error = error
-            guard viewController.isViewLoaded else { return }
-            if let error = error as? AppError {
-                switch error {
-                case .expire:
-                    viewController.navigator.present( "\(UIApplication.shared.scheme)://login", wrap: NavigationController.self)
-                default:
-                    var url = "\(UIApplication.shared.scheme)://toast".url!
-                    url.appendQueryParameters([
-                        Parameter.message: error.message
-                    ])
-                    viewController.navigator.open(url)
-                }
+            guard let error = error,
+                viewController.isViewLoaded else { return }
+            if error.isExpired {
+                viewController.navigator.present( "\(UIApplication.shared.scheme)://login", wrap: NavigationController.self)
+            } else {
+                var url = "\(UIApplication.shared.scheme)://toast".url!
+                url.appendQueryParameters([
+                    Parameter.message: error.localizedDescription
+                ])
+                viewController.navigator.open(url)
             }
         }
     }

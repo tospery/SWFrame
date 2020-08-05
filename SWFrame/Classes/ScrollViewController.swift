@@ -99,29 +99,29 @@ open class ScrollViewController: BaseViewController {
 extension ScrollViewController: DZNEmptyDataSetSource {
     
     open func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        if let title = self.error?.asAppError.title, !title.isEmpty {
+        if let title = self.error?.title, !title.isEmpty {
             return title.styled(with: .alignment(.center), .font(.normal(20)), .color(.darkGray))
         }
         return nil
     }
     
     open func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        if let message = self.error?.asAppError.message, !message.isEmpty {
+        if let message = self.error?.message, !message.isEmpty {
             return message.styled(with: .alignment(.center), .font(.normal(14)), .color(.lightGray))
         }
         return nil
     }
     
     open func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
-        if let image = self.error?.asAppError.image {
+        if let image = self.error?.image {
             return image
         }
         return UIImage.loading
     }
     
     open func buttonTitle(forEmptyDataSet scrollView: UIScrollView!, for state: UIControl.State) -> NSAttributedString! {
-        if let buttonTitle = self.error?.asAppError.retryTitle {
-            return buttonTitle.styled(with: .font(.normal(15)), .color(state == UIControl.State.normal ? .white : UIColor.white.withAlphaComponent(0.8)))
+        if let retry = self.error?.retry {
+            return retry.styled(with: .font(.normal(15)), .color(state == UIControl.State.normal ? .white : UIColor.white.withAlphaComponent(0.8)))
         }
         return nil
     }

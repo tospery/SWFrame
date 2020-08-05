@@ -19,17 +19,15 @@ public extension Reactive where Base: Navigator {
             var viewController: UIViewController?
             CATransaction.begin()
             CATransaction.setCompletionBlock {
-                if viewController != nil {
+                if viewController == nil {
+                    observer.onError(SFError.illegal(nil))
+                } else {
+                    observer.onNext(viewController!)
                     observer.onCompleted()
                 }
             }
             viewController = base.push(url, context: context, from: from, animated: animated)
             CATransaction.commit()
-            if viewController == nil {
-                observer.onError(AppError.empty)
-            } else {
-                observer.onNext(viewController!)
-            }
             return Disposables.create { }
         }
     }
@@ -40,7 +38,7 @@ public extension Reactive where Base: Navigator {
             guard let viewController = base.present(url, context: context, wrap: wrap, from: from, animated: animated, completion: {
                 observer.onCompleted()
             }) else {
-                observer.onError(AppError.empty)
+                observer.onError(SFError.illegal(nil)) // YJX_TODO_ERROR
                 return Disposables.create { }
             }
             observer.onNext(viewController)

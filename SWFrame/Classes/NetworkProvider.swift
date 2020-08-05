@@ -36,11 +36,9 @@ final public class NetworkProvider<Target> where Target: Moya.TargetType {
 //            return .error(AppError.network)
 //        }.catchError { error -> Observable<Moya.Response> in
 //            // YJX_TODO -1003找不到主机
-//            return .error(error.asAppError)
+//            return .error(error)
 //        }
-        return self.provider.rx.request(token).asObservable().catchError {
-            Observable.error($0.asAppError)
-        }
+        return self.provider.rx.request(token).asObservable()
     }
 }
 
