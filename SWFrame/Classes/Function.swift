@@ -80,7 +80,7 @@ public func metric(_ value: CGFloat) -> CGFloat {
 }
 
 public func connectedToInternet() -> Observable<Bool> {
-    return ReachabilityManager.shared.reachSubject.asObservable().distinctUntilChanged().map { connect -> Bool in
+    return reachSubject.asObservable().distinctUntilChanged().map { connect -> Bool in
         return connect == .cellular || connect == .wifi
     }
 }
