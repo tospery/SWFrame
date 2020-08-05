@@ -18,9 +18,9 @@ final public class ReachabilityManager {
 
     // public let reachSubject = ReplaySubject<Reachability.Connection>.create(bufferSize: 1)
     public let reachSubject = BehaviorRelay<Reachability.Connection>.init(value: .unavailable)
-    public var reach: Observable<Reachability.Connection> {
-        return reachSubject.asObservable().distinctUntilChanged()
-    }
+//    public var reach: Observable<Reachability.Connection> {
+//        return reachSubject.asObservable().distinctUntilChanged()
+//    }
 
     init() {
         do {

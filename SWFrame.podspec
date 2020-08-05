@@ -54,7 +54,6 @@ Pod::Spec.new do |s|
   s.dependency 'SwifterSwift', '5.2.0'
   s.dependency 'FCUUID', '1.3.1'
   s.dependency 'Kingfisher', '5.14.0'
-  s.dependency 'WebViewJavascriptBridge', '6.0.3'
   s.dependency 'DZNEmptyDataSet', '1.8.1'
   s.dependency 'ESPullToRefresh', '2.9.2'
   s.dependency 'QMUIKit/QMUICore', '4.1.3'

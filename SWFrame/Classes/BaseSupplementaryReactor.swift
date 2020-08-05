@@ -7,12 +7,6 @@
 
 import UIKit
 
-open class BaseSupplementaryReactor: ReactorType, WithModel {
-    
-    public var model: ModelType
-    
-    public required init(_ model: ModelType) {
-        self.model = model
-    }
+open class BaseSupplementaryReactor: ModelViewReactor {
     
 }
