@@ -9,8 +9,6 @@ import UIKit
 import RxSwift
 import Moya
 
-public let successCode = 200
-
 enum SFError: Error {
     case network
     case server(String?)

@@ -20,16 +20,11 @@ public extension NetworkingType {
     static func endpointsClosure<T>(_ xAccessToken: String? = nil) -> (T) -> Endpoint where T: TargetType {
         return { target in
             let endpoint = MoyaProvider.defaultEndpointMapping(for: target)
-            // Sign all non-XApp, non-XAuth token requests
             return endpoint
         }
     }
     
     static func APIKeysBasedStubBehaviour<T>(_: T) -> Moya.StubBehavior {
-//        if true {
-//            // return .immediate
-//            return .delayed(seconds: TimeInterval(1.5))
-//        }
         return .never
     }
     
@@ -55,21 +50,4 @@ public extension NetworkingType {
             }
         }
     }
-    
-//    func convert(error: Error) -> AppError {
-//        if let error = error as? MoyaError {
-//            switch error {
-//            case .underlying(let error, _):
-//                if (error as NSError).isNetwork {
-//                    return .network
-//                } else if (error as NSError).isExpire {
-//                    return .expire
-//                }
-//                return .server(nil)
-//            default:
-//                return .server(nil)
-//            }
-//        }
-//        return .server(nil)
-//    }
 }
