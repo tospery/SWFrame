@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import Moya
 
-enum SFError: Error {
+public enum SFError: Error {
     case network
     case server(String?)
     case expired
