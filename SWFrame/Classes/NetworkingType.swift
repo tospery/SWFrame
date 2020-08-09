@@ -32,7 +32,7 @@ public extension NetworkingType {
         var plugins: [PluginType] = []
         #if DEBUG
         let logger = NetworkLoggerPlugin()
-        logger.configuration.logOptions = [.successResponseBody]
+        logger.configuration.logOptions = .verbose // [.successResponseBody]
         plugins.append(logger)
         #endif
         return plugins
@@ -43,7 +43,7 @@ public extension NetworkingType {
             do {
                 var request = try endpoint.urlRequest()
                 request.httpShouldHandleCookies = true
-                request.timeoutInterval = 10 // Constant.Network.timeout
+                request.timeoutInterval = 15 // Constant.Network.timeout
                 closure(.success(request))
             } catch {
                 log.error(error.localizedDescription)
