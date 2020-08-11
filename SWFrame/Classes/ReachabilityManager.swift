@@ -8,56 +8,77 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Alamofire
 import Reachability
 
-public let reachSubject = BehaviorRelay<Reachability.Connection?>.init(value: nil) // .ignore(.none)
+public let reachSubject = BehaviorRelay<NetworkReachabilityManager.NetworkReachabilityStatus>.init(value: .unknown)
 
 final public class ReachabilityManager {
 
     public static let shared = ReachabilityManager()
     
-    var reachability: Reachability?
-
+    let network = NetworkReachabilityManager.default
+    
     init() {
-        do {
-            reachability = try Reachability()
-            guard let reachability = reachability else { return }
-
-            reachability.whenReachable = { reachability in
-                DispatchQueue.main.async {
-                    reachSubject.accept(reachability.connection)
-                }
-            }
-
-            reachability.whenUnreachable = { reachability in
-                DispatchQueue.main.async {
-                    reachSubject.accept(reachability.connection)
-                }
-            }
-        } catch {
-            log.error(error.localizedDescription)
-        }
     }
     
     func start() {
-        guard let reachability = reachability else { return }
-        do {
-            try reachability.startNotifier()
-        } catch {
-            log.error("Unable to start notifier")
-        }
+        self.network?.startListening(onUpdatePerforming: { status in
+            reachSubject.accept(status)
+        })
     }
+    
 }
 
-public extension Reachability.Connection {
-    
-    var reachable: Bool {
-        switch self {
-        case .cellular, .wifi:
-            return true
-        default:
-            return false
-        }
-    }
-    
-}
+// unknown
+//public let reachSubject = BehaviorRelay<Reachability.Connection?>.init(value: nil) // .ignore(.none)
+//
+//final public class ReachabilityManager {
+//
+//    public static let shared = ReachabilityManager()
+//
+//    var reachability: Reachability?
+//
+//    init() {
+//        do {
+//            reachability = try Reachability()
+//            guard let reachability = reachability else { return }
+//
+//            reachability.whenReachable = { reachability in
+//                DispatchQueue.main.async {
+//                    reachSubject.accept(reachability.connection)
+//                }
+//            }
+//
+//            reachability.whenUnreachable = { reachability in
+//                DispatchQueue.main.async {
+//                    reachSubject.accept(reachability.connection)
+//                }
+//            }
+//        } catch {
+//            log.error(error.localizedDescription)
+//        }
+//    }
+//
+//    func start() {
+//        guard let reachability = reachability else { return }
+//        do {
+//            try reachability.startNotifier()
+//        } catch {
+//            log.error("Unable to start notifier")
+//        }
+//    }
+//}
+//
+//public extension Reachability.Connection {
+//
+//    var reachable: Bool {
+//        switch self {
+//        case .cellular, .wifi:
+//            return true
+//        default:
+//            return false
+//        }
+//    }
+//
+//}
