@@ -34,6 +34,10 @@ public extension NetworkingType {
         let logger = NetworkLoggerPlugin()
         logger.configuration.logOptions = [.requestBody, .successResponseBody, .errorResponseBody]
         plugins.append(logger)
+//        let activity = NetworkActivityPlugin.init { (activityChangeType, targetType) in
+//            log.debug("\(targetType.path): \(activityChangeType)")
+//        }
+//        plugins.append(activity)
         #endif
         return plugins
     }
