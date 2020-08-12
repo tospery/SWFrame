@@ -12,7 +12,7 @@ import FCUUID
 public extension UIDevice {
 
     var uuid: String {
-        let service = Bundle.main.bundleIdentifier!
+        let service = "device.info"
         let accessGroup = UIApplication.shared.team + ".shared"
         let keychain = UICKeyChainStore(service: service, accessGroup: accessGroup)
 
