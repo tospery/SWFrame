@@ -216,6 +216,14 @@ extension WebViewController: WKNavigationDelegate {
         decisionHandler(.allow)
     }
 
+    open func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        if navigationAction.targetFrame?.isMainFrame ?? false == false {
+            if let url = navigationAction.request.url {
+                self.navigator.push(url)
+            }
+        }
+        return nil
+    }
 }
 
 extension WebViewController: WKUIDelegate {
