@@ -108,6 +108,8 @@ public protocol Storable: ModelType, Identifiable, Codable, Equatable {
 
     static func cachedObject(id: String?) -> Self?
     static func cachedArray(page: Int?) -> [Self]?
+    
+    static func eraseObject(id: String?)
 }
 
 public extension Storable {
@@ -125,7 +127,7 @@ public extension Storable {
         guard let page = page?.string, !page.isEmpty else { return String(describing: self) + "#array" }
         return String(describing: self) + "#array#" + page
     }
-
+    
     static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.id == rhs.id
     }
