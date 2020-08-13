@@ -35,8 +35,16 @@ public protocol Identifiable {
 //}
 
 // MARK: - 模型协议
-public protocol ModelType: Mappable {
+public protocol ModelType: Mappable, CustomStringConvertible {
     init()
+}
+
+public extension ModelType {
+    
+    public var description: String {
+        return self.toJSONString() ?? ""
+    }
+    
 }
 
 public struct BaseModel: ModelType {
