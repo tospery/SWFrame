@@ -7,12 +7,16 @@
 
 import UIKit
 
-open class ModelViewReactor: ReactorType, WithModel {
+open class ModelViewReactor: ReactorType, WithModel, CustomStringConvertible {
     
     public var model: ModelType
     
     public required init(_ model: ModelType) {
         self.model = model
+    }
+    
+    public var description: String {
+        return self.model.description
     }
     
 }

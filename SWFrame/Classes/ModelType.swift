@@ -42,7 +42,7 @@ public protocol ModelType: Mappable, CustomStringConvertible {
 public extension ModelType {
     
     public var description: String {
-        return self.toJSONString() ?? ""
+        return self.toJSONString() ?? "" // YJX_TODO Identifiable放在ModelType里
     }
     
 }
