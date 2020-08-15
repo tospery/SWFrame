@@ -8,26 +8,68 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxSwiftExt
 import Alamofire
 import Reachability
 
 public let reachSubject = BehaviorRelay<NetworkReachabilityManager.NetworkReachabilityStatus>.init(value: .unknown)
 
 final public class ReachabilityManager {
-
+    
+    // var disposeBag: DisposeBag?
+    // var disposeBag: Disposable?
+    
     public static let shared = ReachabilityManager()
     
     let network = NetworkReachabilityManager.default
     
     init() {
+        
+    }
+    
+    deinit {
+//        let observer = UnsafeRawPointer(Unmanaged.passUnretained(self).toOpaque())
+//        CFNotificationCenterRemoveObserver(CFNotificationCenterGetDarwinNotifyCenter(), observer, nil, nil)
     }
     
     func start() {
-        self.network?.startListening(onUpdatePerforming: { status in
+//        let observer = UnsafeRawPointer(Unmanaged.passUnretained(self).toOpaque())
+//        CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), observer, { (notificationCenter, observer, name, _, _) in
+//            if let observer = observer,
+//                let name = name {
+//                let instance = Unmanaged<ReachabilityManager>.fromOpaque(observer).takeUnretainedValue()
+//                instance.onNetworkChange(name.rawValue as String)
+//            }
+//        }, Notification.Name.networkChanged as CFString, nil, .deliverImmediately)
+        
+        self.network?.startListening(onUpdatePerforming: { /*[weak self] */ status in
+//            guard let `self` = self else { return }
+//            if self.disposeBag != nil {
+//                self.disposeBag?.dispose()
+//                self.disposeBag = nil
+//            }
             reachSubject.accept(status)
         })
     }
     
+//    func onNetworkChange(_ name : String) {
+//        guard name == Notification.Name.networkChanged.rawValue else {
+//            return
+//        }
+//        if self.disposeBag != nil {
+//            self.disposeBag?.dispose()
+//            self.disposeBag = nil
+//        }
+//        self.disposeBag = Observable<Int>.timer(.seconds(2), scheduler: MainScheduler.instance).subscribe(onNext: { _ in
+//            log.debug("wifi发送切换了！！！！")
+//            reachSubject.accept(.reachable(.ethernetOrWiFi))
+//        })
+//    }
+    
+}
+
+extension Notification.Name {
+    static let networkChanged = Notification.Name("com.apple.system.config.network_change")
 }
 
 // unknown
