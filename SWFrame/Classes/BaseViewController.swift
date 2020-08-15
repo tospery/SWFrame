@@ -88,10 +88,10 @@ open class BaseViewController: UIViewController {
             gestureRecognizer.addTarget(self, action: #selector(handleInteractivePopGestureRecognizer(_:)))
         }
         
-        statusBarService.mapTo(()).skip(1).subscribe(onNext: { [weak self] _ in
-            guard let `self` = self else { return }
-            self.setNeedsStatusBarAppearanceUpdate()
-        }).disposed(by: self.rx.disposeBag)
+//        statusBarService.mapTo(()).skip(1).subscribe(onNext: { [weak self] _ in
+//            guard let `self` = self else { return }
+//            self.setNeedsStatusBarAppearanceUpdate()
+//        }).disposed(by: self.rx.disposeBag)
     }
     
     open override func viewWillAppear(_ animated: Bool) {
@@ -100,7 +100,7 @@ open class BaseViewController: UIViewController {
     }
 
     open override var preferredStatusBarStyle: UIStatusBarStyle {
-        return statusBarService.value
+        return .default // statusBarService.value
     }
     
     // MARK: - Method
