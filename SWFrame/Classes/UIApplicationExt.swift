@@ -11,6 +11,10 @@ import RxCocoa
 
 public extension UIApplication {
     
+    var name: String? {
+        return Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String
+    }
+    
     var team: String {
         let query = [
             kSecClass as NSString: kSecClassGenericPassword as NSString,
