@@ -81,17 +81,11 @@
     "Kingfisher": [
       "5.14.0"
     ],
-    "WebViewJavascriptBridge": [
-      "6.0.3"
-    ],
     "DZNEmptyDataSet": [
       "1.8.1"
     ],
     "ESPullToRefresh": [
       "2.9.2"
-    ],
-    "Toast-Swift": [
-      "5.0.1"
     ],
     "QMUIKit/QMUICore": [
       "4.1.3"

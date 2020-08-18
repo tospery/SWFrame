@@ -12,6 +12,7 @@
 
 #import "Button.h"
 #import "Label.h"
+#import "UILabel+Ext.h"
 
 FOUNDATION_EXPORT double SWFrameVersionNumber;
 FOUNDATION_EXPORT const unsigned char SWFrameVersionString[];

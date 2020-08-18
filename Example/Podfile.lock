@@ -64,9 +64,7 @@ PODS:
     - RxViewController (= 1.0.0)
     - SwifterSwift (= 5.2.0)
     - SwiftyBeaver (= 1.9.1)
-    - Toast-Swift (= 5.0.1)
     - URLNavigator (= 2.3.0)
-    - WebViewJavascriptBridge (= 6.0.3)
   - SwifterSwift (5.2.0):
     - SwifterSwift/AppKit (= 5.2.0)
     - SwifterSwift/CoreAnimation (= 5.2.0)
@@ -93,11 +91,9 @@ PODS:
   - SwifterSwift/SwiftStdlib (5.2.0)
   - SwifterSwift/UIKit (5.2.0)
   - SwiftyBeaver (1.9.1)
-  - Toast-Swift (5.0.1)
   - UICKeyChainStore (2.1.2)
   - URLNavigator (2.3.0)
   - WeakMapTable (1.1.0)
-  - WebViewJavascriptBridge (6.0.3)
 
 DEPENDENCIES:
   - SWFrame (from `../`)
@@ -125,11 +121,9 @@ SPEC REPOS:
     - RxViewController
     - SwifterSwift
     - SwiftyBeaver
-    - Toast-Swift
     - UICKeyChainStore
     - URLNavigator
     - WeakMapTable
-    - WebViewJavascriptBridge
 
 EXTERNAL SOURCES:
   SWFrame:
@@ -155,14 +149,12 @@ SPEC CHECKSUMS:
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   RxSwiftExt: 4ca80336f43c28f11a2825cdd2fc61dd6c044697
   RxViewController: 7330a46e5c31cd680db169da4c9fc8676e975a81
-  SWFrame: 425bc4695a31b8ab743377d21af909d4c31a7bfe
+  SWFrame: eab32e56f57155793bd867d29332888072018941
   SwifterSwift: 334181863c416882d97b7a60c05054d9e4d799e2
   SwiftyBeaver: a1f5691458561414bcfab51874b2b7445451602b
-  Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   UICKeyChainStore: 85db518bb1d294366d15ec9b92a416c4e670518f
   URLNavigator: 2593c0e2d293732ec5c44503cf54dceba1a68085
   WeakMapTable: d0327eda092be6a8f7c532942ae98dc7948f5d32
-  WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
 
 PODFILE CHECKSUM: e47e6381307d9a4b9e95316207aaf1eedd9f2fdf
 
