@@ -1,6 +1,6 @@
 //
 //  BaseViewController.swift
-//  SWFrame
+//  iOSFrame
 //
 //  Created by 杨建祥 on 2020/4/6.
 //
@@ -20,7 +20,7 @@ open class BaseViewController: UIViewController {
     public var disposeBag = DisposeBag()
     public let navigator: NavigatorType
     
-    // public let closeSubject = PublishSubject<Void>()
+    // public let resultSubject = PublishSubject<Any?>()
     
     public var hidesNavigationBar = false
     public var hidesNavBottomLine = false

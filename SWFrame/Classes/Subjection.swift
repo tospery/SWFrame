@@ -1,6 +1,6 @@
 //
 //  Subjection.swift
-//  SWFrame
+//  iOSFrame
 //
 //  Created by 杨建祥 on 2020/5/16.
 //
@@ -17,7 +17,7 @@ public var subjects: [String: Any] = [:]
 final public class Subjection {
     
     public class func `for`<T: Subjective>(_ type: T.Type) -> BehaviorRelay<T?> {
-        let key = String(describing: type)
+        let key = String(fullname: type)
         if let subject = subjects[key] as? BehaviorRelay<T?> {
             return subject
         }
@@ -34,7 +34,7 @@ public protocol Subjective: Storable {
 
 public extension Subjective {
     static var current: Self? {
-        let key = String(describing: self)
+        let key = String(fullname: self)
         if let subject = subjects[key] as? BehaviorRelay<Self?> {
             return subject.value
         }

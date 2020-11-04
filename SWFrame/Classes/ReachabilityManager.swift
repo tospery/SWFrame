@@ -1,6 +1,6 @@
 //
 //  ReachabilityManager.swift
-//  SWFrame
+//  iOSFrame
 //
 //  Created by 杨建祥 on 2020/4/6.
 //
@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 import RxSwiftExt
 import Alamofire
-import Reachability
 
 public let reachSubject = BehaviorRelay<NetworkReachabilityManager.NetworkReachabilityStatus>.init(value: .unknown)
 
@@ -61,15 +60,11 @@ final public class ReachabilityManager {
 //            self.disposeBag = nil
 //        }
 //        self.disposeBag = Observable<Int>.timer(.seconds(2), scheduler: MainScheduler.instance).subscribe(onNext: { _ in
-//            log.debug("wifi发送切换了！！！！")
+//            DDLogDebug("wifi发送切换了！！！！")
 //            reachSubject.accept(.reachable(.ethernetOrWiFi))
 //        })
 //    }
     
-}
-
-extension Notification.Name {
-    static let networkChanged = Notification.Name("com.apple.system.config.network_change")
 }
 
 // unknown

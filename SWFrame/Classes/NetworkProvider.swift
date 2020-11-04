@@ -1,6 +1,6 @@
 //
 //  NetworkProvider.swift
-//  SWFrame
+//  iOSFrame
 //
 //  Created by 杨建祥 on 2020/4/9.
 //
@@ -29,15 +29,7 @@ final public class NetworkProvider<Target> where Target: Moya.TargetType {
     }
 
     public func request(_ token: Target) -> Observable<Moya.Response> {
-//        return self.network.take(1).flatMap { isReachable -> Observable<Moya.Response> in
-//            if isReachable {
-//                return self.provider.rx.request(token).asObservable()
-//            }
-//            return .error(AppError.network)
-//        }.catchError { error -> Observable<Moya.Response> in
-//            // YJX_TODO -1003找不到主机
-//            return .error(error)
-//        }
+        // -1003找不到主机, -1004找不到服务
         return self.provider.rx.request(token).asObservable()
     }
 }

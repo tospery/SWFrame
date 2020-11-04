@@ -1,6 +1,6 @@
 //
 //  UIFontExt.swift
-//  SWFrame
+//  iOSFrame
 //
 //  Created by 杨建祥 on 2020/4/6.
 //
@@ -13,9 +13,7 @@ public extension UIFont {
     static var scale: CGFloat {
         var value = 0.f
         if QMUIHelper.is35InchScreen() || QMUIHelper.is40InchScreen() {
-            value = -1
-        } else if QMUIHelper.is55InchScreen() {
-            value = 1
+            value = -2
         }
         return value
     }

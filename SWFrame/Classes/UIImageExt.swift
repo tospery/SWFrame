@@ -13,7 +13,7 @@ public extension UIImage {
     fileprivate class func image(name: String) -> UIImage {
         var image = UIImage(named: name, in: Bundle.main, compatibleWith: nil)
         if image == nil {
-            let bundle = Bundle(path: Bundle(module: "SWFrame")!.path(forResource: "SWFrame", ofType: "bundle")!)
+            let bundle = Bundle(path: Bundle(module: "iOSFrame")!.path(forResource: "iOSFrame", ofType: "bundle")!)
             image = UIImage(named: name, in: bundle, compatibleWith: nil)
         }
         return image!

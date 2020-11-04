@@ -1,6 +1,6 @@
 //
 //  NavigatorExt.swift
-//  SWFrame
+//  iOSFrame
 //
 //  Created by 杨建祥 on 2020/4/22.
 //
@@ -20,7 +20,7 @@ public extension Reactive where Base: Navigator {
             CATransaction.begin()
             CATransaction.setCompletionBlock {
                 if viewController == nil {
-                    observer.onError(SFError.illegal(nil))
+                    observer.onError(APPError.illegal(0, nil))
                 } else {
                     observer.onNext(viewController!)
                     observer.onCompleted()
@@ -38,7 +38,7 @@ public extension Reactive where Base: Navigator {
             guard let viewController = base.present(url, context: context, wrap: wrap, from: from, animated: animated, completion: {
                 observer.onCompleted()
             }) else {
-                observer.onError(SFError.illegal(nil)) // YJX_TODO_ERROR
+                observer.onError(APPError.illegal(0, nil))
                 return Disposables.create { }
             }
             observer.onNext(viewController)

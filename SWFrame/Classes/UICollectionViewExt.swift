@@ -1,6 +1,6 @@
 //
 //  UICollectionViewExt.swift
-//  SWFrame
+//  iOSFrame
 //
 //  Created by 杨建祥 on 2020/4/10.
 //
@@ -48,7 +48,7 @@ public extension UICollectionView {
     }
     
     func emptyCell(for indexPath: IndexPath) -> UICollectionViewCell {
-        let identifier = "SWFrame.UICollectionView.emptyCell"
+        let identifier = "iOSFrame.UICollectionView.emptyCell"
         self.register(UICollectionViewCell.self, forCellWithReuseIdentifier: identifier)
         let cell = self.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
         cell.isHidden = true
@@ -56,7 +56,7 @@ public extension UICollectionView {
     }
 
     func emptyView(for indexPath: IndexPath, kind: String) -> UICollectionReusableView {
-        let identifier = "SWFrame.UICollectionView.emptyView"
+        let identifier = "iOSFrame.UICollectionView.emptyView"
         self.register(UICollectionReusableView.self, forSupplementaryViewOfKind: kind, withReuseIdentifier: identifier)
         let view = self.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: identifier, for: indexPath)
         view.isHidden = true

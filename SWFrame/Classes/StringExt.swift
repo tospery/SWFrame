@@ -1,6 +1,6 @@
 //
 //  StringExt.swift
-//  SWFrame
+//  iOSFrame
 //
 //  Created by 杨建祥 on 2020/4/14.
 //
@@ -32,6 +32,11 @@ public extension String {
             return
         }
         return nil
+    }
+    
+    init<Subject>(fullname subject: Subject) {
+        self.init(reflecting: subject)
+        self = self.replacingOccurrences(of: UIApplication.shared.name + ".", with: "")
     }
     
 //    func rect(with size: CGSize, attributes: [NSAttributedString.Key: Any]) -> CGRect {

@@ -1,6 +1,6 @@
 //
 //  AlertActionType.swift
-//  SWFrame
+//  iOSFrame
 //
 //  Created by 杨建祥 on 2020/4/21.
 //
@@ -27,9 +27,9 @@ public enum SimpleAlertAction: AlertActionType, Equatable {
     
     public var title: String? {
         switch self {
-        case .default:      return NSLocalizedString("Sure", comment: "")
+        case .default:      return NSLocalizedString("OK", comment: "")
         case .cancel:       return NSLocalizedString("Cancel", comment: "")
-        case .destructive:  return NSLocalizedString("OK", comment: "")
+        case .destructive:  return NSLocalizedString("Sure", comment: "")
         }
     }
     

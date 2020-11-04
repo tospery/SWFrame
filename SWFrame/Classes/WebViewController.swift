@@ -1,6 +1,6 @@
 //
 //  WebViewController.swift
-//  SWFrame
+//  iOSFrame
 //
 //  Created by 杨建祥 on 2020/4/20.
 //
@@ -13,7 +13,6 @@ import WebKit
 import URLNavigator
 import ReactorKit
 import SwifterSwift
-// import WebViewJavascriptBridge // YJX_TODO 剔除
 
 open class WebViewController: ScrollViewController, View {
     
@@ -115,7 +114,7 @@ open class WebViewController: ScrollViewController, View {
 //    }
 
     deinit {
-        log.debug("回收了Web容器")
+        print("回收了Web容器")
         self.webView.navigationDelegate = nil
         self.webView.uiDelegate = nil
     }
@@ -162,6 +161,7 @@ open class WebViewController: ScrollViewController, View {
         super.bind(reactor: reactor)
         // state
         reactor.state.map { $0.title }
+            .distinctUntilChanged()
             .bind(to: self.navigationBar.titleLabel.rx.text)
             .disposed(by: self.disposeBag)
     }
@@ -175,7 +175,7 @@ open class WebViewController: ScrollViewController, View {
     }
     
 //    func saveCookies(_ cookies: [HTTPCookie]) {
-//        // log.debug("【SWFrame】保存Cookies: \(cookies)")
+//        // DDLogDebug("【iOSFrame】保存Cookies: \(cookies)")
 //        for cookie in cookies {
 //            HTTPCookieStorage.shared.setCookie(cookie)
 //        }
@@ -194,7 +194,7 @@ open class WebViewController: ScrollViewController, View {
 extension WebViewController: WKNavigationDelegate {
 
     open func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        log.debug(navigationAction.request.url?.absoluteString)
+        print(navigationAction.request.url?.absoluteString)
         decisionHandler(.allow)
     }
     
@@ -233,7 +233,7 @@ extension WebViewController: WKUIDelegate {
 extension WebViewController: WKScriptMessageHandler {
     
     open func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        log.info("\(message.name): \(message.body)")
+        print("\(message.name): \(message.body)")
         self.handle(message.name, message.body)
     }
     

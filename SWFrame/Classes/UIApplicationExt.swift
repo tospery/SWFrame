@@ -1,6 +1,6 @@
 //
 //  UIApplicationExt.swift
-//  SWFrame
+//  iOSFrame
 //
 //  Created by 杨建祥 on 2020/4/8.
 //
@@ -11,8 +11,8 @@ import RxCocoa
 
 public extension UIApplication {
     
-    var name: String? {
-        return Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String
+    var name: String {
+        return (Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String) ?? ""
     }
     
     var team: String {

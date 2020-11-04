@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SWFrame'
-  s.version          = '2.0.0'
+  s.version          = '1.2.0'
   s.summary          = 'iOS App Framework.'
 
 # This description is used to generate tags and improve search results.
@@ -40,14 +40,13 @@ Pod::Spec.new do |s|
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'Foundation', 'UIKit', 'Accelerate', 'QuartzCore', 'CoreLocation', 'SystemConfiguration', 'AdSupport', 'WebKit', 'CoreGraphics', 'Photos'
-  s.dependency 'SwiftyBeaver', '1.9.1'
+  s.dependency 'QMUIKit/QMUICore', '4.2.0'
   s.dependency 'RxSwiftExt', '5.2.0'
   s.dependency 'RxDataSources', '4.0.1'
   s.dependency 'RxViewController', '1.0.0'
   s.dependency 'NSObject+Rx', '5.1.0'
   s.dependency 'Moya/RxSwift', '14.0.0'
   s.dependency 'ObjectMapper', '4.2.0'
-  s.dependency 'ReachabilitySwift', '5.0.0'
   s.dependency 'ReactorKit', '2.1.0'
   s.dependency 'URLNavigator', '2.3.0'
   s.dependency 'BonMot', '5.5.1'
@@ -55,6 +54,5 @@ Pod::Spec.new do |s|
   s.dependency 'FCUUID', '1.3.1'
   s.dependency 'Kingfisher', '5.14.0'
   s.dependency 'DZNEmptyDataSet', '1.8.1'
-  s.dependency 'ESPullToRefresh', '2.9.2'
-  s.dependency 'QMUIKit/QMUICore', '4.1.3'
+  s.dependency 'ESPullToRefresh', '2.9.3'
 end

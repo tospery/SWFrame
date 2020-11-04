@@ -1,6 +1,6 @@
 //
 //  ListType.swift
-//  SWFrame
+//  iOSFrame
 //
 //  Created by 杨建祥 on 2020/4/14.
 //
@@ -12,7 +12,7 @@ public struct List<Item: ModelType>: ModelType {
 
     public var hasNext = false
     public var count = 0
-    public var items: [Item]?
+    public var items = [Item].init()
 
     public init() {
     }
@@ -21,16 +21,22 @@ public struct List<Item: ModelType>: ModelType {
     }
 
     mutating public func mapping(map: Map) {
-        hasNext     <- map["has_next"]
-        count       <- map["count"]
-        items       <- map["items"]
-        if items == nil {
-            items       <- map["objects"]
-        }
-        if items == nil {
-            items       <- map["messages"]
+        if let compatible = self as? ListCompatible {
+            hasNext = compatible.hasNext(map: map)
+            count = compatible.count(map: map)
+            items = compatible.items(map: map)
+        } else {
+            hasNext     <- map["has_next"]
+            count       <- map["count"]
+            items       <- map["items"]
         }
     }
 
+}
+
+public protocol ListCompatible {
+    func hasNext(map: Map) -> Bool
+    func count(map: Map) -> Int
+    func items<Item: ModelType>(map: Map) -> [Item]
 }
 

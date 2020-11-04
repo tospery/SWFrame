@@ -1,6 +1,6 @@
 //
 //  TableViewController.swift
-//  SWFrame
+//  iOSFrame
 //
 //  Created by 杨建祥 on 2020/4/7.
 //
@@ -15,6 +15,7 @@ open class TableViewController: ScrollViewController {
     public override init(_ navigator: NavigatorType, _ reactor: BaseViewReactor) {
         super.init(navigator, reactor)
         self.tableView = (self.scrollView as! UITableView)
+        self.tableView.separatorStyle = .none
         self.tableView.alwaysBounceVertical = true
         self.tableView.tableFooterView = .init()
     }

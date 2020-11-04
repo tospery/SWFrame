@@ -1,6 +1,6 @@
 //
 //  ModelType.swift
-//  SWFrame
+//  iOSFrame
 //
 //  Created by 杨建祥 on 2020/4/5.
 //
@@ -74,7 +74,7 @@ public protocol Eventable {
 
 public extension Eventable {
     static var event: PublishSubject<Event> {
-        let key = String(describing: self)
+        let key = String(fullname: self)
         if let stream = streams[key] as? PublishSubject<Event> {
             return stream
         }
@@ -109,13 +109,13 @@ public protocol Storable: ModelType, Identifiable, Codable, Equatable {
     func save(ignoreId: Bool)
 
     static func objectKey(id: String?) -> String
-    static func arrayKey(page: Int?) -> String
+    static func arrayKey(page: String?) -> String
 
     static func storeObject(_ object: Self?, id: String?)
-    static func storeArray(_ array: [Self]?, page: Int?)
+    static func storeArray(_ array: [Self]?, page: String?)
 
     static func cachedObject(id: String?) -> Self?
-    static func cachedArray(page: Int?) -> [Self]?
+    static func cachedArray(page: String?) -> [Self]?
     
     static func eraseObject(id: String?)
 }
@@ -127,13 +127,13 @@ public extension Storable {
     }
 
     static func objectKey(id: String? = nil) -> String {
-        guard let id = id, !id.isEmpty else { return String(describing: self) + "#object" }
-        return String(describing: self) + "#object#" + id
+        guard let id = id, !id.isEmpty else { return String(fullname: self) + "#object" }
+        return String(fullname: self) + "#object#" + id
     }
 
-    static func arrayKey(page: Int? = nil) -> String {
-        guard let page = page?.string, !page.isEmpty else { return String(describing: self) + "#array" }
-        return String(describing: self) + "#array#" + page
+    static func arrayKey(page: String? = nil) -> String {
+        guard let page = page, !page.isEmpty else { return String(fullname: self) + "#array" }
+        return String(fullname: self) + "#array#" + page
     }
     
     static func == (lhs: Self, rhs: Self) -> Bool {
@@ -149,12 +149,12 @@ public extension Storable {
 //    }
 //
 //    static func arrayStoreKey() -> String {
-//        return String(describing: self) + "#array"
+//        return String(fullname: self) + "#array"
 //    }
 //
 //    static func objectStoreKey(id: String? = nil) -> String {
-//        guard let id = id else { return String(describing: self) + "#object" }
-//        return String(describing: self) + "#object#" + id
+//        guard let id = id else { return String(fullname: self) + "#object" }
+//        return String(fullname: self) + "#object#" + id
 //    }
 //
 //    static func storeObject(_ object: Self, id: String? = nil) {
@@ -226,7 +226,7 @@ public extension Storable {
 //
 //public extension Subjective2 {
 //    static func subject() -> BehaviorRelay<Self?> {
-//        let key = String(describing: self)
+//        let key = String(fullname: self)
 //        if let subject = subjects2[key] as? BehaviorRelay<Self?> {
 //            return subject
 //        }

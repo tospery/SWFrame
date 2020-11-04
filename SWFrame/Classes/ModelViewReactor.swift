@@ -1,6 +1,6 @@
 //
 //  ModelViewReactor.swift
-//  SWFrame
+//  iOSFrame
 //
 //  Created by liaoya on 2020/8/5.
 //
@@ -15,7 +15,7 @@ open class ModelViewReactor: ReactorType, WithModel, CustomStringConvertible {
         self.model = model
     }
     
-    public var description: String {
+    open var description: String {
         return self.model.description
     }
     
