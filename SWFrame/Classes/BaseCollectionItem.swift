@@ -1,6 +1,6 @@
 //
 //  BaseCollectionItem.swift
-//  iOSFrame
+//  SWFrame
 //
 //  Created by 杨建祥 on 2020/4/10.
 //
