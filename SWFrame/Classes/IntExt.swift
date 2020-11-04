@@ -28,6 +28,20 @@ public extension Int {
     
 }
 
+extension UInt32 {
+    public func ip(isBigEndian: Bool = false, isIPV4: Bool = true ) -> String {
+        let ip = self
+        let byte1 = UInt8(ip & 0xff)
+        let byte2 = UInt8((ip>>8) & 0xff)
+        let byte3 = UInt8((ip>>16) & 0xff)
+        let byte4 = UInt8((ip>>24) & 0xff)
+        if isBigEndian {
+            return "\(byte1).\(byte2).\(byte3).\(byte4)"
+        }
+        return "\(byte4).\(byte3).\(byte2).\(byte1)"
+    }
+}
+
 public extension IntegerLiteralType {
     var f: CGFloat {
         return CGFloat(self)
