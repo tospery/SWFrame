@@ -11,23 +11,29 @@ import QMUIKit
 public extension UIFont {
     
     static var scale: CGFloat {
-        var value = 0.f
-        if QMUIHelper.is35InchScreen() || QMUIHelper.is40InchScreen() {
-            value = -2
+        if is320WidthScreen {
+            return 0.9
         }
-        return value
+        return 1.0
     }
     
-    static func normal(_ size: CGFloat) -> UIFont {
-        return UIFont.systemFont(ofSize: (size + self.scale))
+    static func size(_ size: CGFloat, w320: CGFloat = -1) -> CGFloat {
+        if w320 != -1 && is320WidthScreen {
+            return w320
+        }
+        return floor(size * (is320WidthScreen ? 0.9 : 1.0))
     }
     
-    static func bold(_ size: CGFloat) -> UIFont {
-        return UIFont.boldSystemFont(ofSize: (size + self.scale))
+    static func normal(_ size: CGFloat, w320: CGFloat = -1) -> UIFont {
+        return .systemFont(ofSize: self.size(size, w320: w320))
     }
     
-    static func light(_ size: CGFloat) -> UIFont {
-        return UIFont.qmui_lightSystemFont(ofSize: (size + self.scale))
+    static func bold(_ size: CGFloat, w320: CGFloat = -1) -> UIFont {
+        return .boldSystemFont(ofSize: self.size(size, w320: w320))
+    }
+    
+    static func light(_ size: CGFloat, w320: CGFloat = -1) -> UIFont {
+        return .qmui_lightSystemFont(ofSize: self.size(size, w320: w320))
     }
     
 }

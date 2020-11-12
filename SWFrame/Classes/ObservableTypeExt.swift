@@ -21,6 +21,10 @@ extension ObservableType {
         }
     }
     
+    public func flatMapEmpty() -> Observable<Element> {
+        .empty()
+    }
+    
 }
 
 /// Extension for processing Responses into Mappable objects through ObjectMapper
