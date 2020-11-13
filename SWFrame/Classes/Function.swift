@@ -60,17 +60,20 @@ public func stringDefault(_ string: String?, _ default: String) -> String {
     return `default`
 }
 
-// scale - 高宽比
-public func metric(scale: CGFloat) -> CGFloat {
-    return flat(UIScreen.main.bounds.size.width * scale)
+//// scale - 高宽比
+public func metric(ratio: CGFloat) -> CGFloat {
+    return flat(UIScreen.main.bounds.size.width * ratio)
 }
 
 // value - 375标准
-public func metric(_ value: CGFloat, w320: CGFloat = -1) -> CGFloat {
-    if w320 != -1 && is320WidthScreen {
+public func metric(_ value: CGFloat, w320: CGFloat = -1, w414: CGFloat = -1) -> CGFloat {
+    if w320 != -1 && UIScreen.widthPoint == .pt320 {
         return w320
     }
-    if is320WidthScreen {
+    if w414 != -1 && UIScreen.widthPoint == .pt414 {
+        return w414
+    }
+    if UIScreen.widthPoint == .pt320 {
         return flat(value / 375.f * 320.f)
     }
     return value

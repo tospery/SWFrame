@@ -16,14 +16,15 @@ public var isPhone: Bool { QMUIHelper.isIPhone() }
 public var isSimulator: Bool { QMUIHelper.isSimulator() }
 
 public var isNotchedScreen: Bool { QMUIHelper.isNotchedScreen() }
-public var is65InchScreen: Bool { QMUIHelper.is65InchScreen() }
-public var is61InchScreen: Bool { QMUIHelper.is61InchScreen() }
-public var is58InchScreen: Bool { QMUIHelper.is58InchScreen() }
-public var is55InchScreen: Bool { QMUIHelper.is55InchScreen() }
-public var is47InchScreen: Bool { QMUIHelper.is47InchScreen() }
-public var is40InchScreen: Bool { QMUIHelper.is40InchScreen() }
-public var is35InchScreen: Bool { QMUIHelper.is35InchScreen() }
-public var is320WidthScreen: Bool { (is40InchScreen || is35InchScreen) }
+//public var is65InchScreen: Bool { QMUIHelper.is65InchScreen() }
+//public var is61InchScreen: Bool { QMUIHelper.is61InchScreen() }
+//public var is58InchScreen: Bool { QMUIHelper.is58InchScreen() }
+//public var is55InchScreen: Bool { QMUIHelper.is55InchScreen() }
+//public var is47InchScreen: Bool { QMUIHelper.is47InchScreen() }
+//public var is40InchScreen: Bool { QMUIHelper.is40InchScreen() }
+//public var is35InchScreen: Bool { QMUIHelper.is35InchScreen() }
+//public var is320WidthScreen: Bool { (is40InchScreen || is35InchScreen) }
+//public var is414WidthScreen: Bool { (is55InchScreen || is61InchScreen || is65InchScreen) }
 
 public var isLandscape: Bool { UIApplication.shared.statusBarOrientation.isLandscape }
 public var isDeviceLandscape: Bool { UIDevice.current.orientation.isLandscape }
