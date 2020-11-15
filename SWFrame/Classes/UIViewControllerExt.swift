@@ -34,6 +34,11 @@ public extension UIViewController {
                 need = false
             } else if let _ = self as? UIAlertController {
                 need = false
+            } else {
+                let className = viewControllerToPresent.className
+                if className == "PopupDialog" {
+                    need = false
+                }
             }
             if need {
                 if let auto = self.automaticallySetModalPresentationStyle, auto == false {
