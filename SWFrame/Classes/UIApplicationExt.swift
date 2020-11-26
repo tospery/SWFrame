@@ -11,10 +11,36 @@ import RxCocoa
 
 public extension UIApplication {
     
+    enum Channel: Int, CustomStringConvertible {
+        case develop
+        case testflight
+        case appstore
+        
+        public var description: String {
+            switch self {
+            case .develop: return "develop"
+            case .testflight: return "testflight"
+            case .appstore: return "appstore"
+            }
+        }
+    }
+    
+    var channel: Channel {
+        #if DEBUG
+        return .develop
+        #else
+        if Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" {
+            return .testflight
+        }
+        return .appstore
+        #endif
+    }
+    
+    
     var name: String {
         return (Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String) ?? ""
     }
-    
+
     var team: String {
         let query = [
             kSecClass as NSString: kSecClassGenericPassword as NSString,
