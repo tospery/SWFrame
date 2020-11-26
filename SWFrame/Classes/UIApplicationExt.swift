@@ -12,7 +12,7 @@ import RxCocoa
 public extension UIApplication {
     
     enum Channel: Int, CustomStringConvertible {
-        case develop
+        case develop = 1
         case testflight
         case appstore
         
