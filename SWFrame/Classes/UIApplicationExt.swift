@@ -12,13 +12,13 @@ import RxCocoa
 public extension UIApplication {
     
     enum Channel: Int, CustomStringConvertible {
-        case develop = 1
+        case development = 1
         case testflight
         case appstore
         
         public var description: String {
             switch self {
-            case .develop: return "develop"
+            case .development: return "development"
             case .testflight: return "testflight"
             case .appstore: return "appstore"
             }
