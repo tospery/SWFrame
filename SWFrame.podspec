@@ -30,7 +30,7 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
   s.swift_version = '5.0'
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '11.0'
 
   s.source_files = 'SWFrame/Classes/**/*'
   
@@ -39,7 +39,7 @@ Pod::Spec.new do |s|
   }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  s.frameworks = 'Foundation', 'UIKit', 'Accelerate', 'QuartzCore', 'CoreLocation', 'SystemConfiguration', 'AdSupport', 'WebKit', 'CoreGraphics', 'Photos'
+  s.frameworks = 'UIKit', 'Accelerate', 'QuartzCore', 'CoreLocation', 'SystemConfiguration', 'AdSupport', 'WebKit', 'CoreGraphics', 'Photos'
   s.dependency 'CocoaLumberjack/Swift', '~> 3.7.0'
   s.dependency 'QMUIKit/QMUICore', '~> 4.2.1'
   s.dependency 'RxOptional', '~> 4.1.0'

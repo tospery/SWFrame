@@ -27,7 +27,7 @@ public extension UIApplication {
     
     var channel: Channel {
         #if DEBUG
-        return .develop
+        return .development
         #else
         if Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" {
             return .testflight
