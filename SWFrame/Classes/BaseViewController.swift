@@ -31,7 +31,9 @@ open class BaseViewController: UIViewController {
     
     public var contentTop: CGFloat {
         var height = 0.f
-        if !self.hidesNavigationBar && !self.navigationBar.isHidden {
+        if !self.hidesNavigationBar &&
+            !self.navigationBar.isHidden &&
+            self.navigationBar.backgroundColor != .clear {
             height += self.navigationBar.height
         }
         return height
