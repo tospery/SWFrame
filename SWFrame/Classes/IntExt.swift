@@ -10,6 +10,10 @@ import CoreGraphics
 
 public extension Int {
     
+    var bool: Bool {
+        return self != 0
+    }
+    
     func byteText() -> String {
         return ByteCountFormatter.string(fromByteCount: Int64(self), countStyle: .file)
     }
