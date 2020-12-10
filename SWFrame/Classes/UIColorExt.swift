@@ -10,12 +10,8 @@ import SwifterSwift
 
 public extension UIColor {
 
-//    convenience init?(_ hex: Int) {
-//        self.init(hex: hex)
-//    }
-//
-//    convenience init?(_ hexString: String) {
-//        self.init(hexString: hexString)
-//    }
+    func image(size: CGSize = .init(100)) -> UIImage {
+        return .init(color: self, size: size)
+    }
     
 }
