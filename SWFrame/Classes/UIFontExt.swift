@@ -11,7 +11,7 @@ import QMUIKit
 public extension UIFont {
 
     static func size(_ size: CGFloat) -> CGFloat {
-        is320WidthScreen ? round(size * 0.9) : size
+        isSmallWidthScreen ? round(size * 0.9) : size
     }
     
     static func normal(_ size: CGFloat) -> UIFont {

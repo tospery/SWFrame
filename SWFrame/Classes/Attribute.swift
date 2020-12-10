@@ -16,7 +16,8 @@ public var isPhone: Bool { QMUIHelper.isIPhone() }
 public var isSimulator: Bool { QMUIHelper.isSimulator() }
 
 public var isNotchedScreen: Bool { QMUIHelper.isNotchedScreen() }
-public var is320WidthScreen: Bool { UIScreen.width == 320 }
+public var isSmallWidthScreen: Bool { UIScreen.width <= 320 }
+public var isLargeWidthScreen: Bool { UIScreen.width >= 414 }
 
 public var isLandscape: Bool { UIApplication.shared.statusBarOrientation.isLandscape }
 public var isDeviceLandscape: Bool { UIDevice.current.orientation.isLandscape }

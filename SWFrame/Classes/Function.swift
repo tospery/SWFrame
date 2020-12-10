@@ -67,12 +67,14 @@ public func metric(ratio: CGFloat) -> CGFloat {
 }
 
 // value - 375标准
-public func metric(_ value: CGFloat) -> CGFloat {
+public func metric(_ value: CGFloat, small: CGFloat = 0, large: CGFloat = 0) -> CGFloat {
+    if small != 0 && isSmallWidthScreen {
+        return small
+    }
+    if large != 0 && isLargeWidthScreen {
+        return large
+    }
     return flat(value / 375.f * UIScreen.width)
-}
-
-public func metric(normal: CGFloat, small: CGFloat) -> CGFloat {
-    is320WidthScreen ? small : normal
 }
 
 public func connectedToInternet() -> Observable<Bool> {
