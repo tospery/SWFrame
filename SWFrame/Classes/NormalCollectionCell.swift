@@ -12,16 +12,16 @@ import ReactorKit
 
 open class NormalCollectionCell: BaseCollectionCell, View {
     
-    public lazy var titleLabel: Label = {
-        let label = Label()
+    public lazy var titleLabel: SWLabel = {
+        let label = SWLabel()
         label.font = .normal(15)
         label.textColor = .darkGray
         label.sizeToFit()
         return label
     }()
     
-    public lazy var detailLabel: Label = {
-        let label = Label()
+    public lazy var detailLabel: SWLabel = {
+        let label = SWLabel()
         label.font = .normal(13)
         label.textAlignment = .right
         label.textColor = .gray

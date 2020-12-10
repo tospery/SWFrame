@@ -20,7 +20,7 @@ open class BaseViewReactor: ReactorType {
     required public init(_ provider: ProviderType, _ parameters: [String: Any]?) {
         self.provider = provider
         self.parameters = parameters ?? [:]
-        self.title = stringMember(parameters, Parameter.title, nil)
+        self.title = self.parameters[Parameter.title] as? String ?? nil
     }
     
 }

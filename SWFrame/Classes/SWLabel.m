@@ -1,21 +1,21 @@
 //
-//  Label.m
+//  SWLabel.m
 //  SWFrame
 //
 //  Created by liaoya on 2020/7/24.
 //
 
-#import "Label.h"
+#import "SWLabel.h"
 #import <QMUIKit/QMUIKit.h>
 
-@interface Label ()
+@interface SWLabel ()
 
 @property(nonatomic, strong) UIColor *originalBackgroundColor;
 @property(nonatomic, strong) UILongPressGestureRecognizer *longGestureRecognizer;
 @end
 
 
-@implementation Label
+@implementation SWLabel
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];

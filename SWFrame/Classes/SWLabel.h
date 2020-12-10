@@ -1,12 +1,12 @@
 //
-//  Label.h
+//  SWLabel.h
 //  SWFrame
 //
 //  Created by liaoya on 2020/7/24.
 //
 
 //
-//  Label.h
+//  SWLabel.h
 //  qmui
 //
 //  Created by QMUI Team on 14-7-3.
@@ -15,11 +15,11 @@
 #import <UIKit/UIKit.h>
 
 /**
- * `Label`支持通过`contentEdgeInsets`属性来实现类似padding的效果。
+ * `SWLabel`支持通过`contentEdgeInsets`属性来实现类似padding的效果。
  *
  * 同时通过将`canPerformCopyAction`置为`YES`来开启长按复制文本的功能，复制 item 的文案可通过 menuItemTitleForCopyAction 修改，长按时label的背景色默认为`highlightedBackgroundColor`
  */
-@interface Label : UILabel
+@interface SWLabel : UILabel
 
 /// 控制label内容的padding，默认为UIEdgeInsetsZero
 @property(nonatomic,assign) UIEdgeInsets contentEdgeInsets;
@@ -41,6 +41,6 @@
 @property(nonatomic,strong) IBInspectable UIColor *highlightedBackgroundColor UI_APPEARANCE_SELECTOR;
 
 /// 点击了“复制”后的回调
-@property(nonatomic, copy) void (^didCopyBlock)(Label *label, NSString *stringCopied);
+@property(nonatomic, copy) void (^didCopyBlock)(SWLabel *label, NSString *stringCopied);
 
 @end

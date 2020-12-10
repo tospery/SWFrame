@@ -11,27 +11,6 @@ import RxSwift
 import CocoaLumberjack
 
 // MARK: - Dictionary member
-public func boolMember(_ params: Dictionary<String, Any>?, _ key: String, _ default: Bool) -> Bool {
-    if let value = params?[key] as? Bool {
-        return value
-    }
-    return `default`
-}
-
-public func intMember(_ params: Dictionary<String, Any>?, _ key: String, _ default: Int) -> Int {
-    if let value = params?[key] as? Int {
-        return value
-    }
-    return `default`
-}
-
-public func stringMember(_ params: Dictionary<String, Any>?, _ key: String, _ default: String?) -> String? {
-    if let value = params?[key] as? String {
-        return value
-    }
-    return `default`
-}
-
 public func colorMember(_ params: Dictionary<String, Any>?, _ key: String, _ default: UIColor?) -> UIColor? {
     if let value = params?[key] as? String, let color = UIColor(hexString: value) {
         return color
@@ -51,19 +30,6 @@ public func arrayMember(_ params: Dictionary<String, Any>?, _ key: String, _ def
         return value
     }
     return `default`
-}
-
-// MARK: - Nil value replacement
-public func stringDefault(_ string: String?, _ default: String) -> String {
-    if let value = string {
-        return value;
-    }
-    return `default`
-}
-
-//// scale - 高宽比
-public func metric(ratio: CGFloat) -> CGFloat {
-    return flat(UIScreen.main.bounds.size.width * ratio)
 }
 
 // value - 375标准
