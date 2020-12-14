@@ -33,14 +33,18 @@ public func arrayMember(_ params: Dictionary<String, Any>?, _ key: String, _ def
 }
 
 // value - 375标准
-public func metric(_ value: CGFloat, small: CGFloat = 0, large: CGFloat = 0) -> CGFloat {
-    if small != 0 && isSmallWidthScreen {
+public func metric(_ value: CGFloat) -> CGFloat {
+    return flat(value / 375.f * UIScreen.width)
+}
+
+public func metric(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
+    if isSmallWidthScreen {
         return small
     }
-    if large != 0 && isLargeWidthScreen {
+    if isLargeWidthScreen {
         return large
     }
-    return flat(value / 375.f * UIScreen.width)
+    return middle
 }
 
 public func connectedToInternet() -> Observable<Bool> {

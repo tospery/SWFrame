@@ -17,6 +17,7 @@ public var isSimulator: Bool { QMUIHelper.isSimulator() }
 
 public var isNotchedScreen: Bool { QMUIHelper.isNotchedScreen() }
 public var isSmallWidthScreen: Bool { UIScreen.width <= 320 }
+public var isMiddleWidthScreen: Bool { UIScreen.width > 320 && UIScreen.width < 414 }
 public var isLargeWidthScreen: Bool { UIScreen.width >= 414 }
 
 public var isLandscape: Bool { UIApplication.shared.statusBarOrientation.isLandscape }
