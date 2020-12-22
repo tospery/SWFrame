@@ -11,32 +11,6 @@ import RxCocoa
 
 public extension UIApplication {
     
-    enum Channel: Int, CustomStringConvertible {
-        case development = 1
-        case testflight
-        case appstore
-        
-        public var description: String {
-            switch self {
-            case .development: return "development"
-            case .testflight: return "testflight"
-            case .appstore: return "appstore"
-            }
-        }
-    }
-    
-    var channel: Channel {
-        #if DEBUG
-        return .development
-        #else
-        if Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" {
-            return .testflight
-        }
-        return .appstore
-        #endif
-    }
-    
-    
     var name: String {
         return (Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String) ?? ""
     }
