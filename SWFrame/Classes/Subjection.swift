@@ -26,6 +26,15 @@ final public class Subjection {
         return subject
     }
     
+    public class func update<T: Subjective>(_ type: T.Type, _ value: T?) {
+        if let value = value {
+            value.save(ignoreId: true)
+        } else {
+            T.eraseObject(id: nil)
+        }
+        self.for(type).accept(value)
+    }
+    
 }
 
 public protocol Subjective: Storable {
