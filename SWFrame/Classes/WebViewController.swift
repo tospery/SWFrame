@@ -114,9 +114,10 @@ open class WebViewController: ScrollViewController, View {
 //    }
 
     deinit {
-        print("回收了Web容器")
-        self.webView.navigationDelegate = nil
-        self.webView.uiDelegate = nil
+        if self.webView != nil {
+            self.webView.navigationDelegate = nil
+            self.webView.uiDelegate = nil
+        }
     }
     
     public func progress(_ value: CGFloat) {
