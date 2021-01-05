@@ -24,13 +24,13 @@ extension SWError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case let .network(_, message):
-            return message ?? NSLocalizedString("Error.Network.Message", comment: "")
+            return message ?? NSLocalizedString("Error.Network.Message", value: "网络错误", comment: "")
         case let .server(_, message):
-            return message ?? NSLocalizedString("Error.Server.Message", comment: "")
+            return message ?? NSLocalizedString("Error.Server.Message", value: "服务异常", comment: "")
         case let .user(_, message):
-            return message
+            return message ?? "用户异常"
         case let .app(_, message):
-            return message
+            return message ?? "操作错误"
         }
     }
 }
