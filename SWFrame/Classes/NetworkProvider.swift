@@ -31,6 +31,10 @@ final public class NetworkProvider<Target> where Target: Moya.TargetType {
     public func request(_ token: Target) -> Observable<Moya.Response> {
         // -1003找不到主机, -1004找不到服务
         return self.provider.rx.request(token).asObservable()
+//            .do(onError: { error in
+//                let err = error
+//                log("error")
+//            })
     }
 }
 

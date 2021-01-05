@@ -9,10 +9,6 @@ import Foundation
 import RxSwift
 import Moya
 
-public protocol SWErrorCompatible {
-    var asSWError: SWError { get }
-}
-
 public enum SWError: Error {
     case network(Int, String?)  // 100~199
     case server(Int, String?)   // 200~299
@@ -51,3 +47,21 @@ extension SWError: Equatable {
         }
     }
 }
+
+//extension Error {
+//
+//    public var asSWError: SWError {
+//        SWError.convert(error: self)
+//    }
+//
+//}
+
+//public protocol SWErrorCompatible {
+//    static func convert(error: Error) -> SWError
+//}
+//
+//public extension SWErrorCompatible {
+//    static func convert(error: Error) -> SWError {
+//        SWError.network(100, "aaaaa")
+//    }
+//}
