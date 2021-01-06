@@ -99,28 +99,28 @@ open class ScrollViewController: BaseViewController {
 extension ScrollViewController: DZNEmptyDataSetSource {
     
     open func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        if let title = self.error?.title, !title.isEmpty {
+        if let title = (self.error as? LocalizedError)?.failureReason, !title.isEmpty {
             return title.styled(with: .alignment(.center), .font(.normal(20)), .color(.darkGray))
         }
         return nil
     }
     
     open func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        if let message = self.error?.message, !message.isEmpty {
+        if let message = self.error?.localizedDescription, !message.isEmpty {
             return message.styled(with: .alignment(.center), .font(.normal(14)), .color(.lightGray))
         }
         return nil
     }
     
     open func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
-        if let image = self.error?.image {
+        if let image = (error as? SWError)?.displayImage {
             return image
         }
         return UIImage.loading
     }
     
     open func buttonTitle(forEmptyDataSet scrollView: UIScrollView!, for state: UIControl.State) -> NSAttributedString! {
-        if let retry = self.error?.retry {
+        if let retry = (self.error as? LocalizedError)?.recoverySuggestion {
             return retry.styled(with: .font(.normal(15)), .color(state == UIControl.State.normal ? .white : UIColor.white.withAlphaComponent(0.8)))
         }
         return nil
