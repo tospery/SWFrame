@@ -71,7 +71,7 @@ public extension UIApplication {
     }
     
 //    // YJX_TODO_ERROR
-//    func convert(error: Error) -> DemoError {
+//    func convert(error: Error) -> SWError {
 //        .network(100, "aaaa")
 //    }
     

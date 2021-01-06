@@ -113,7 +113,7 @@ extension ScrollViewController: DZNEmptyDataSetSource {
     }
     
     open func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
-        if let image = (error as? SWError)?.displayImage {
+        if let image = (error as? SWCompatibleError)?.displayImage {
             return image
         }
         return UIImage.loading

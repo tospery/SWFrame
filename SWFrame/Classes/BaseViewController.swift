@@ -193,7 +193,7 @@ public extension Reactive where Base: BaseViewController {
             viewController.error = error
             guard let error = error,
                 viewController.isViewLoaded else { return }
-            if ((error as? SWError)?.isUserExpired ?? false) {
+            if ((error as? SWCompatibleError)?.isUserExpired ?? false) {
                 viewController.navigator.present( "\(UIApplication.shared.scheme)://login", wrap: NavigationController.self)
             } else {
                 var url = "\(UIApplication.shared.scheme)://toast".url!
