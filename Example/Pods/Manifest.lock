@@ -1,14 +1,17 @@
 PODS:
-  - Alamofire (5.2.2)
-  - BonMot (5.5.1)
+  - Alamofire (5.4.0)
+  - BonMot (5.6.0)
+  - CocoaLumberjack/Core (3.7.0)
+  - CocoaLumberjack/Swift (3.7.0):
+    - CocoaLumberjack/Core
   - Differentiator (4.0.1)
   - DZNEmptyDataSet (1.8.1)
-  - ESPullToRefresh (2.9.2)
+  - ESPullToRefresh (2.9.3)
   - FCUUID (1.3.1):
     - UICKeyChainStore (~> 2.1.0)
-  - Kingfisher (5.14.0):
-    - Kingfisher/Core (= 5.14.0)
-  - Kingfisher/Core (5.14.0)
+  - Kingfisher (5.15.8):
+    - Kingfisher/Core (= 5.15.8)
+  - Kingfisher/Core (5.15.8)
   - Moya/Core (14.0.0):
     - Alamofire (~> 5.0)
   - Moya/RxSwift (14.0.0):
@@ -17,13 +20,12 @@ PODS:
   - "NSObject+Rx (5.1.0)":
     - RxSwift (~> 5.1)
   - ObjectMapper (4.2.0)
-  - QMUIKit/QMUICore (4.1.3):
+  - QMUIKit/QMUICore (4.2.1):
     - QMUIKit/QMUILog
     - QMUIKit/QMUIWeakObjectContainer
-  - QMUIKit/QMUILog (4.1.3)
-  - QMUIKit/QMUIWeakObjectContainer (4.1.3)
-  - ReachabilitySwift (5.0.0)
-  - ReactorKit (2.1.0):
+  - QMUIKit/QMUILog (4.2.1)
+  - QMUIKit/QMUIWeakObjectContainer (4.2.1)
+  - ReactorKit (2.1.1):
     - RxSwift (~> 5.0)
     - WeakMapTable (~> 1.1)
   - RxCocoa (5.1.1):
@@ -33,6 +35,9 @@ PODS:
     - Differentiator (~> 4.0)
     - RxCocoa (~> 5.0)
     - RxSwift (~> 5.0)
+  - RxOptional (4.1.0):
+    - RxCocoa (~> 5)
+    - RxSwift (~> 5)
   - RxRelay (5.1.1):
     - RxSwift (~> 5)
   - RxSwift (5.1.1)
@@ -47,24 +52,24 @@ PODS:
   - RxViewController (1.0.0):
     - RxCocoa (~> 5.0)
     - RxSwift (~> 5.0)
-  - SWFrame (2.0.0):
-    - BonMot (= 5.5.1)
-    - DZNEmptyDataSet (= 1.8.1)
-    - ESPullToRefresh (= 2.9.2)
-    - FCUUID (= 1.3.1)
-    - Kingfisher (= 5.14.0)
-    - Moya/RxSwift (= 14.0.0)
-    - "NSObject+Rx (= 5.1.0)"
-    - ObjectMapper (= 4.2.0)
-    - QMUIKit/QMUICore (= 4.1.3)
-    - ReachabilitySwift (= 5.0.0)
-    - ReactorKit (= 2.1.0)
-    - RxDataSources (= 4.0.1)
-    - RxSwiftExt (= 5.2.0)
-    - RxViewController (= 1.0.0)
-    - SwifterSwift (= 5.2.0)
-    - SwiftyBeaver (= 1.9.1)
-    - URLNavigator (= 2.3.0)
+  - SWFrame (1.3.0):
+    - BonMot (~> 5.6.0)
+    - CocoaLumberjack/Swift (~> 3.7.0)
+    - DZNEmptyDataSet (~> 1.8.1)
+    - ESPullToRefresh (~> 2.9.3)
+    - FCUUID (~> 1.3.1)
+    - Kingfisher (~> 5.15.7)
+    - Moya/RxSwift (~> 14.0.0)
+    - "NSObject+Rx (~> 5.1.0)"
+    - ObjectMapper (~> 4.2.0)
+    - QMUIKit/QMUICore (~> 4.2.1)
+    - ReactorKit (~> 2.1.1)
+    - RxDataSources (~> 4.0.1)
+    - RxOptional (~> 4.1.0)
+    - RxSwiftExt (~> 5.2.0)
+    - RxViewController (~> 1.0.0)
+    - SwifterSwift (~> 5.2.0)
+    - URLNavigator (~> 2.3.0)
   - SwifterSwift (5.2.0):
     - SwifterSwift/AppKit (= 5.2.0)
     - SwifterSwift/CoreAnimation (= 5.2.0)
@@ -90,10 +95,9 @@ PODS:
   - SwifterSwift/StoreKit (5.2.0)
   - SwifterSwift/SwiftStdlib (5.2.0)
   - SwifterSwift/UIKit (5.2.0)
-  - SwiftyBeaver (1.9.1)
   - UICKeyChainStore (2.1.2)
   - URLNavigator (2.3.0)
-  - WeakMapTable (1.1.0)
+  - WeakMapTable (1.2.0)
 
 DEPENDENCIES:
   - SWFrame (from `../`)
@@ -102,6 +106,7 @@ SPEC REPOS:
   trunk:
     - Alamofire
     - BonMot
+    - CocoaLumberjack
     - Differentiator
     - DZNEmptyDataSet
     - ESPullToRefresh
@@ -111,16 +116,15 @@ SPEC REPOS:
     - "NSObject+Rx"
     - ObjectMapper
     - QMUIKit
-    - ReachabilitySwift
     - ReactorKit
     - RxCocoa
     - RxDataSources
+    - RxOptional
     - RxRelay
     - RxSwift
     - RxSwiftExt
     - RxViewController
     - SwifterSwift
-    - SwiftyBeaver
     - UICKeyChainStore
     - URLNavigator
     - WeakMapTable
@@ -130,32 +134,32 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
-  BonMot: 0d179476725af81f622a6d9f660f43048070016a
+  Alamofire: 3b6a534a3df22db367e4dedeeca73d1ddfcf0e2f
+  BonMot: 2217a66e5ddc6a8d2ffb759fe8c85a8528e0d3e7
+  CocoaLumberjack: e8955b9d337ac307103b0a34fd141c32f27e53c5
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
-  ESPullToRefresh: efed00d52597065e9a84e1e52fa444fdb1a1dee0
+  ESPullToRefresh: 0d68daa602b343c81753a1b95e09fd0bfcddfd40
   FCUUID: bb054fc90cd7cd99320f9f6ff8e130fe607fba05
-  Kingfisher: 7b64389a43139c903ec434788344c288217c792d
+  Kingfisher: a3c03d702433fa6cfedabb2bddbe076fb8f2e902
   Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
   "NSObject+Rx": fa6bbcc1ab1faa06b01466bc09b1e0692bbc5946
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
-  QMUIKit: 1063a99f90aedd6e2dd65026ce0df46e6785e67b
-  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
-  ReactorKit: 12a93358c554bb3f167b16b14c40374fa9cd5acd
+  QMUIKit: 15294d6a350466e4a6f4df0333eac5bff474f995
+  ReactorKit: 6d894a20c3d508344320901cd8e386fde92df4b6
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
+  RxOptional: b1fcd60856807a564c0215c2184b8d33e7826dc2
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   RxSwiftExt: 4ca80336f43c28f11a2825cdd2fc61dd6c044697
   RxViewController: 7330a46e5c31cd680db169da4c9fc8676e975a81
-  SWFrame: eab32e56f57155793bd867d29332888072018941
+  SWFrame: f260e0ec51b964c5419ded222305cd3a3982acd1
   SwifterSwift: 334181863c416882d97b7a60c05054d9e4d799e2
-  SwiftyBeaver: a1f5691458561414bcfab51874b2b7445451602b
   UICKeyChainStore: 85db518bb1d294366d15ec9b92a416c4e670518f
   URLNavigator: 2593c0e2d293732ec5c44503cf54dceba1a68085
-  WeakMapTable: d0327eda092be6a8f7c532942ae98dc7948f5d32
+  WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: e47e6381307d9a4b9e95316207aaf1eedd9f2fdf
+PODFILE CHECKSUM: 00b77f0a074a509dc08be66347c0ea112c1ef4b5
 
 COCOAPODS: 1.9.3

@@ -14,6 +14,10 @@ public enum SWError: Error {
     case server(Int, String?)   // 200~299
     case user(Int, String?)     // 300~399
     case app(Int, String?)      // 400~499
+    
+    public static let NetworkUnreachableCode    = 101
+    public static let UserNotLoginCode          = 301
+    public static let UserExpiredCode           = 302
 }
 
 extension SWError: LocalizedError {
@@ -48,20 +52,135 @@ extension SWError: Equatable {
     }
 }
 
+extension SWError: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case let .network(code, message): return "SWError.network(\(code), \(message))"
+        case let .server(code, message): return "SWError.server(\(code), \(message))"
+        case let .user(code, message): return "SWError.user(\(code), \(message))"
+        case let .app(code, message): return "SWError.app(\(code), \(message))"
+        }
+    }
+}
+
+public extension Error {
+    var isNetwork: Bool {
+        if let error = self as? SWError {
+            switch error {
+            case .network: return true
+            default: return false
+            }
+        }
+        if (self as NSError).domain == NSURLErrorDomain {
+            return true
+        }
+        if let error = self as? APPError, error == .network {
+            return true
+        }
+        return false
+    }
+
+    var isServer: Bool {
+        if let error = self as? SWError {
+            switch error {
+            case .server: return true
+            default: return false
+            }
+        }
+        if (self as NSError).code == 500 {
+            return true
+        }
+        if let error = self as? APPError {
+            switch error {
+            case .server:
+                return true
+            default:
+                return false
+            }
+        }
+        return false
+    }
+
+    var isExpired: Bool {
+        if let error = self as? SWError {
+            switch error {
+            case let .user(302, _): return true
+            default: return false
+            }
+        }
+        if (self as NSError).code == 401 {
+            return true
+        }
+        if let error = self as? APPError, error == .expired {
+            return true
+        }
+        return false
+    }
+
+    var isIllegal: Bool {
+        if let error = self as? APPError {
+            switch error {
+            case .illegal:
+                return true
+            default:
+                return false
+            }
+        }
+        return false
+    }
+
+    var title: String? {
+        if self.isNetwork {
+            return NSLocalizedString("Error.Network.Title", comment: "")
+        } else if self.isServer {
+            return NSLocalizedString("Error.Server.Title", comment: "")
+        } else if self.isExpired {
+            return NSLocalizedString("Error.Expired.Title", comment: "")
+        }
+        return nil
+    }
+
+    var message: String {
+        if self.isNetwork {
+            return NSLocalizedString("Error.Network.Message", comment: "")
+        } else if self.isServer {
+            return NSLocalizedString("Error.Server.Message", comment: "")
+        } else if self.isExpired {
+            return NSLocalizedString("Error.Expired.Message", comment: "")
+        }
+        return self.localizedDescription
+    }
+
+    var retry: String? {
+        return NSLocalizedString("Error.Retry", comment: "")
+    }
+
+    var image: UIImage? {
+        if self.isNetwork {
+            return UIImage.networkError
+        } else if self.isServer {
+            return UIImage.serverError
+        } else if self.isExpired {
+            return UIImage.expireError
+        }
+        return nil
+    }
+}
+
 //extension Error {
 //
+//    // YJX_TODO_ERROR
 //    public var asSWError: SWError {
-//        SWError.convert(error: self)
+//        if let compatible = self as? SWErrorCompatible {
+//            return compatible.convert(self)
+//        }
+//        return SWError.network(100, "aaaaaa")
 //    }
 //
 //}
-
+//
 //public protocol SWErrorCompatible {
-//    static func convert(error: Error) -> SWError
-//}
 //
-//public extension SWErrorCompatible {
-//    static func convert(error: Error) -> SWError {
-//        SWError.network(100, "aaaaa")
-//    }
+//    func convert(_ error: Error) -> SWError
+//
 //}

@@ -9,9 +9,9 @@ import UIKit
 import RxSwift
 import Moya
 
-public protocol APPErrorCompatible {
-    var asAPPError: APPError { get }
-}
+//public protocol APPErrorCompatible {
+//    var asAPPError: APPError { get }
+//}
 
 public enum APPError: Error {
     case network
@@ -50,88 +50,3 @@ extension APPError: Equatable {
     }
 }
 
-public extension Error {
-    var isNetwork: Bool {
-        if (self as NSError).domain == NSURLErrorDomain {
-            return true
-        }
-        if let error = self as? APPError, error == .network {
-            return true
-        }
-        return false
-    }
-
-    var isServer: Bool {
-        if (self as NSError).code == 500 {
-            return true
-        }
-        if let error = self as? APPError {
-            switch error {
-            case .server:
-                return true
-            default:
-                return false
-            }
-        }
-        return false
-    }
-
-    var isExpired: Bool {
-        if (self as NSError).code == 401 {
-            return true
-        }
-        if let error = self as? APPError, error == .expired {
-            return true
-        }
-        return false
-    }
-
-    var isIllegal: Bool {
-        if let error = self as? APPError {
-            switch error {
-            case .illegal:
-                return true
-            default:
-                return false
-            }
-        }
-        return false
-    }
-
-    var title: String? {
-        if self.isNetwork {
-            return NSLocalizedString("Error.Network.Title", comment: "")
-        } else if self.isServer {
-            return NSLocalizedString("Error.Server.Title", comment: "")
-        } else if self.isExpired {
-            return NSLocalizedString("Error.Expired.Title", comment: "")
-        }
-        return nil
-    }
-
-    var message: String {
-        if self.isNetwork {
-            return NSLocalizedString("Error.Network.Message", comment: "")
-        } else if self.isServer {
-            return NSLocalizedString("Error.Server.Message", comment: "")
-        } else if self.isExpired {
-            return NSLocalizedString("Error.Expired.Message", comment: "")
-        }
-        return self.localizedDescription
-    }
-
-    var retry: String? {
-        return NSLocalizedString("Error.Retry", comment: "")
-    }
-
-    var image: UIImage? {
-        if self.isNetwork {
-            return UIImage.networkError
-        } else if self.isServer {
-            return UIImage.serverError
-        } else if self.isExpired {
-            return UIImage.expireError
-        }
-        return nil
-    }
-}

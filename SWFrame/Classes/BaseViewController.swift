@@ -86,6 +86,11 @@ open class BaseViewController: UIViewController {
         
         self.setupNavBar()
         
+        // YJX_TODO_ERROR
+//        let aaa = NSError.init(domain: "aaaa", code: 2000, userInfo: nil)
+//        let bbb = aaa.asSWError
+//        log("")
+        
         if let gestureRecognizer = self.navigationController?.interactivePopGestureRecognizer {
             gestureRecognizer.addTarget(self, action: #selector(handleInteractivePopGestureRecognizer(_:)))
         }

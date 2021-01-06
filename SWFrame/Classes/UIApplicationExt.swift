@@ -70,6 +70,11 @@ public extension UIApplication {
         return "https://\(self.scheme).com"
     }
     
+//    // YJX_TODO_ERROR
+//    func convert(error: Error) -> SWError {
+//        .network(100, "aaaa")
+//    }
+    
 }
 
 extension Reactive where Base: UIApplication {
