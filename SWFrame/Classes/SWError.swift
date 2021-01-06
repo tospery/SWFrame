@@ -39,9 +39,9 @@ public enum SWErrorUserCode: Int {
     case loginExpired               // 登录过期
 }
 
-public enum SWErrorAppCode: Int {
-    case navigation = 4001          // 导航错误
-}
+//public enum SWErrorAppCode: Int {
+//    case navigation = 4001          // 导航错误
+//}
 
 public enum SWError: Error {
     case network(Int, String?)  // 1000~1999
