@@ -20,7 +20,7 @@ public extension Reactive where Base: Navigator {
             CATransaction.begin()
             CATransaction.setCompletionBlock {
                 if viewController == nil {
-                    observer.onError(SWError.app(4999, nil))
+                    observer.onError(SWError.navigationException)
                 } else {
                     observer.onNext(viewController!)
                     observer.onCompleted()
@@ -38,7 +38,7 @@ public extension Reactive where Base: Navigator {
             guard let viewController = base.present(url, context: context, wrap: wrap, from: from, animated: animated, completion: {
                 observer.onCompleted()
             }) else {
-                observer.onError(SWError.app(4999, nil))
+                observer.onError(SWError.navigationException)
                 return Disposables.create { }
             }
             observer.onNext(viewController)

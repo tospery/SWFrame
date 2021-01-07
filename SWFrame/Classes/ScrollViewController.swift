@@ -106,14 +106,14 @@ extension ScrollViewController: DZNEmptyDataSetSource {
     }
     
     open func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        if let message = self.error?.localizedDescription, !message.isEmpty {
+        if let message = (self.error as? LocalizedError)?.errorDescription, !message.isEmpty {
             return message.styled(with: .alignment(.center), .font(.normal(14)), .color(.lightGray))
         }
         return nil
     }
     
     open func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
-        if let image = (error as? SWCompatibleError)?.displayImage {
+        if let image = (self.error as? SWError)?.displayImage {
             return image
         }
         return UIImage.loading
