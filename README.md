@@ -8,6 +8,7 @@
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
+示例: https://github.com/tospery/V2EX-Swift
 
 ## Requirements
 
