@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SWFrame'
-  s.version          = '1.3.2'
+  s.version          = '1.3.3'
   s.summary          = 'iOS App Framework.'
 
 # This description is used to generate tags and improve search results.
@@ -39,7 +39,7 @@ Pod::Spec.new do |s|
   }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  s.frameworks = 'UIKit', 'Accelerate', 'QuartzCore', 'CoreLocation', 'SystemConfiguration', 'AdSupport', 'WebKit', 'CoreGraphics', 'Photos'
+  s.frameworks = 'UIKit'
   s.dependency 'CocoaLumberjack/Swift', '3.7.0'
   s.dependency 'QMUIKit/QMUICore', '4.2.1'
   s.dependency 'RxOptional', '4.1.0'
