@@ -1,6 +1,6 @@
 {
   "name": "SWFrame",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "summary": "iOS App Framework.",
   "description": "iOS App Framework using Swift.",
   "homepage": "https://github.com/tospery/SWFrame",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/tospery/SWFrame.git",
-    "tag": "1.3.2"
+    "tag": "1.3.3"
   },
   "requires_arc": true,
   "swift_versions": "5.0",
@@ -26,17 +26,7 @@
       "SWFrame/Assets/*.png"
     ]
   },
-  "frameworks": [
-    "UIKit",
-    "Accelerate",
-    "QuartzCore",
-    "CoreLocation",
-    "SystemConfiguration",
-    "AdSupport",
-    "WebKit",
-    "CoreGraphics",
-    "Photos"
-  ],
+  "frameworks": "UIKit",
   "dependencies": {
     "CocoaLumberjack/Swift": [
       "3.7.0"

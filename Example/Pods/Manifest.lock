@@ -52,7 +52,7 @@ PODS:
   - RxViewController (1.0.0):
     - RxCocoa (~> 5.0)
     - RxSwift (~> 5.0)
-  - SWFrame (1.3.2):
+  - SWFrame (1.3.3):
     - BonMot (= 5.6.0)
     - CocoaLumberjack/Swift (= 3.7.0)
     - DZNEmptyDataSet (= 1.8.1)
@@ -154,7 +154,7 @@ SPEC CHECKSUMS:
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   RxSwiftExt: 4ca80336f43c28f11a2825cdd2fc61dd6c044697
   RxViewController: 7330a46e5c31cd680db169da4c9fc8676e975a81
-  SWFrame: 13b599cdfa96ae12a6f41a526201397f15d88514
+  SWFrame: 19b3c49d1588ebb063ff1966afe3b19be2539fec
   SwifterSwift: 334181863c416882d97b7a60c05054d9e4d799e2
   UICKeyChainStore: 85db518bb1d294366d15ec9b92a416c4e670518f
   URLNavigator: 2593c0e2d293732ec5c44503cf54dceba1a68085
