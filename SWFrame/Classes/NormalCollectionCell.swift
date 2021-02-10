@@ -110,7 +110,7 @@ open class NormalCollectionCell: BaseCollectionCell, View {
             .bind(to: self.detailLabel.rx.text)
             .disposed(by: self.disposeBag)
         reactor.state.map{ $0.avatar }
-            .bind(to: self.avatarImageView.rx.image)
+            .bind(to: self.avatarImageView.rx.source)
             .disposed(by: self.disposeBag)
         reactor.state.map{ _ in }
             .bind(to: self.rx.setNeedsLayout)

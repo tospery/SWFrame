@@ -13,7 +13,7 @@ import Kingfisher
 
 public extension Reactive where Base: UIImageView {
         
-    var image: Binder<ImageSource?> {
+    var source: Binder<ImageSource?> {
         return Binder(self.base) { imageView, resource in
             imageView.isHidden = false
             if let image = resource as? UIImage {
