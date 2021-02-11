@@ -47,6 +47,16 @@ public func metric(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
     return middle
 }
 
+public func fontSize(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
+    if isSmallWidthScreen {
+        return small
+    }
+    if isLargeWidthScreen {
+        return large
+    }
+    return middle
+}
+
 public func connectedToInternet() -> Observable<Bool> {
     return reachSubject.asObservable()
         .ignore(.unknown)

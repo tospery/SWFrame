@@ -16,8 +16,26 @@ public var isPhone: Bool { QMUIHelper.isIPhone() }
 public var isSimulator: Bool { QMUIHelper.isSimulator() }
 
 public var isNotchedScreen: Bool { QMUIHelper.isNotchedScreen() }
+
+/// 320
+///
+///     320x480         4
+///     320x568         5/5s
 public var isSmallWidthScreen: Bool { UIScreen.width <= 320 }
+
+/// 360 | 375 | 390
+///
+///     360x780         12mini
+///     375x667         6/6s
+///     375x812         X/Xs/11Pro
+///     390x844         12/12Pro
 public var isMiddleWidthScreen: Bool { UIScreen.width > 320 && UIScreen.width < 414 }
+
+/// 414 | 428
+///
+///     414x736         6Plus
+///     414x896         Xr/XsMax/11/11ProMax
+///     428x926         12ProMax
 public var isLargeWidthScreen: Bool { UIScreen.width >= 414 }
 
 public var isLandscape: Bool { UIApplication.shared.statusBarOrientation.isLandscape }

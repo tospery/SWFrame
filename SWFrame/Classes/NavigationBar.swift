@@ -81,7 +81,7 @@ public class NavigationBar: UIView {
     
     public lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .normal(17)
+        label.font = .systemFont(ofSize: 17)
         label.backgroundColor = .clear
         label.textAlignment = .center
         label.textColor = .darkText
