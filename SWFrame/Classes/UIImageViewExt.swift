@@ -13,7 +13,7 @@ import Kingfisher
 
 public extension Reactive where Base: UIImageView {
         
-    var source: Binder<ImageSource?> {
+    var imageSource: Binder<ImageSource?> {
         return Binder(self.base) { imageView, resource in
             imageView.isHidden = false
             if let image = resource as? UIImage {
@@ -26,7 +26,7 @@ public extension Reactive where Base: UIImageView {
         }
     }
     
-    func image(placeholder: Placeholder? = nil, options: KingfisherOptionsInfo? = nil) -> Binder<Resource?> {
+    func imageResource(placeholder: Placeholder? = nil, options: KingfisherOptionsInfo? = nil) -> Binder<Resource?> {
         return Binder(self.base) { imageView, resource in
             imageView.kf.setImage(with: resource, placeholder: placeholder, options: options)
         }
