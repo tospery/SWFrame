@@ -75,7 +75,7 @@ public func alternate(notched: CGFloat, other: CGFloat) -> CGFloat {
 }
 
 public func alternate(regular: CGFloat, compact: CGFloat) -> CGFloat {
-    return (QMUIHelper.isRegularScreen() ? regular : compact)
+    return (QMUIHelper.isRegularScreen ? regular : compact)
 }
 
 public func log(

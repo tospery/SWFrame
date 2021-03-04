@@ -8,14 +8,14 @@
 import UIKit
 import QMUIKit
 
-public var pixelOne: CGFloat { QMUIHelper.pixelOne() }
+public var pixelOne: CGFloat { QMUIHelper.pixelOne }
 
-public var isPad: Bool { QMUIHelper.isIPad() }
-public var isPod: Bool { QMUIHelper.isIPod() }
-public var isPhone: Bool { QMUIHelper.isIPhone() }
-public var isSimulator: Bool { QMUIHelper.isSimulator() }
+public var isPad: Bool { QMUIHelper.isIPad }
+public var isPod: Bool { QMUIHelper.isIPod }
+public var isPhone: Bool { QMUIHelper.isIPhone }
+public var isSimulator: Bool { QMUIHelper.isSimulator }
 
-public var isNotchedScreen: Bool { QMUIHelper.isNotchedScreen() }
+public var isNotchedScreen: Bool { QMUIHelper.isNotchedScreen }
 
 /// 320
 ///
@@ -66,8 +66,8 @@ public var toolBarHeight: CGFloat {
     (isPad ? (isNotchedScreen ? 70 : (iosVersion >= 12.0 ? 50 : 44)) : (isLandscape ? alternate(regular: 44, compact: 32) : 44) + safeBottom)
 }
 
-public var safeArea: UIEdgeInsets { QMUIHelper.safeAreaInsetsForDeviceWithNotch() }
-public var safeBottom: CGFloat { QMUIHelper.safeAreaInsetsForDeviceWithNotch().bottom }
+public var safeArea: UIEdgeInsets { QMUIHelper.safeAreaInsetsForDeviceWithNotch }
+public var safeBottom: CGFloat { QMUIHelper.safeAreaInsetsForDeviceWithNotch.bottom }
 
 public var screenWidth: CGFloat { UIScreen.width }
 public var screenHeight: CGFloat { UIScreen.height }
