@@ -80,6 +80,7 @@ public func alternate(regular: CGFloat, compact: CGFloat) -> CGFloat {
 
 public func log(
     _ message: @autoclosure () -> Any,
+    module: String = "Common",
     level: DDLogLevel = DDDefaultLogLevel,
     flag: DDLogFlag = .debug,
     context: Int = 0,
