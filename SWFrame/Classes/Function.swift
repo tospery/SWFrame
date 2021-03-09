@@ -78,29 +78,29 @@ public func alternate(regular: CGFloat, compact: CGFloat) -> CGFloat {
     return (QMUIHelper.isRegularScreen ? regular : compact)
 }
 
-public func log(
-    _ message: @autoclosure () -> Any,
-    module: String = "Common",
-    level: DDLogLevel = DDDefaultLogLevel,
-    flag: DDLogFlag = .debug,
-    context: Int = 0,
-    file: StaticString = #file,
-    function: StaticString = #function,
-    line: UInt = #line,
-    tag: Any? = nil,
-    asynchronous async: Bool = asyncLoggingEnabled,
-    ddlog: DDLog = .sharedInstance
-) {
-    _DDLogMessage(
-        message(),
-        level: level,
-        flag: flag,
-        context: context,
-        file: file,
-        function: function,
-        line: line,
-        tag: tag,
-        asynchronous: async,
-        ddlog: ddlog
-    )
-}
+//public func log(
+//    _ message: @autoclosure () -> Any,
+//    module: String = "Common",
+//    level: DDLogLevel = DDDefaultLogLevel,
+//    flag: DDLogFlag = .debug,
+//    context: Int = 0,
+//    file: StaticString = #file,
+//    function: StaticString = #function,
+//    line: UInt = #line,
+//    tag: Any? = nil,
+//    asynchronous async: Bool = asyncLoggingEnabled,
+//    ddlog: DDLog = .sharedInstance
+//) {
+//    _DDLogMessage(
+//        message(),
+//        level: level,
+//        flag: flag,
+//        context: context,
+//        file: file,
+//        function: function,
+//        line: line,
+//        tag: tag,
+//        asynchronous: async,
+//        ddlog: ddlog
+//    )
+//}
