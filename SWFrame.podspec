@@ -44,6 +44,7 @@ Pod::Spec.new do |s|
   s.dependency 'QMUIKit/QMUICore', '4.2.2'
   s.dependency 'RxOptional', '4.1.0'
   s.dependency 'RxSwiftExt', '5.2.0'
+  s.dependency 'RxGesture', '3.0.2'
   s.dependency 'RxDataSources', '4.0.1'
   s.dependency 'RxViewController', '1.0.0'
   s.dependency 'NSObject+Rx', '5.1.0'
