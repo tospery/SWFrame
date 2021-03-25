@@ -195,7 +195,6 @@ open class WebViewController: ScrollViewController, View {
 extension WebViewController: WKNavigationDelegate {
 
     open func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        print(navigationAction.request.url?.absoluteString)
         decisionHandler(.allow)
     }
     
