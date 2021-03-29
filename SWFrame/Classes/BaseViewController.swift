@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import QMUIKit
+
 import RxSwift
 import RxCocoa
 import RxSwiftExt
@@ -42,8 +42,8 @@ open class BaseViewController: UIViewController {
     public var contentBottom: CGFloat {
         var height = 0.f
         if let tabBar = self.tabBarController?.tabBar,
-            tabBar.isHidden == false,
-            self.qmui_previous == nil {
+            tabBar.isHidden == false
+            /*self.qmui_previous == nil*/ { // YJX_TODO
             height += tabBar.height
         }
         return height
@@ -130,7 +130,7 @@ open class BaseViewController: UIViewController {
             self.navigationBar.isHidden = true
         } else {
             if self.hidesNavBottomLine {
-                self.navigationBar.qmui_borderPosition = QMUIViewBorderPosition(rawValue: 0)
+                // self.navigationBar.qmui_borderPosition = QMUIViewBorderPosition(rawValue: 0) // YJX_TODO
             }
             if self.navigationController?.viewControllers.count ?? 0 > 1 {
                 self.navigationBar.addBackButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
@@ -141,7 +141,7 @@ open class BaseViewController: UIViewController {
                     })
                 }).disposed(by: self.disposeBag)
             } else {
-                if self.qmui_isPresented() {
+                //if self.qmui_isPresented() { // YJX_TODO
                     self.navigationBar.addCloseButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
                         guard let `self` = self else { return }
                         self.dismiss(animated: true) { [weak self] in
@@ -149,7 +149,7 @@ open class BaseViewController: UIViewController {
                             self.didClosed()
                         }
                     }).disposed(by: self.disposeBag)
-                }
+                //}
             }
         }
     }

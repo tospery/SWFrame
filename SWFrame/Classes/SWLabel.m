@@ -6,7 +6,7 @@
 //
 
 #import "SWLabel.h"
-#import <QMUIKit/QMUIKit.h>
+#import "Defines.h"
 
 @interface SWLabel ()
 
@@ -47,7 +47,8 @@
     // 在某些情况下文字位置错误，因此做了如下保护
     // https://github.com/Tencent/QMUI_iOS/issues/529
     if (self.numberOfLines == 1 && (self.lineBreakMode == NSLineBreakByWordWrapping || self.lineBreakMode == NSLineBreakByCharWrapping)) {
-        rect = CGRectSetHeight(rect, CGRectGetHeight(rect) + self.contentEdgeInsets.top * 2);
+        // YJX_TODO
+        // rect = CGRectSetHeight(rect, CGRectGetHeight(rect) + self.contentEdgeInsets.top * 2);
     }
     
     [super drawTextInRect:rect];

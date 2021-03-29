@@ -6,16 +6,16 @@
 //
 
 import UIKit
-import QMUIKit
 
-public var pixelOne: CGFloat { QMUIHelper.pixelOne }
+// YJX_TODO
+public var pixelOne: CGFloat { 1 /*QMUIHelper.pixelOne*/ }
 
-public var isPad: Bool { QMUIHelper.isIPad }
-public var isPod: Bool { QMUIHelper.isIPod }
-public var isPhone: Bool { QMUIHelper.isIPhone }
-public var isSimulator: Bool { QMUIHelper.isSimulator }
+public var isPad: Bool { UIDevice.current.kind == .ipad }
+public var isPod: Bool { UIDevice.current.kind == .ipod }
+public var isPhone: Bool { UIDevice.current.kind == .iphone }
+public var isSimulator: Bool { UIDevice.current.kind == .simulator }
 
-public var isNotchedScreen: Bool { QMUIHelper.isNotchedScreen }
+public var isNotchedScreen: Bool { false /*QMUIHelper.isNotchedScreen*/ }
 
 /// 320
 ///
@@ -42,7 +42,7 @@ public var isLandscape: Bool { UIApplication.shared.statusBarOrientation.isLands
 public var isDeviceLandscape: Bool { UIDevice.current.orientation.isLandscape }
 
 public var iosVersion: Double { (UIDevice.current.systemVersion as NSString).doubleValue }
-public var iosVersionNumber: Int { QMUIHelper.numbericOSVersion() }
+public var iosVersionNumber: Int { 1 /*QMUIHelper.numbericOSVersion()*/ } // YJX_TODO
 
 public var statusBarHeight: CGFloat {
     (UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.size.height)
@@ -66,8 +66,9 @@ public var toolBarHeight: CGFloat {
     (isPad ? (isNotchedScreen ? 70 : (iosVersion >= 12.0 ? 50 : 44)) : (isLandscape ? alternate(regular: 44, compact: 32) : 44) + safeBottom)
 }
 
-public var safeArea: UIEdgeInsets { QMUIHelper.safeAreaInsetsForDeviceWithNotch }
-public var safeBottom: CGFloat { QMUIHelper.safeAreaInsetsForDeviceWithNotch.bottom }
+// YJX_TODO
+public var safeArea: UIEdgeInsets { .zero/*QMUIHelper.safeAreaInsetsForDeviceWithNotch*/ }
+public var safeBottom: CGFloat { 1/*QMUIHelper.safeAreaInsetsForDeviceWithNotch.bottom*/ }
 
 public var screenWidth: CGFloat { UIScreen.width }
 public var screenHeight: CGFloat { UIScreen.height }

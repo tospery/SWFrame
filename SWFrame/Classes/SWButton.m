@@ -6,7 +6,9 @@
 //
 
 #import "SWButton.h"
-#import <QMUIKit/QMUIKit.h>
+#import "Defines.h"
+
+#define CGSizeMax CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)
 
 @interface SWButton ()
 
@@ -20,7 +22,7 @@
     if (self = [super initWithFrame:frame]) {
         [self didInitialize];
         
-        self.tintColor = ButtonTintColor;
+        // self.tintColor = ButtonTintColor; // YJX_TODO
         if (!self.adjustsTitleTintColorAutomatically) {
             [self setTitleColor:self.tintColor forState:UIControlStateNormal];
         }
@@ -451,7 +453,7 @@
     // 自定义highlighted样式
     if (self.adjustsButtonWhenHighlighted) {
         if (highlighted) {
-            self.alpha = ButtonHighlightedAlpha;
+            self.alpha = 0.5;
         } else {
             self.alpha = 1;
         }
@@ -461,7 +463,7 @@
 - (void)setEnabled:(BOOL)enabled {
     [super setEnabled:enabled];
     if (!enabled && self.adjustsButtonWhenDisabled) {
-        self.alpha = ButtonDisabledAlpha;
+        self.alpha = 0.5;
     } else {
         self.alpha = 1;
     }
@@ -471,12 +473,12 @@
     if (self.highlightedBackgroundColor) {
         if (!self.highlightedBackgroundLayer) {
             self.highlightedBackgroundLayer = [CALayer layer];
-            [self.highlightedBackgroundLayer qmui_removeDefaultAnimations];
+            // [self.highlightedBackgroundLayer qmui_removeDefaultAnimations]; // YJX_TODO
             [self.layer insertSublayer:self.highlightedBackgroundLayer atIndex:0];
         }
         self.highlightedBackgroundLayer.frame = self.bounds;
         self.highlightedBackgroundLayer.cornerRadius = self.layer.cornerRadius;
-        self.highlightedBackgroundLayer.backgroundColor = self.highlighted ? self.highlightedBackgroundColor.CGColor : UIColorClear.CGColor;
+        self.highlightedBackgroundLayer.backgroundColor = self.highlighted ? self.highlightedBackgroundColor.CGColor : UIColor.clearColor.CGColor;
     }
     
     if (self.highlightedBorderColor) {

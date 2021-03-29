@@ -6,12 +6,12 @@
 //
 
 import UIKit
-import QMUIKit
+
 
 public extension UIFont {
 
     static func lightSystemFont(ofSize fontSize: CGFloat) -> UIFont {
-        return .qmui_lightSystemFont(ofSize: fontSize)
+        .systemFont(ofSize: fontSize, weight: .light)
     }
     
 }

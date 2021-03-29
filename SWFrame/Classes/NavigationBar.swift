@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import QMUIKit
+
 import RxSwift
 import RxCocoa
 import SwifterSwift
@@ -50,10 +50,10 @@ public class NavigationBar: UIView {
 
     @objc public dynamic var lineColor: UIColor? {
         get {
-            return self.qmui_borderColor
+            return .red //  self.qmui_borderColor
         }
         set {
-            self.qmui_borderColor = newValue
+            // self.qmui_borderColor = newValue // YJX_TODO
         }
     }
     
@@ -91,9 +91,10 @@ public class NavigationBar: UIView {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        self.qmui_borderPosition = .bottom
-        self.qmui_borderWidth = pixelOne
-        self.qmui_borderColor = .lightGray
+        // YJX_TODO
+//        self.qmui_borderPosition = .bottom
+//        self.qmui_borderWidth = pixelOne
+//        self.qmui_borderColor = .lightGray
         self.addSubview(self.bgImageView)
         self.addSubview(self.titleLabel)
     }
@@ -135,13 +136,13 @@ public class NavigationBar: UIView {
         let leftDistance = self.leftButtons.last?.right ?? 0
         let rightDistance = self.width - (self.rightButtons.last?.left ?? self.width)
         left = max(leftDistance, rightDistance)
-        width = flat(self.width - left * 2)
+        // width = flat(self.width - left * 2) // YJX_TODO
         self.titleLabel.frame = CGRect(x: left, y: statusBarHeightConstant, width: width, height: navigationBarHeight)
         
         if let titleView = self.titleView {
             titleView.width = min(titleView.width, self.titleLabel.width)
             titleView.height = min(titleView.height, self.titleLabel.height)
-            titleView.center = CGPointGetCenterWithRect(self.titleLabel.frame)
+            // titleView.center = CGPointGetCenterWithRect(self.titleLabel.frame) // YJX_TODO
         }
     }
     
@@ -191,12 +192,12 @@ public class NavigationBar: UIView {
     
     public func transparet() {
         self.backgroundColor = .clear
-        self.qmui_borderPosition = QMUIViewBorderPosition(rawValue: 0)
+        // self.qmui_borderPosition = QMUIViewBorderPosition(rawValue: 0) // YJX_TODO
     }
     
     public func reset() {
         self.backgroundColor = .white
-        self.qmui_borderPosition = .bottom
+        // self.qmui_borderPosition = .bottom
     }
     
 }

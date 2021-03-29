@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import QMUIKit
+
 import RxSwift
 import CocoaLumberjack
 
@@ -34,7 +34,7 @@ public func arrayMember(_ params: Dictionary<String, Any>?, _ key: String, _ def
 
 // value - 375标准
 public func metric(_ value: CGFloat) -> CGFloat {
-    return flat(value / 375.f * UIScreen.width)
+    return 1 // flat(value / 375.f * UIScreen.width) // YJX_TODO
 }
 
 public func metric(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
@@ -75,7 +75,7 @@ public func alternate(notched: CGFloat, other: CGFloat) -> CGFloat {
 }
 
 public func alternate(regular: CGFloat, compact: CGFloat) -> CGFloat {
-    return (QMUIHelper.isRegularScreen ? regular : compact)
+    return 1 // (QMUIHelper.isRegularScreen ? regular : compact) // YJX_TODO
 }
 
 //public func log(
