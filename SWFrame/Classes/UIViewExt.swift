@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import QMUIKit
 import RxSwift
 import RxCocoa
 
@@ -18,100 +18,82 @@ public extension UIView {
     
     var top: CGFloat {
         get {
-            self.frame.minY
+            return self.qmui_top
         }
         set {
-            var frame = self.frame
-            frame.origin.y = newValue
-            self.frame = frame
+            self.qmui_top = newValue
         }
     }
     
     var bottom: CGFloat {
         get {
-            self.frame.maxY
+            return self.qmui_bottom
         }
         set {
-            var frame = self.frame
-            frame.origin.y = newValue - self.frame.height
-            self.frame = frame
+            self.qmui_bottom = newValue
         }
     }
     
     var left: CGFloat {
         get {
-            self.frame.minX
+            return self.qmui_left
         }
         set {
-            var frame = self.frame
-            frame.origin.x = newValue
-            self.frame = frame
+            self.qmui_left = newValue
         }
     }
     
     var right: CGFloat {
         get {
-            self.frame.maxX
+            return self.qmui_right
         }
         set {
-            var frame = self.frame
-            frame.origin.x = newValue - self.frame.width
-            self.frame = frame
+            self.qmui_right = newValue
         }
     }
     
     var extendToTop: CGFloat {
         get {
-            self.top
+            return self.qmui_extendToTop
         }
         set {
-            self.height = self.bottom - self.top
-            self.top = newValue
+            self.qmui_extendToTop = newValue
         }
     }
     
     var extendToBottom: CGFloat {
         get {
-            self.bottom
+            return self.qmui_extendToBottom
         }
         set {
-            self.height = newValue - self.top
-            self.bottom = newValue
+            self.qmui_extendToBottom = newValue
         }
     }
     
     var extendToLeft: CGFloat {
         get {
-            self.left
+            return self.qmui_extendToLeft
         }
         set {
-            self.width = self.right - newValue
-            self.left = newValue
+            self.qmui_extendToLeft = newValue
         }
     }
     
     var extendToRight: CGFloat {
         get {
-            self.right
+            return self.qmui_extendToRight
         }
         set {
-            self.width = newValue - self.left
-            self.right = newValue
+            self.qmui_extendToRight = newValue
         }
     }
     
     var leftWhenCenter: CGFloat {
-        //CGFloatGetCenter(CGRectGetWidth(self.superview.bounds), CGRectGetWidth(self.frame));
-        // return flat((parent - child) / 2.0);
-        guard let parent = self.superview?.bounds.width else { return 0 }
-        return (parent - self.frame.width) / 2.f // YJX_TODO
+        return self.qmui_leftWhenCenterInSuperview
     }
     
     var topWhenCenter: CGFloat {
-        // return self.qmui_topWhenCenterInSuperview
-        // return CGFloatGetCenter(CGRectGetHeight(self.superview.bounds), CGRectGetHeight(self.frame));
-        guard let parent = self.superview?.bounds.height else { return 0 }
-        return (parent - self.frame.height) / 2.f
+        return self.qmui_topWhenCenterInSuperview
     }
 
     var centerX: CGFloat {
@@ -157,7 +139,7 @@ public extension Reactive where Base: UIView {
     
     var qmui_borderColor: Binder<UIColor?> {
         return Binder(self.base) { view, color in
-            // view.qmui_borderColor = color // YJX_TODO
+            view.qmui_borderColor = color
         }
     }
     

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import QMUIKit
 import RxSwift
 import RxCocoa
 import Kingfisher

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import QMUIKit
 import ReactorKit
 
 open class NormalCollectionCell: BaseCollectionCell, View {
@@ -46,10 +46,9 @@ open class NormalCollectionCell: BaseCollectionCell, View {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         
-        // YJX_TODO
-//        self.qmui_borderPosition = .bottom
-//        self.qmui_borderWidth = pixelOne
-//        self.qmui_borderColor = .lightGray
+        self.qmui_borderPosition = .bottom
+        self.qmui_borderWidth = pixelOne
+        self.qmui_borderColor = .lightGray
         
         self.contentView.addSubview(self.titleLabel)
         self.contentView.addSubview(self.detailLabel)
@@ -91,7 +90,7 @@ open class NormalCollectionCell: BaseCollectionCell, View {
             self.avatarImageView.frame = .zero
         } else {
             self.avatarImageView.sizeToFit()
-            // self.avatarImageView.height = flat(self.contentView.height * 0.6) // YJX_TODO
+            self.avatarImageView.height = flat(self.contentView.height * 0.6)
             self.avatarImageView.width = self.avatarImageView.height
             self.avatarImageView.top = self.avatarImageView.topWhenCenter
             self.avatarImageView.right = self.detailLabel.left - 8
