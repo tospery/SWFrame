@@ -29,4 +29,6 @@ public struct Parameter {
     public static let shouldLoadMore = "shouldLoadMore"
     public static let routeContext = "routeContext"
     public static let routeObserver = "routeObserver"
+    public static let command = "command"
+    public static let parameter = "parameter"
 }
