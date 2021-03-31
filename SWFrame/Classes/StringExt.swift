@@ -37,7 +37,8 @@ public extension String {
     
     init<Subject>(fullname subject: Subject) {
         self.init(reflecting: subject)
-        self = self.replacingOccurrences(of: UIApplication.shared.name + ".", with: "")
+        self = self.replacingOccurrences(of: UIApplication.shared.displayName ?? "" + ".", with: "")
+        self = self.replacingOccurrences(of: UIApplication.shared.bundleName + ".", with: "")
     }
     
 //    func rect(with size: CGSize, attributes: [NSAttributedString.Key: Any]) -> CGRect {

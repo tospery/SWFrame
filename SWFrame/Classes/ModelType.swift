@@ -124,13 +124,11 @@ public extension Storable {
     }
 
     static func objectKey(id: String? = nil) -> String {
-        guard let id = id, !id.isEmpty else { return String(fullname: self) + "#object" }
-        return String(fullname: self) + "#object#" + id
+        "\(String(fullname: self))\(id ?? "")"
     }
 
     static func arrayKey(page: String? = nil) -> String {
-        guard let page = page, !page.isEmpty else { return String(fullname: self) + "#array" }
-        return String(fullname: self) + "#array#" + page
+        "\(String(fullname: self))s\(page ?? "")"
     }
     
     static func == (lhs: Self, rhs: Self) -> Bool {
