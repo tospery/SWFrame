@@ -62,7 +62,7 @@ public struct Logger {
             )
         } else {
             _DDLogMessage(
-                message(),
+                "【\(module)】\(message())",
                 level: level,
                 flag: flag,
                 context: context,
