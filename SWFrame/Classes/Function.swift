@@ -71,7 +71,7 @@ public func connectedToInternet() -> Observable<Bool> {
 
 // 区分全面屏（iPhone X 系列）和非全面屏
 public func alternate(notched: CGFloat, other: CGFloat) -> CGFloat {
-    return (isNotchedScreen ? notched : other)
+    return (UIScreen.main.isNotched ? notched : other)
 }
 
 public func alternate(regular: CGFloat, compact: CGFloat) -> CGFloat {

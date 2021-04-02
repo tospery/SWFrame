@@ -6,10 +6,53 @@
 //
 
 import UIKit
+import QMUIKit
 import UICKeyChainStore
 import FCUUID
 
 public extension UIDevice {
+
+    enum Kind {
+        case ipod
+        case iphone
+        case ipad
+        case simulator
+    }
+    
+    private static var kindValue: Kind?
+    var kind: Kind {
+        if UIDevice.kindValue != nil {
+            return UIDevice.kindValue!
+        }
+        if QMUIHelper.isIPod {
+            UIDevice.kindValue = .ipod
+        } else if QMUIHelper.isIPhone {
+            UIDevice.kindValue = .iphone
+        } else if QMUIHelper.isIPad {
+            UIDevice.kindValue = .ipad
+        } else if QMUIHelper.isSimulator {
+            UIDevice.kindValue = .simulator
+        } else {
+            UIDevice.kindValue = .iphone
+        }
+        return UIDevice.kindValue!
+    }
+    
+    var isIPod: Bool {
+        self.kind == .ipod
+    }
+    
+    var isIPhone: Bool {
+        self.kind == .iphone
+    }
+    
+    var isIPad: Bool {
+        self.kind == .ipad
+    }
+    
+    var isSimulator: Bool {
+        self.kind == .simulator
+    }
 
     var uuid: String {
         let service = "device.info"
