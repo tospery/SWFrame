@@ -11,38 +11,76 @@ import QMUIKit
 public extension UIScreen {
     
     enum Kind {
-        case regular
-        case notched
+        case small
+        case middle
+        case large
     }
-    
+
     private static var kindValue: Kind?
-    var kind: Kind {
+    static var kind: Kind {
         if UIScreen.kindValue != nil {
             return UIScreen.kindValue!
         }
-        if QMUIHelper.isNotchedScreen {
-            UIScreen.kindValue = .notched
+        let width = min(self.width, self.height)
+        if width <= 320 {
+            UIScreen.kindValue = .small
+        } else if width > 320 && width < 414 {
+            UIScreen.kindValue = .middle
         } else {
-            UIScreen.kindValue = .regular
+            UIScreen.kindValue = .large
         }
         return UIScreen.kindValue!
     }
     
-    var isRegular: Bool {
-        self.kind == .regular
+    /// 320
+    ///
+    ///     320x480         4
+    ///     320x568         5/5s
+    static var isSmall: Bool {
+        self.kind == .small
+    }
+
+    /// 360 | 375 | 390
+    ///
+    ///     360x780         12mini
+    ///     375x667         6/6s
+    ///     375x812         X/Xs/11Pro
+    ///     390x844         12/12Pro
+    static var isMiddle: Bool {
+        self.kind == .middle
     }
     
-    var isNotched: Bool {
-        self.kind == .notched
+    /// 414 | 428
+    ///
+    ///     414x736         6Plus
+    ///     414x896         Xr/XsMax/11/11ProMax
+    ///     428x926         12ProMax
+    static var isLarge: Bool {
+        self.kind == .large
     }
     
-    /// 320|360|375|390|414|428
+    static var isNotched: Bool {
+        QMUIHelper.isNotchedScreen
+    }
+    
+    static var isRegular: Bool {
+        QMUIHelper.isRegularScreen
+    }
+    
     static var width: CGFloat {
-        return UIScreen.main.bounds.size.width
+        self.main.bounds.size.width
     }
     
     static var height: CGFloat {
-        return UIScreen.main.bounds.size.height
+        self.main.bounds.size.height
+    }
+    
+    static var safeArea: UIEdgeInsets {
+        QMUIHelper.safeAreaInsetsForDeviceWithNotch
+    }
+    
+    static var safeBottom: CGFloat {
+        self.safeArea.bottom
     }
     
 }

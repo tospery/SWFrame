@@ -38,20 +38,20 @@ public func metric(_ value: CGFloat) -> CGFloat {
 }
 
 public func metric(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
-    if isSmallWidthScreen {
+    if UIScreen.isSmall {
         return small
     }
-    if isLargeWidthScreen {
+    if UIScreen.isLarge {
         return large
     }
     return middle
 }
 
 public func fontSize(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
-    if isSmallWidthScreen {
+    if UIScreen.isSmall {
         return small
     }
-    if isLargeWidthScreen {
+    if UIScreen.isLarge {
         return large
     }
     return middle
@@ -71,36 +71,11 @@ public func connectedToInternet() -> Observable<Bool> {
 
 // 区分全面屏（iPhone X 系列）和非全面屏
 public func alternate(notched: CGFloat, other: CGFloat) -> CGFloat {
-    return (UIScreen.main.isNotched ? notched : other)
+    return (UIScreen.isNotched ? notched : other)
 }
 
+// 区分紧凑屏
 public func alternate(regular: CGFloat, compact: CGFloat) -> CGFloat {
-    return (QMUIHelper.isRegularScreen ? regular : compact)
+    return (UIScreen.isRegular ? regular : compact)
 }
 
-//public func log(
-//    _ message: @autoclosure () -> Any,
-//    module: String = "Common",
-//    level: DDLogLevel = DDDefaultLogLevel,
-//    flag: DDLogFlag = .debug,
-//    context: Int = 0,
-//    file: StaticString = #file,
-//    function: StaticString = #function,
-//    line: UInt = #line,
-//    tag: Any? = nil,
-//    asynchronous async: Bool = asyncLoggingEnabled,
-//    ddlog: DDLog = .sharedInstance
-//) {
-//    _DDLogMessage(
-//        message(),
-//        level: level,
-//        flag: flag,
-//        context: context,
-//        file: file,
-//        function: function,
-//        line: line,
-//        tag: tag,
-//        asynchronous: async,
-//        ddlog: ddlog
-//    )
-//}

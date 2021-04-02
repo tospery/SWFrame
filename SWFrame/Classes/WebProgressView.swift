@@ -40,7 +40,7 @@ public class WebProgressView: UIView {
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return CGSize(width: screenWidth, height: 1.5)
+        return CGSize(width: UIScreen.width, height: 1.5)
     }
     
     func progress(value: CGFloat, animated: Bool = false) {

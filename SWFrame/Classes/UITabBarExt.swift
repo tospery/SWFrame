@@ -10,7 +10,15 @@ import QMUIKit
 import RxSwift
 import RxCocoa
 import SwifterSwift
+
+public extension UITabBar {
     
+    static var height: CGFloat {
+        (UIDevice.isIPad ? (UIScreen.isNotched ? 65 : (UIDevice.iosVersionDouble >= 12.0 ? 50 : 49)) : (isLandscape ? alternate(regular: 49, compact: 32) : 49) + UIScreen.safeBottom)
+    }
+
+}
+
 extension Reactive where Base: UITabBar {
     
     @available(iOS 10.0, *)

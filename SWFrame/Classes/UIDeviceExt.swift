@@ -18,41 +18,6 @@ public extension UIDevice {
         case ipad
         case simulator
     }
-    
-    private static var kindValue: Kind?
-    var kind: Kind {
-        if UIDevice.kindValue != nil {
-            return UIDevice.kindValue!
-        }
-        if QMUIHelper.isIPod {
-            UIDevice.kindValue = .ipod
-        } else if QMUIHelper.isIPhone {
-            UIDevice.kindValue = .iphone
-        } else if QMUIHelper.isIPad {
-            UIDevice.kindValue = .ipad
-        } else if QMUIHelper.isSimulator {
-            UIDevice.kindValue = .simulator
-        } else {
-            UIDevice.kindValue = .iphone
-        }
-        return UIDevice.kindValue!
-    }
-    
-    var isIPod: Bool {
-        self.kind == .ipod
-    }
-    
-    var isIPhone: Bool {
-        self.kind == .iphone
-    }
-    
-    var isIPad: Bool {
-        self.kind == .ipad
-    }
-    
-    var isSimulator: Bool {
-        self.kind == .simulator
-    }
 
     var uuid: String {
         let service = "device.info"
@@ -74,6 +39,49 @@ public extension UIDevice {
             return try? String.init(contentsOf: URL.init(string: "https://api.myip.la")!, encoding: .utf8)
         }
         return ip
+    }
+    
+    private static var kindValue: Kind?
+    static var kind: Kind {
+        if UIDevice.kindValue != nil {
+            return UIDevice.kindValue!
+        }
+        if QMUIHelper.isIPod {
+            UIDevice.kindValue = .ipod
+        } else if QMUIHelper.isIPhone {
+            UIDevice.kindValue = .iphone
+        } else if QMUIHelper.isIPad {
+            UIDevice.kindValue = .ipad
+        } else if QMUIHelper.isSimulator {
+            UIDevice.kindValue = .simulator
+        } else {
+            UIDevice.kindValue = .iphone
+        }
+        return UIDevice.kindValue!
+    }
+    
+    static var isIPod: Bool {
+        self.kind == .ipod
+    }
+    
+    static var isIPhone: Bool {
+        self.kind == .iphone
+    }
+    
+    static var isIPad: Bool {
+        self.kind == .ipad
+    }
+    
+    static var isSimulator: Bool {
+        self.kind == .simulator
+    }
+    
+    static var iosVersionDouble: Double {
+        (self.current.systemVersion as NSString).doubleValue
+    }
+    
+    static var iosVersionNumber: Int {
+        QMUIHelper.numbericOSVersion()
     }
     
 }
