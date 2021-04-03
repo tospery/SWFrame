@@ -29,7 +29,7 @@ public protocol ModelType: Mappable, CustomStringConvertible {
 public extension ModelType {
     
     var description: String {
-        return self.toJSONString() ?? "" // YJX_TODO Identifiable放在ModelType里
+        return self.toJSONString() ?? ""
     }
     
 }
@@ -80,26 +80,6 @@ public extension Eventable {
         return stream
     }
 }
-
-//open class BaseModel: Object, ModelType {
-//
-//    public required init() {
-//
-//    }
-//
-//    public required init?(map: Map) {
-//
-//    }
-//
-//    open func mapping(map: Map) {
-//
-//    }
-//
-//    open class var current: Self? {
-//        return nil
-//    }
-//
-//}
 
 // MARK: - 存储协议
 public protocol Storable: ModelType, Identifiable, Codable, Equatable {

@@ -84,12 +84,34 @@ open class BaseViewController: UIViewController {
         self.extendedLayoutIncludesOpaqueBars = true
         self.automaticallyAdjustsScrollViewInsets = false
         
-        self.setupNavBar()
-        
-        // YJX_TODO_ERROR
-//        let aaa = NSError.init(domain: "aaaa", code: 2000, userInfo: nil)
-//        let bbb = aaa.asSWError
-//        log("")
+        self.navigationController?.navigationBar.isHidden = true
+        self.view.addSubview(self.navigationBar)
+        if self.hidesNavigationBar {
+            self.navigationBar.isHidden = true
+        } else {
+            if self.hidesNavBottomLine {
+                self.navigationBar.qmui_borderPosition = QMUIViewBorderPosition(rawValue: 0)
+            }
+            if self.navigationController?.viewControllers.count ?? 0 > 1 {
+                self.navigationBar.addBackButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
+                    guard let `self` = self else { return }
+                    self.navigationController?.popViewController(animated: true, { [weak self] in
+                        guard let `self` = self else { return }
+                        self.didClosed()
+                    })
+                }).disposed(by: self.disposeBag)
+            } else {
+                if self.qmui_isPresented() {
+                    self.navigationBar.addCloseButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
+                        guard let `self` = self else { return }
+                        self.dismiss(animated: true) { [weak self] in
+                            guard let `self` = self else { return }
+                            self.didClosed()
+                        }
+                    }).disposed(by: self.disposeBag)
+                }
+            }
+        }
         
         if let gestureRecognizer = self.navigationController?.interactivePopGestureRecognizer {
             gestureRecognizer.addTarget(self, action: #selector(handleInteractivePopGestureRecognizer(_:)))
@@ -122,36 +144,9 @@ open class BaseViewController: UIViewController {
 //            self.dismiss(animated: true, completion: nil)
 //        }).disposed(by: self.disposeBag)
     }
-     
-    func setupNavBar() {
-        self.navigationController?.navigationBar.isHidden = true
-        self.view.addSubview(self.navigationBar)
-        if self.hidesNavigationBar {
-            self.navigationBar.isHidden = true
-        } else {
-            if self.hidesNavBottomLine {
-                self.navigationBar.qmui_borderPosition = QMUIViewBorderPosition(rawValue: 0)
-            }
-            if self.navigationController?.viewControllers.count ?? 0 > 1 {
-                self.navigationBar.addBackButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
-                    guard let `self` = self else { return }
-                    self.navigationController?.popViewController(animated: true, { [weak self] in
-                        guard let `self` = self else { return }
-                        self.didClosed()
-                    })
-                }).disposed(by: self.disposeBag)
-            } else {
-                if self.qmui_isPresented() {
-                    self.navigationBar.addCloseButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
-                        guard let `self` = self else { return }
-                        self.dismiss(animated: true) { [weak self] in
-                            guard let `self` = self else { return }
-                            self.didClosed()
-                        }
-                    }).disposed(by: self.disposeBag)
-                }
-            }
-        }
+    
+    open func didClosed() {
+        // self.closeSubject.onNext(())
     }
     
     @objc func handleInteractivePopGestureRecognizer(_ gestureRecognizer: UIScreenEdgePanGestureRecognizer) {
@@ -164,10 +159,7 @@ open class BaseViewController: UIViewController {
         default: break
         }
     }
-    
-    open func didClosed() {
-        // self.closeSubject.onNext(())
-    }
+
 }
 
 public extension Reactive where Base: BaseViewController {

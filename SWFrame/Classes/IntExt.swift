@@ -30,7 +30,6 @@ public extension Int {
         return nil
     }
     
-    // YJX_TODO
     var subnetMask: String {
         var values = [
             0:  "0.0.0.0",

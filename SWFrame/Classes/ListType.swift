@@ -10,6 +10,7 @@ import ObjectMapper
 
 public struct List<Item: ModelType>: ModelType {
 
+    public var id = 0
     public var hasNext = false
     public var count = 0
     public var items = [Item].init()
