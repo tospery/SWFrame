@@ -38,12 +38,13 @@ public enum SWError: Error {
     case userNotLogin
     case userLoginExpired
     case navigationException
+    case dataFormatError
     case server(Int, String?)
     case app(Int, String?)
 }
 
 extension SWError: CustomNSError {
-    public static let domain = "com.tospery.swframe.error"
+    public static let domain = "com.swframe.error"
     public var errorCode: Int {
         switch self {
         case .networkDisabled: return 10001
@@ -51,6 +52,7 @@ extension SWError: CustomNSError {
         case .userNotLogin: return 10003
         case .userLoginExpired: return 10004
         case .navigationException: return 10005
+        case .dataFormatError: return 10006
         case let .server(code, _): return code
         case let .app(code, _): return code
         }
@@ -71,6 +73,8 @@ extension SWError: LocalizedError {
             return NSLocalizedString("Error.User.Title", value: "用户异常", comment: "")
         case .navigationException:
             return NSLocalizedString("Error.Navigation.Title", value: "导航异常", comment: "")
+        case .dataFormatError:
+            return NSLocalizedString("Error.DataFormat.Title", value: "数据格式错误", comment: "")
         case .server:
             return NSLocalizedString("Error.Server.Title", value: "服务异常", comment: "")
         case .app:
@@ -90,6 +94,8 @@ extension SWError: LocalizedError {
             return NSLocalizedString("Error.User.Message", value: "用户异常", comment: "")
         case .navigationException:
             return NSLocalizedString("Error.Navigation.Message", value: "导航异常", comment: "")
+        case .dataFormatError:
+            return NSLocalizedString("Error.DataFormat.Title", value: "数据格式错误", comment: "")
         case let .server(_, message):
             return message ?? NSLocalizedString("Error.Server.Message", value: "服务异常", comment: "")
         case let .app(_, message):
@@ -109,7 +115,8 @@ extension SWError: Equatable {
              (.networkUnreachable, .networkUnreachable),
              (.userNotLogin, .userNotLogin),
              (.userLoginExpired, .userLoginExpired),
-             (.navigationException, .navigationException):
+             (.navigationException, .navigationException),
+             (.dataFormatError, .dataFormatError):
             return true
         case let (.server(code1, _), .server(code2, _)):
             return code1 == code2
@@ -134,6 +141,8 @@ extension SWError: CustomStringConvertible {
             return "SWError.userLoginExpired"
         case .navigationException:
             return "SWError.navigationException"
+        case .dataFormatError:
+            return "SWError.dataFormatError"
         case let .server(code, message):
             return "SWError.server(\(code), \(message))"
         case let .app(code, message):

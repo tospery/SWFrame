@@ -11,7 +11,8 @@ import Moya
 import Alamofire
 import ObjectMapper
 
-public let successCode = 200
+public let successCode      = 200
+public let userExpiredCode  = 401
 
 public protocol ResponseType {
     var code: Int { get }

@@ -102,8 +102,8 @@ public extension NetworkingType {
         return self.request(target)
             .mapObject(BaseResponse.self)
             .flatMap { response -> Single<BaseResponse> in
-                guard response.code(target) == successCode else {
-                    return .error(SWError.server(response.code, response.message(target)))
+                if let error = self.check(response.code(target), response.message(target)) {
+                    return .error(error)
                 }
                 return .just(response)
         }
@@ -114,8 +114,8 @@ public extension NetworkingType {
         return self.request(target)
             .mapObject(BaseResponse.self)
             .flatMap { response -> Single<Any?> in
-                guard response.code(target) == successCode else {
-                    return .error(SWError.server(response.code, response.message(target)))
+                if let error = self.check(response.code(target), response.message(target)) {
+                    return .error(error)
                 }
                 return .just(response.data)
         }
@@ -126,10 +126,13 @@ public extension NetworkingType {
         return self.request(target)
             .mapObject(BaseResponse.self)
             .flatMap { response -> Single<Model> in
-                guard response.code(target) == successCode,
-                    let json = response.data(target) as? [String: Any],
-                    let model = Model.init(JSON: json) else {
-                        return .error(SWError.server(response.code, response.message(target)))
+                if let error = self.check(response.code(target), response.message(target)) {
+                    return .error(error)
+                }
+                let data = response.data(target)
+                guard let json = data as? [String: Any],
+                      let model = Model.init(JSON: json) else {
+                    return .error(SWError.dataFormatError)
                 }
                 return .just(model)
         }
@@ -140,8 +143,8 @@ public extension NetworkingType {
         return self.request(target)
             .mapObject(BaseResponse.self)
             .flatMap { response -> Single<[Model]> in
-                guard response.code(target) == successCode else {
-                    return .error(SWError.server(response.code, response.message(target)))
+                if let error = self.check(response.code(target), response.message(target)) {
+                    return .error(error)
                 }
                 let jsonArray = response.data(target) as? [[String : Any]] ?? []
                 let models = [Model].init(JSONArray: jsonArray)
@@ -154,14 +157,28 @@ public extension NetworkingType {
         return self.request(target)
             .mapObject(BaseResponse.self)
             .flatMap { response -> Single<List<Model>> in
-                guard response.code(target) == successCode,
-                    let json = response.data(target) as? [String: Any],
-                    let list = List<Model>.init(JSON: json) else {
-                        return .error(SWError.server(response.code, response.message(target)))
+                if let error = self.check(response.code(target), response.message(target)) {
+                    return .error(error)
+                }
+                let data = response.data
+                guard let json = data as? [String: Any],
+                      let list = List<Model>.init(JSON: json) else {
+                        return .error(SWError.dataFormatError)
                 }
                 return .just(list)
         }
         .observeOn(MainScheduler.instance)
     }
+    
+    private func check(_ code: Int, _ message: String) -> SWError? {
+        guard code == successCode else {
+            if code == userExpiredCode {
+                return SWError.userLoginExpired
+            }
+            return SWError.server(code, message)
+        }
+        return nil
+    }
+    
 }
 
