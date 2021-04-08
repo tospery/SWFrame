@@ -9,34 +9,12 @@ import Foundation
 import RxSwift
 import Moya
 
-public protocol SWCompatibleError : Error {
-    var isNetwork: Bool { get }
-    var isServer: Bool { get }
-    var isUserExpired: Bool { get }
-    var displayImage: UIImage? { get }
-}
-
-extension SWCompatibleError {
-    public var isNetwork: Bool { false }
-    public var isServer: Bool { false }
-    public var isUserExpired: Bool { false }
-    public var displayImage: UIImage? {
-        if self.isNetwork {
-            return UIImage.networkError
-        } else if self.isServer {
-            return UIImage.serverError
-        } else if self.isUserExpired {
-            return UIImage.expireError
-        }
-        return nil
-    }
-}
-
 public enum SWError: Error {
     case networkDisabled
     case networkUnreachable
     case userNotLogin
     case userLoginExpired
+    case listIsEmpty
     case navigationException
     case dataFormatError
     case server(Int, String?)
@@ -51,8 +29,9 @@ extension SWError: CustomNSError {
         case .networkUnreachable: return 10002
         case .userNotLogin: return 10003
         case .userLoginExpired: return 10004
-        case .navigationException: return 10005
-        case .dataFormatError: return 10006
+        case .listIsEmpty: return 10005
+        case .navigationException: return 10006
+        case .dataFormatError: return 10007
         case let .server(code, _): return code
         case let .app(code, _): return code
         }
@@ -71,6 +50,8 @@ extension SWError: LocalizedError {
             return NSLocalizedString("Error.User.Title", value: "用户异常", comment: "")
         case .userLoginExpired:
             return NSLocalizedString("Error.User.Title", value: "用户异常", comment: "")
+        case .listIsEmpty:
+            return NSLocalizedString("Error.List.Emtpy", value: "列表为空", comment: "")
         case .navigationException:
             return NSLocalizedString("Error.Navigation.Title", value: "导航异常", comment: "")
         case .dataFormatError:
@@ -92,6 +73,8 @@ extension SWError: LocalizedError {
             return NSLocalizedString("Error.User.Message", value: "用户异常", comment: "")
         case .userLoginExpired:
             return NSLocalizedString("Error.User.Message", value: "用户异常", comment: "")
+        case .listIsEmpty:
+            return NSLocalizedString("Error.List.Emtpy", value: "列表为空", comment: "")
         case .navigationException:
             return NSLocalizedString("Error.Navigation.Message", value: "导航异常", comment: "")
         case .dataFormatError:
@@ -115,6 +98,7 @@ extension SWError: Equatable {
              (.networkUnreachable, .networkUnreachable),
              (.userNotLogin, .userNotLogin),
              (.userLoginExpired, .userLoginExpired),
+             (.listIsEmpty, .listIsEmpty),
              (.navigationException, .navigationException),
              (.dataFormatError, .dataFormatError):
             return true
@@ -139,6 +123,8 @@ extension SWError: CustomStringConvertible {
             return "SWError.userNotLogin"
         case .userLoginExpired:
             return "SWError.userLoginExpired"
+        case .listIsEmpty:
+            return "SWError.listIsEmpty"
         case .navigationException:
             return "SWError.navigationException"
         case .dataFormatError:
@@ -151,11 +137,14 @@ extension SWError: CustomStringConvertible {
     }
 }
 
-extension SWError: SWCompatibleError {
+extension SWError {
     public var isNetwork: Bool {
         switch self {
-        case .networkDisabled, .networkUnreachable: return true
-        default: return false
+        case .networkDisabled,
+             .networkUnreachable:
+            return true
+        default:
+            return false
         }
     }
     public var isServer: Bool {
@@ -166,5 +155,15 @@ extension SWError: SWCompatibleError {
     }
     public var isUserExpired: Bool {
         return self == .userLoginExpired
+    }
+    public var displayImage: UIImage? {
+        if self.isNetwork {
+            return UIImage.networkError
+        } else if self.isServer {
+            return UIImage.serverError
+        } else if self.isUserExpired {
+            return UIImage.expireError
+        }
+        return nil
     }
 }

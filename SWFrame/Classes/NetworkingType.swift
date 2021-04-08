@@ -146,8 +146,13 @@ public extension NetworkingType {
                 if let error = self.check(response.code(target), response.message(target)) {
                     return .error(error)
                 }
-                let jsonArray = response.data(target) as? [[String : Any]] ?? []
-                let models = [Model].init(JSONArray: jsonArray)
+                guard let json = response.data(target) as? [[String: Any]] else {
+                    return .error(SWError.dataFormatError)
+                }
+                let models = [Model].init(JSONArray: json)
+//                if models.count == 0 {
+//                    return .error(SWError.listIsEmpty)
+//                }
                 return .just(models)
         }
         .observeOn(MainScheduler.instance)
@@ -160,11 +165,13 @@ public extension NetworkingType {
                 if let error = self.check(response.code(target), response.message(target)) {
                     return .error(error)
                 }
-                let data = response.data
-                guard let json = data as? [String: Any],
+                guard let json = response.data as? [String: Any],
                       let list = List<Model>.init(JSON: json) else {
                         return .error(SWError.dataFormatError)
                 }
+//                if list.items.count == 0 {
+//                    return .error(SWError.listIsEmpty)
+//                }
                 return .just(list)
         }
         .observeOn(MainScheduler.instance)
