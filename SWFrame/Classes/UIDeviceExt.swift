@@ -18,19 +18,22 @@ public extension UIDevice {
         case ipad
         case simulator
     }
-
-    var uuid: String {
+    
+    var keychain: UICKeyChainStore {
         let service = "device.info"
         let accessGroup = UIApplication.shared.team + ".shared"
         let keychain = UICKeyChainStore(service: service, accessGroup: accessGroup)
+        return keychain
+    }
 
+    var uuid: String {
+        let keychain = self.keychain
         let key = "uuid"
         var uuid = keychain[key]
         if uuid?.isEmpty ?? true {
             uuid = FCUUID.uuidForDevice()
             keychain[key] = uuid
         }
-
         return uuid!
     }
     
