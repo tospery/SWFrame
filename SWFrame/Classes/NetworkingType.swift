@@ -62,17 +62,13 @@ public extension NetworkingType {
     static var trackInflights: Bool {
         return false
     }
-    
-//    static func output(target: TargetType, items: [String]) {
-//        for item in items {
-//            DDLogDebug(item)
-//        }
-//    }
+
 }
 
 public extension NetworkingType {
     func request(_ target: Target) -> Single<Response> {
         return self.provider.rx.request(target)
+            // .catchError { Single<Response>.error($0.asSWError) } YJX_TODO
     }
     
     func requestRaw(_ target: Target) -> Single<Response> {

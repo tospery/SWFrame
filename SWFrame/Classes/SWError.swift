@@ -23,6 +23,8 @@ public enum SWError: Error {
 
 extension SWError: CustomNSError {
     public static let domain = "com.swframe.error"
+    // YJX_TODO code从10000+X，20000+X，30000+x开始
+    // SWError network/server/system/app
     public var errorCode: Int {
         switch self {
         case .networkDisabled: return 10001
