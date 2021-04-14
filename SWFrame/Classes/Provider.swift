@@ -11,7 +11,6 @@ open class Provider: ProviderType {
     
     public init() {
       // ⛵ I'm a Provider!
-        logger.print("aaaaaaa")
     }
     
 }

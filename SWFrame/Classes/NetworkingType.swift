@@ -66,12 +66,16 @@ public extension NetworkingType {
 }
 
 public extension NetworkingType {
-    func request(_ target: Target) -> Single<Response> {
-        return self.provider.rx.request(target)
-            // .catchError { Single<Response>.error($0.asSWError) } YJX_TODO
+    func request(_ target: Target) -> Single<Moya.Response> {
+        //        NSURLErrorTimedOut(-1001): 请求超时
+        //        NSURLErrorCannotConnectToHost(-1004): 找不到服务
+        //        NSURLErrorDataNotAllowed(-1020): 网络不可用
+        return self.provider.rx.request(target).catchError { error -> Single<Moya.Response> in
+            return .error(error.asSWError)
+        }
     }
     
-    func requestRaw(_ target: Target) -> Single<Response> {
+    func requestRaw(_ target: Target) -> Single<Moya.Response> {
         return self.request(target)
             .observeOn(MainScheduler.instance)
     }
@@ -128,7 +132,7 @@ public extension NetworkingType {
                 let data = response.data(target)
                 guard let json = data as? [String: Any],
                       let model = Model.init(JSON: json) else {
-                    return .error(SWError.dataFormatError)
+                    return .error(SystemError.dataFormat)
                 }
                 return .just(model)
         }
@@ -143,7 +147,7 @@ public extension NetworkingType {
                     return .error(error)
                 }
                 guard let json = response.data(target) as? [[String: Any]] else {
-                    return .error(SWError.dataFormatError)
+                    return .error(SystemError.dataFormat)
                 }
                 let models = [Model].init(JSONArray: json)
 //                if models.count == 0 {
@@ -163,7 +167,7 @@ public extension NetworkingType {
                 }
                 guard let json = response.data as? [String: Any],
                       let list = List<Model>.init(JSON: json) else {
-                        return .error(SWError.dataFormatError)
+                        return .error(SystemError.dataFormat)
                 }
 //                if list.items.count == 0 {
 //                    return .error(SWError.listIsEmpty)
@@ -175,8 +179,8 @@ public extension NetworkingType {
     
     private func check(_ code: Int, _ message: String) -> SWError? {
         guard code == successCode else {
-            if code == userExpiredCode {
-                return SWError.userLoginExpired
+            if code == userLoginExpiredCode {
+                return UserError.loginExpired.asSWError
             }
             return SWError.server(code, message)
         }

@@ -19,7 +19,7 @@ extension Error {
         if let compatible = self as? SWCompatibleError {
             return compatible.swError
         }
-        return .server(0, nil)
+        return .server(0, self.localizedDescription)
     }
     
 }
@@ -37,12 +37,12 @@ extension SWCompatibleError {
 extension NSError: SWCompatibleError {
     public var swError: SWError {
         if self.domain == NSURLErrorDomain {
-            return .networkUnreachable
+            return .network
         } else {
             if self.code == 500 {
-                return .server(0, nil)
+                return .server(0, self.localizedDescription)
             } else if self.code == 401 {
-                return .userLoginExpired
+                return UserError.loginExpired.asSWError
             }
         }
         return .server(0, self.localizedDescription)
@@ -53,7 +53,7 @@ extension AFError: SWCompatibleError {
     public var swError: SWError {
         switch self {
         case .sessionTaskFailed:
-            return .networkUnreachable
+            return .network
         default:
             return .server(0, self.localizedDescription)
         }

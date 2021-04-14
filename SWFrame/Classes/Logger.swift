@@ -8,6 +8,7 @@
 import Foundation
 import CocoaLumberjack
 
+let swframe = "SWFrame"
 public let logger = Logger.init()
 
 public protocol LoggerCompatible {

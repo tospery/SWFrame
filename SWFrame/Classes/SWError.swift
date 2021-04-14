@@ -10,31 +10,49 @@ import RxSwift
 import Moya
 
 public enum SWError: Error {
-    case networkDisabled
-    case networkUnreachable
-    case userNotLogin
-    case userLoginExpired
-    case listIsEmpty
-    case navigationException
-    case dataFormatError
+    case network
     case server(Int, String?)
+    case system(Int)
+    case user(Int)
     case app(Int, String?)
+    
+    var asSystemError: SystemError? {
+        switch self {
+        case let .system(code):
+            switch code {
+            case SystemError.navigation.errorCode: return .navigation
+            case SystemError.dataFormat.errorCode: return .dataFormat
+            case SystemError.listIsEmpty.errorCode: return .listIsEmpty
+            default: return nil
+            }
+        default:
+            return nil
+        }
+    }
+    
+    var asUserError: UserError? {
+        switch self {
+        case let .user(code):
+            switch code {
+            case UserError.notLoggedIn.errorCode: return .notLoggedIn
+            case UserError.loginExpired.errorCode: return .loginExpired
+            default: return nil
+            }
+        default:
+            return nil
+        }
+    }
+    
 }
 
 extension SWError: CustomNSError {
     public static let domain = "com.swframe.error"
-    // YJX_TODO code从10000+X，20000+X，30000+x开始
-    // SWError network/server/system/app
     public var errorCode: Int {
         switch self {
-        case .networkDisabled: return 10001
-        case .networkUnreachable: return 10002
-        case .userNotLogin: return 10003
-        case .userLoginExpired: return 10004
-        case .listIsEmpty: return 10005
-        case .navigationException: return 10006
-        case .dataFormatError: return 10007
+        case .network: return 1
         case let .server(code, _): return code
+        case let .system(code): return code
+        case let .user(code): return code
         case let .app(code, _): return code
         }
     }
@@ -44,72 +62,39 @@ extension SWError: LocalizedError {
     /// 概述
     public var failureReason: String? {
         switch self {
-        case .networkDisabled:
-            return NSLocalizedString("Error.Network.Title", value: "网络错误", comment: "")
-        case .networkUnreachable:
-            return NSLocalizedString("Error.Network.Title", value: "网络错误", comment: "")
-        case .userNotLogin:
-            return NSLocalizedString("Error.User.Title", value: "用户异常", comment: "")
-        case .userLoginExpired:
-            return NSLocalizedString("Error.User.Title", value: "用户异常", comment: "")
-        case .listIsEmpty:
-            return NSLocalizedString("Error.List.Emtpy", value: "列表为空", comment: "")
-        case .navigationException:
-            return NSLocalizedString("Error.Navigation.Title", value: "导航异常", comment: "")
-        case .dataFormatError:
-            return NSLocalizedString("Error.DataFormat.Title", value: "数据格式错误", comment: "")
-        case .server:
-            return NSLocalizedString("Error.Server.Title", value: "服务异常", comment: "")
-        case .app:
-            return NSLocalizedString("Error.App.Title", value: "操作错误", comment: "")
+        case .network: return NSLocalizedString("Error.Network.Title", value: "网络错误", comment: "")
+        case .server: return NSLocalizedString("Error.Server.Title", value: "服务异常", comment: "")
+        case .system: return self.asSystemError?.failureReason
+        case .user: return self.asUserError?.failureReason
+        case .app: return NSLocalizedString("Error.App.Title", value: "操作错误", comment: "")
         }
     }
     /// 详情
     public var errorDescription: String? {
         switch self {
-        case .networkDisabled:
-            return NSLocalizedString("Error.Network.Message", value: "网络错误", comment: "")
-        case .networkUnreachable:
-            return NSLocalizedString("Error.Network.Message", value: "网络错误", comment: "")
-        case .userNotLogin:
-            return NSLocalizedString("Error.User.Message", value: "用户异常", comment: "")
-        case .userLoginExpired:
-            return NSLocalizedString("Error.User.Message", value: "用户异常", comment: "")
-        case .listIsEmpty:
-            return NSLocalizedString("Error.List.Emtpy", value: "列表为空", comment: "")
-        case .navigationException:
-            return NSLocalizedString("Error.Navigation.Message", value: "导航异常", comment: "")
-        case .dataFormatError:
-            return NSLocalizedString("Error.DataFormat.Title", value: "数据格式错误", comment: "")
-        case let .server(_, message):
-            return message ?? NSLocalizedString("Error.Server.Message", value: "服务异常", comment: "")
-        case let .app(_, message):
-            return message ?? NSLocalizedString("Error.App.Message", value: "操作错误", comment: "")
+        case .network: return NSLocalizedString("Error.Network.Message", value: "网络错误", comment: "")
+        case let .server(_, message): return message ?? NSLocalizedString("Error.Server.Message", value: "服务异常", comment: "")
+        case .system: return self.asSystemError?.errorDescription
+        case .user: return self.asUserError?.errorDescription
+        case let .app(_, message): return message ?? NSLocalizedString("Error.App.Message", value: "操作错误", comment: "")
         }
     }
     /// 重试
     public var recoverySuggestion: String? {
         NSLocalizedString("Error.Retry", value: "重试", comment: "")
     }
+
 }
 
 extension SWError: Equatable {
     public static func == (lhs: SWError, rhs: SWError) -> Bool {
         switch (lhs, rhs) {
-        case (.networkDisabled, .networkDisabled),
-             (.networkUnreachable, .networkUnreachable),
-             (.userNotLogin, .userNotLogin),
-             (.userLoginExpired, .userLoginExpired),
-             (.listIsEmpty, .listIsEmpty),
-             (.navigationException, .navigationException),
-             (.dataFormatError, .dataFormatError):
-            return true
-        case let (.server(code1, _), .server(code2, _)):
-            return code1 == code2
-        case let (.app(code1, _), .app(code2, _)):
-            return code1 == code2
-        default:
-            return false
+        case (.network, .network): return true
+        case let (.server(code1, _), .server(code2, _)): return code1 == code2
+        case let (.system(code1), .system(code2)): return code1 == code2
+        case let (.user(code1), .user(code2)): return code1 == code2
+        case let (.app(code1, _), .app(code2, _)): return code1 == code2
+        default: return false
         }
     }
 }
@@ -117,53 +102,34 @@ extension SWError: Equatable {
 extension SWError: CustomStringConvertible {
     public var description: String {
         switch self {
-        case .networkDisabled:
-            return "SWError.networkDisabled"
-        case .networkUnreachable:
-            return "SWError.networkUnreachable"
-        case .userNotLogin:
-            return "SWError.userNotLogin"
-        case .userLoginExpired:
-            return "SWError.userLoginExpired"
-        case .listIsEmpty:
-            return "SWError.listIsEmpty"
-        case .navigationException:
-            return "SWError.navigationException"
-        case .dataFormatError:
-            return "SWError.dataFormatError"
-        case let .server(code, message):
-            return "SWError.server(\(code), \(message))"
-        case let .app(code, message):
-            return "SWError.app(\(code), \(message))"
+        case .network: return "SWError.network"
+        case let .server(code, message): return "SWError.server(\(code), \(message))"
+        case let .system(code): return "SWError.system(\(code))"
+        case let .user(code): return "SWError.user(\(code))"
+        case let .app(code, message): return "SWError.app(\(code), \(message))"
         }
     }
 }
 
 extension SWError {
     public var isNetwork: Bool {
-        switch self {
-        case .networkDisabled,
-             .networkUnreachable:
-            return true
-        default:
-            return false
-        }
+        self == .network
     }
     public var isServer: Bool {
-        switch self {
-        case .server: return true
-        default: return false
+        if case .server = self {
+            return true
         }
+        return false
     }
-    public var isUserExpired: Bool {
-        return self == .userLoginExpired
+    public var isLoginExpired: Bool {
+        self == UserError.loginExpired.asSWError
     }
     public var displayImage: UIImage? {
         if self.isNetwork {
             return UIImage.networkError
         } else if self.isServer {
             return UIImage.serverError
-        } else if self.isUserExpired {
+        } else if self.isLoginExpired {
             return UIImage.expireError
         }
         return nil
