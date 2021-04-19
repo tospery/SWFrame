@@ -113,7 +113,7 @@ public class NavigationBar: UIView {
         
         let padding = 8.f
         var left = padding
-        let top = statusBarHeightConstant
+        let top = UIApplication.statusBarHeightConstant
         var width = UINavigationBar.height
         let height = width
         for (_, button) in self.leftButtons.enumerated() {
@@ -136,7 +136,7 @@ public class NavigationBar: UIView {
         let rightDistance = self.width - (self.rightButtons.last?.left ?? self.width)
         left = max(leftDistance, rightDistance)
         width = flat(self.width - left * 2)
-        self.titleLabel.frame = CGRect(x: left, y: statusBarHeightConstant, width: width, height: UINavigationBar.height)
+        self.titleLabel.frame = CGRect(x: left, y: UIApplication.statusBarHeightConstant, width: width, height: UINavigationBar.height)
         
         if let titleView = self.titleView {
             titleView.width = min(titleView.width, self.titleLabel.width)

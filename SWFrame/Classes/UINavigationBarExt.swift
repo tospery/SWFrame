@@ -10,15 +10,15 @@ import UIKit
 public extension UINavigationBar {
     
     static var height: CGFloat {
-        (UIDevice.isIPad ? (UIDevice.iosVersionDouble >= 12.0 ? 50 : 44) : (isLandscape ? alternate(regular: 44, compact: 32) : 44))
+        SWHelper.sharedInstance().navigationBarHeight
     }
     
     static var contentHeight: CGFloat {
-        (statusBarHeight + self.height)
+        SWHelper.sharedInstance().navigationContentTop
     }
     
     static var contentHeightConstant: CGFloat {
-        (statusBarHeightConstant + self.height)
+        SWHelper.sharedInstance().navigationContentTopConstant
     }
 
 }

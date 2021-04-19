@@ -10,7 +10,7 @@ import UIKit
 public extension UIToolbar {
     
     static var height: CGFloat {
-        (UIDevice.isIPad ? (UIScreen.isNotched ? 70 : (UIDevice.iosVersionDouble >= 12.0 ? 50 : 44)) : (isLandscape ? alternate(regular: 44, compact: 32) : 44) +  UIScreen.safeBottom)
+        SWHelper.sharedInstance().toolBarHeight
     }
 
 }

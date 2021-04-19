@@ -11,6 +11,14 @@ import RxCocoa
 
 public extension UIApplication {
     
+    static var statusBarHeight: CGFloat {
+        SWHelper.sharedInstance().statusBarHeight
+    }
+    
+    static var statusBarHeightConstant: CGFloat {
+        SWHelper.sharedInstance().statusBarHeightConstant
+    }
+    
     var team: String {
         let query = [
             kSecClass as NSString: kSecClassGenericPassword as NSString,
