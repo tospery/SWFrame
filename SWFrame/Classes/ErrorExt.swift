@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import Alamofire
+import SwifterSwift
 import Moya
 
 extension Error {
@@ -65,6 +66,11 @@ extension MoyaError: SWCompatibleError {
         switch self {
         case let .underlying(error, _):
             return (error as? SWCompatibleError)?.swError ?? .server(0, error.localizedDescription)
+        case let .statusCode(response):
+            if response.statusCode == userLoginExpiredCode {
+                return UserError.loginExpired.asSWError
+            }
+            return .server(0, response.data.string(encoding: .utf8))
         default:
             return .server(0, self.localizedDescription)
         }

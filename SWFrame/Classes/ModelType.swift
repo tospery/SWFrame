@@ -23,10 +23,13 @@ public protocol Identifiable {
 
 // MARK: - 模型协议
 public protocol ModelType: Mappable, CustomStringConvertible {
+    var isValid: Bool { get }
     init()
 }
 
 public extension ModelType {
+    
+    var isValid: Bool { false }
     
     var description: String {
         return self.toJSONString() ?? ""
@@ -37,6 +40,8 @@ public extension ModelType {
 public struct BaseModel: ModelType {
     
     public var value: Any?
+    
+    public var isValid: Bool { self.value != nil }
     
     public init() {
     }
