@@ -8,6 +8,7 @@
 import Foundation
 
 public enum SystemError: Error {
+    case unknown
     case navigation
     case dataFormat
     case listIsEmpty
@@ -17,9 +18,10 @@ extension SystemError: CustomNSError {
     public static let domain = "com.swframe.error.system"
     public var errorCode: Int {
         switch self {
-        case .navigation: return 1
-        case .dataFormat: return 2
-        case .listIsEmpty: return 3
+        case .unknown: return 1
+        case .navigation: return 2
+        case .dataFormat: return 3
+        case .listIsEmpty: return 4
         }
     }
 }
@@ -27,6 +29,8 @@ extension SystemError: CustomNSError {
 extension SystemError: LocalizedError {
     public var failureReason: String? {
         switch self {
+        case .unknown:
+            return NSLocalizedString("Error.System.Unknown.Title", value: "未知错误", comment: "")
         case .navigation:
             return NSLocalizedString("Error.System.Navigation.Title", value: "导航错误", comment: "")
         case .dataFormat:
@@ -38,6 +42,8 @@ extension SystemError: LocalizedError {
     /// 详情
     public var errorDescription: String? {
         switch self {
+        case .unknown:
+            return NSLocalizedString("Error.System.Unknown.Message", value: "导航错误", comment: "")
         case .navigation:
             return NSLocalizedString("Error.System.Navigation.Message", value: "导航错误", comment: "")
         case .dataFormat:
@@ -55,7 +61,8 @@ extension SystemError: LocalizedError {
 extension SystemError: Equatable {
     public static func == (lhs: SystemError, rhs: SystemError) -> Bool {
         switch (lhs, rhs) {
-        case (.navigation, .navigation),
+        case (.unknown, .unknown),
+             (.navigation, .navigation),
              (.dataFormat, .dataFormat),
              (.listIsEmpty, .listIsEmpty):
             return true

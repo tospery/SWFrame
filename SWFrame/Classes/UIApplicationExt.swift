@@ -56,6 +56,10 @@ public extension UIApplication {
         return scheme ?? ""
     }
     
+    var name: String {
+        self.displayName ?? self.bundleName
+    }
+    
     var bundleName: String {
         Bundle.main.infoDictionary?[kCFBundleNameKey as String] as! String
     }
