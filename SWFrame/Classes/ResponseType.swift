@@ -11,9 +11,6 @@ import Moya
 import Alamofire
 import ObjectMapper
 
-public let successCode              = 200
-public let unloginCode     = 401
-
 public protocol ResponseType {
     var code: Int { get }
     var message: String { get }

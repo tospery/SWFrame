@@ -32,7 +32,7 @@ public extension ModelType {
     var isValid: Bool { false }
     
     var description: String {
-        return self.toJSONString() ?? ""
+        self.toJSONString() ?? ""
     }
     
 }

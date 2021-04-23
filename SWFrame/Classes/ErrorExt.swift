@@ -67,7 +67,7 @@ extension MoyaError: SWCompatibleError {
         case let .underlying(error, _):
             return (error as? SWCompatibleError)?.swError ?? .server(0, error.localizedDescription)
         case let .statusCode(response):
-            if response.statusCode == unloginCode {
+            if response.statusCode == HTTPStatusCode.Client.unauthorized.rawValue {
                 return .unlogin
             }
             return .server(0, response.data.string(encoding: .utf8))

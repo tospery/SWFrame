@@ -70,9 +70,7 @@ public extension NetworkingType {
         //        NSURLErrorTimedOut(-1001): 请求超时
         //        NSURLErrorCannotConnectToHost(-1004): 找不到服务
         //        NSURLErrorDataNotAllowed(-1020): 网络不可用
-        self.provider.rx.request(target).filterSuccessfulStatusCodes() .catchError { error -> Single<Moya.Response> in
-            let aaa = error
-            return .error(error.asSWError)
+        self.provider.rx.request(target).filterSuccessfulStatusCodes() .catchError { Single<Moya.Response>.error($0.asSWError)
         }
     }
     
@@ -179,8 +177,8 @@ public extension NetworkingType {
     }
     
     private func check(_ code: Int, _ message: String) -> SWError? {
-        guard code == successCode else {
-            if code == unloginCode {
+        guard code == HTTPStatusCode.Success.ok.rawValue else {
+            if code == HTTPStatusCode.Client.unauthorized.rawValue {
                 return .unlogin
             }
             return SWError.server(code, message)
