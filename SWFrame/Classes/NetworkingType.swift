@@ -180,8 +180,8 @@ public extension NetworkingType {
     
     private func check(_ code: Int, _ message: String) -> SWError? {
         guard code == successCode else {
-            if code == userLoginExpiredCode {
-                return UserError.loginExpired.asSWError
+            if code == unloginCode {
+                return .unlogin
             }
             return SWError.server(code, message)
         }

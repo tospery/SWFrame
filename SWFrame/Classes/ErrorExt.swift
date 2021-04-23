@@ -43,7 +43,7 @@ extension NSError: SWCompatibleError {
             if self.code == 500 {
                 return .server(0, self.localizedDescription)
             } else if self.code == 401 {
-                return UserError.loginExpired.asSWError
+                return .unlogin
             }
         }
         return .server(0, self.localizedDescription)
@@ -67,8 +67,8 @@ extension MoyaError: SWCompatibleError {
         case let .underlying(error, _):
             return (error as? SWCompatibleError)?.swError ?? .server(0, error.localizedDescription)
         case let .statusCode(response):
-            if response.statusCode == userLoginExpiredCode {
-                return UserError.loginExpired.asSWError
+            if response.statusCode == unloginCode {
+                return .unlogin
             }
             return .server(0, response.data.string(encoding: .utf8))
         default:
