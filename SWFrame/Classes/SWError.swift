@@ -126,4 +126,19 @@ extension SWError {
         }
         return nil
     }
+    
+    public func isServerError(withCode errorCode: Int) -> Bool {
+        if case let .server(code, _) = self {
+            return errorCode == code
+        }
+        return false
+    }
+    
+    public func isAppError(withCode errorCode: Int) -> Bool {
+        if case let .app(code, _) = self {
+            return errorCode == code
+        }
+        return false
+    }
+    
 }
