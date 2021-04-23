@@ -10,35 +10,26 @@ import RxSwift
 import Moya
 
 public enum SWError: Error {
+    case unknown
     case network
-    case unlogin
-    case system(Int)
+    case navigation
+    case dataFormat
+    case listIsEmpty
+    case notLoginedIn
     case server(Int, String?)
     case app(Int, String?)
-    
-    var asSystemError: SystemError? {
-        switch self {
-        case let .system(code):
-            switch code {
-            case SystemError.navigation.errorCode: return .navigation
-            case SystemError.dataFormat.errorCode: return .dataFormat
-            case SystemError.listIsEmpty.errorCode: return .listIsEmpty
-            default: return nil
-            }
-        default:
-            return nil
-        }
-    }
-
 }
 
 extension SWError: CustomNSError {
     public static let domain = "com.swframe.error"
     public var errorCode: Int {
         switch self {
-        case .network: return 1
-        case .unlogin: return 2
-        case let .system(code): return code
+        case .unknown: return 1
+        case .network: return 2
+        case .navigation: return 3
+        case .dataFormat: return 4
+        case .listIsEmpty: return 5
+        case .notLoginedIn: return 6
         case let .server(code, _): return code
         case let .app(code, _): return code
         }
@@ -49,9 +40,12 @@ extension SWError: LocalizedError {
     /// 概述
     public var failureReason: String? {
         switch self {
+        case .unknown: return NSLocalizedString("Error.Unknown.Title", value: "未知错误", comment: "")
         case .network: return NSLocalizedString("Error.Network.Title", value: "网络错误", comment: "")
-        case .unlogin: return NSLocalizedString("Error.Unlogin.Title", value: "用户未登录", comment: "")
-        case .system: return self.asSystemError?.failureReason
+        case .navigation: return NSLocalizedString("Error.Navigation.Title", value: "导航错误", comment: "")
+        case .dataFormat: return NSLocalizedString("Error.DataFormat.Title", value: "数据格式异常", comment: "")
+        case .listIsEmpty: return NSLocalizedString("Error.ListIsEmpty.Title", value: "列表为空", comment: "")
+        case .notLoginedIn: return NSLocalizedString("Error.NotLoginedIn.Title", value: "用户未登录", comment: "")
         case .server: return NSLocalizedString("Error.Server.Title", value: "服务异常", comment: "")
         case .app: return NSLocalizedString("Error.App.Title", value: "操作错误", comment: "")
         }
@@ -59,9 +53,12 @@ extension SWError: LocalizedError {
     /// 详情
     public var errorDescription: String? {
         switch self {
+        case .unknown: return NSLocalizedString("Error.Unknown.Message", value: "未知错误", comment: "")
         case .network: return NSLocalizedString("Error.Network.Message", value: "网络错误", comment: "")
-        case .unlogin: return NSLocalizedString("Error.Unlogin.Message", value: "用户未登录", comment: "")
-        case .system: return self.asSystemError?.errorDescription
+        case .navigation: return NSLocalizedString("Error.Navigation.Message", value: "导航错误", comment: "")
+        case .dataFormat: return NSLocalizedString("Error.DataFormat.Message", value: "数据格式异常", comment: "")
+        case .listIsEmpty: return NSLocalizedString("Error.ListIsEmpty.Message", value: "列表为空", comment: "")
+        case .notLoginedIn: return NSLocalizedString("Error.NotLoginedIn.Message", value: "用户未登录", comment: "")
         case let .server(_, message): return message ?? NSLocalizedString("Error.Server.Message", value: "服务异常", comment: "")
         case let .app(_, message): return message ?? NSLocalizedString("Error.App.Message", value: "操作错误", comment: "")
         }
@@ -76,11 +73,16 @@ extension SWError: LocalizedError {
 extension SWError: Equatable {
     public static func == (lhs: SWError, rhs: SWError) -> Bool {
         switch (lhs, rhs) {
-        case (.network, .network): return true
-        case (.unlogin, .unlogin): return true
-        case let (.system(code1), .system(code2)): return code1 == code2
-        case let (.server(code1, _), .server(code2, _)): return code1 == code2
-        case let (.app(code1, _), .app(code2, _)): return code1 == code2
+        case (.unknown, .unknown),
+             (.network, .network),
+             (.navigation, .navigation),
+             (.dataFormat, .dataFormat),
+             (.listIsEmpty, .listIsEmpty),
+             (.notLoginedIn, .notLoginedIn):
+            return true
+        case (.server(let left, _), .server(let right, _)),
+             (.app(let left, _), .app(let right, _)):
+            return left == right
         default: return false
         }
     }
@@ -89,9 +91,12 @@ extension SWError: Equatable {
 extension SWError: CustomStringConvertible {
     public var description: String {
         switch self {
+        case .unknown: return "SWError.unknown"
         case .network: return "SWError.network"
-        case .unlogin: return "SWError.unlogin"
-        case let .system(code): return "SWError.system(\(code))"
+        case .navigation: return "SWError.navigation"
+        case .dataFormat: return "SWError.dataFormat"
+        case .listIsEmpty: return "SWError.listIsEmpty"
+        case .notLoginedIn: return "SWError.notLoginedIn"
         case let .server(code, message): return "SWError.server(\(code), \(message))"
         case let .app(code, message): return "SWError.app(\(code), \(message))"
         }
@@ -108,15 +113,15 @@ extension SWError {
         }
         return false
     }
-    public var isUnlogin: Bool {
-        self == .unlogin
+    public var isNotLoginedIn: Bool {
+        self == .notLoginedIn
     }
     public var displayImage: UIImage? {
         if self.isNetwork {
             return UIImage.networkError
         } else if self.isServer {
             return UIImage.serverError
-        } else if self.isUnlogin {
+        } else if self.isNotLoginedIn {
             return UIImage.expireError
         }
         return nil

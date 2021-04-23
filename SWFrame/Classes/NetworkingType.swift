@@ -131,7 +131,7 @@ public extension NetworkingType {
                 let data = response.data(target)
                 guard let json = data as? [String: Any],
                       let model = Model.init(JSON: json) else {
-                    return .error(SystemError.dataFormat)
+                    return .error(SWError.dataFormat)
                 }
                 return .just(model)
         }
@@ -146,7 +146,7 @@ public extension NetworkingType {
                     return .error(error)
                 }
                 guard let json = response.data(target) as? [[String: Any]] else {
-                    return .error(SystemError.dataFormat)
+                    return .error(SWError.dataFormat)
                 }
                 let models = [Model].init(JSONArray: json)
 //                if models.count == 0 {
@@ -166,7 +166,7 @@ public extension NetworkingType {
                 }
                 guard let json = response.data as? [String: Any],
                       let list = List<Model>.init(JSON: json) else {
-                        return .error(SystemError.dataFormat)
+                        return .error(SWError.dataFormat)
                 }
 //                if list.items.count == 0 {
 //                    return .error(SWError.listIsEmpty)
@@ -179,7 +179,7 @@ public extension NetworkingType {
     private func check(_ code: Int, _ message: String) -> SWError? {
         guard code == HTTPStatusCode.Success.ok.rawValue else {
             if code == HTTPStatusCode.Client.unauthorized.rawValue {
-                return .unlogin
+                return .notLoginedIn
             }
             return SWError.server(code, message)
         }

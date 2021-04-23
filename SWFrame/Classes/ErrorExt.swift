@@ -40,10 +40,10 @@ extension NSError: SWCompatibleError {
         if self.domain == NSURLErrorDomain {
             return .network
         } else {
-            if self.code == 500 {
+            if self.code == HTTPStatusCode.Server.internalServerError.rawValue {
                 return .server(0, self.localizedDescription)
-            } else if self.code == 401 {
-                return .unlogin
+            } else if self.code == HTTPStatusCode.Client.unauthorized.rawValue {
+                return .notLoginedIn
             }
         }
         return .server(0, self.localizedDescription)
@@ -68,7 +68,7 @@ extension MoyaError: SWCompatibleError {
             return (error as? SWCompatibleError)?.swError ?? .server(0, error.localizedDescription)
         case let .statusCode(response):
             if response.statusCode == HTTPStatusCode.Client.unauthorized.rawValue {
-                return .unlogin
+                return .notLoginedIn
             }
             return .server(0, response.data.string(encoding: .utf8))
         default:
