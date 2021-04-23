@@ -70,7 +70,7 @@ public extension NetworkingType {
         //        NSURLErrorTimedOut(-1001): 请求超时
         //        NSURLErrorCannotConnectToHost(-1004): 找不到服务
         //        NSURLErrorDataNotAllowed(-1020): 网络不可用
-        self.provider.rx.request(target).filterSuccessfulStatusCodes() .catchError { Single<Moya.Response>.error($0.asSWError)
+        self.provider.rx.request(target)/*.filterSuccessfulStatusCodes()*/.catchError { Single<Moya.Response>.error($0.asSWError)
         }
     }
     

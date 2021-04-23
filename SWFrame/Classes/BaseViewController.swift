@@ -186,7 +186,12 @@ public extension Reactive where Base: BaseViewController {
             guard let error = error,
                 viewController.isViewLoaded else { return }
             if (error as? SWError)?.isNotLoginedIn ?? false {
-                viewController.navigator.present( "\(UIApplication.shared.scheme)://login", wrap: NavigationController.self)
+                if let name = UIViewController.topMost?.className,
+                   name.contains("LoginViewController") {
+                    logger.print("已处于登录页，不需要再次打开", module: swframe)
+                } else {
+                    viewController.navigator.present( "\(UIApplication.shared.scheme)://login", wrap: NavigationController.self)
+                }
             } else {
                 var url = "\(UIApplication.shared.scheme)://toast".url!
                 url.appendQueryParameters([
