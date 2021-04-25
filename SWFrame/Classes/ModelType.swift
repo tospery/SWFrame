@@ -29,7 +29,7 @@ public protocol ModelType: Mappable, CustomStringConvertible {
 
 public extension ModelType {
     
-    var isValid: Bool { false }
+    var isValid: Bool { true }
     
     var description: String {
         self.toJSONString() ?? ""
