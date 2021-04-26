@@ -48,6 +48,7 @@ Pod::Spec.new do |s|
   s.dependency 'RxDataSources', '4.0.1'
   s.dependency 'RxViewController', '1.0.0'
   s.dependency 'NSObject+Rx', '5.1.0'
+  s.dependency 'RxTheme', '4.1.1'
   s.dependency 'Moya/RxSwift', '14.0.0'
   s.dependency 'ObjectMapper', '4.2.0'
   s.dependency 'ReactorKit', '2.1.1'

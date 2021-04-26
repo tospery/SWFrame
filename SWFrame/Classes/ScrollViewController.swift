@@ -61,6 +61,11 @@ open class ScrollViewController: BaseViewController {
         self.scrollView.rx
             .setDelegate(self)
             .disposed(by: self.disposeBag)
+        
+        themeService.typeStream.skip(1)
+            .observeOn(MainScheduler.instance)
+            .subscribeNext(weak: self, type(of: self).handle)
+            .disposed(by: self.disposeBag)
     }
     
     // MARK: - Method
@@ -94,20 +99,28 @@ open class ScrollViewController: BaseViewController {
         }
     }
     
+    func handle(theme: ThemeType) {
+        self.scrollView.reloadEmptyDataSet()
+    }
+    
 }
 
 extension ScrollViewController: DZNEmptyDataSetSource {
     
     open func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         if let title = (self.error as? LocalizedError)?.failureReason, !title.isEmpty {
-            return title.styled(with: .alignment(.center), .font(.systemFont(ofSize: 20)), .color(.darkGray))
+            return title.styled(with: .alignment(.center),
+                                .font(.systemFont(ofSize: 20)),
+                                .color(.title))
         }
         return nil
     }
     
     open func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         if let message = (self.error as? LocalizedError)?.errorDescription, !message.isEmpty {
-            return message.styled(with: .alignment(.center), .font(.systemFont(ofSize: 14)), .color(.lightGray))
+            return message.styled(with: .alignment(.center),
+                                  .font(.systemFont(ofSize: 14)),
+                                  .color(.body))
         }
         return nil
     }
@@ -121,14 +134,15 @@ extension ScrollViewController: DZNEmptyDataSetSource {
     
     open func buttonTitle(forEmptyDataSet scrollView: UIScrollView!, for state: UIControl.State) -> NSAttributedString! {
         if let retry = (self.error as? LocalizedError)?.recoverySuggestion {
-            return retry.styled(with: .font(.systemFont(ofSize: 15)), .color(state == UIControl.State.normal ? .white : UIColor.white.withAlphaComponent(0.8)))
+            return retry.styled(with: .font(.systemFont(ofSize: 15)),
+                                .color(state == UIControl.State.normal ? UIColor.background : UIColor.background.withAlphaComponent(0.8)))
         }
         return nil
     }
     
     open func buttonBackgroundImage(forEmptyDataSet scrollView: UIScrollView!, for state: UIControl.State) -> UIImage! {
         if state == UIControl.State.normal,
-            let image = UIImage.qmui_image(with: .blue, size: CGSize(width: 120, height: 40), cornerRadius: 2.f) {
+            let image = UIImage.qmui_image(with: .primary, size: CGSize(width: 120, height: 40), cornerRadius: 2.f) {
             return image.withAlignmentRectInsets(UIEdgeInsets(horizontal: (self.view.width - 120) / 2.f * -1.f, vertical: 0))
         }
         return nil
@@ -146,7 +160,7 @@ extension ScrollViewController: DZNEmptyDataSetSource {
     }
     
     open func backgroundColor(forEmptyDataSet scrollView: UIScrollView!) -> UIColor! {
-        return .white
+        .background
     }
 }
 

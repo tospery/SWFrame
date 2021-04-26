@@ -26,7 +26,7 @@ open class BaseViewController: UIViewController {
     public var hidesNavBottomLine = false
     
     public var loading = false
-    public var activating = false
+    public var emptying = false
     public var error: Error?
     
     public var contentTop: CGFloat {
@@ -163,15 +163,18 @@ open class BaseViewController: UIViewController {
 }
 
 public extension Reactive where Base: BaseViewController {
-//    var close: ControlEvent<Void> {
-//        let source = self.base.closeSubject.map{ _ in }
-//        return ControlEvent(events: source)
-//    }
+
+    var emptying: Binder<Bool> {
+        return Binder(self.base) { viewController, emptying in
+            viewController.emptying = emptying
+        }
+    }
     
     func loading(active: Bool = false, text: String? = nil) -> Binder<Bool> {
         return Binder(self.base) { viewController, loading in
             viewController.loading = loading
             guard viewController.isViewLoaded else { return }
+            guard !viewController.emptying else { return }
             var url = "\(UIApplication.shared.scheme)://toast".url!
             url.appendQueryParameters([
                 Parameter.active: loading.string
@@ -183,8 +186,8 @@ public extension Reactive where Base: BaseViewController {
     var error: Binder<Error?> {
         return Binder(self.base) { viewController, error in
             viewController.error = error
-            guard let error = error,
-                viewController.isViewLoaded else { return }
+            guard viewController.isViewLoaded else { return }
+            guard let error = error else { return }
             if (error as? SWError)?.isNotLoginedIn ?? false {
                 if let name = UIViewController.topMost?.className,
                    name.contains("LoginViewController") {
@@ -193,6 +196,7 @@ public extension Reactive where Base: BaseViewController {
                     viewController.navigator.present( "\(UIApplication.shared.scheme)://login", wrap: NavigationController.self)
                 }
             } else {
+                guard !viewController.emptying else { return }
                 var url = "\(UIApplication.shared.scheme)://toast".url!
                 url.appendQueryParameters([
                     Parameter.message: error.localizedDescription
