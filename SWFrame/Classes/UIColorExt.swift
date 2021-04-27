@@ -46,8 +46,8 @@ public extension UIColor {
         themeService.type.associatedObject.titleColor
     }
 
-    static var body: UIColor {
-        themeService.type.associatedObject.bodyColor
+    static var content: UIColor {
+        themeService.type.associatedObject.contentColor
     }
     
     static var header: UIColor {
@@ -60,6 +60,10 @@ public extension UIColor {
 
     static var border: UIColor {
         themeService.type.associatedObject.borderColor
+    }
+    
+    static var corner: UIColor {
+        themeService.type.associatedObject.cornerColor
     }
 
     static var separator: UIColor {
@@ -88,6 +92,22 @@ public extension UIColor {
     
     static var special5: UIColor {
         themeService.type.associatedObject.special5Color
+    }
+    
+    static var special6: UIColor {
+        themeService.type.associatedObject.special6Color
+    }
+    
+    static var special7: UIColor {
+        themeService.type.associatedObject.special7Color
+    }
+    
+    static var special8: UIColor {
+        themeService.type.associatedObject.special8Color
+    }
+    
+    static var special9: UIColor {
+        themeService.type.associatedObject.special9Color
     }
     
     func image(size: CGSize = .init(100)) -> UIImage {
