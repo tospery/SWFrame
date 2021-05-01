@@ -25,6 +25,7 @@ public struct Parameter {
     public static let url = "url"
     public static let hideNavBar = "hideNavBar"
     public static let hideNavLine = "hideNavLine"
+    public static let transparetNavBar = "transparetNavBar"
     public static let shouldRefresh = "shouldRefresh"
     public static let shouldLoadMore = "shouldLoadMore"
     public static let routeContext = "routeContext"

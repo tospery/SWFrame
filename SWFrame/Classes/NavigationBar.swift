@@ -13,6 +13,8 @@ import SwifterSwift
 
 public class NavigationBar: UIView {
     
+    public var isTransparet = false
+    
     @objc public dynamic var titleColor: UIColor? {
         get {
             return self.titleLabel.textColor
@@ -27,7 +29,11 @@ public class NavigationBar: UIView {
             return self.backgroundColor
         }
         set {
-            self.backgroundColor = newValue
+            if self.isTransparet {
+                self.backgroundColor = .clear
+            } else {
+                self.backgroundColor = newValue
+            }
         }
     }
 

@@ -22,19 +22,25 @@ open class BaseViewController: UIViewController {
     
     // public let resultSubject = PublishSubject<Any?>()
     
-    public var hidesNavigationBar = false
-    public var hidesNavBottomLine = false
+    public var hidesNavigationBar   = false
+    public var hidesNavBottomLine   = false
+    public var transparetNavBar     = false {
+        didSet {
+            self.navigationBar.isTransparet = self.transparetNavBar
+        }
+    }
     
     public var loading = false
     public var emptying = false
     public var error: Error?
     
     public var contentTop: CGFloat {
-        var height = 0.f
-        if !self.hidesNavigationBar &&
-            !self.navigationBar.isHidden &&
-            self.navigationBar.backgroundColor != .clear {
-            height += self.navigationBar.height
+        var height = self.navigationBar.height
+        if self.hidesNavigationBar ||
+            self.transparetNavBar ||
+            self.navigationBar.isHidden ||
+            self.navigationBar.isTransparet {
+            height = 0
         }
         return height
     }
@@ -68,6 +74,7 @@ open class BaseViewController: UIViewController {
         self.hidesBottomBarWhenPushed = true
         self.hidesNavigationBar = reactor.parameters[Parameter.hideNavBar] as? Bool ?? false
         self.hidesNavBottomLine = reactor.parameters[Parameter.hideNavLine] as? Bool ?? false
+        self.transparetNavBar = reactor.parameters[Parameter.transparetNavBar] as? Bool ?? false
     }
     
     required public init?(coder: NSCoder) {
@@ -89,8 +96,12 @@ open class BaseViewController: UIViewController {
         if self.hidesNavigationBar {
             self.navigationBar.isHidden = true
         } else {
-            if self.hidesNavBottomLine {
-                self.navigationBar.qmui_borderPosition = QMUIViewBorderPosition(rawValue: 0)
+            if self.transparetNavBar {
+                self.navigationBar.transparet()
+            } else {
+                if self.hidesNavBottomLine {
+                    self.navigationBar.qmui_borderPosition = QMUIViewBorderPosition(rawValue: 0)
+                }
             }
             if self.navigationController?.viewControllers.count ?? 0 > 1 {
                 self.navigationBar.addBackButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
