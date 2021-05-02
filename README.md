@@ -7,7 +7,7 @@
 
 ## Example
 
-https://github.com/tospery/V2EX-Swift
+https://github.com/tospery/SWHub
 
 ## Requirements
 
