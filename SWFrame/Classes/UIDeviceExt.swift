@@ -37,6 +37,10 @@ public extension UIDevice {
         return uuid!
     }
     
+    var modelName: String {
+        QMUIHelper.deviceModel
+    }
+    
     var ip: String? {
         guard let ip = try? String.init(contentsOf: URL.init(string: "https://api.ipify.org")!, encoding: .utf8) else {
             return try? String.init(contentsOf: URL.init(string: "https://api.myip.la")!, encoding: .utf8)

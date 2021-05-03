@@ -66,6 +66,10 @@ open class ScrollViewController: BaseViewController {
             .observeOn(MainScheduler.instance)
             .subscribeNext(weak: self, type(of: self).handle)
             .disposed(by: self.disposeBag)
+        
+        themeService.rx
+            .bind({ $0.backgroundColor }, to: self.scrollView.rx.backgroundColor)
+            .disposed(by: self.rx.disposeBag)
     }
     
     // MARK: - Method

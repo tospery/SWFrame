@@ -16,7 +16,9 @@ open class BaseCollectionCell: UICollectionViewCell {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        self.contentView.backgroundColor = .white
+        themeService.rx
+            .bind({ $0.backgroundColor }, to: self.contentView.rx.backgroundColor)
+            .disposed(by: self.rx.disposeBag)
     }
     
     required public init?(coder: NSCoder) {

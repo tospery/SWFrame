@@ -15,7 +15,9 @@ open class BaseSupplementaryView: UICollectionReusableView, Supplementary {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .white
+        themeService.rx
+            .bind({ $0.backgroundColor }, to: self.rx.backgroundColor)
+            .disposed(by: self.rx.disposeBag)
     }
     
     required public init?(coder: NSCoder) {

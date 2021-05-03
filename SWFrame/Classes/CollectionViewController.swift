@@ -31,6 +31,9 @@ open class CollectionViewController: ScrollViewController {
     
     open override func viewDidLoad() {
         super.viewDidLoad()
+        themeService.rx
+            .bind({ $0.backgroundColor }, to: self.collectionView.rx.backgroundColor)
+            .disposed(by: self.rx.disposeBag)
     }
     
 }

@@ -132,6 +132,13 @@ open class BaseViewController: UIViewController {
             guard let `self` = self else { return }
             self.setNeedsStatusBarAppearanceUpdate()
         }).disposed(by: self.rx.disposeBag)
+        
+        themeService.rx
+            .bind({ $0.titleColor }, to: self.navigationBar.rx.itemColor)
+            .bind({ $0.lightColor }, to: self.navigationBar.rx.backgroundColor)
+            .bind({ $0.borderColor }, to: self.navigationBar.rx.lineColor)
+            .bind({ $0.titleColor }, to: self.navigationBar.rx.titleColor)
+            .disposed(by: self.rx.disposeBag)
     }
     
     open override func viewWillAppear(_ animated: Bool) {
