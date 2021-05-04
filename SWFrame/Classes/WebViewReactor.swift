@@ -20,6 +20,9 @@ open class WebViewReactor: ScrollViewReactor, Reactor {
     
     public required init(_ provider: ProviderType, _ parameters: [String: Any]?) {
         super.init(provider, parameters)
+        var handlers = self.parameters[Parameter.handers] as? [String] ?? []
+        handlers.append("appHandler")
+        self.parameters[Parameter.handers] = handlers
         self.initialState = State(
             title: self.title
         )

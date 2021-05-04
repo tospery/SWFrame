@@ -59,4 +59,5 @@ Pod::Spec.new do |s|
   s.dependency 'Kingfisher', '5.15.7'
   s.dependency 'DZNEmptyDataSet', '1.8.1'
   s.dependency 'ESPullToRefresh', '2.9.3'
+  s.dependency 'WebViewJavascriptBridge', '6.0.3'
 end

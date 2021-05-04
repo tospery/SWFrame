@@ -13,6 +13,7 @@ import WebKit
 import URLNavigator
 import ReactorKit
 import SwifterSwift
+import WebViewJavascriptBridge
 
 open class WebViewController: ScrollViewController, View {
     
@@ -23,31 +24,8 @@ open class WebViewController: ScrollViewController, View {
     public var progressColor: UIColor?
     public var handlers = [String]()
     // public var jsHandlers: [String]?
-    // public var bridge: WebViewJavascriptBridge!
-    
-//    public lazy var webConfig: WKWebViewConfiguration = {
-//        let config = WKWebViewConfiguration.init()
-//        config.processPool = WKProcessPool.shared
-//        if #available(iOS 11, *) {
-//            if let cookies = HTTPCookieStorage.shared.cookies {
-//                let store = config.websiteDataStore.httpCookieStore
-//                for cookie in cookies {
-//                    store.setCookie(cookie, completionHandler: nil)
-//                }
-//            }
-//        }
-//        return config
-//    }()
-    
-//    public lazy var webView: WKWebView = {
-//        // configuration在传递给WKWebView后不能修改
-//        let configuration = WKWebViewConfiguration.init()
-//        configuration.processPool = WKProcessPool.shared
-//        let webView = WKWebView(frame: .zero, configuration: configuration)
-//        webView.backgroundColor = .white
-//        webView.sizeToFit()
-//        return webView
-//    }()
+    public var bridge: WebViewJavascriptBridge!
+    // let jsHandler = "xyWebHandler"
 
     public lazy var progressView: WebProgressView = {
         let view = WebProgressView(frame: .zero)
@@ -61,7 +39,7 @@ open class WebViewController: ScrollViewController, View {
         }
         super.init(navigator, reactor)
         self.url = urlMember(reactor.parameters, Parameter.url, nil)
-        self.progressColor = colorMember(reactor.parameters, Parameter.progressColor, nil)
+        self.progressColor = colorMember(reactor.parameters, Parameter.progressColor, .primary)
         self.handlers = arrayMember(reactor.parameters, Parameter.handers, nil) as? [String] ?? []
     }
     
@@ -77,7 +55,7 @@ open class WebViewController: ScrollViewController, View {
         self.view.addSubview(self.webView)
         self.webView.frame = self.contentFrame
         
-        self.progressView.barView.backgroundColor = self.progressColor ?? UIColor.orange
+        self.progressView.barView.backgroundColor = self.progressColor ?? .primary
         self.view.addSubview(self.progressView)
         self.progressView.frame = CGRect(x: 0, y: self.contentTop, width: self.view.width, height: 1.5)
         
@@ -86,21 +64,25 @@ open class WebViewController: ScrollViewController, View {
             self.progress(value)
         }).disposed(by: self.disposeBag)
         
-//        #if DEBUG
-//        WebViewJavascriptBridge.enableLogging()
-//        #endif
-//        self.bridge = WebViewJavascriptBridge.init(forWebView: self.webView)
-//        self.bridge.setWebViewDelegate(self)
-//        weak var weakSelf = self
-//        for handler in self.handlers {
-//            self.bridge.registerHandler(handler) { [weak self] data, callback in
-//                guard let `self` = self else { return }
-//                let result = self.handle(handler, data)
-//                callback!(result)
-//            }
-//        }
+        #if DEBUG
+        // WebViewJavascriptBridge.enableLogging()
+        #endif
+        self.bridge = WebViewJavascriptBridge.init(forWebView: self.webView)
+        self.bridge.setWebViewDelegate(self)
+        weak var weakSelf = self
+        for handler in self.handlers {
+            self.bridge.registerHandler(handler) { [weak self] data, callback in
+                guard let `self` = self else { return }
+                let result = self.handle(handler, data)
+                callback!(result) // YJX_TODO 用Rx实现延迟的callback
+            }
+        }
         
         self.loadPage()
+        
+        themeService.rx
+            .bind({ $0.primaryColor }, to: self.progressView.barView.rx.backgroundColor)
+            .disposed(by: self.rx.disposeBag)
     }
     
 //    open override func viewWillAppear(_ animated: Bool) {
@@ -118,6 +100,7 @@ open class WebViewController: ScrollViewController, View {
             self.webView.navigationDelegate = nil
             self.webView.uiDelegate = nil
         }
+        self.bridge.setWebViewDelegate(nil)
     }
     
     public func progress(_ value: CGFloat) {
@@ -148,8 +131,21 @@ open class WebViewController: ScrollViewController, View {
     }
 
     open func loadPage() {
-        if let url = self.url {
-            let request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10)
+        guard let url = self.url else { return }
+        let request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10)
+        
+        let extra = "\(UIApplication.shared.scheme)/\(UIApplication.shared.version!)"
+        var agent = self.webView.customUserAgent
+        if !(agent?.contains(extra) ?? false) {
+            self.webView.evaluateJavaScript("navigator.userAgent") { [weak self] response, error in
+                guard let `self` = self else { return }
+                if let result = response as? String, error == nil {
+                    agent = result + " " + extra
+                    self.webView.customUserAgent = agent
+                }
+                self.webView.load(request)
+            }
+        } else {
             self.webView.load(request)
         }
     }
@@ -195,6 +191,7 @@ open class WebViewController: ScrollViewController, View {
 extension WebViewController: WKNavigationDelegate {
 
     open func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        logger.print("网址: \(navigationAction.request.url?.absoluteString ?? "")", module: swframe)
         decisionHandler(.allow)
     }
     
