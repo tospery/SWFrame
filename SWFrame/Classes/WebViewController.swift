@@ -65,11 +65,11 @@ open class WebViewController: ScrollViewController, View {
         }).disposed(by: self.disposeBag)
         
         #if DEBUG
-        // WebViewJavascriptBridge.enableLogging()
+        WebViewJavascriptBridge.enableLogging()
         #endif
         self.bridge = WebViewJavascriptBridge.init(forWebView: self.webView)
         self.bridge.setWebViewDelegate(self)
-        weak var weakSelf = self
+        // weak var weakSelf = self
         for handler in self.handlers {
             self.bridge.registerHandler(handler) { [weak self] data, callback in
                 guard let `self` = self else { return }
@@ -82,6 +82,7 @@ open class WebViewController: ScrollViewController, View {
         
         themeService.rx
             .bind({ $0.primaryColor }, to: self.progressView.barView.rx.backgroundColor)
+            .bind({ $0.backgroundColor }, to: self.webView.rx.backgroundColor)
             .disposed(by: self.rx.disposeBag)
     }
     
@@ -96,11 +97,7 @@ open class WebViewController: ScrollViewController, View {
 //    }
 
     deinit {
-        if self.webView != nil {
-            self.webView.navigationDelegate = nil
-            self.webView.uiDelegate = nil
-        }
-        self.bridge.setWebViewDelegate(nil)
+        self.clear()
     }
     
     public func progress(_ value: CGFloat) {
@@ -119,13 +116,12 @@ open class WebViewController: ScrollViewController, View {
         // configuration在传递给WKWebView后不能修改
         let configuration = WKWebViewConfiguration.init()
         configuration.userContentController = .init()
-        for handler in self.handlers {
-            if !handler.isEmpty {
-                configuration.userContentController.add(self, name: handler)
-            }
-        }
+//        for handler in self.handlers {
+//            if !handler.isEmpty {
+//                configuration.userContentController.add(self, name: handler)
+//            }
+//        }
         let webView = WKWebView(frame: self.view.bounds, configuration: configuration)
-        webView.backgroundColor = .white
         webView.sizeToFit()
         return webView
     }
@@ -164,11 +160,15 @@ open class WebViewController: ScrollViewController, View {
     }
   
     open override func didClosed() {
-        for handler in self.handlers {
-            if !handler.isEmpty {
-                self.webView.configuration.userContentController.removeScriptMessageHandler(forName: handler)
-            }
+        self.clear()
+    }
+    
+    func clear() {
+        if self.webView != nil {
+            self.webView.navigationDelegate = nil
+            self.webView.uiDelegate = nil
         }
+        self.bridge.setWebViewDelegate(nil)
     }
     
 //    func saveCookies(_ cookies: [HTTPCookie]) {
