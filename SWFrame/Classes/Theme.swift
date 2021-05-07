@@ -8,7 +8,7 @@
 import UIKit
 import RxTheme
 
-public let themeService = ThemeType.service(initial: .light)
+public let themeService = ThemeType.service(initial: .current)
 
 /// 假设从白到黑值为：0~9
 public protocol Theme {
@@ -41,6 +41,8 @@ public protocol Theme {
     var statusBarStyle: UIStatusBarStyle { get }
     var keyboardAppearance: UIKeyboardAppearance { get }
     var blurStyle: UIBlurEffect.Style { get }
+    
+    init(color: UIColor)
 }
 
 public protocol ThemeTypeCompatible {
@@ -48,13 +50,59 @@ public protocol ThemeTypeCompatible {
 }
 
 public enum ThemeType: ThemeProvider {
-    case light
-    case dark
+    case light(color: UIColor)
+    case dark(color: UIColor)
 
+    public var isDark: Bool {
+        switch self {
+        case .dark: return true
+        default: return false
+        }
+    }
+    
     public var associatedObject: Theme {
         if let compatible = self as? ThemeTypeCompatible {
             return compatible.theme
         }
         fatalError()
     }
+    
+    public func toggle() {
+        var theme: ThemeType
+        switch self {
+        case .light(let color): theme = ThemeType.dark(color: color)
+        case .dark(let color): theme = ThemeType.light(color: color)
+        }
+        theme.save()
+        themeService.switch(theme)
+    }
+    
+    public func save() {
+        let defaults = UserDefaults.standard
+        defaults.set(self.isDark, forKey: Parameter.isDark)
+        switch self {
+        case let .light(color): defaults.set(color.hexString, forKey: Parameter.primaryColor)
+        case let .dark(color): defaults.set(color.hexString, forKey: Parameter.primaryColor)
+        }
+        defaults.synchronize()
+    }
+    
+    public static var current: ThemeType {
+        let defaults = UserDefaults.standard
+        let isDark = defaults.bool(forKey: Parameter.isDark)
+        let hexString = defaults.string(forKey: Parameter.primaryColor) ?? UIColor.red.hexString
+        let color = UIColor.init(hexString: hexString) ?? UIColor.red
+        let theme = isDark ? ThemeType.dark(color: color) : ThemeType.light(color: color)
+        return theme
+    }
+    
+    public static func configIfNeed(_ color: UIColor) {
+        let defaults = UserDefaults.standard
+        if defaults.string(forKey: Parameter.primaryColor) != nil {
+            return
+        }
+        defaults.set(color.hexString, forKey: Parameter.primaryColor)
+        defaults.synchronize()
+    }
+
 }

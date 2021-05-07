@@ -32,4 +32,6 @@ public struct Parameter {
     public static let routeObserver = "routeObserver"
     public static let command = "command"
     public static let parameter = "parameter"
+    public static let isDark = "isDark"
+    public static let primaryColor = "primaryColor"
 }
