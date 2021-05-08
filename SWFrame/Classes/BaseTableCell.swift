@@ -16,7 +16,9 @@ open class BaseTableCell: UITableViewCell {
     
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.contentView.backgroundColor = .white
+        themeService.rx
+            .bind({ $0.backgroundColor }, to: self.contentView.rx.backgroundColor)
+            .disposed(by: self.rx.disposeBag)
     }
     
     required public init?(coder: NSCoder) {
@@ -34,7 +36,7 @@ open class BaseTableCell: UITableViewCell {
     }
     
     open class func height(item: BaseTableItem) -> CGFloat {
-        return metric(44)
+        44
     }
     
 }

@@ -42,7 +42,7 @@ public protocol Theme {
     var keyboardAppearance: UIKeyboardAppearance { get }
     var blurStyle: UIBlurEffect.Style { get }
     
-    init(color: UIColor)
+    init(color: UIColor?)
 }
 
 public protocol ThemeTypeCompatible {
@@ -50,8 +50,8 @@ public protocol ThemeTypeCompatible {
 }
 
 public enum ThemeType: ThemeProvider {
-    case light(color: UIColor)
-    case dark(color: UIColor)
+    case light(color: UIColor?)
+    case dark(color: UIColor?)
 
     public var isDark: Bool {
         switch self {
@@ -80,29 +80,30 @@ public enum ThemeType: ThemeProvider {
     public func save() {
         let defaults = UserDefaults.standard
         defaults.set(self.isDark, forKey: Parameter.isDark)
-        switch self {
-        case let .light(color): defaults.set(color.hexString, forKey: Parameter.primaryColor)
-        case let .dark(color): defaults.set(color.hexString, forKey: Parameter.primaryColor)
-        }
+        defaults.set(self.associatedObject.primaryColor.hexString, forKey: Parameter.primaryColor)
         defaults.synchronize()
     }
     
     public static var current: ThemeType {
         let defaults = UserDefaults.standard
         let isDark = defaults.bool(forKey: Parameter.isDark)
-        let hexString = defaults.string(forKey: Parameter.primaryColor) ?? UIColor.red.hexString
-        let color = UIColor.init(hexString: hexString) ?? UIColor.red
+        let hexString = defaults.string(forKey: Parameter.primaryColor)
+        var color: UIColor?
+        if let string = defaults.string(forKey: Parameter.primaryColor),
+           let value = UIColor.init(hexString: string) {
+            color = value
+        }
         let theme = isDark ? ThemeType.dark(color: color) : ThemeType.light(color: color)
         return theme
     }
     
-    public static func configIfNeed(_ color: UIColor) {
-        let defaults = UserDefaults.standard
-        if defaults.string(forKey: Parameter.primaryColor) != nil {
-            return
-        }
-        defaults.set(color.hexString, forKey: Parameter.primaryColor)
-        defaults.synchronize()
-    }
+//    public static func configIfNeed(_ color: UIColor) {
+//        let defaults = UserDefaults.standard
+//        if defaults.string(forKey: Parameter.primaryColor) != nil {
+//            return
+//        }
+//        defaults.set(color.hexString, forKey: Parameter.primaryColor)
+//        defaults.synchronize()
+//    }
 
 }
