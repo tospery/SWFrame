@@ -124,7 +124,7 @@ extension ScrollViewController: DZNEmptyDataSetSource {
         if let message = (self.error as? LocalizedError)?.errorDescription, !message.isEmpty {
             return message.styled(with: .alignment(.center),
                                   .font(.systemFont(ofSize: 14)),
-                                  .color(.content))
+                                  .color(.body))
         }
         return nil
     }

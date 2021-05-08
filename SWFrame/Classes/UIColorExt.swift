@@ -46,8 +46,8 @@ public extension UIColor {
         themeService.type.associatedObject.titleColor
     }
 
-    static var content: UIColor {
-        themeService.type.associatedObject.contentColor
+    static var body: UIColor {
+        themeService.type.associatedObject.bodyColor
     }
     
     static var header: UIColor {

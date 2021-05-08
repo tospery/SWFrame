@@ -21,7 +21,7 @@ public protocol Theme {
     var primaryColor: UIColor { get }                           // 主色（如：红色）
     var secondaryColor: UIColor { get }                         // 次色（如：蓝色）
     var titleColor: UIColor { get }                             // 标题
-    var contentColor: UIColor { get }                           // 内容
+    var bodyColor: UIColor { get }                           // 内容
     var headerColor: UIColor { get }                            // 头部
     var footerColor: UIColor { get }                            // 尾部
     var borderColor: UIColor { get }                            // 外边框
