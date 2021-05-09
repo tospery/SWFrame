@@ -67,11 +67,18 @@ public enum ThemeType: ThemeProvider {
         fatalError()
     }
     
-    public func toggle() {
+    public func toggle(_ color: UIColor? = nil) {
         var theme: ThemeType
-        switch self {
-        case .light(let color): theme = ThemeType.dark(color: color)
-        case .dark(let color): theme = ThemeType.light(color: color)
+        if let color = color {
+            switch self {
+            case .light: theme = ThemeType.light(color: color)
+            case .dark: theme = ThemeType.dark(color: color)
+            }
+        } else {
+            switch self {
+            case .light(let color): theme = ThemeType.dark(color: color)
+            case .dark(let color): theme = ThemeType.light(color: color)
+            }
         }
         theme.save()
         themeService.switch(theme)
