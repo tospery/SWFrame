@@ -46,16 +46,33 @@ public extension Reactive where Base: Navigator {
         }
     }
     
-    func open(_ url: URLConvertible, context: Any? = nil) -> Observable<AlertActionType> {
+//    func open(_ url: URLConvertible, context: Any? = nil) -> Observable<AlertActionType> {
+//        return .create { [weak base] observer -> Disposable in
+//            guard let base = base else { return Disposables.create { } }
+//            var ctx: Dictionary<String, Any> = [:]
+//            ctx[Parameter.routeObserver] = observer
+//            if let context = context {
+//                ctx[Parameter.routeContext] = context
+//            }
+//            base.open(url, context: ctx)
+//            return Disposables.create { }
+//        }
+//    }
+
+    func open(_ url: URLConvertible, context: Any? = nil) -> Observable<Any?> {
         return .create { [weak base] observer -> Disposable in
             guard let base = base else { return Disposables.create { } }
-            var ctx: Dictionary<String, Any> = [:]
-            ctx[Parameter.routeObserver] = observer
-            if let context = context {
-                ctx[Parameter.routeContext] = context
+            if var ctx = context as? [String: Any] {
+                ctx[Parameter.observer] = observer
+                base.open(url, context: ctx)
+            } else {
+                var ctx = [String: Any].init()
+                ctx[Parameter.observer] = observer
+                ctx[Parameter.context] = context
+                base.open(url, context: ctx)
             }
-            base.open(url, context: ctx)
             return Disposables.create { }
         }
     }
+    
 }
