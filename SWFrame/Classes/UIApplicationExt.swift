@@ -43,17 +43,7 @@ public extension UIApplication {
     }
     
     var scheme: String {
-        var scheme: String? = nil
-        if let types = Bundle.main.infoDictionary?["CFBundleURLTypes"] as? Array<Dictionary<String, Any>> {
-            for info in types {
-                if let name = info["CFBundleURLName"] as? String, name == "app" {
-                    if let schemes = info["CFBundleURLSchemes"] as? Array<String> {
-                        scheme = schemes.first
-                    }
-                }
-            }
-        }
-        return scheme ?? ""
+        self.urlScheme(name: "app") ?? ""
     }
     
     var name: String {
@@ -82,6 +72,20 @@ public extension UIApplication {
         return "https://\(self.scheme).com"
     }
     
+    func urlScheme(name: String) -> String? {
+        var scheme: String? = nil
+        if let types = Bundle.main.infoDictionary?["CFBundleURLTypes"] as? Array<Dictionary<String, Any>> {
+            for info in types {
+                if let name = info["CFBundleURLName"] as? String, name == name {
+                    if let schemes = info["CFBundleURLSchemes"] as? Array<String> {
+                        scheme = schemes.first
+                    }
+                }
+            }
+        }
+        return scheme
+    }
+
 }
 
 extension Reactive where Base: UIApplication {

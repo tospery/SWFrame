@@ -18,6 +18,7 @@ public struct Parameter {
     public static let models = "models"
     public static let keyword = "keyword"
     public static let handers = "handers"
+    public static let code = "code"
     public static let url = "url"
     public static let hideNavBar = "hideNavBar"
     public static let hideNavLine = "hideNavLine"
