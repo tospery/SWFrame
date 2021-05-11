@@ -130,7 +130,7 @@ open class WebViewController: ScrollViewController, View {
         guard let url = self.url else { return }
         let request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10)
         
-        let extra = "\(UIApplication.shared.scheme)/\(UIApplication.shared.version!)"
+        let extra = "\(UIApplication.shared.urlScheme)/\(UIApplication.shared.version!)"
         var agent = self.webView.customUserAgent
         if !(agent?.contains(extra) ?? false) {
             self.webView.evaluateJavaScript("navigator.userAgent") { [weak self] response, error in

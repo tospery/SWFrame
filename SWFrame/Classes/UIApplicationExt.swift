@@ -42,7 +42,7 @@ public extension UIApplication {
         return ""
     }
     
-    var scheme: String {
+    var urlScheme: String {
         self.urlScheme(name: "app") ?? ""
     }
     
@@ -65,11 +65,11 @@ public extension UIApplication {
     }
     
     @objc var baseApiUrl: String {
-        return "https://\(self.scheme).com"
+        return "https://\(self.urlScheme).com"
     }
     
     @objc var baseWebUrl: String {
-        return "https://\(self.scheme).com"
+        return "https://\(self.urlScheme).com"
     }
     
     func urlScheme(name: String) -> String? {

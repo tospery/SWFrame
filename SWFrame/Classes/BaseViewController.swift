@@ -193,7 +193,7 @@ public extension Reactive where Base: BaseViewController {
             viewController.loading = loading
             guard viewController.isViewLoaded else { return }
             guard !viewController.emptying else { return }
-            var url = "\(UIApplication.shared.scheme)://toast".url!
+            var url = "\(UIApplication.shared.urlScheme)://toast".url!
             url.appendQueryParameters([
                 Parameter.active: loading.string
             ])
@@ -211,11 +211,11 @@ public extension Reactive where Base: BaseViewController {
                    name.contains("LoginViewController") {
                     logger.print("已处于登录页，不需要再次打开", module: swframe)
                 } else {
-                    viewController.navigator.present( "\(UIApplication.shared.scheme)://login", wrap: NavigationController.self)
+                    viewController.navigator.present( "\(UIApplication.shared.urlScheme)://login", wrap: NavigationController.self)
                 }
             } else {
                 guard !viewController.emptying else { return }
-                var url = "\(UIApplication.shared.scheme)://toast".url!
+                var url = "\(UIApplication.shared.urlScheme)://toast".url!
                 url.appendQueryParameters([
                     Parameter.message: error.localizedDescription
                 ])
