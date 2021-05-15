@@ -21,14 +21,14 @@ final public class Subjection {
         if let subject = subjects[key] as? BehaviorRelay<T?> {
             return subject
         }
-        let subject = BehaviorRelay<T?>(value: type.current)
+        let subject = BehaviorRelay<T?>(value: type.current())
         subjects[key] = subject
         return subject
     }
     
     public class func update<T: Subjective>(_ type: T.Type, _ value: T?) {
         if let value = value {
-            value.save(ignoreId: true)
+            T.storeObject(value, id: nil)
         } else {
             T.eraseObject(id: nil)
         }
@@ -38,16 +38,37 @@ final public class Subjection {
 }
 
 public protocol Subjective: Storable {
-    static var current: Self? { get }
+    // static var current: Self? { get }
+    static func current() -> Self?
 }
 
 public extension Subjective {
-    static var current: Self? {
+    
+//    static var current: Self? {
+//        let key = String(fullname: self)
+//        if let subject = subjects[key] as? BehaviorRelay<Self?> {
+//            return subject.value
+//        }
+//        if let object = Self.cachedObject(id: nil) {
+//            let subject = BehaviorRelay<Self?>(value: object)
+//            subjects[key] = subject
+//            return object
+//        }
+//        return nil
+//    }
+    
+    static func current() -> Self? {
         let key = String(fullname: self)
         if let subject = subjects[key] as? BehaviorRelay<Self?> {
             return subject.value
         }
-        return Self.cachedObject(id: nil)
+        if let object = Self.cachedObject(id: nil) {
+            let subject = BehaviorRelay<Self?>(value: object)
+            subjects[key] = subject
+            return object
+        }
+        return nil
     }
+    
 }
 
