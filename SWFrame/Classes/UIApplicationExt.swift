@@ -64,6 +64,10 @@ public extension UIApplication {
         return UIImage(named: name)
     }
     
+    @objc var pageIndex: Int { 1 }
+    
+    @objc var pageSize: Int { 20 }
+    
     @objc var baseApiUrl: String {
         return "https://\(self.urlScheme).com"
     }

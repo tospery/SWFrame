@@ -8,10 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
-//import RealmSwift
 import ObjectMapper
-
-//private var storage: Storage = try! Storage(diskConfig: DiskConfig(name: "shared"), memoryConfig: MemoryConfig(), transformer: TransformerFactory.forCodable(ofType: String.self))
 
 // MARK: - 模型协议
 public protocol ModelType: Mappable, CustomStringConvertible {
@@ -29,15 +26,15 @@ public extension ModelType {
 
 public struct BaseModel: ModelType {
     
-    public var value: Any?
+    public var data: Any?
     
-    public var isValid: Bool { self.value != nil }
+    public var isValid: Bool { self.data != nil }
     
     public init() {
     }
     
     public init(_ data: Any?) {
-        self.value = data
+        self.data = data
     }
     
     public init?(map: Map) {
