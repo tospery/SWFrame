@@ -29,7 +29,7 @@ open class BaseSupplementaryView: UICollectionReusableView, Supplementary {
         self.disposeBag = DisposeBag()
     }
     
-    public func bind(reactor: BaseSupplementaryReactor) {
+    open func bind(reactor: BaseSupplementaryReactor) {
         
     }
     
@@ -44,4 +44,14 @@ public extension Supplementary {
     var kind: String {
         return UICollectionView.elementKindSectionHeader
     }
+}
+
+extension Reactive where Base: BaseSupplementaryView {
+    
+    public var reactor: Binder<BaseSupplementaryReactor> {
+        return Binder(self.base) { view, reactor in
+            view.bind(reactor: reactor)
+        }
+    }
+    
 }

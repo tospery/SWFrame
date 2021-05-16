@@ -34,6 +34,12 @@ public extension Int {
         return "\(sign)\(roundedNum)\(units[exp-1])"
     }
     
+    var decimalText: String? {
+        let formatter = NumberFormatter.init()
+        formatter.numberStyle = .decimal
+        return formatter.string(from: NSNumber.init(value: self))
+    }
+    
     init?(any: Any?) {
         if let string = any as? String {
             self.init(string)
