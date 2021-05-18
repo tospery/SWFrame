@@ -33,28 +33,31 @@ public func arrayMember(_ params: Dictionary<String, Any>?, _ key: String, _ def
 }
 
 // value - 375标准
-public func metric(_ value: CGFloat) -> CGFloat {
-    return flat(value / 375.f * UIScreen.width)
+public func metric(_ value: CGFloat, _ special: Bool = false) -> CGFloat {
+    if special {
+        return flat(value / 375.f * UIScreen.width)
+    }
+    switch UIScreen.kind {
+    case .small: return (value * 0.67).flat
+    case .middle: return value
+    case .large: return (value * 1.34).flat
+    }
 }
 
 public func metric(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
-    if UIScreen.isSmall {
-        return small
+    switch UIScreen.kind {
+    case .small: return small
+    case .middle: return middle
+    case .large: return large
     }
-    if UIScreen.isLarge {
-        return large
-    }
-    return middle
 }
 
 public func fontSize(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
-    if UIScreen.isSmall {
-        return small
+    switch UIScreen.kind {
+    case .small: return small
+    case .middle: return middle
+    case .large: return large
     }
-    if UIScreen.isLarge {
-        return large
-    }
-    return middle
 }
 
 public func connectedToInternet() -> Observable<Bool> {
