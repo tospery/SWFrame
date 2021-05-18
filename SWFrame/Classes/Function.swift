@@ -33,8 +33,8 @@ public func arrayMember(_ params: Dictionary<String, Any>?, _ key: String, _ def
 }
 
 // value - 375标准
-public func metric(_ value: CGFloat, _ special: Bool = false) -> CGFloat {
-    if special {
+public func metric(_ value: CGFloat, _ specified: Bool = false) -> CGFloat {
+    if specified {
         return flat(value / 375.f * UIScreen.width)
     }
     switch UIScreen.kind {
