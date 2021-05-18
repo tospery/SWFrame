@@ -116,7 +116,7 @@ public extension NetworkingType {
                 if let error = self.check(response.code(target), response.message(target)) {
                     return .error(error)
                 }
-                return .just(response.data)
+                return .just(response.data(target))
         }
         .observeOn(MainScheduler.instance)
     }
@@ -164,7 +164,7 @@ public extension NetworkingType {
                 if let error = self.check(response.code(target), response.message(target)) {
                     return .error(error)
                 }
-                guard let json = response.data as? [String: Any],
+                guard let json = response.data(target) as? [String: Any],
                       let list = List<Model>.init(JSON: json) else {
                         return .error(SWError.dataFormat)
                 }
