@@ -52,6 +52,17 @@ public func metric(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
     }
 }
 
+public func fontSize(_ value: CGFloat, _ specified: Bool = false) -> CGFloat {
+    if specified {
+        return flat(value / 375.f * UIScreen.width)
+    }
+    switch UIScreen.kind {
+    case .small: return (value * 0.67).flat
+    case .middle: return value
+    case .large: return (value * 1.34).flat
+    }
+}
+
 public func fontSize(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
     switch UIScreen.kind {
     case .small: return small
