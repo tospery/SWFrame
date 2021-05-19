@@ -82,7 +82,7 @@ open class ScrollViewController: BaseViewController {
         super.bind(reactor: reactor)
     }
     
-    open func setupRefresh(should: Bool) {
+    @objc open func setupRefresh(should: Bool) {
         if should {
             self.scrollView.mj_header = MJRefreshNormalHeader.init(refreshingBlock: { [weak self] in
                 guard let `self` = self else { return }
@@ -94,9 +94,9 @@ open class ScrollViewController: BaseViewController {
         }
     }
     
-    open func setupLoadMore(should: Bool) {
+    @objc open func setupLoadMore(should: Bool) {
         if should {
-            self.scrollView.mj_footer = MJRefreshBackNormalFooter.init(refreshingBlock: { [weak self] in
+            self.scrollView.mj_footer = MJRefreshAutoNormalFooter.init(refreshingBlock: { [weak self] in
                 guard let `self` = self else { return }
                 self.loadMoreSubject.onNext(())
             })
