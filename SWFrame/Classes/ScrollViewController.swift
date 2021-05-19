@@ -20,6 +20,8 @@ open class ScrollViewController: BaseViewController {
     public let refreshSubject = PublishSubject<Void>()
     public let loadMoreSubject = PublishSubject<Void>()
     public var scrollView: UIScrollView!
+    public var isRefreshing = false
+    public var isLoadingMore = false
     public var noMoreData = false
     
     public var shouldRefresh = false
@@ -194,19 +196,10 @@ extension ScrollViewController: UIScrollViewDelegate {
 
 public extension Reactive where Base: ScrollViewController {
     
-    var noMoreData: Binder<Bool> {
-        return Binder(self.base) { viewController, noMoreData in
-            viewController.noMoreData = noMoreData
-        }
-    }
-    
-    var emptyDataSet: ControlEvent<Void> {
-        let source = self.base.emptyDataSetSubject.map{ _ in }
-        return ControlEvent(events: source)
-    }
-    
     var isRefreshing: Binder<Bool> {
         return Binder(self.base) { viewController, isRefreshing in
+            viewController.isRefreshing = isRefreshing
+            guard viewController.isViewLoaded else { return }
             if let scrollView = viewController.scrollView, !isRefreshing {
                 scrollView.es.stopPullToRefresh()
             }
@@ -215,6 +208,8 @@ public extension Reactive where Base: ScrollViewController {
     
     var isLoadingMore: Binder<Bool> {
         return Binder(self.base) { viewController, isLoadingMore in
+            viewController.isLoadingMore = isLoadingMore
+            guard viewController.isViewLoaded else { return }
             if let scrollView = viewController.scrollView, !isLoadingMore {
                 if !viewController.noMoreData {
                     scrollView.es.stopLoadingMore()
@@ -223,6 +218,25 @@ public extension Reactive where Base: ScrollViewController {
                 }
             }
         }
+    }
+    
+    var noMoreData: Binder<Bool> {
+        return Binder(self.base) { viewController, noMoreData in
+            viewController.noMoreData = noMoreData
+            guard viewController.isViewLoaded else { return }
+            if let scrollView = viewController.scrollView, !viewController.isLoadingMore {
+                if !noMoreData {
+                    scrollView.es.resetNoMoreData()
+                } else {
+                    scrollView.es.noticeNoMoreData()
+                }
+            }
+        }
+    }
+    
+    var emptyDataSet: ControlEvent<Void> {
+        let source = self.base.emptyDataSetSubject.map{ _ in }
+        return ControlEvent(events: source)
     }
     
     var refresh: ControlEvent<Void> {
