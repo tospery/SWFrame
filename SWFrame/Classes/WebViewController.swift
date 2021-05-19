@@ -74,7 +74,7 @@ open class WebViewController: ScrollViewController, View {
             self.bridge.registerHandler(handler) { [weak self] data, callback in
                 guard let `self` = self else { return }
                 let result = self.handle(handler, data)
-                callback!(result) // YJX_TODO 用Rx实现延迟的callback
+                callback!(result) // 用Rx实现延迟的callback会更好
             }
         }
         
