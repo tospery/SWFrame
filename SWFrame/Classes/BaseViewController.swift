@@ -20,8 +20,6 @@ open class BaseViewController: UIViewController {
     public var disposeBag = DisposeBag()
     public let navigator: NavigatorType
     
-    // public let resultSubject = PublishSubject<Any?>()
-    
     public var hidesNavigationBar   = false
     public var hidesNavBottomLine   = false
     public var transparetNavBar     = false {
@@ -30,8 +28,7 @@ open class BaseViewController: UIViewController {
         }
     }
     
-    public var loading = false
-    public var emptying = false
+    public var isActivating = false
     public var error: Error?
     
     public var contentTop: CGFloat {
@@ -178,49 +175,4 @@ open class BaseViewController: UIViewController {
         }
     }
 
-}
-
-public extension Reactive where Base: BaseViewController {
-
-    var emptying: Binder<Bool> {
-        return Binder(self.base) { viewController, emptying in
-            viewController.emptying = emptying
-        }
-    }
-    
-    func loading(active: Bool = false, text: String? = nil) -> Binder<Bool> {
-        return Binder(self.base) { viewController, loading in
-            viewController.loading = loading
-            guard viewController.isViewLoaded else { return }
-            guard !viewController.emptying else { return }
-            var url = "\(UIApplication.shared.urlScheme)://toast".url!
-            url.appendQueryParameters([
-                Parameter.active: loading.string
-            ])
-            viewController.navigator.open(url)
-        }
-    }
-    
-    var error: Binder<Error?> {
-        return Binder(self.base) { viewController, error in
-            viewController.error = error
-            guard viewController.isViewLoaded else { return }
-            guard let error = error else { return }
-            if (error as? SWError)?.isNotLoginedIn ?? false {
-                if let name = UIViewController.topMost?.className,
-                   name.contains("LoginViewController") {
-                    logger.print("已处于登录页，不需要再次打开", module: swframe)
-                } else {
-                    viewController.navigator.present( "\(UIApplication.shared.urlScheme)://login", wrap: NavigationController.self)
-                }
-            } else {
-                guard !viewController.emptying else { return }
-                var url = "\(UIApplication.shared.urlScheme)://toast".url!
-                url.appendQueryParameters([
-                    Parameter.message: error.localizedDescription
-                ])
-                viewController.navigator.open(url)
-            }
-        }
-    }
 }
