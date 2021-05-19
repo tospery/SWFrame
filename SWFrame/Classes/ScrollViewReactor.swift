@@ -10,9 +10,9 @@ import URLNavigator
 
 open class ScrollViewReactor: BaseViewReactor {
     
-    open var pageStart: Int { 1 }
-    open var pageIndex = 1
-    open var pageSize = 20
+    open var pageStart: Int { UIApplication.shared.pageStart }
+    open var pageIndex = UIApplication.shared.pageStart
+    open var pageSize = UIApplication.shared.pageSize
     
     public required init(_ provider: ProviderType, _ parameters: [String: Any]?) {
         super.init(provider, parameters)
