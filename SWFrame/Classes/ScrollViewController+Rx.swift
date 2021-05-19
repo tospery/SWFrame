@@ -12,20 +12,22 @@ import RxCocoa
 import URLNavigator
 import DZNEmptyDataSet
 import BonMot
-import ESPullToRefresh
+import MJRefresh
 
 public extension Reactive where Base: ScrollViewController {
     
     var loading: Binder<Bool> {
         return Binder(self.base) { viewController, isLoading in
             viewController.isLoading = isLoading
-//            guard viewController.isViewLoaded else { return }
-//            guard let scrollView = viewController.scrollView else { return }
-//            if viewController.noMoreData {
-//                scrollView.es.noticeNoMoreData()
-//            } else {
-//                scrollView.es.resetNoMoreData()
-//            }
+            guard viewController.isViewLoaded else { return }
+            guard let scrollView = viewController.scrollView else { return }
+            if !isLoading {
+                if viewController.noMoreData {
+                    scrollView.mj_footer?.endRefreshingWithNoMoreData()
+                } else {
+                    scrollView.mj_footer?.resetNoMoreData()
+                }
+            }
         }
     }
     
@@ -33,8 +35,14 @@ public extension Reactive where Base: ScrollViewController {
         return Binder(self.base) { viewController, isRefreshing in
             viewController.isRefreshing = isRefreshing
             guard viewController.isViewLoaded else { return }
-            if let scrollView = viewController.scrollView, !isRefreshing {
-                scrollView.es.stopPullToRefresh()
+            guard let scrollView = viewController.scrollView else { return }
+            if !isRefreshing {
+                scrollView.mj_header?.endRefreshing()
+                if viewController.noMoreData {
+                    scrollView.mj_footer?.endRefreshingWithNoMoreData()
+                } else {
+                    scrollView.mj_footer?.resetNoMoreData()
+                }
             }
         }
     }
@@ -43,11 +51,12 @@ public extension Reactive where Base: ScrollViewController {
         return Binder(self.base) { viewController, isLoadingMore in
             viewController.isLoadingMore = isLoadingMore
             guard viewController.isViewLoaded else { return }
-            if let scrollView = viewController.scrollView, !isLoadingMore {
-                if !viewController.noMoreData {
-                    scrollView.es.stopLoadingMore()
+            guard let scrollView = viewController.scrollView else { return }
+            if !isLoadingMore {
+                if viewController.noMoreData {
+                    scrollView.mj_footer?.endRefreshingWithNoMoreData()
                 } else {
-                    scrollView.es.noticeNoMoreData()
+                    scrollView.mj_footer?.resetNoMoreData()
                 }
             }
         }
@@ -56,9 +65,13 @@ public extension Reactive where Base: ScrollViewController {
     var noMoreData: Binder<Bool> {
         return Binder(self.base) { viewController, noMoreData in
             viewController.noMoreData = noMoreData
-            guard viewController.isViewLoaded else { return }
-            guard let scrollView = viewController.scrollView else { return }
-            noMoreData ? scrollView.es.noticeNoMoreData() : scrollView.es.resetNoMoreData()
+//            guard viewController.isViewLoaded else { return }
+//            guard let scrollView = viewController.scrollView else { return }
+//            if noMoreData {
+//                scrollView.mj_footer?.endRefreshingWithNoMoreData()
+//            } else {
+//                scrollView.mj_footer?.resetNoMoreData()
+//            }
         }
     }
     
@@ -80,7 +93,7 @@ public extension Reactive where Base: ScrollViewController {
     var startPullToRefresh: Binder<Void> {
         return Binder(self.base) { viewController, _ in
             if let scrollView = viewController.scrollView {
-                scrollView.es.startPullToRefresh()
+                scrollView.mj_header?.beginRefreshing()
             }
         }
     }

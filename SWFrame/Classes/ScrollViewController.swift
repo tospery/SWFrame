@@ -12,7 +12,7 @@ import RxCocoa
 import URLNavigator
 import DZNEmptyDataSet
 import BonMot
-import ESPullToRefresh
+import MJRefresh
 
 open class ScrollViewController: BaseViewController {
     
@@ -84,27 +84,25 @@ open class ScrollViewController: BaseViewController {
     
     open func setupRefresh(should: Bool) {
         if should {
-            let animator = ESRefreshHeaderAnimator.init(frame: .zero)
-            self.scrollView.es.addPullToRefresh(animator: animator) { [weak self] in
+            self.scrollView.mj_header = MJRefreshNormalHeader.init(refreshingBlock: { [weak self] in
                 guard let `self` = self else { return }
                 self.refreshSubject.onNext(())
-            }
-            self.scrollView.refreshIdentifier = "Refresh"
-            self.scrollView.expiredTimeInterval = 30.0
+            })
         } else {
-            self.scrollView.es.removeRefreshHeader()
+            self.scrollView.mj_header?.removeFromSuperview()
+            self.scrollView.mj_header = nil
         }
     }
     
     open func setupLoadMore(should: Bool) {
         if should {
-            let animator = ESRefreshFooterAnimator.init(frame: .zero)
-            self.scrollView.es.addInfiniteScrolling(animator: animator) { [weak self] in
+            self.scrollView.mj_footer = MJRefreshBackNormalFooter.init(refreshingBlock: { [weak self] in
                 guard let `self` = self else { return }
                 self.loadMoreSubject.onNext(())
-            }
+            })
         } else {
-            self.scrollView.es.removeRefreshFooter()
+            self.scrollView.mj_footer?.removeFromSuperview()
+            self.scrollView.mj_footer = nil
         }
     }
     
