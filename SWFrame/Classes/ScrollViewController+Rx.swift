@@ -26,7 +26,6 @@ public extension Reactive where Base: ScrollViewController {
                     viewController.setupLoadMore(should: false)
                 }
             } else {
-                // YJX_TODO 如果empty展示了
                 if viewController.shouldLoadMore {
                     viewController.setupLoadMore(should: true)
                 }

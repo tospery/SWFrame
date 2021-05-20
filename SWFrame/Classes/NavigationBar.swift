@@ -152,14 +152,14 @@ public class NavigationBar: UIView {
     }
     
     func addBackButtonToLeft() -> UIButton {
-        return self.addButtonToLeft(UIImage.back)
+        return self.addButtonToLeft(image: UIImage.back)
     }
     
     func addCloseButtonToLeft() -> UIButton {
-        return self.addButtonToLeft(UIImage.close)
+        return self.addButtonToLeft(image: UIImage.close)
     }
     
-    public func addButtonToLeft(_ image: UIImage? = nil, _ title: String? = nil) -> UIButton {
+    public func addButtonToLeft(image: UIImage? = nil, title: String? = nil) -> UIButton {
         let button = UIButton(type: .custom)
         button.backgroundColor = .clear
         button.titleLabel?.font = .systemFont(ofSize: 16)
@@ -177,7 +177,7 @@ public class NavigationBar: UIView {
         return button
     }
     
-    public func addButtonToRight(_ image: UIImage? = nil, _ title: String? = nil) -> UIButton {
+    public func addButtonToRight(image: UIImage? = nil, title: String? = nil) -> UIButton {
         let button = UIButton(type: .custom)
         button.backgroundColor = .clear
         button.titleLabel?.font = .systemFont(ofSize: 16)
