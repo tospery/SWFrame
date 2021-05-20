@@ -85,7 +85,17 @@ public extension Reactive where Base: BaseViewController {
                     viewController.navigator.present( "\(UIApplication.shared.urlScheme)://login", wrap: NavigationController.self)
                 }
             } else {
-                // guard !viewController.emptying else { return }
+                if let scrollViewController = viewController as? ScrollViewController {
+                    // loading的错误用emptyDataset提示，不进行toast
+                    if scrollViewController.isLoading {
+                        return
+                    } else if scrollViewController.isRefreshing {
+                        // refreshing的empty错误，不进行toast
+                        if error.asSWError.isListIsEmpty {
+                            return
+                        }
+                    }
+                }
                 var url = "\(UIApplication.shared.urlScheme)://toast".url!
                 url.appendQueryParameters([
                     Parameter.message: error.localizedDescription

@@ -21,7 +21,15 @@ public extension Reactive where Base: ScrollViewController {
             viewController.isLoading = isLoading
             guard viewController.isViewLoaded else { return }
             guard let scrollView = viewController.scrollView else { return }
-            if !isLoading {
+            if isLoading {
+                if viewController.shouldLoadMore {
+                    viewController.setupLoadMore(should: false)
+                }
+            } else {
+                // YJX_TODO 如果empty展示了
+                if viewController.shouldLoadMore {
+                    viewController.setupLoadMore(should: true)
+                }
                 if viewController.noMoreData {
                     scrollView.mj_footer?.endRefreshingWithNoMoreData()
                 } else {

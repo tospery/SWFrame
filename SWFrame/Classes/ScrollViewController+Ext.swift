@@ -17,7 +17,7 @@ import MJRefresh
 extension ScrollViewController: DZNEmptyDataSetSource {
     
     open func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        if let title = (self.error as? LocalizedError)?.failureReason, !title.isEmpty {
+        if let title = self.error?.asSWError.failureReason, !title.isEmpty {
             return title.styled(with: .alignment(.center),
                                 .font(.systemFont(ofSize: 20)),
                                 .color(.title))
@@ -26,7 +26,7 @@ extension ScrollViewController: DZNEmptyDataSetSource {
     }
     
     open func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        if let message = (self.error as? LocalizedError)?.errorDescription, !message.isEmpty {
+        if let message = self.error?.asSWError.errorDescription, !message.isEmpty {
             return message.styled(with: .alignment(.center),
                                   .font(.systemFont(ofSize: 14)),
                                   .color(.body))
@@ -35,14 +35,14 @@ extension ScrollViewController: DZNEmptyDataSetSource {
     }
     
     open func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
-        if let image = (self.error as? SWError)?.displayImage {
+        if let image = self.error?.asSWError.displayImage {
             return image
         }
         return UIImage.loading
     }
     
     open func buttonTitle(forEmptyDataSet scrollView: UIScrollView!, for state: UIControl.State) -> NSAttributedString! {
-        if let retry = (self.error as? LocalizedError)?.recoverySuggestion {
+        if let retry = self.error?.asSWError.recoverySuggestion {
             return retry.styled(with: .font(.systemFont(ofSize: 15)),
                                 .color(state == UIControl.State.normal ? UIColor.background : UIColor.background.withAlphaComponent(0.8)))
         }
@@ -71,16 +71,23 @@ extension ScrollViewController: DZNEmptyDataSetSource {
     open func backgroundColor(forEmptyDataSet scrollView: UIScrollView!) -> UIColor! {
         .background
     }
+    
+    open func verticalOffset(forEmptyDataSet scrollView: UIScrollView!) -> CGFloat {
+        -metric(50)
+    }
+    
 }
 
 extension ScrollViewController: DZNEmptyDataSetDelegate {
     
     public func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
-        return (self.isLoading == true || self.error != nil)
+        let should = (self.isLoading == true || self.error != nil)
+        return should
     }
 
     public func emptyDataSetShouldAnimateImageView(_ scrollView: UIScrollView!) -> Bool {
-        return (self.isLoading == true || self.error == nil)
+        let should = (self.isLoading == true && self.error == nil)
+        return should
     }
     
     public func emptyDataSet(_ scrollView: UIScrollView!, didTap view: UIView!) {

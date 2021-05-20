@@ -33,14 +33,21 @@ public func arrayMember(_ params: Dictionary<String, Any>?, _ key: String, _ def
 }
 
 // value - 375标准
-public func metric(_ value: CGFloat, _ specified: Bool = false) -> CGFloat {
-    if specified {
-        return flat(value / 375.f * UIScreen.width)
-    }
+public func metric(_ value: CGFloat) -> CGFloat {
+    (value / 375.f * UIScreen.width).flat
+}
+
+public func metric(_ value: CGFloat, small: CGFloat) -> CGFloat {
     switch UIScreen.kind {
-    case .small: return (value * 0.67).flat
-    case .middle: return value
-    case .large: return (value * 1.34).flat
+    case .small: return small
+    default: return value
+    }
+}
+
+public func metric(_ value: CGFloat, large: CGFloat) -> CGFloat {
+    switch UIScreen.kind {
+    case .large: return large
+    default: return value
     }
 }
 
@@ -52,15 +59,8 @@ public func metric(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
     }
 }
 
-public func fontSize(_ value: CGFloat, _ specified: Bool = false) -> CGFloat {
-    if specified {
-        return flat(value / 375.f * UIScreen.width)
-    }
-    switch UIScreen.kind {
-    case .small: return (value * 0.67).flat
-    case .middle: return value
-    case .large: return (value * 1.34).flat
-    }
+public func fontSize(_ value: CGFloat) -> CGFloat {
+    (value / 375.f * UIScreen.width).flat
 }
 
 public func fontSize(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {

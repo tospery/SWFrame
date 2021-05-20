@@ -113,6 +113,9 @@ extension SWError {
         }
         return false
     }
+    public var isListIsEmpty: Bool {
+        self == .listIsEmpty
+    }
     public var isNotLoginedIn: Bool {
         self == .notLoginedIn
     }
@@ -121,6 +124,8 @@ extension SWError {
             return UIImage.networkError
         } else if self.isServer {
             return UIImage.serverError
+        } else if self.isListIsEmpty {
+            return UIImage.emptyError
         } else if self.isNotLoginedIn {
             return UIImage.expireError
         }
