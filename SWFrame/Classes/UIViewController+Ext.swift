@@ -36,8 +36,12 @@ public extension UIViewController {
                 need = false
             } else {
                 let className = viewControllerToPresent.className
-                if className == "PopupDialog" {
+                switch className {
+                case "PopupDialog",
+                     "SideMenuNavigationController":
                     need = false
+                default:
+                    break
                 }
             }
             if need {
