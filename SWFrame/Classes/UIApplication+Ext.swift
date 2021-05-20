@@ -80,9 +80,10 @@ public extension UIApplication {
         var scheme: String? = nil
         if let types = Bundle.main.infoDictionary?["CFBundleURLTypes"] as? Array<Dictionary<String, Any>> {
             for info in types {
-                if let name = info["CFBundleURLName"] as? String, name == name {
-                    if let schemes = info["CFBundleURLSchemes"] as? Array<String> {
-                        scheme = schemes.first
+                if let urlName = info["CFBundleURLName"] as? String,
+                   urlName == name {
+                    if let urlSchemes = info["CFBundleURLSchemes"] as? [String] {
+                        scheme = urlSchemes.first
                     }
                 }
             }
