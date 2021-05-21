@@ -1,12 +1,14 @@
 //
-//  Constants.swift
+//  Const.swift
 //  SWFrame
 //
-//  Created by 杨建祥 on 2021/5/19.
+//  Created by 杨建祥 on 2021/4/2.
 //
 
-import Foundation
+import UIKit
+import QMUIKit
 
-public class Constants {
-    
-}
+public var pixelOne: CGFloat { QMUIHelper.pixelOne }
+
+public var isLandscape: Bool { UIApplication.shared.statusBarOrientation.isLandscape }
+public var isDeviceLandscape: Bool { UIDevice.current.orientation.isLandscape }
