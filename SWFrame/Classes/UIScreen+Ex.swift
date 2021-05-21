@@ -75,6 +75,14 @@ public extension UIScreen {
         self.main.bounds.size.height
     }
     
+    static var statusBarHeight: CGFloat {
+        SWHelper.sharedInstance().statusBarHeight
+    }
+    
+    static var statusBarHeightConstant: CGFloat {
+        SWHelper.sharedInstance().statusBarHeightConstant
+    }
+    
     static var safeArea: UIEdgeInsets {
         QMUIHelper.safeAreaInsetsForDeviceWithNotch
     }

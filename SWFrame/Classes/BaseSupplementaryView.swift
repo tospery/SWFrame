@@ -29,8 +29,8 @@ open class BaseSupplementaryView: UICollectionReusableView, Supplementary {
         self.disposeBag = DisposeBag()
     }
     
+    // 不建议用bind，而应该在VC中进行单个属性的绑定
     open func bind(reactor: BaseSupplementaryReactor) {
-        
     }
     
 }
