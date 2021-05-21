@@ -14,6 +14,7 @@ public struct Parameter {
     public static let code                  = "code"
     public static let type                  = "type"
     public static let name                  = "name"
+    public static let host                  = "host"
     public static let value                 = "value"
     public static let state                 = "state"
     public static let title                 = "title"

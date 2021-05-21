@@ -14,7 +14,7 @@ open class ScrollViewReactor: BaseViewReactor {
     open var pageIndex = UIApplication.shared.pageStart
     open var pageSize = UIApplication.shared.pageSize
     
-    public required init(_ provider: ProviderType, _ parameters: [String: Any]?) {
+    public required init?(_ provider: ProviderType, _ parameters: [String: Any]?) {
         super.init(provider, parameters)
     }
     
