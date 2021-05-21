@@ -37,18 +37,16 @@ public func metric(_ value: CGFloat) -> CGFloat {
     (value / 375.f * UIScreen.width).flat
 }
 
+public func metric(_ value: CGFloat, notched: CGFloat) -> CGFloat {
+    UIScreen.isNotched ? notched : value
+}
+
 public func metric(_ value: CGFloat, small: CGFloat) -> CGFloat {
-    switch UIScreen.kind {
-    case .small: return small
-    default: return value
-    }
+    UIScreen.isSmall ? small : value
 }
 
 public func metric(_ value: CGFloat, large: CGFloat) -> CGFloat {
-    switch UIScreen.kind {
-    case .large: return large
-    default: return value
-    }
+    UIScreen.isLarge ? large : value
 }
 
 public func metric(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
