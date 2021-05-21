@@ -45,6 +45,15 @@ public struct BaseModel: ModelType {
     
 }
 
+//public struct ModelWrapper {
+//
+//    public var model: ModelType
+//
+//    public init(_ model: ModelType) {
+//        self.model = model
+//    }
+//}
+
 public struct ModelContext: MapContext {
     
     public let shouldMap: Bool
