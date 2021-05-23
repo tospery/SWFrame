@@ -24,6 +24,10 @@ open class NormalCollectionItem: BaseCollectionItem, Reactor {
     
     public var initialState = State()
     
+//    required public init(_ model: ModelType) {
+//        super.init(model)
+//    }
+    
     required public init(_ model: ModelType) {
         super.init(model)
     }

@@ -10,7 +10,7 @@ import UIKit
 import QMUIKit
 import ReactorKit
 
-open class NormalCollectionCell: BaseCollectionCell, View {
+open class NormalCollectionCell: BaseCollectionCell, ReactorKit.View {
     
     public lazy var titleLabel: SWLabel = {
         let label = SWLabel()
