@@ -23,4 +23,10 @@ open class BaseViewReactor: NSObject, ReactorType {
         self.title = self.parameters[Parameter.title] as? String ?? nil
     }
     
+    deinit {
+        #if DEBUG
+        logger.print("\(self.className)已销毁！！！", module: .swframe)
+        #endif
+    }
+    
 }

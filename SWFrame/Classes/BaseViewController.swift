@@ -78,6 +78,12 @@ open class BaseViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        #if DEBUG
+        logger.print("\(self.className)已销毁！！！", module: .swframe)
+        #endif
+    }
+    
     // MARK: - View
     open override func viewDidLoad() {
         super.viewDidLoad()

@@ -11,7 +11,8 @@ import SwifterSwift
 
 public extension URL {
     
-    func insertingPathComponent(_ pathComponent: String, at index: UInt) -> URL {
+    func insertingPathComponent(_ pathComponent: String?, at index: UInt) -> URL {
+        guard let pathComponent = pathComponent else { return self }
         guard let scheme = self.scheme else { return self }
         guard let host = self.host else { return self }
         let path = self.path.removingPrefix("/").removingSuffix("/")
