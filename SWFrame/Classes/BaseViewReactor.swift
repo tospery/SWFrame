@@ -10,7 +10,7 @@ import QMUIKit
 import RxSwift
 import RxCocoa
 
-open class BaseViewReactor: ReactorType {
+open class BaseViewReactor: NSObject, ReactorType {
     
     public let provider: ProviderType
     public var parameters: [String: Any]
