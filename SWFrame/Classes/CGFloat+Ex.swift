@@ -10,23 +10,23 @@ import Foundation
 public extension CGFloat {
     
     var removeMin: CGFloat {
-        0 // YJX_TODO QMUIKit.removeFloatMin(self)
+        0 // YJX_TODO SWKit.removeFloatMin(self)
     }
     
     var safed: CGFloat {
-        0 // YJX_TODO QMUIKit.CGFloatSafeValue(self)
+        0 // YJX_TODO SWKit.CGFloatSafeValue(self)
     }
     
     var flat: CGFloat {
-        0 // YJX_TODO QMUIKit.flat(self)
+        0 // YJX_TODO SWKit.flat(self)
     }
     
     var floorInPixel: CGFloat {
-        0 // YJX_TODO QMUIKit.floorInPixel(self)
+        0 // YJX_TODO SWKit.floorInPixel(self)
     }
     
     func fixed(_ precision: UInt) -> CGFloat {
-        0 // YJX_TODO QMUIKit.CGFloatToFixed(self, precision)
+        0 // YJX_TODO SWKit.CGFloatToFixed(self, precision)
     }
     
 }

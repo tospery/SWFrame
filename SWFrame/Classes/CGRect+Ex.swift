@@ -10,55 +10,55 @@ import Foundation
 public extension CGRect {
     
     var isNaN: Bool {
-        false // YJX_TODO QMUIKit.CGRectIsNaN(self)
+        false // YJX_TODO SWKit.CGRectIsNaN(self)
     }
 
     var isInf: Bool {
-        false // YJX_TODO QMUIKit.CGRectIsInf(self)
+        false // YJX_TODO SWKit.CGRectIsInf(self)
     }
 
     var isValidated: Bool {
-        false // YJX_TODO QMUIKit.CGRectIsValidated(self)
+        false // YJX_TODO SWKit.CGRectIsValidated(self)
     }
 
     var removeMin: CGRect {
-        .zero // YJX_TODO QMUIKit.CGRectRemoveFloatMin(self)
+        .zero // YJX_TODO SWKit.CGRectRemoveFloatMin(self)
     }
             
     var safed: CGRect {
-        .zero // YJX_TODO QMUIKit.CGRectSafeValue(self)
+        .zero // YJX_TODO SWKit.CGRectSafeValue(self)
     }
             
     var flat: CGRect {
-        .zero // YJX_TODO QMUIKit.CGRectFlatted(self)
+        .zero // YJX_TODO SWKit.CGRectFlatted(self)
     }
 
     func fixed(_ precision: UInt) -> CGRect {
-        .zero // YJX_TODO QMUIKit.CGRectToFixed(self, precision)
+        .zero // YJX_TODO SWKit.CGRectToFixed(self, precision)
     }
     
     func rectBy(x: CGFloat) -> CGRect {
-        .zero // YJX_TODO QMUIKit.CGRectSetX(self, x)
+        .zero // YJX_TODO SWKit.CGRectSetX(self, x)
     }
     
     func rectBy(y: CGFloat) -> CGRect {
-        .zero // YJX_TODO QMUIKit.CGRectSetY(self, y)
+        .zero // YJX_TODO SWKit.CGRectSetY(self, y)
     }
     
     func rectBy(x: CGFloat, y: CGFloat) -> CGRect {
-        .zero // YJX_TODO QMUIKit.CGRectSetXY(self, x, y)
+        .zero // YJX_TODO SWKit.CGRectSetXY(self, x, y)
     }
     
     func rectBy(width: CGFloat) -> CGRect {
-        .zero // YJX_TODO QMUIKit.CGRectSetWidth(self, width)
+        .zero // YJX_TODO SWKit.CGRectSetWidth(self, width)
     }
     
     func rectBy(height: CGFloat) -> CGRect {
-        .zero // YJX_TODO QMUIKit.CGRectSetHeight(self, height)
+        .zero // YJX_TODO SWKit.CGRectSetHeight(self, height)
     }
     
     func rectBy(size: CGSize) -> CGRect {
-        .zero // YJX_TODO QMUIKit.CGRectSetSize(self, size)
+        .zero // YJX_TODO SWKit.CGRectSetSize(self, size)
     }
 }
 

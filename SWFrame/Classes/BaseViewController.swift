@@ -104,7 +104,7 @@ open class BaseViewController: UIViewController {
             } else {
                 if self.hidesNavBottomLine {
                     // YJX_TODO
-                    // self.navigationBar.sf_borderPosition = QMUIViewBorderPosition(rawValue: 0)
+                    // self.navigationBar.sf_borderPosition = SWViewBorderPosition(rawValue: 0)
                 }
             }
             if self.navigationController?.viewControllers.count ?? 0 > 1 {

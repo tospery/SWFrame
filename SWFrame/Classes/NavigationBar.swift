@@ -198,7 +198,7 @@ public class NavigationBar: UIView {
     
     public func transparet() {
         self.backgroundColor = .clear
-        // self.sf_borderPosition = QMUIViewBorderPosition(rawValue: 0) // YJX_TODO
+        // self.sf_borderPosition = SWViewBorderPosition(rawValue: 0) // YJX_TODO
     }
     
     public func reset() {

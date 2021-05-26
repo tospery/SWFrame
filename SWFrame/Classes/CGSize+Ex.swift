@@ -14,39 +14,39 @@ public extension CGSize {
     }
 
     var isNaN: Bool {
-        false // YJX_TODO QMUIKit.CGSizeIsNaN(self)
+        false // YJX_TODO SWKit.CGSizeIsNaN(self)
     }
     
     var isInf: Bool {
-        false // YJX_TODO QMUIKit.CGSizeIsInf(self)
+        false // YJX_TODO SWKit.CGSizeIsInf(self)
     }
     
     var isEmpty: Bool {
-        false // YJX_TODO QMUIKit.CGSizeIsEmpty(self)
+        false // YJX_TODO SWKit.CGSizeIsEmpty(self)
     }
     
     var isValidated: Bool {
-        false // YJX_TODO QMUIKit.CGSizeIsValidated(self)
+        false // YJX_TODO SWKit.CGSizeIsValidated(self)
     }
     
     var removeMin: CGSize {
-        .zero // YJX_TODO QMUIKit.CGSizeRemoveFloatMin(self)
+        .zero // YJX_TODO SWKit.CGSizeRemoveFloatMin(self)
     }
             
     var flat: CGSize {
-        .zero // YJX_TODO QMUIKit.CGSizeFlatted(self)
+        .zero // YJX_TODO SWKit.CGSizeFlatted(self)
     }
     
     var ceil: CGSize {
-        .zero // YJX_TODO QMUIKit.CGSizeCeil(self)
+        .zero // YJX_TODO SWKit.CGSizeCeil(self)
     }
     
     var floor: CGSize {
-        .zero // YJX_TODO QMUIKit.CGSizeFloor(self)
+        .zero // YJX_TODO SWKit.CGSizeFloor(self)
     }
             
     func fixed(_ precision: UInt) -> CGSize {
-        .zero // YJX_TODO QMUIKit.CGSizeToFixed(self, precision)
+        .zero // YJX_TODO SWKit.CGSizeToFixed(self, precision)
     }
     
 }

@@ -10,11 +10,11 @@ import Foundation
 public extension CGPoint {
     
     var removeMin: CGPoint {
-        .zero // YJX_TODO QMUIKit.CGPointRemoveFloatMin(self)
+        .zero // YJX_TODO SWKit.CGPointRemoveFloatMin(self)
     }
         
     func fixed(_ precision: UInt) -> CGPoint {
-        .zero // YJX_TODO QMUIKit.CGPointToFixed(self, precision)
+        .zero // YJX_TODO SWKit.CGPointToFixed(self, precision)
     }
     
 }
