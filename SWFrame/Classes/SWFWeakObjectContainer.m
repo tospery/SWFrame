@@ -1,15 +1,15 @@
 //
-//  WeakObjectContainer.m
+//  SWFWeakObjectContainer.m
 //  SWFrame
 //
 //  Created by 杨建祥 on 2021/5/26.
 //
 
-#import "WeakObjectContainer.h"
+#import "SWFWeakObjectContainer.h"
 
 // from https://github.com/ibireme/YYKit/blob/master/YYKit/Utility/YYWeakProxy.m
 
-@implementation WeakObjectContainer
+@implementation SWFWeakObjectContainer
 
 - (instancetype)initWithObject:(id)object {
     _object = object;

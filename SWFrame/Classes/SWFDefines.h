@@ -8,13 +8,23 @@
 #ifndef Defines_h
 #define Defines_h
 
+//CALayer+Ex
+//NSObject+Ex
+//NSNumber+Ex
+//NSString+Ex
+//NSMethodSignature+Ex
+//SWFRuntime
+//SWFDefines
+//SWFHelper
+//SWFWeakObjectContainer
+
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 #import "SWFDefines.h"
 #import "SWFHelper.h"
 #import "NSNumber+Ex.h"
 #import "NSString+Ex.h"
-#import "WeakObjectContainer.h"
+#import "SWFWeakObjectContainer.h"
 
 #pragma mark - 变量-编译相关
 
@@ -304,11 +314,11 @@ _Pragma("clang diagnostic pop")
 _Pragma("clang diagnostic push") _Pragma(ClangWarningConcat("-Wmismatched-parameter-types")) _Pragma(ClangWarningConcat("-Wmismatched-return-types"))\
 static char kAssociatedObjectKey_##_getterName;\
 - (void)_setterName:(id)_getterName {\
-    objc_setAssociatedObject(self, &kAssociatedObjectKey_##_getterName, [[WeakObjectContainer alloc] initWithObject:_getterName], OBJC_ASSOCIATION_RETAIN_NONATOMIC);\
+    objc_setAssociatedObject(self, &kAssociatedObjectKey_##_getterName, [[SWFWeakObjectContainer alloc] initWithObject:_getterName], OBJC_ASSOCIATION_RETAIN_NONATOMIC);\
 }\
 \
 - (id)_getterName {\
-    return ((WeakObjectContainer *)objc_getAssociatedObject(self, &kAssociatedObjectKey_##_getterName)).object;\
+    return ((SWFWeakObjectContainer *)objc_getAssociatedObject(self, &kAssociatedObjectKey_##_getterName)).object;\
 }\
 _Pragma("clang diagnostic pop")
 

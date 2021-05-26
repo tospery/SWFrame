@@ -6,7 +6,7 @@
 //
 
 #import "NSObject+Ex.h"
-#import "WeakObjectContainer.h"
+#import "SWFWeakObjectContainer.h"
 #import "SWFDefines.h"
 #import "SWFRuntime.h"
 #import "NSString+Ex.h"
@@ -357,7 +357,7 @@ static char kAssociatedObjectKey_SWAllBoundObjects;
         return;
     }
     if (object) {
-        WeakObjectContainer *container = [[WeakObjectContainer alloc] initWithObject:object];
+        SWFWeakObjectContainer *container = [[SWFWeakObjectContainer alloc] initWithObject:object];
         [self swf_bindObject:container forKey:key];
     } else {
         [[self swf_allBoundObjects] removeObjectForKey:key];
@@ -370,8 +370,8 @@ static char kAssociatedObjectKey_SWAllBoundObjects;
         return nil;
     }
     id storedObj = [[self swf_allBoundObjects] objectForKey:key];
-    if ([storedObj isKindOfClass:[WeakObjectContainer class]]) {
-        storedObj = [(WeakObjectContainer *)storedObj object];
+    if ([storedObj isKindOfClass:[SWFWeakObjectContainer class]]) {
+        storedObj = [(SWFWeakObjectContainer *)storedObj object];
     }
     return storedObj;
 }
