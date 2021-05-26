@@ -56,10 +56,10 @@ public class NavigationBar: UIView {
     // YJX_TODO
 //    @objc public dynamic var lineColor: UIColor? {
 //        get {
-//            return self.qmui_borderColor
+//            return self.sf_borderColor
 //        }
 //        set {
-//            self.qmui_borderColor = newValue
+//            self.sf_borderColor = newValue
 //        }
 //    }
     
@@ -98,9 +98,9 @@ public class NavigationBar: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         // YJX_TODO
-//        self.qmui_borderPosition = .bottom
-//        self.qmui_borderWidth = pixelOne
-//        self.qmui_borderColor = .lightGray
+//        self.sf_borderPosition = .bottom
+//        self.sf_borderWidth = pixelOne
+//        self.sf_borderColor = .lightGray
         self.addSubview(self.bgImageView)
         self.addSubview(self.titleLabel)
     }
@@ -198,12 +198,12 @@ public class NavigationBar: UIView {
     
     public func transparet() {
         self.backgroundColor = .clear
-        // self.qmui_borderPosition = QMUIViewBorderPosition(rawValue: 0) // YJX_TODO
+        // self.sf_borderPosition = QMUIViewBorderPosition(rawValue: 0) // YJX_TODO
     }
     
     public func reset() {
         self.backgroundColor = .white
-        // self.qmui_borderPosition = .bottom // YJX_TODO
+        // self.sf_borderPosition = .bottom // YJX_TODO
     }
     
 }

@@ -7,9 +7,9 @@
 
 #import "NSNumber+Ex.h"
 
-@implementation NSNumber (QMUI)
+@implementation NSNumber (Ex)
 
-- (CGFloat)qmui_CGFloatValue {
+- (CGFloat)sf_CGFloatValue {
 #if CGFLOAT_IS_DOUBLE
     return self.doubleValue;
 #else

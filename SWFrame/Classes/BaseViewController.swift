@@ -46,7 +46,7 @@ open class BaseViewController: UIViewController {
         if let tabBar = self.tabBarController?.tabBar,
             tabBar.isHidden == false
             /*,
-            self.qmui_previous == nil*/  {// YJX_TODO
+            self.sf_previous == nil*/  {// YJX_TODO
             height += tabBar.height
         }
         return height
@@ -104,7 +104,7 @@ open class BaseViewController: UIViewController {
             } else {
                 if self.hidesNavBottomLine {
                     // YJX_TODO
-                    // self.navigationBar.qmui_borderPosition = QMUIViewBorderPosition(rawValue: 0)
+                    // self.navigationBar.sf_borderPosition = QMUIViewBorderPosition(rawValue: 0)
                 }
             }
             if self.navigationController?.viewControllers.count ?? 0 > 1 {
@@ -117,7 +117,7 @@ open class BaseViewController: UIViewController {
                 }).disposed(by: self.disposeBag)
             } else {
                 // YJX_TODO
-                //if self.qmui_isPresented() {
+                //if self.sf_isPresented() {
                     self.navigationBar.addCloseButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
                         guard let `self` = self else { return }
                         self.dismiss(animated: true) { [weak self] in

@@ -76,8 +76,8 @@
 #pragma mark - 忽略 iOS 13 KVC 访问私有属性限制
 
 /// 将 KVC 代码包裹在这个宏中，可忽略系统的  KVC 访问限制
-#define BeginIgnoreUIKVCAccessProhibited if (@available(iOS 13.0, *)) NSThread.currentThread.qmui_shouldIgnoreUIKVCAccessProhibited = YES;
-#define EndIgnoreUIKVCAccessProhibited if (@available(iOS 13.0, *)) NSThread.currentThread.qmui_shouldIgnoreUIKVCAccessProhibited = NO;
+#define BeginIgnoreUIKVCAccessProhibited if (@available(iOS 13.0, *)) NSThread.currentThread.sf_shouldIgnoreUIKVCAccessProhibited = YES;
+#define EndIgnoreUIKVCAccessProhibited if (@available(iOS 13.0, *)) NSThread.currentThread.sf_shouldIgnoreUIKVCAccessProhibited = NO;
 
 #pragma mark - 变量-设备相关
 
@@ -176,7 +176,7 @@
 #define NavigationBarHeight (IS_IPAD ? (IOS_VERSION >= 12.0 ? 50 : 44) : (IS_LANDSCAPE ? PreferredValueForVisualDevice(44, 32) : 44))
 
 /// 代表(导航栏+状态栏)，这里用于获取其高度
-/// @warn 如果是用于 viewController，请使用 UIViewController(QMUI) qmui_navigationBarMaxYInViewCoordinator 代替
+/// @warn 如果是用于 viewController，请使用 UIViewController(Ex) sf_navigationBarMaxYInViewCoordinator 代替
 #define NavigationContentTop (StatusBarHeight + NavigationBarHeight)
 
 /// 同上，这里用于获取它的静态常量值
@@ -244,13 +244,13 @@
 #define UIImageMakeWithFile(name) UIImageMakeWithFileAndSuffix(name, @"png")
 #define UIImageMakeWithFileAndSuffix(name, suffix) [UIImage imageWithContentsOfFile:[NSString stringWithFormat:@"%@/%@.%@", [[NSBundle mainBundle] resourcePath], name, suffix]]
 
-/// 字体相关的宏，用于快速创建一个字体对象，更多创建宏可查看 UIFont+QMUI.h
+/// 字体相关的宏，用于快速创建一个字体对象，更多创建宏可查看 UIFont+Ex.h
 #define UIFontMake(size) [UIFont systemFontOfSize:size]
 #define UIFontItalicMake(size) [UIFont italicSystemFontOfSize:size] /// 斜体只对数字和字母有效，中文无效
 #define UIFontBoldMake(size) [UIFont boldSystemFontOfSize:size]
 #define UIFontBoldWithFont(_font) [UIFont boldSystemFontOfSize:_font.pointSize]
 
-/// UIColor 相关的宏，用于快速创建一个 UIColor 对象，更多创建的宏可查看 UIColor+QMUI.h
+/// UIColor 相关的宏，用于快速创建一个 UIColor 对象，更多创建的宏可查看 UIColor+Ex.h
 #define UIColorMake(r, g, b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
 #define UIColorMakeWithRGBA(r, g, b, a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a/1.0]
 
@@ -262,8 +262,8 @@
 
 #pragma mark - 动画
 
-#define QMUIViewAnimationOptionsCurveOut (7<<16)
-#define QMUIViewAnimationOptionsCurveIn (8<<16)
+#define SWViewAnimationOptionsCurveOut (7<<16)
+#define SWViewAnimationOptionsCurveIn (8<<16)
 
 /**
  以下系列宏用于在 Category 里添加 property 时，可以在 @implementation 里一句代码完成 getter/setter 的声明。暂不支持在 getter/setter 里添加自定义的逻辑，需要自定义的情况请继续使用 Code Snippet 生成的代码。
@@ -278,9 +278,9 @@
  @implementation NSObject (CategoryName)
  
  // 注意 setter 不需要带冒号
- QMUISynthesizeIdStrongProperty(strongObj, setStrongObj)
- QMUISynthesizeIdWeakProperty(weakObj, setWeakObj)
- QMUISynthesizeCGRectProperty(rectValue, setRectValue)
+ SWSynthesizeIdStrongProperty(strongObj, setStrongObj)
+ SWSynthesizeIdWeakProperty(weakObj, setWeakObj)
+ SWSynthesizeCGRectProperty(rectValue, setRectValue)
  
  @end
  @endcode
@@ -288,7 +288,7 @@
 
 #pragma mark - Meta Marcos
 
-#define _QMUISynthesizeId(_getterName, _setterName, _policy) \
+#define _SWSynthesizeId(_getterName, _setterName, _policy) \
 _Pragma("clang diagnostic push") _Pragma(ClangWarningConcat("-Wmismatched-parameter-types")) _Pragma(ClangWarningConcat("-Wmismatched-return-types"))\
 static char kAssociatedObjectKey_##_getterName;\
 - (void)_setterName:(id)_getterName {\
@@ -300,7 +300,7 @@ static char kAssociatedObjectKey_##_getterName;\
 }\
 _Pragma("clang diagnostic pop")
 
-#define _QMUISynthesizeWeakId(_getterName, _setterName) \
+#define _SWSynthesizeWeakId(_getterName, _setterName) \
 _Pragma("clang diagnostic push") _Pragma(ClangWarningConcat("-Wmismatched-parameter-types")) _Pragma(ClangWarningConcat("-Wmismatched-return-types"))\
 static char kAssociatedObjectKey_##_getterName;\
 - (void)_setterName:(id)_getterName {\
@@ -312,7 +312,7 @@ static char kAssociatedObjectKey_##_getterName;\
 }\
 _Pragma("clang diagnostic pop")
 
-#define _QMUISynthesizeNonObject(_getterName, _setterName, _type, valueInitializer, valueGetter) \
+#define _SWSynthesizeNonObject(_getterName, _setterName, _type, valueInitializer, valueGetter) \
 _Pragma("clang diagnostic push") _Pragma(ClangWarningConcat("-Wmismatched-parameter-types")) _Pragma(ClangWarningConcat("-Wmismatched-return-types"))\
 static char kAssociatedObjectKey_##_getterName;\
 - (void)_setterName:(_type)_getterName {\
@@ -330,65 +330,65 @@ _Pragma("clang diagnostic pop")
 #pragma mark - Object Marcos
 
 /// @property(nonatomic, strong) id xxx
-#define QMUISynthesizeIdStrongProperty(_getterName, _setterName) _QMUISynthesizeId(_getterName, _setterName, RETAIN)
+#define SWSynthesizeIdStrongProperty(_getterName, _setterName) _SWSynthesizeId(_getterName, _setterName, RETAIN)
 
 /// @property(nonatomic, weak) id xxx
-#define QMUISynthesizeIdWeakProperty(_getterName, _setterName) _QMUISynthesizeWeakId(_getterName, _setterName)
+#define SWSynthesizeIdWeakProperty(_getterName, _setterName) _SWSynthesizeWeakId(_getterName, _setterName)
 
 /// @property(nonatomic, copy) id xxx
-#define QMUISynthesizeIdCopyProperty(_getterName, _setterName) _QMUISynthesizeId(_getterName, _setterName, COPY)
+#define SWSynthesizeIdCopyProperty(_getterName, _setterName) _SWSynthesizeId(_getterName, _setterName, COPY)
 
 
 
 #pragma mark - NonObject Marcos
 
 /// @property(nonatomic, assign) Int xxx
-#define QMUISynthesizeIntProperty(_getterName, _setterName) _QMUISynthesizeNonObject(_getterName, _setterName, int, numberWithInt, intValue)
+#define SWSynthesizeIntProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, int, numberWithInt, intValue)
 
 /// @property(nonatomic, assign) unsigned int xxx
-#define QMUISynthesizeUnsignedIntProperty(_getterName, _setterName) _QMUISynthesizeNonObject(_getterName, _setterName, unsigned int, numberWithUnsignedInt, unsignedIntValue)
+#define SWSynthesizeUnsignedIntProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, unsigned int, numberWithUnsignedInt, unsignedIntValue)
 
 /// @property(nonatomic, assign) float xxx
-#define QMUISynthesizeFloatProperty(_getterName, _setterName) _QMUISynthesizeNonObject(_getterName, _setterName, float, numberWithFloat, floatValue)
+#define SWSynthesizeFloatProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, float, numberWithFloat, floatValue)
 
 /// @property(nonatomic, assign) double xxx
-#define QMUISynthesizeDoubleProperty(_getterName, _setterName) _QMUISynthesizeNonObject(_getterName, _setterName, double, numberWithDouble, doubleValue)
+#define SWSynthesizeDoubleProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, double, numberWithDouble, doubleValue)
 
 /// @property(nonatomic, assign) BOOL xxx
-#define QMUISynthesizeBOOLProperty(_getterName, _setterName) _QMUISynthesizeNonObject(_getterName, _setterName, BOOL, numberWithBool, boolValue)
+#define SWSynthesizeBOOLProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, BOOL, numberWithBool, boolValue)
 
 /// @property(nonatomic, assign) NSInteger xxx
-#define QMUISynthesizeNSIntegerProperty(_getterName, _setterName) _QMUISynthesizeNonObject(_getterName, _setterName, NSInteger, numberWithInteger, integerValue)
+#define SWSynthesizeNSIntegerProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, NSInteger, numberWithInteger, integerValue)
 
 /// @property(nonatomic, assign) NSUInteger xxx
-#define QMUISynthesizeNSUIntegerProperty(_getterName, _setterName) _QMUISynthesizeNonObject(_getterName, _setterName, NSUInteger, numberWithUnsignedInteger, unsignedIntegerValue)
+#define SWSynthesizeNSUIntegerProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, NSUInteger, numberWithUnsignedInteger, unsignedIntegerValue)
 
 /// @property(nonatomic, assign) CGFloat xxx
-#define QMUISynthesizeCGFloatProperty(_getterName, _setterName) _QMUISynthesizeNonObject(_getterName, _setterName, CGFloat, numberWithDouble, qmui_CGFloatValue)
+#define SWSynthesizeCGFloatProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, CGFloat, numberWithDouble, sf_CGFloatValue)
 
 /// @property(nonatomic, assign) CGPoint xxx
-#define QMUISynthesizeCGPointProperty(_getterName, _setterName) _QMUISynthesizeNonObject(_getterName, _setterName, CGPoint, valueWithCGPoint, CGPointValue)
+#define SWSynthesizeCGPointProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, CGPoint, valueWithCGPoint, CGPointValue)
 
 /// @property(nonatomic, assign) CGSize xxx
-#define QMUISynthesizeCGSizeProperty(_getterName, _setterName) _QMUISynthesizeNonObject(_getterName, _setterName, CGSize, valueWithCGSize, CGSizeValue)
+#define SWSynthesizeCGSizeProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, CGSize, valueWithCGSize, CGSizeValue)
 
 /// @property(nonatomic, assign) CGRect xxx
-#define QMUISynthesizeCGRectProperty(_getterName, _setterName) _QMUISynthesizeNonObject(_getterName, _setterName, CGRect, valueWithCGRect, CGRectValue)
+#define SWSynthesizeCGRectProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, CGRect, valueWithCGRect, CGRectValue)
 
 /// @property(nonatomic, assign) UIEdgeInsets xxx
-#define QMUISynthesizeUIEdgeInsetsProperty(_getterName, _setterName) _QMUISynthesizeNonObject(_getterName, _setterName, UIEdgeInsets, valueWithUIEdgeInsets, UIEdgeInsetsValue)
+#define SWSynthesizeUIEdgeInsetsProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, UIEdgeInsets, valueWithUIEdgeInsets, UIEdgeInsetsValue)
 
 /// @property(nonatomic, assign) CGVector xxx
-#define QMUISynthesizeCGVectorProperty(_getterName, _setterName) _QMUISynthesizeNonObject(_getterName, _setterName, CGVector, valueWithCGVector, CGVectorValue)
+#define SWSynthesizeCGVectorProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, CGVector, valueWithCGVector, CGVectorValue)
 
 /// @property(nonatomic, assign) CGAffineTransform xxx
-#define QMUISynthesizeCGAffineTransformProperty(_getterName, _setterName) _QMUISynthesizeNonObject(_getterName, _setterName, CGAffineTransform, valueWithCGAffineTransform, CGAffineTransformValue)
+#define SWSynthesizeCGAffineTransformProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, CGAffineTransform, valueWithCGAffineTransform, CGAffineTransformValue)
 
 /// @property(nonatomic, assign) NSDirectionalEdgeInsets xxx
-#define QMUISynthesizeNSDirectionalEdgeInsetsProperty(_getterName, _setterName) _QMUISynthesizeNonObject(_getterName, _setterName, NSDirectionalEdgeInsets, valueWithDirectionalEdgeInsets, NSDirectionalEdgeInsetsValue)
+#define SWSynthesizeNSDirectionalEdgeInsetsProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, NSDirectionalEdgeInsets, valueWithDirectionalEdgeInsets, NSDirectionalEdgeInsetsValue)
 
 /// @property(nonatomic, assign) UIOffset xxx
-#define QMUISynthesizeUIOffsetProperty(_getterName, _setterName) _QMUISynthesizeNonObject(_getterName, _setterName, UIOffset, valueWithUIOffset, UIOffsetValue)
+#define SWSynthesizeUIOffsetProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, UIOffset, valueWithUIOffset, UIOffsetValue)
 
 #pragma mark - 无障碍访问
 CG_INLINE void
@@ -405,7 +405,7 @@ AddAccessibilityHint(NSObject *obj, NSString *hint) {
 #pragma mark - 其他
 
 // 固定黑色的 StatusBarStyle，用于亮色背景，作为 -preferredStatusBarStyle 方法的 return 值使用。
-#define QMUIStatusBarStyleDarkContent [Helper statusBarStyleDarkContent]
+#define SWStatusBarStyleDarkContent [Helper statusBarStyleDarkContent]
 
 #define StringFromBOOL(_flag) (_flag ? @"YES" : @"NO")
 
@@ -420,7 +420,7 @@ CG_INLINE SEL
 setterWithGetter(SEL getter) {
     NSString *getterString = NSStringFromSelector(getter);
     NSMutableString *setterString = [[NSMutableString alloc] initWithString:@"set"];
-    [setterString appendString:getterString.qmui_capitalizedString];
+    [setterString appendString:getterString.sf_capitalizedString];
     [setterString appendString:@":"];
     SEL setter = NSSelectorFromString(setterString);
     return setter;
@@ -430,7 +430,6 @@ setterWithGetter(SEL getter) {
 
 /**
  *  某些地方可能会将 CGFLOAT_MIN 作为一个数值参与计算（但其实 CGFLOAT_MIN 更应该被视为一个标志位而不是数值），可能导致一些精度问题，所以提供这个方法快速将 CGFLOAT_MIN 转换为 0
- *  issue: https://github.com/Tencent/QMUI_iOS/issues/203
  */
 CG_INLINE CGFloat
 removeFloatMin(CGFloat floatValue) {

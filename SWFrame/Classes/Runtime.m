@@ -11,10 +11,10 @@
 #include <mach-o/getsect.h>
 #include <mach-o/dyld.h>
 
-@implementation QMUIPropertyDescriptor
+@implementation SWPropertyDescriptor
 
 + (instancetype)descriptorWithProperty:(objc_property_t)property {
-    QMUIPropertyDescriptor *descriptor = [[self alloc] init];
+    SWPropertyDescriptor *descriptor = [[self alloc] init];
     NSString *propertyName = [NSString stringWithUTF8String:property_getName(property)];
     descriptor.name = propertyName;
     
@@ -74,7 +74,7 @@
     
     // type
     char *type = property_copyAttributeValue(property, "T");
-    descriptor.type = [QMUIPropertyDescriptor typeWithEncodeString:[NSString stringWithUTF8String:type]];
+    descriptor.type = [SWPropertyDescriptor typeWithEncodeString:[NSString stringWithUTF8String:type]];
     if (type != NULL) {
         free(type);
     }
@@ -187,7 +187,7 @@ static classref_t *getDataSection(const headerType *machHeader, const char *sect
     return data;
 }
 
-int qmui_getProjectClassList(classref_t **classes) {
+int sf_getProjectClassList(classref_t **classes) {
     size_t count = 0;
     if (!!classes) {
         *classes = getDataSection(getProjectImageHeader(), "__objc_classlist", &count);
@@ -198,7 +198,7 @@ int qmui_getProjectClassList(classref_t **classes) {
 }
 
 
-BOOL qmui_exists_dyld_image(const char *target_image_name) {
+BOOL sf_exists_dyld_image(const char *target_image_name) {
     const uint32_t imageCount = _dyld_image_count();
     for (uint32_t i = 0; i < imageCount; i++) {
         const char *image_name = _dyld_get_image_name(i);

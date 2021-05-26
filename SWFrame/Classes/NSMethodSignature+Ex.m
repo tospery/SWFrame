@@ -9,9 +9,9 @@
 #import "NSObject+Ex.h"
 #import "Defines.h"
 
-@implementation NSMethodSignature (QMUI)
+@implementation NSMethodSignature (Ex)
 
-+ (NSMethodSignature *)qmui_avoidExceptionSignature {
++ (NSMethodSignature *)sf_avoidExceptionSignature {
     // https://github.com/facebookarchive/AsyncDisplayKit/pull/1562
     // Unfortunately, in order to get this object to work properly, the use of a method which creates an NSMethodSignature
     // from a C string. -methodSignatureForSelector is called when a compiled definition for the selector cannot be found.
@@ -23,15 +23,15 @@
     return [NSMethodSignature signatureWithObjCTypes:"@^v^c"];
 }
 
-- (NSString *)qmui_typeString {
+- (NSString *)sf_typeString {
     BeginIgnorePerformSelectorLeaksWarning
     NSString *typeString = [self performSelector:NSSelectorFromString([NSString stringWithFormat:@"_%@String", @"type"])];
     EndIgnorePerformSelectorLeaksWarning
     return typeString;
 }
 
-- (const char *)qmui_typeEncoding {
-    return self.qmui_typeString.UTF8String;
+- (const char *)sf_typeEncoding {
+    return self.sf_typeString.UTF8String;
 }
 
 @end

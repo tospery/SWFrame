@@ -23,9 +23,9 @@ public extension Reactive where Base: UIView {
         }
     }
     
-    var qmui_borderColor: Binder<UIColor?> {
+    var sf_borderColor: Binder<UIColor?> {
         return Binder(self.base) { view, color in
-            // YJX_TODO view.qmui_borderColor = color
+            // YJX_TODO view.sf_borderColor = color
         }
     }
     

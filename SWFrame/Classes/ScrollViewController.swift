@@ -121,7 +121,7 @@ extension ScrollViewController: DZNEmptyDataSetSource {
     open func buttonBackgroundImage(forEmptyDataSet scrollView: UIScrollView!, for state: UIControl.State) -> UIImage! {
         // YJX_TODO
 //        if state == UIControl.State.normal,
-//            let image = UIImage.qmui_image(with: .primary, size: CGSize(width: 120, height: 40), cornerRadius: 2.f) {
+//            let image = UIImage.sf_image(with: .primary, size: CGSize(width: 120, height: 40), cornerRadius: 2.f) {
 //            return image.withAlignmentRectInsets(UIEdgeInsets(horizontal: (self.view.width - 120) / 2.f * -1.f, vertical: 0))
 //        }
         return nil

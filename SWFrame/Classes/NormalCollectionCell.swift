@@ -45,9 +45,9 @@ open class NormalCollectionCell: BaseCollectionCell, ReactorKit.View {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         // YJX_TODO
-//        self.qmui_borderPosition = .bottom
-//        self.qmui_borderWidth = pixelOne
-//        self.qmui_borderColor = .lightGray
+//        self.sf_borderPosition = .bottom
+//        self.sf_borderWidth = pixelOne
+//        self.sf_borderColor = .lightGray
         
         self.contentView.addSubview(self.titleLabel)
         self.contentView.addSubview(self.detailLabel)

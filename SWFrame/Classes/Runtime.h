@@ -11,7 +11,7 @@
 #import "NSMethodSignature+Ex.h"
 
 /// 以高级语言的方式描述一个 objc_property_t 的各种属性，请使用 `+descriptorWithProperty` 生成对象后直接读取对象的各种值。
-@interface QMUIPropertyDescriptor : NSObject
+@interface SWPropertyDescriptor : NSObject
 
 @property(nonatomic, strong) NSString *name;
 @property(nonatomic, assign) SEL getter;
@@ -106,7 +106,6 @@ OverrideImplementation(Class targetClass, SEL targetSelector, id (^implementatio
             result = imp;
         } else {
             // 如果 superclass 里依然没有实现，则会返回一个 objc_msgForward 从而触发消息转发的流程
-            // https://github.com/Tencent/QMUI_iOS/issues/776
             Class superclass = class_getSuperclass(targetClass);
             result = class_getMethodImplementation(superclass, targetSelector);
         }
@@ -127,7 +126,7 @@ OverrideImplementation(Class targetClass, SEL targetSelector, id (^implementatio
     if (hasOverride) {
         method_setImplementation(originMethod, imp_implementationWithBlock(implementationBlock(targetClass, targetSelector, originalIMPProvider)));
     } else {
-        const char *typeEncoding = method_getTypeEncoding(originMethod) ?: [targetClass instanceMethodSignatureForSelector:targetSelector].qmui_typeEncoding;
+        const char *typeEncoding = method_getTypeEncoding(originMethod) ?: [targetClass instanceMethodSignatureForSelector:targetSelector].sf_typeEncoding;
         class_addMethod(targetClass, targetSelector, imp_implementationWithBlock(implementationBlock(targetClass, targetSelector, originalIMPProvider)), typeEncoding);
     }
     
@@ -246,7 +245,7 @@ ExtendImplementationOfVoidMethodWithoutArguments(Class targetClass, SEL targetSe
  
  @see https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtTypeEncodings.html#//apple_ref/doc/uid/TP40008048-CH100-SW1
  */
-#define _QMUITypeEncodingDetectorGenerator(_TypeInFunctionName, _typeForEncode) \
+#define _SWTypeEncodingDetectorGenerator(_TypeInFunctionName, _typeForEncode) \
     CG_INLINE BOOL is##_TypeInFunctionName##TypeEncoding(const char *typeEncoding) {\
         return strncmp(@encode(_typeForEncode), typeEncoding, strlen(@encode(_typeForEncode))) == 0;\
     }\
@@ -254,27 +253,27 @@ ExtendImplementationOfVoidMethodWithoutArguments(Class targetClass, SEL targetSe
         return is##_TypeInFunctionName##TypeEncoding(ivar_getTypeEncoding(ivar));\
     }
 
-_QMUITypeEncodingDetectorGenerator(Char, char)
-_QMUITypeEncodingDetectorGenerator(Int, int)
-_QMUITypeEncodingDetectorGenerator(Short, short)
-_QMUITypeEncodingDetectorGenerator(Long, long)
-_QMUITypeEncodingDetectorGenerator(LongLong, long long)
-_QMUITypeEncodingDetectorGenerator(NSInteger, NSInteger)
-_QMUITypeEncodingDetectorGenerator(UnsignedChar, unsigned char)
-_QMUITypeEncodingDetectorGenerator(UnsignedInt, unsigned int)
-_QMUITypeEncodingDetectorGenerator(UnsignedShort, unsigned short)
-_QMUITypeEncodingDetectorGenerator(UnsignedLong, unsigned long)
-_QMUITypeEncodingDetectorGenerator(UnsignedLongLong, unsigned long long)
-_QMUITypeEncodingDetectorGenerator(NSUInteger, NSUInteger)
-_QMUITypeEncodingDetectorGenerator(Float, float)
-_QMUITypeEncodingDetectorGenerator(Double, double)
-_QMUITypeEncodingDetectorGenerator(CGFloat, CGFloat)
-_QMUITypeEncodingDetectorGenerator(BOOL, BOOL)
-_QMUITypeEncodingDetectorGenerator(Void, void)
-_QMUITypeEncodingDetectorGenerator(Character, char *)
-_QMUITypeEncodingDetectorGenerator(Object, id)
-_QMUITypeEncodingDetectorGenerator(Class, Class)
-_QMUITypeEncodingDetectorGenerator(Selector, SEL)
+_SWTypeEncodingDetectorGenerator(Char, char)
+_SWTypeEncodingDetectorGenerator(Int, int)
+_SWTypeEncodingDetectorGenerator(Short, short)
+_SWTypeEncodingDetectorGenerator(Long, long)
+_SWTypeEncodingDetectorGenerator(LongLong, long long)
+_SWTypeEncodingDetectorGenerator(NSInteger, NSInteger)
+_SWTypeEncodingDetectorGenerator(UnsignedChar, unsigned char)
+_SWTypeEncodingDetectorGenerator(UnsignedInt, unsigned int)
+_SWTypeEncodingDetectorGenerator(UnsignedShort, unsigned short)
+_SWTypeEncodingDetectorGenerator(UnsignedLong, unsigned long)
+_SWTypeEncodingDetectorGenerator(UnsignedLongLong, unsigned long long)
+_SWTypeEncodingDetectorGenerator(NSUInteger, NSUInteger)
+_SWTypeEncodingDetectorGenerator(Float, float)
+_SWTypeEncodingDetectorGenerator(Double, double)
+_SWTypeEncodingDetectorGenerator(CGFloat, CGFloat)
+_SWTypeEncodingDetectorGenerator(BOOL, BOOL)
+_SWTypeEncodingDetectorGenerator(Void, void)
+_SWTypeEncodingDetectorGenerator(Character, char *)
+_SWTypeEncodingDetectorGenerator(Object, id)
+_SWTypeEncodingDetectorGenerator(Class, Class)
+_SWTypeEncodingDetectorGenerator(Selector, SEL)
 
 //CG_INLINE char getCharIvarValue(id object, Ivar ivar) {
 //    ptrdiff_t ivarOffset = ivar_getOffset(ivar);
@@ -283,7 +282,7 @@ _QMUITypeEncodingDetectorGenerator(Selector, SEL)
 //    return value;
 //}
 
-#define _QMUIGetIvarValueGenerator(_TypeInFunctionName, _typeForEncode) \
+#define _SWGetIvarValueGenerator(_TypeInFunctionName, _typeForEncode) \
     CG_INLINE _typeForEncode get##_TypeInFunctionName##IvarValue(id object, Ivar ivar) {\
         ptrdiff_t ivarOffset = ivar_getOffset(ivar);\
         unsigned char * bytes = (unsigned char *)(__bridge void *)object;\
@@ -291,21 +290,21 @@ _QMUITypeEncodingDetectorGenerator(Selector, SEL)
         return value;\
     }
 
-_QMUIGetIvarValueGenerator(Char, char)
-_QMUIGetIvarValueGenerator(Int, int)
-_QMUIGetIvarValueGenerator(Short, short)
-_QMUIGetIvarValueGenerator(Long, long)
-_QMUIGetIvarValueGenerator(LongLong, long long)
-_QMUIGetIvarValueGenerator(UnsignedChar, unsigned char)
-_QMUIGetIvarValueGenerator(UnsignedInt, unsigned int)
-_QMUIGetIvarValueGenerator(UnsignedShort, unsigned short)
-_QMUIGetIvarValueGenerator(UnsignedLong, unsigned long)
-_QMUIGetIvarValueGenerator(UnsignedLongLong, unsigned long long)
-_QMUIGetIvarValueGenerator(Float, float)
-_QMUIGetIvarValueGenerator(Double, double)
-_QMUIGetIvarValueGenerator(BOOL, BOOL)
-_QMUIGetIvarValueGenerator(Character, char *)
-_QMUIGetIvarValueGenerator(Selector, SEL)
+_SWGetIvarValueGenerator(Char, char)
+_SWGetIvarValueGenerator(Int, int)
+_SWGetIvarValueGenerator(Short, short)
+_SWGetIvarValueGenerator(Long, long)
+_SWGetIvarValueGenerator(LongLong, long long)
+_SWGetIvarValueGenerator(UnsignedChar, unsigned char)
+_SWGetIvarValueGenerator(UnsignedInt, unsigned int)
+_SWGetIvarValueGenerator(UnsignedShort, unsigned short)
+_SWGetIvarValueGenerator(UnsignedLong, unsigned long)
+_SWGetIvarValueGenerator(UnsignedLongLong, unsigned long long)
+_SWGetIvarValueGenerator(Float, float)
+_SWGetIvarValueGenerator(Double, double)
+_SWGetIvarValueGenerator(BOOL, BOOL)
+_SWGetIvarValueGenerator(Character, char *)
+_SWGetIvarValueGenerator(Selector, SEL)
 
 CG_INLINE id getObjectIvarValue(id object, Ivar ivar) {
     return object_getIvar(object, ivar);
@@ -325,12 +324,12 @@ typedef struct classref *classref_t;
  
  @code
  classref_t *classes = nil;
- int count = qmui_getProjectClassList(&classes);
+ int count = sf_getProjectClassList(&classes);
  Class class = (__bridge Class)classes[0];
  @endcode
  */
-FOUNDATION_EXPORT int qmui_getProjectClassList(classref_t **classes);
+FOUNDATION_EXPORT int sf_getProjectClassList(classref_t **classes);
 /**
  检测是否存在某个dyld  image
  */
-FOUNDATION_EXPORT BOOL qmui_exists_dyld_image(const char *target_image_name);
+FOUNDATION_EXPORT BOOL sf_exists_dyld_image(const char *target_image_name);

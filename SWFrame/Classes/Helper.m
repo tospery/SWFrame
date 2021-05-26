@@ -7,8 +7,8 @@
 
 #import "Helper.h"
 #import "Defines.h"
-// YJX_TODO #import "UIViewController+QMUI.h"
-// YJX_TODO #import "UIInterface+QMUI.h"
+// YJX_TODO #import "UIViewController+Ex.h"
+// YJX_TODO #import "UIInterface+Ex.h"
 #import "NSNumber+Ex.h"
 #import "NSObject+Ex.h"
 #import "NSString+Ex.h"
@@ -16,8 +16,8 @@
 #import <math.h>
 #import <sys/utsname.h>
 
-const CGPoint QMUIBadgeInvalidateOffset = {-1000, -1000};
-NSString *const kQMUIResourcesBundleName = @"QMUIResources";
+const CGPoint SWBadgeInvalidateOffset = {-1000, -1000};
+NSString *const kSWResourcesBundleName = @"SWResources";
 
 @implementation Helper (Bundle)
 
@@ -25,7 +25,7 @@ NSString *const kQMUIResourcesBundleName = @"QMUIResources";
     static NSBundle *resourceBundle = nil;
     if (!resourceBundle) {
         NSBundle *mainBundle = [NSBundle bundleForClass:self];
-        NSString *resourcePath = [mainBundle pathForResource:kQMUIResourcesBundleName ofType:@"bundle"];
+        NSString *resourcePath = [mainBundle pathForResource:kSWResourcesBundleName ofType:@"bundle"];
         resourceBundle = [NSBundle bundleWithPath:resourcePath] ?: mainBundle;
     }
     UIImage *image = [UIImage imageNamed:name inBundle:resourceBundle compatibleWithTraitCollection:nil];
@@ -77,14 +77,14 @@ NSString *const kQMUIResourcesBundleName = @"QMUIResources";
 
 + (CGFloat)heightForDynamicTypeCell:(NSArray *)heights {
     NSNumber *index = [Helper preferredContentSizeLevel];
-    return [((NSNumber *)[heights objectAtIndex:[index intValue]]) qmui_CGFloatValue];
+    return [((NSNumber *)[heights objectAtIndex:[index intValue]]) sf_CGFloatValue];
 }
 @end
 
 @implementation Helper (Keyboard)
 
-QMUISynthesizeBOOLProperty(keyboardVisible, setKeyboardVisible)
-QMUISynthesizeCGFloatProperty(lastKeyboardHeight, setLastKeyboardHeight)
+SWSynthesizeBOOLProperty(keyboardVisible, setKeyboardVisible)
+SWSynthesizeCGFloatProperty(lastKeyboardHeight, setLastKeyboardHeight)
 
 - (void)handleKeyboardWillShow:(NSNotification *)notification {
     self.keyboardVisible = YES;
@@ -193,14 +193,14 @@ static CGFloat pixelOne = -1.0f;
 
 + (void)inspectContextSize:(CGSize)size {
     if (!CGSizeIsValidated(size)) {
-        NSAssert(NO, @"QMUI CGPostError, %@:%d %s, 非法的size：%@\n%@", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __PRETTY_FUNCTION__, NSStringFromCGSize(size), [NSThread callStackSymbols]);
+        NSAssert(NO, @"SWFrame CGPostError, %@:%d %s, 非法的size：%@\n%@", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __PRETTY_FUNCTION__, NSStringFromCGSize(size), [NSThread callStackSymbols]);
     }
 }
 
 + (void)inspectContextIfInvalidatedInDebugMode:(CGContextRef)context {
     if (!context) {
         // crash了就找zhoon或者molice
-        NSAssert(NO, @"QMUI CGPostError, %@:%d %s, 非法的context：%@\n%@", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __PRETTY_FUNCTION__, context, [NSThread callStackSymbols]);
+        NSAssert(NO, @"SWFrame CGPostError, %@:%d %s, 非法的context：%@\n%@", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __PRETTY_FUNCTION__, context, [NSThread callStackSymbols]);
     }
 }
 
@@ -462,14 +462,14 @@ static NSInteger isNotchedScreen = -1;
                 /*
                  检测方式解释/测试要点：
                  1. iOS 11 与 iOS 12 可能行为不同，所以要分别测试。
-                 2. 与触发 [Helper isNotchedScreen] 方法时的进程有关，例如 https://github.com/Tencent/QMUI_iOS/issues/482#issuecomment-456051738 里提到的 [NSObject performSelectorOnMainThread:withObject:waitUntilDone:NO] 就会导致较多的异常。
+                 2. 与触发 [Helper isNotchedScreen] 方法时的进程有关，例如[NSObject performSelectorOnMainThread:withObject:waitUntilDone:NO] 就会导致较多的异常。
                  3. iOS 12 下，在非第2点里提到的情况下，iPhone、iPad 均可通过 UIScreen -_peripheryInsets 方法的返回值区分，但如果满足了第2点，则 iPad 无法使用这个方法，这种情况下要依赖第4点。
                  4. iOS 12 下，不管是否满足第2点，不管是什么设备类型，均可以通过一个满屏的 UIWindow 的 rootViewController.view.frame.origin.y 的值来区分，如果是非全面屏，这个值必定为20，如果是全面屏，则可能是24或44等不同的值。但由于创建 UIWindow、UIViewController 等均属于较大消耗，所以只在前面的步骤无法区分的情况下才会使用第4点。
                  5. 对于第4点，经测试与当前设备的方向、是否有勾选 project 里的 General - Hide status bar、当前是否处于来电模式的状态栏这些都没关系。
                  */
                 SEL peripheryInsetsSelector = NSSelectorFromString([NSString stringWithFormat:@"_%@%@", @"periphery", @"Insets"]);
                 UIEdgeInsets peripheryInsets = UIEdgeInsetsZero;
-                [[UIScreen mainScreen] qmui_performSelector:peripheryInsetsSelector withPrimitiveReturnValue:&peripheryInsets];
+                [[UIScreen mainScreen] sf_performSelector:peripheryInsetsSelector withPrimitiveReturnValue:&peripheryInsets];
                 if (peripheryInsets.bottom <= 0) {
                     UIWindow *window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
                     peripheryInsets = window.safeAreaInsets;
@@ -631,8 +631,8 @@ static CGFloat preferredLayoutWidth = -1;
         UIWindow *window = UIApplication.sharedApplication.delegate.window ?: [[UIWindow alloc] init];// iOS 9 及以上的系统，新 init 出来的 window 自动被设置为当前 App 的宽度
         CGFloat windowWidth = CGRectGetWidth(window.bounds);
         for (NSInteger i = 0; i < widths.count; i++) {
-            if (windowWidth <= widths[i].qmui_CGFloatValue) {
-                preferredLayoutWidth = widths[i].qmui_CGFloatValue;
+            if (windowWidth <= widths[i].sf_CGFloatValue) {
+                preferredLayoutWidth = widths[i].sf_CGFloatValue;
                 continue;
             }
         }
@@ -742,7 +742,7 @@ static NSInteger isHighPerformanceDevice = -1;
 + (BOOL)isHighPerformanceDevice {
     if (isHighPerformanceDevice < 0) {
         NSString *model = [Helper deviceModel];
-        NSString *identifier = [model qmui_stringMatchedByPattern:@"\\d+"];
+        NSString *identifier = [model sf_stringMatchedByPattern:@"\\d+"];
         NSInteger version = identifier.integerValue;
         if (IS_IPAD) {
             isHighPerformanceDevice = version >= 5 ? 1 : 0;// iPad Air 2
@@ -872,7 +872,7 @@ static NSInteger isHighPerformanceDevice = -1;
         
         [[NSNotificationCenter defaultCenter] addObserver:instance selector:@selector(handleKeyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:instance selector:@selector(handleKeyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-        // YJX_TODO [[NSNotificationCenter defaultCenter] addObserver:instance selector:@selector(handleAppSizeWillChange:) name:QMUIAppSizeWillChangeNotification object:nil];
+        // YJX_TODO [[NSNotificationCenter defaultCenter] addObserver:instance selector:@selector(handleAppSizeWillChange:) name:SWAppSizeWillChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:instance selector:@selector(handleDeviceOrientationNotification:) name:UIDeviceOrientationDidChangeNotification object:nil];
     });
     return instance;
@@ -923,12 +923,12 @@ static NSMutableSet<NSString *> *executedIdentifiers;
 
 @end
 
-@implementation Helper (QMUI_Interface)
+@implementation Helper (Ex_Interface)
 
-QMUISynthesizeNSIntegerProperty(orientationBeforeChangingByHelper, setOrientationBeforeChangingByHelper)
+SWSynthesizeNSIntegerProperty(orientationBeforeChangingByHelper, setOrientationBeforeChangingByHelper)
 
 - (void)handleDeviceOrientationNotification:(NSNotification *)notification {
-    // 如果是由 setValue:forKey: 方式修改方向而走到这个 notification 的话，理论上是不需要重置为 Unknown 的，但因为在 UIViewController (QMUI) 那边会再次记录旋转前的值，所以这里就算重置也无所谓
+    // 如果是由 setValue:forKey: 方式修改方向而走到这个 notification 的话，理论上是不需要重置为 Unknown 的，但因为在 UIViewController (Ex) 那边会再次记录旋转前的值，所以这里就算重置也无所谓
     [Helper sharedInstance].orientationBeforeChangingByHelper = UIDeviceOrientationUnknown;
 }
 

@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSNumber (QMUI)
-@property(nonatomic, assign, readonly) CGFloat qmui_CGFloatValue;
+@interface NSNumber (Ex)
+@property(nonatomic, assign, readonly) CGFloat sf_CGFloatValue;
 
 @end

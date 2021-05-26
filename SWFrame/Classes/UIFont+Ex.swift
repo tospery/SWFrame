@@ -11,7 +11,7 @@ public extension UIFont {
 
     // YJX_TODO
 //    static func lightSystemFont(ofSize fontSize: CGFloat) -> UIFont {
-//        return .qmui_lightSystemFont(ofSize: fontSize)
+//        return .sf_lightSystemFont(ofSize: fontSize)
 //    }
     
 }

@@ -9,22 +9,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSMethodSignature (QMUI)
+@interface NSMethodSignature (Ex)
 
 /**
  返回一个避免 crash 的方法签名，用于重写 methodSignatureForSelector: 时作为垫底的 return 方案
  */
-@property(nullable, class, nonatomic, readonly) NSMethodSignature *qmui_avoidExceptionSignature;
+@property(nullable, class, nonatomic, readonly) NSMethodSignature *sf_avoidExceptionSignature;
 
 /**
  以 NSString 格式返回当前 NSMethodSignature 的 typeEncoding，例如 v@:
  */
-@property(nullable, nonatomic, copy, readonly) NSString *qmui_typeString;
+@property(nullable, nonatomic, copy, readonly) NSString *sf_typeString;
 
 /**
  以 const char 格式返回当前 NSMethodSignature 的 typeEncoding，例如 v@:
  */
-@property(nullable, nonatomic, readonly) const char *qmui_typeEncoding;
+@property(nullable, nonatomic, readonly) const char *sf_typeEncoding;
 @end
 
 NS_ASSUME_NONNULL_END

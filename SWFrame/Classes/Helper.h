@@ -11,8 +11,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// TODO: molice 等废弃 qmui_badgeCenterOffset 系列接口后再删除
-extern const CGPoint QMUIBadgeInvalidateOffset;
+// TODO: molice 等废弃 sf_badgeCenterOffset 系列接口后再删除
+extern const CGPoint SWBadgeInvalidateOffset;
 
 @interface Helper : NSObject
 
@@ -33,7 +33,7 @@ extern const CGPoint QMUIBadgeInvalidateOffset;
 
 @interface Helper (Bundle)
 
-/// 获取 QMUIKit.framework Images.xcassets 内的图片资源
+/// 获取 SWFrame.framework Images.xcassets 内的图片资源
 /// @param name 图片名
 + (nullable UIImage *)imageWithName:(NSString *)name;
 
@@ -155,7 +155,7 @@ extern const CGPoint QMUIBadgeInvalidateOffset;
 @property(class, nonatomic, readonly) BOOL isNotchedScreen;
 
 /// 将屏幕分为普通和紧凑两种，这个方法用于判断普通屏幕（也即大屏幕）。
-/// @note 注意，这里普通/紧凑的标准是 QMUI 自行制定的，与系统 UITraitCollection.horizontalSizeClass/verticalSizeClass 的值无关。只要是通常意义上的“大屏幕手机”（例如 Plus 系列）都会被视为 Regular Screen。
+/// @note 注意，这里普通/紧凑的标准是 SWFrame 自行制定的，与系统 UITraitCollection.horizontalSizeClass/verticalSizeClass 的值无关。只要是通常意义上的“大屏幕手机”（例如 Plus 系列）都会被视为 Regular Screen。
 /// @NEW_DEVICE_CHECKER
 @property(class, nonatomic, readonly) BOOL isRegularScreen;
 
@@ -235,7 +235,7 @@ extern const CGPoint QMUIBadgeInvalidateOffset;
 
 /**
  * 黑色的 StatusBarStyle，用于亮色背景
- * @note 在 iOS 13 以前  UIStatusBarStyleDefault 状态栏内容的颜色固定是黑色的，而在 iOS 13 UIStatusBarStyleDefault 会根据 user interface style 来决定状态栏的颜色，如果你需要一直黑色可以用 QMUIStatusBarStyleDarkContent 来代替以前 UIStatusBarStyleDefault 的写法
+ * @note 在 iOS 13 以前  UIStatusBarStyleDefault 状态栏内容的颜色固定是黑色的，而在 iOS 13 UIStatusBarStyleDefault 会根据 user interface style 来决定状态栏的颜色，如果你需要一直黑色可以用 SWStatusBarStyleDarkContent 来代替以前 UIStatusBarStyleDefault 的写法
  * @return 在 iOS 13 以上返回 UIStatusBarStyleDarkContent，在 iOS 12 及以下返回 UIStatusBarStyleDefault
 */
 @property(class, nonatomic, readonly) UIStatusBarStyle statusBarStyleDarkContent;
@@ -255,12 +255,12 @@ extern const CGPoint QMUIBadgeInvalidateOffset;
 
 @end
 
-@interface Helper (QMUI_Interface)
+@interface Helper (Ex_Interface)
 
 /**
  *  旋转当前设备的方向到指定方向，一般用于 [UIViewController supportedInterfaceOrientations] 发生变化时主动触发界面方向的刷新
  *  @return 是否真正旋转了方向，YES 表示参数的方向和目前设备方向不一致，NO 表示一致也即不会旋转
- *  @see [QMUIConfiguration automaticallyRotateDeviceOrientation]
+ *  @see [SWConfiguration automaticallyRotateDeviceOrientation]
  */
 + (BOOL)rotateToDeviceOrientation:(UIDeviceOrientation)orientation;
 
