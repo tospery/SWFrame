@@ -17,7 +17,7 @@ open class BaseViewReactor: NSObject, ReactorType {
     public var title: String?
     public var disposeBag = DisposeBag()
     
-    required public init?(_ provider: ProviderType, _ parameters: [String: Any]?) {
+    required public init(_ provider: ProviderType, _ parameters: [String: Any]?) {
         self.provider = provider
         self.parameters = parameters ?? [:]
         self.title = self.parameters[Parameter.title] as? String ?? nil
