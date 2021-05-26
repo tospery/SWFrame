@@ -59,11 +59,11 @@ public extension UIScreen {
     }
     
     static var isNotched: Bool {
-        false // // YJX_TODO QMUIHelper.isNotchedScreen
+        false // // YJX_TODO Helper.isNotchedScreen
     }
     
     static var isRegular: Bool {
-        false // YJX_TODO QMUIHelper.isRegularScreen
+        false // YJX_TODO Helper.isRegularScreen
     }
     
     static var width: CGFloat {
@@ -83,7 +83,7 @@ public extension UIScreen {
     }
     
     static var safeArea: UIEdgeInsets {
-        .zero // YJX_TODOQMUIHelper.safeAreaInsetsForDeviceWithNotch
+        .zero // YJX_TODOHelper.safeAreaInsetsForDeviceWithNotch
     }
     
     static var safeBottom: CGFloat {
