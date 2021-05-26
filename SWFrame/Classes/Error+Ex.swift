@@ -37,7 +37,6 @@ extension SWCompatibleError {
     }
 }
 
-// SFAuthenticationErrorDomain -> com.apple.SafariServices.Authentication
 extension NSError: SWCompatibleError {
     public var swError: SWError {
         if self.domain == SFAuthenticationError.errorDomain {
