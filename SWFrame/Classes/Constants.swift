@@ -6,9 +6,8 @@
 //
 
 import UIKit
-import QMUIKit
 
-public var pixelOne: CGFloat { QMUIHelper.pixelOne }
+public var pixelOne: CGFloat { 0 }// { QMUIHelper.pixelOne } // YJX_TODO
 
 public var isLandscape: Bool { UIApplication.shared.statusBarOrientation.isLandscape }
 public var isDeviceLandscape: Bool { UIDevice.current.orientation.isLandscape }

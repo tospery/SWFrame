@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import QMUIKit
 
 public extension UIView {
     
@@ -14,84 +13,93 @@ public extension UIView {
         return self.layer as? BorderLayer
     }
     
+    // YJX_TODO
     var top: CGFloat {
-        get {
-            return self.qmui_top
-        }
-        set {
-            self.qmui_top = newValue
-        }
+        get { 0 } set {}
+//        get {
+//            return self.qmui_top
+//        }
+//        set {
+//            self.qmui_top = newValue
+//        }
     }
     
     var bottom: CGFloat {
-        get {
-            return self.qmui_bottom
-        }
-        set {
-            self.qmui_bottom = newValue
-        }
+        get { 0 } set {}
+//        get {
+//            return self.qmui_bottom
+//        }
+//        set {
+//            self.qmui_bottom = newValue
+//        }
     }
     
     var left: CGFloat {
-        get {
-            return self.qmui_left
-        }
-        set {
-            self.qmui_left = newValue
-        }
+        get { 0 } set {}
+//        get {
+//            return self.qmui_left
+//        }
+//        set {
+//            self.qmui_left = newValue
+//        }
     }
     
     var right: CGFloat {
-        get {
-            return self.qmui_right
-        }
-        set {
-            self.qmui_right = newValue
-        }
+        get { 0 } set {}
+//        get {
+//            return self.qmui_right
+//        }
+//        set {
+//            self.qmui_right = newValue
+//        }
     }
     
     var extendToTop: CGFloat {
-        get {
-            return self.qmui_extendToTop
-        }
-        set {
-            self.qmui_extendToTop = newValue
-        }
+        get { 0 } set {}
+//        get {
+//            return self.qmui_extendToTop
+//        }
+//        set {
+//            self.qmui_extendToTop = newValue
+//        }
     }
     
     var extendToBottom: CGFloat {
-        get {
-            return self.qmui_extendToBottom
-        }
-        set {
-            self.qmui_extendToBottom = newValue
-        }
+        get { 0 } set {}
+//        get {
+//            return self.qmui_extendToBottom
+//        }
+//        set {
+//            self.qmui_extendToBottom = newValue
+//        }
     }
     
     var extendToLeft: CGFloat {
-        get {
-            return self.qmui_extendToLeft
-        }
-        set {
-            self.qmui_extendToLeft = newValue
-        }
+        get { 0 } set {}
+//        get {
+//            return self.qmui_extendToLeft
+//        }
+//        set {
+//            self.qmui_extendToLeft = newValue
+//        }
     }
     
     var extendToRight: CGFloat {
-        get {
-            return self.qmui_extendToRight
-        }
-        set {
-            self.qmui_extendToRight = newValue
-        }
+        get { 0 } set {}
+//        get {
+//            return self.qmui_extendToRight
+//        }
+//        set {
+//            self.qmui_extendToRight = newValue
+//        }
     }
     
     var leftWhenCenter: CGFloat {
-        return self.qmui_leftWhenCenterInSuperview
+        0 // YJX_TODO return self.qmui_leftWhenCenterInSuperview
     }
     
     var topWhenCenter: CGFloat {
-        return self.qmui_topWhenCenterInSuperview
+        0 // YJX_TODO return self.qmui_topWhenCenterInSuperview
     }
 
     var centerX: CGFloat {

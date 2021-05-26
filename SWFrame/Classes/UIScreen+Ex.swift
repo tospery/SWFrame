@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import QMUIKit
 
 public extension UIScreen {
     
@@ -60,11 +59,11 @@ public extension UIScreen {
     }
     
     static var isNotched: Bool {
-        QMUIHelper.isNotchedScreen
+        false // // YJX_TODO QMUIHelper.isNotchedScreen
     }
     
     static var isRegular: Bool {
-        QMUIHelper.isRegularScreen
+        false // YJX_TODO QMUIHelper.isRegularScreen
     }
     
     static var width: CGFloat {
@@ -76,15 +75,15 @@ public extension UIScreen {
     }
     
     static var statusBarHeight: CGFloat {
-        SWHelper.sharedInstance().statusBarHeight
+        0 // YJX_TODO SWHelper.sharedInstance().statusBarHeight
     }
     
     static var statusBarHeightConstant: CGFloat {
-        SWHelper.sharedInstance().statusBarHeightConstant
+        0 // YJX_TODOSWHelper.sharedInstance().statusBarHeightConstant
     }
     
     static var safeArea: UIEdgeInsets {
-        QMUIHelper.safeAreaInsetsForDeviceWithNotch
+        .zero // YJX_TODOQMUIHelper.safeAreaInsetsForDeviceWithNotch
     }
     
     static var safeBottom: CGFloat {

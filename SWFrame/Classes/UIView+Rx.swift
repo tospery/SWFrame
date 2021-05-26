@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import QMUIKit
 import RxSwift
 import RxCocoa
 
@@ -26,7 +25,7 @@ public extension Reactive where Base: UIView {
     
     var qmui_borderColor: Binder<UIColor?> {
         return Binder(self.base) { view, color in
-            view.qmui_borderColor = color
+            // YJX_TODO view.qmui_borderColor = color
         }
     }
     

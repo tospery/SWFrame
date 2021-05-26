@@ -6,12 +6,12 @@
 //
 
 import UIKit
-import QMUIKit
 
 open class Runtime {
 
     open class func work() {
-        ExchangeImplementations(UIViewController.self, #selector(UIViewController.present(_:animated:completion:)), #selector(UIViewController.sf_present(_:animated:completion:)))
+        // YJX_TODO
+        // ExchangeImplementations(UIViewController.self, #selector(UIViewController.present(_:animated:completion:)), #selector(UIViewController.sf_present(_:animated:completion:)))
     }
     
 }

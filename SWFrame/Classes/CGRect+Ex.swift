@@ -6,60 +6,59 @@
 //
 
 import Foundation
-import QMUIKit
 
 public extension CGRect {
     
     var isNaN: Bool {
-        QMUIKit.CGRectIsNaN(self)
+        false // YJX_TODO QMUIKit.CGRectIsNaN(self)
     }
 
     var isInf: Bool {
-        QMUIKit.CGRectIsInf(self)
+        false // YJX_TODO QMUIKit.CGRectIsInf(self)
     }
 
     var isValidated: Bool {
-        QMUIKit.CGRectIsValidated(self)
+        false // YJX_TODO QMUIKit.CGRectIsValidated(self)
     }
 
     var removeMin: CGRect {
-        QMUIKit.CGRectRemoveFloatMin(self)
+        .zero // YJX_TODO QMUIKit.CGRectRemoveFloatMin(self)
     }
             
     var safed: CGRect {
-        QMUIKit.CGRectSafeValue(self)
+        .zero // YJX_TODO QMUIKit.CGRectSafeValue(self)
     }
             
     var flat: CGRect {
-        QMUIKit.CGRectFlatted(self)
+        .zero // YJX_TODO QMUIKit.CGRectFlatted(self)
     }
 
     func fixed(_ precision: UInt) -> CGRect {
-        QMUIKit.CGRectToFixed(self, precision)
+        .zero // YJX_TODO QMUIKit.CGRectToFixed(self, precision)
     }
     
     func rectBy(x: CGFloat) -> CGRect {
-        QMUIKit.CGRectSetX(self, x)
+        .zero // YJX_TODO QMUIKit.CGRectSetX(self, x)
     }
     
     func rectBy(y: CGFloat) -> CGRect {
-        QMUIKit.CGRectSetY(self, y)
+        .zero // YJX_TODO QMUIKit.CGRectSetY(self, y)
     }
     
     func rectBy(x: CGFloat, y: CGFloat) -> CGRect {
-        QMUIKit.CGRectSetXY(self, x, y)
+        .zero // YJX_TODO QMUIKit.CGRectSetXY(self, x, y)
     }
     
     func rectBy(width: CGFloat) -> CGRect {
-        QMUIKit.CGRectSetWidth(self, width)
+        .zero // YJX_TODO QMUIKit.CGRectSetWidth(self, width)
     }
     
     func rectBy(height: CGFloat) -> CGRect {
-        QMUIKit.CGRectSetHeight(self, height)
+        .zero // YJX_TODO QMUIKit.CGRectSetHeight(self, height)
     }
     
     func rectBy(size: CGSize) -> CGRect {
-        QMUIKit.CGRectSetSize(self, size)
+        .zero // YJX_TODO QMUIKit.CGRectSetSize(self, size)
     }
 }
 

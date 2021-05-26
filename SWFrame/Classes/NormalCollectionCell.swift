@@ -7,21 +7,20 @@
 //
 
 import UIKit
-import QMUIKit
 import ReactorKit
 
 open class NormalCollectionCell: BaseCollectionCell, ReactorKit.View {
     
-    public lazy var titleLabel: SWLabel = {
-        let label = SWLabel()
+    public lazy var titleLabel: UILabel = {
+        let label = UILabel.init()
         label.font = .systemFont(ofSize: 15)
         label.textColor = .darkGray
         label.sizeToFit()
         return label
     }()
     
-    public lazy var detailLabel: SWLabel = {
-        let label = SWLabel()
+    public lazy var detailLabel: UILabel = {
+        let label = UILabel.init()
         label.font = .systemFont(ofSize: 13)
         label.textAlignment = .right
         label.textColor = .gray
@@ -45,10 +44,10 @@ open class NormalCollectionCell: BaseCollectionCell, ReactorKit.View {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        self.qmui_borderPosition = .bottom
-        self.qmui_borderWidth = pixelOne
-        self.qmui_borderColor = .lightGray
+        // YJX_TODO
+//        self.qmui_borderPosition = .bottom
+//        self.qmui_borderWidth = pixelOne
+//        self.qmui_borderColor = .lightGray
         
         self.contentView.addSubview(self.titleLabel)
         self.contentView.addSubview(self.detailLabel)
@@ -90,7 +89,7 @@ open class NormalCollectionCell: BaseCollectionCell, ReactorKit.View {
             self.avatarImageView.frame = .zero
         } else {
             self.avatarImageView.sizeToFit()
-            self.avatarImageView.height = flat(self.contentView.height * 0.6)
+            // self.avatarImageView.height = flat(self.contentView.height * 0.6) // YJX_TODO
             self.avatarImageView.width = self.avatarImageView.height
             self.avatarImageView.top = self.avatarImageView.topWhenCenter
             self.avatarImageView.right = self.detailLabel.left - 8

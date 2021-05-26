@@ -6,28 +6,27 @@
 //
 
 import Foundation
-import QMUIKit
 
 public extension CGFloat {
     
     var removeMin: CGFloat {
-        QMUIKit.removeFloatMin(self)
+        0 // YJX_TODO QMUIKit.removeFloatMin(self)
     }
     
     var safed: CGFloat {
-        QMUIKit.CGFloatSafeValue(self)
+        0 // YJX_TODO QMUIKit.CGFloatSafeValue(self)
     }
     
     var flat: CGFloat {
-        QMUIKit.flat(self)
+        0 // YJX_TODO QMUIKit.flat(self)
     }
     
     var floorInPixel: CGFloat {
-        QMUIKit.floorInPixel(self)
+        0 // YJX_TODO QMUIKit.floorInPixel(self)
     }
     
     func fixed(_ precision: UInt) -> CGFloat {
-        QMUIKit.CGFloatToFixed(self, precision)
+        0 // YJX_TODO QMUIKit.CGFloatToFixed(self, precision)
     }
     
 }
