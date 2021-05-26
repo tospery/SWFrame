@@ -37,7 +37,7 @@ public extension UIDevice {
     }
     
     var modelName: String {
-        "" // Helper.deviceModel // YJX_TODO
+        "" // SWFHelper.deviceModel // YJX_TODO
     }
     
     var ip: String? {
@@ -53,13 +53,13 @@ public extension UIDevice {
             return UIDevice.kindValue!
         }
         // YJX_TODO
-//        if Helper.isIPod {
+//        if SWFHelper.isIPod {
 //            UIDevice.kindValue = .ipod
-//        } else if Helper.isIPhone {
+//        } else if SWFHelper.isIPhone {
 //            UIDevice.kindValue = .iphone
-//        } else if Helper.isIPad {
+//        } else if SWFHelper.isIPad {
 //            UIDevice.kindValue = .ipad
-//        } else if Helper.isSimulator {
+//        } else if SWFHelper.isSimulator {
 //            UIDevice.kindValue = .simulator
 //        } else {
 //            UIDevice.kindValue = .iphone
@@ -88,7 +88,7 @@ public extension UIDevice {
     }
     
     static var iosVersionNumber: Int {
-        0 // YJX_TODO Helper.numbericOSVersion()
+        0 // YJX_TODO SWFHelper.numbericOSVersion()
     }
     
 }

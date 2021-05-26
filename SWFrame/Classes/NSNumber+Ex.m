@@ -9,7 +9,7 @@
 
 @implementation NSNumber (Ex)
 
-- (CGFloat)sf_CGFloatValue {
+- (CGFloat)swf_CGFloatValue {
 #if CGFLOAT_IS_DOUBLE
     return self.doubleValue;
 #else

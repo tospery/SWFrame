@@ -7,7 +7,7 @@
 
 import UIKit
 
-public var pixelOne: CGFloat { 0 }// { Helper.pixelOne } // YJX_TODO
+public var pixelOne: CGFloat { 0 }// { SWFHelper.pixelOne } // YJX_TODO
 
 public var isLandscape: Bool { UIApplication.shared.statusBarOrientation.isLandscape }
 public var isDeviceLandscape: Bool { UIDevice.current.orientation.isLandscape }

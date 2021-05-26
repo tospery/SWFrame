@@ -7,11 +7,11 @@
 
 #import "NSMethodSignature+Ex.h"
 #import "NSObject+Ex.h"
-#import "Defines.h"
+#import "SWFDefines.h"
 
 @implementation NSMethodSignature (Ex)
 
-+ (NSMethodSignature *)sf_avoidExceptionSignature {
++ (NSMethodSignature *)swf_avoidExceptionSignature {
     // https://github.com/facebookarchive/AsyncDisplayKit/pull/1562
     // Unfortunately, in order to get this object to work properly, the use of a method which creates an NSMethodSignature
     // from a C string. -methodSignatureForSelector is called when a compiled definition for the selector cannot be found.
@@ -23,15 +23,15 @@
     return [NSMethodSignature signatureWithObjCTypes:"@^v^c"];
 }
 
-- (NSString *)sf_typeString {
+- (NSString *)swf_typeString {
     BeginIgnorePerformSelectorLeaksWarning
     NSString *typeString = [self performSelector:NSSelectorFromString([NSString stringWithFormat:@"_%@String", @"type"])];
     EndIgnorePerformSelectorLeaksWarning
     return typeString;
 }
 
-- (const char *)sf_typeEncoding {
-    return self.sf_typeString.UTF8String;
+- (const char *)swf_typeEncoding {
+    return self.swf_typeString.UTF8String;
 }
 
 @end

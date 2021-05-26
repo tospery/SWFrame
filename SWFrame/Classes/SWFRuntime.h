@@ -1,5 +1,5 @@
 //
-//  Runtime.h
+//  SWFRuntime.h
 //  SWFrame
 //
 //  Created by 杨建祥 on 2021/5/26.
@@ -11,7 +11,7 @@
 #import "NSMethodSignature+Ex.h"
 
 /// 以高级语言的方式描述一个 objc_property_t 的各种属性，请使用 `+descriptorWithProperty` 生成对象后直接读取对象的各种值。
-@interface SWPropertyDescriptor : NSObject
+@interface SWFPropertyDescriptor : NSObject
 
 @property(nonatomic, strong) NSString *name;
 @property(nonatomic, assign) SEL getter;
@@ -126,7 +126,7 @@ OverrideImplementation(Class targetClass, SEL targetSelector, id (^implementatio
     if (hasOverride) {
         method_setImplementation(originMethod, imp_implementationWithBlock(implementationBlock(targetClass, targetSelector, originalIMPProvider)));
     } else {
-        const char *typeEncoding = method_getTypeEncoding(originMethod) ?: [targetClass instanceMethodSignatureForSelector:targetSelector].sf_typeEncoding;
+        const char *typeEncoding = method_getTypeEncoding(originMethod) ?: [targetClass instanceMethodSignatureForSelector:targetSelector].swf_typeEncoding;
         class_addMethod(targetClass, targetSelector, imp_implementationWithBlock(implementationBlock(targetClass, targetSelector, originalIMPProvider)), typeEncoding);
     }
     
@@ -243,7 +243,7 @@ ExtendImplementationOfVoidMethodWithoutArguments(Class targetClass, SEL targetSe
  1. isXxxTypeEncoding(const char *)，例如判断是否为 BOOL 类型的函数名为：isBOOLTypeEncoding()
  2. isXxxIvar(Ivar)，例如判断是否为 BOOL 的 Ivar 的函数名为：isBOOLIvar()
  
- @see https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtTypeEncodings.html#//apple_ref/doc/uid/TP40008048-CH100-SW1
+ @see https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCSWFRuntimeGuide/Articles/ocrtTypeEncodings.html#//apple_ref/doc/uid/TP40008048-CH100-SW1
  */
 #define _SWTypeEncodingDetectorGenerator(_TypeInFunctionName, _typeForEncode) \
     CG_INLINE BOOL is##_TypeInFunctionName##TypeEncoding(const char *typeEncoding) {\
@@ -324,12 +324,12 @@ typedef struct classref *classref_t;
  
  @code
  classref_t *classes = nil;
- int count = sf_getProjectClassList(&classes);
+ int count = swf_getProjectClassList(&classes);
  Class class = (__bridge Class)classes[0];
  @endcode
  */
-FOUNDATION_EXPORT int sf_getProjectClassList(classref_t **classes);
+FOUNDATION_EXPORT int swf_getProjectClassList(classref_t **classes);
 /**
  检测是否存在某个dyld  image
  */
-FOUNDATION_EXPORT BOOL sf_exists_dyld_image(const char *target_image_name);
+FOUNDATION_EXPORT BOOL swf_exists_dyld_image(const char *target_image_name);

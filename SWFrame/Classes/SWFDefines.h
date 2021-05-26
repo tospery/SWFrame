@@ -1,5 +1,5 @@
 //
-//  Defines.h
+//  SWFDefines.h
 //  Pods
 //
 //  Created by 杨建祥 on 2021/5/26.
@@ -10,8 +10,8 @@
 
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
-#import "Defines.h"
-#import "Helper.h"
+#import "SWFDefines.h"
+#import "SWFHelper.h"
 #import "NSNumber+Ex.h"
 #import "NSString+Ex.h"
 #import "WeakObjectContainer.h"
@@ -76,23 +76,23 @@
 #pragma mark - 忽略 iOS 13 KVC 访问私有属性限制
 
 /// 将 KVC 代码包裹在这个宏中，可忽略系统的  KVC 访问限制
-#define BeginIgnoreUIKVCAccessProhibited if (@available(iOS 13.0, *)) NSThread.currentThread.sf_shouldIgnoreUIKVCAccessProhibited = YES;
-#define EndIgnoreUIKVCAccessProhibited if (@available(iOS 13.0, *)) NSThread.currentThread.sf_shouldIgnoreUIKVCAccessProhibited = NO;
+#define BeginIgnoreUIKVCAccessProhibited if (@available(iOS 13.0, *)) NSThread.currentThread.swf_shouldIgnoreUIKVCAccessProhibited = YES;
+#define EndIgnoreUIKVCAccessProhibited if (@available(iOS 13.0, *)) NSThread.currentThread.swf_shouldIgnoreUIKVCAccessProhibited = NO;
 
 #pragma mark - 变量-设备相关
 
 /// 设备类型
-#define IS_IPAD [Helper isIPad]
-#define IS_IPOD [Helper isIPod]
-#define IS_IPHONE [Helper isIPhone]
-#define IS_SIMULATOR [Helper isSimulator]
-#define IS_MAC [Helper isMac]
+#define IS_IPAD [SWFHelper isIPad]
+#define IS_IPOD [SWFHelper isIPod]
+#define IS_IPHONE [SWFHelper isIPhone]
+#define IS_SIMULATOR [SWFHelper isSimulator]
+#define IS_MAC [SWFHelper isMac]
 
 /// 操作系统版本号，只获取第二级的版本号，例如 10.3.1 只会得到 10.3
 #define IOS_VERSION ([[[UIDevice currentDevice] systemVersion] doubleValue])
 
 /// 数字形式的操作系统版本号，可直接用于大小比较；如 110205 代表 11.2.5 版本；根据 iOS 规范，版本号最多可能有3位
-#define IOS_VERSION_NUMBER [Helper numbericOSVersion]
+#define IOS_VERSION_NUMBER [SWFHelper numbericOSVersion]
 
 /// 是否横竖屏
 /// 用户界面横屏了才会返回YES
@@ -113,33 +113,33 @@
 #define DEVICE_HEIGHT MAX([[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)
 
 /// 在 iPad 分屏模式下等于 app 实际运行宽度，否则等同于 SCREEN_WIDTH
-#define APPLICATION_WIDTH [Helper applicationSize].width
+#define APPLICATION_WIDTH [SWFHelper applicationSize].width
 
 /// 在 iPad 分屏模式下等于 app 实际运行宽度，否则等同于 DEVICE_HEIGHT
-#define APPLICATION_HEIGHT [Helper applicationSize].height
+#define APPLICATION_HEIGHT [SWFHelper applicationSize].height
 
 /// 是否全面屏设备
-#define IS_NOTCHED_SCREEN [Helper isNotchedScreen]
+#define IS_NOTCHED_SCREEN [SWFHelper isNotchedScreen]
 /// iPhone 12 Pro Max
-#define IS_67INCH_SCREEN [Helper is67InchScreen]
+#define IS_67INCH_SCREEN [SWFHelper is67InchScreen]
 /// iPhone XS Max
-#define IS_65INCH_SCREEN [Helper is65InchScreen]
+#define IS_65INCH_SCREEN [SWFHelper is65InchScreen]
 /// iPhone 12 / 12 Pro
-#define IS_61INCH_SCREEN_AND_IPHONE12 [Helper is61InchScreenAndiPhone12]
+#define IS_61INCH_SCREEN_AND_IPHONE12 [SWFHelper is61InchScreenAndiPhone12]
 /// iPhone XR
-#define IS_61INCH_SCREEN [Helper is61InchScreen]
+#define IS_61INCH_SCREEN [SWFHelper is61InchScreen]
 /// iPhone X/XS
-#define IS_58INCH_SCREEN [Helper is58InchScreen]
+#define IS_58INCH_SCREEN [SWFHelper is58InchScreen]
 /// iPhone 6/7/8 Plus
-#define IS_55INCH_SCREEN [Helper is55InchScreen]
+#define IS_55INCH_SCREEN [SWFHelper is55InchScreen]
 /// iPhone 12 mini
-#define IS_54INCH_SCREEN [Helper is54InchScreen]
+#define IS_54INCH_SCREEN [SWFHelper is54InchScreen]
 /// iPhone 6/7/8
-#define IS_47INCH_SCREEN [Helper is47InchScreen]
+#define IS_47INCH_SCREEN [SWFHelper is47InchScreen]
 /// iPhone 5/5S/SE
-#define IS_40INCH_SCREEN [Helper is40InchScreen]
+#define IS_40INCH_SCREEN [SWFHelper is40InchScreen]
 /// iPhone 4/4S
-#define IS_35INCH_SCREEN [Helper is35InchScreen]
+#define IS_35INCH_SCREEN [SWFHelper is35InchScreen]
 /// iPhone 4/4S/5/5S/SE
 #define IS_320WIDTH_SCREEN (IS_35INCH_SCREEN || IS_40INCH_SCREEN)
 
@@ -147,12 +147,12 @@
 #define IS_RETINASCREEN ([[UIScreen mainScreen] scale] >= 2.0)
 
 /// 是否放大模式（iPhone 6及以上的设备支持放大模式，iPhone X 除外）
-#define IS_ZOOMEDMODE [Helper isZoomedMode]
+#define IS_ZOOMEDMODE [SWFHelper isZoomedMode]
 
 #pragma mark - 变量-布局相关
 
 /// 获取一个像素
-#define PixelOne [Helper pixelOne]
+#define PixelOne [SWFHelper pixelOne]
 
 /// bounds && nativeBounds / scale && nativeScale
 #define ScreenBoundsSize ([[UIScreen mainScreen] bounds].size)
@@ -170,13 +170,13 @@
 #define StatusBarHeight (UIApplication.sharedApplication.statusBarHidden ? 0 : UIApplication.sharedApplication.statusBarFrame.size.height)
 
 /// 状态栏高度(如果状态栏不可见，也会返回一个普通状态下可见的高度)
-#define StatusBarHeightConstant (UIApplication.sharedApplication.statusBarHidden ? (IS_IPAD ? (IS_NOTCHED_SCREEN ? 24 : 20) : PreferredValueForNotchedDevice(IS_LANDSCAPE ? 0 : ([[Helper deviceModel] isEqualToString:@"iPhone12,1"] ? 48 : (IS_61INCH_SCREEN_AND_IPHONE12 || IS_67INCH_SCREEN ? 47 : 44)), 20)) : UIApplication.sharedApplication.statusBarFrame.size.height)
+#define StatusBarHeightConstant (UIApplication.sharedApplication.statusBarHidden ? (IS_IPAD ? (IS_NOTCHED_SCREEN ? 24 : 20) : PreferredValueForNotchedDevice(IS_LANDSCAPE ? 0 : ([[SWFHelper deviceModel] isEqualToString:@"iPhone12,1"] ? 48 : (IS_61INCH_SCREEN_AND_IPHONE12 || IS_67INCH_SCREEN ? 47 : 44)), 20)) : UIApplication.sharedApplication.statusBarFrame.size.height)
 
 /// navigationBar 的静态高度
 #define NavigationBarHeight (IS_IPAD ? (IOS_VERSION >= 12.0 ? 50 : 44) : (IS_LANDSCAPE ? PreferredValueForVisualDevice(44, 32) : 44))
 
 /// 代表(导航栏+状态栏)，这里用于获取其高度
-/// @warn 如果是用于 viewController，请使用 UIViewController(Ex) sf_navigationBarMaxYInViewCoordinator 代替
+/// @warn 如果是用于 viewController，请使用 UIViewController(Ex) swf_navigationBarMaxYInViewCoordinator 代替
 #define NavigationContentTop (StatusBarHeight + NavigationBarHeight)
 
 /// 同上，这里用于获取它的静态常量值
@@ -186,16 +186,16 @@
 #define IS_SPLIT_SCREEN_IPAD (IS_IPAD && APPLICATION_WIDTH != SCREEN_WIDTH)
 
 /// iPhoneX 系列全面屏手机的安全区域的静态值
-#define SafeAreaInsetsConstantForDeviceWithNotch [Helper safeAreaInsetsForDeviceWithNotch]
+#define SafeAreaInsetsConstantForDeviceWithNotch [SWFHelper safeAreaInsetsForDeviceWithNotch]
 
 /// 将所有屏幕按照宽松/紧凑分类，其中 iPad、iPhone XS Max/XR/Plus 均为宽松屏幕，但开启了放大模式的设备均会视为紧凑屏幕
-#define PreferredValueForVisualDevice(_regular, _compact) ([Helper isRegularScreen] ? _regular : _compact)
+#define PreferredValueForVisualDevice(_regular, _compact) ([SWFHelper isRegularScreen] ? _regular : _compact)
 
 /// 将所有屏幕按照 Phone/Pad 分类，由于历史上宽高比最大（最胖）的手机为 iPhone 4，所以这里以它为基准，只要宽高比比 iPhone 4 更小的，都视为 Phone，其他情况均视为 Pad。注意 iPad 分屏则取分屏后的宽高来计算。
-#define PreferredValueForInterfaceIdiom(_phone, _pad) (APPLICATION_WIDTH / APPLICATION_HEIGHT <= Helper.screenSizeFor35Inch.width / Helper.screenSizeFor35Inch.height ? _phone : _pad)
+#define PreferredValueForInterfaceIdiom(_phone, _pad) (APPLICATION_WIDTH / APPLICATION_HEIGHT <= SWFHelper.screenSizeFor35Inch.width / SWFHelper.screenSizeFor35Inch.height ? _phone : _pad)
 
 /// 区分全面屏和非全面屏
-#define PreferredValueForNotchedDevice(_notchedDevice, _otherDevice) ([Helper isNotchedScreen] ? _notchedDevice : _otherDevice)
+#define PreferredValueForNotchedDevice(_notchedDevice, _otherDevice) ([SWFHelper isNotchedScreen] ? _notchedDevice : _otherDevice)
 
 
 #pragma mark - 变量-布局相关-已废弃
@@ -209,11 +209,11 @@
 #define PreferredValueForDeviceIncludingiPad(_iPad, _65or61or55inch, _47or58inch, _40inch, _35inch) PreferredValueForAll(_iPad, _65or61or55inch, _65or61or55inch, _47or58inch, _65or61or55inch, _47or58inch, _40inch, _35inch)
 
 /// 若 iPad 处于分屏模式下，返回 iPad 接近 iPhone 宽度（320、375、414）中近似的一种，方便屏幕适配。
-#define IPAD_SIMILAR_SCREEN_WIDTH [Helper preferredLayoutAsSimilarScreenWidthForIPad]
+#define IPAD_SIMILAR_SCREEN_WIDTH [SWFHelper preferredLayoutAsSimilarScreenWidthForIPad]
 
-#define _40INCH_WIDTH [Helper screenSizeFor40Inch].width
-#define _58INCH_WIDTH [Helper screenSizeFor58Inch].width
-#define _65INCH_WIDTH [Helper screenSizeFor65Inch].width
+#define _40INCH_WIDTH [SWFHelper screenSizeFor40Inch].width
+#define _58INCH_WIDTH [SWFHelper screenSizeFor58Inch].width
+#define _65INCH_WIDTH [SWFHelper screenSizeFor65Inch].width
 
 #define AS_IPAD (DynamicPreferredValueForIPad ? ((IS_IPAD && !IS_SPLIT_SCREEN_IPAD) || (IS_SPLIT_SCREEN_IPAD && APPLICATION_WIDTH >= 768)) : IS_IPAD)
 #define AS_65INCH_SCREEN (IS_67INCH_SCREEN || IS_65INCH_SCREEN || (IS_IPAD && DynamicPreferredValueForIPad && IPAD_SIMILAR_SCREEN_WIDTH == _65INCH_WIDTH))
@@ -278,9 +278,9 @@
  @implementation NSObject (CategoryName)
  
  // 注意 setter 不需要带冒号
- SWSynthesizeIdStrongProperty(strongObj, setStrongObj)
- SWSynthesizeIdWeakProperty(weakObj, setWeakObj)
- SWSynthesizeCGRectProperty(rectValue, setRectValue)
+ SWFSynthesizeIdStrongProperty(strongObj, setStrongObj)
+ SWFSynthesizeIdWeakProperty(weakObj, setWeakObj)
+ SWFSynthesizeCGRectProperty(rectValue, setRectValue)
  
  @end
  @endcode
@@ -288,7 +288,7 @@
 
 #pragma mark - Meta Marcos
 
-#define _SWSynthesizeId(_getterName, _setterName, _policy) \
+#define _SWFSynthesizeId(_getterName, _setterName, _policy) \
 _Pragma("clang diagnostic push") _Pragma(ClangWarningConcat("-Wmismatched-parameter-types")) _Pragma(ClangWarningConcat("-Wmismatched-return-types"))\
 static char kAssociatedObjectKey_##_getterName;\
 - (void)_setterName:(id)_getterName {\
@@ -300,7 +300,7 @@ static char kAssociatedObjectKey_##_getterName;\
 }\
 _Pragma("clang diagnostic pop")
 
-#define _SWSynthesizeWeakId(_getterName, _setterName) \
+#define _SWFSynthesizeWeakId(_getterName, _setterName) \
 _Pragma("clang diagnostic push") _Pragma(ClangWarningConcat("-Wmismatched-parameter-types")) _Pragma(ClangWarningConcat("-Wmismatched-return-types"))\
 static char kAssociatedObjectKey_##_getterName;\
 - (void)_setterName:(id)_getterName {\
@@ -312,7 +312,7 @@ static char kAssociatedObjectKey_##_getterName;\
 }\
 _Pragma("clang diagnostic pop")
 
-#define _SWSynthesizeNonObject(_getterName, _setterName, _type, valueInitializer, valueGetter) \
+#define _SWFSynthesizeNonObject(_getterName, _setterName, _type, valueInitializer, valueGetter) \
 _Pragma("clang diagnostic push") _Pragma(ClangWarningConcat("-Wmismatched-parameter-types")) _Pragma(ClangWarningConcat("-Wmismatched-return-types"))\
 static char kAssociatedObjectKey_##_getterName;\
 - (void)_setterName:(_type)_getterName {\
@@ -330,65 +330,65 @@ _Pragma("clang diagnostic pop")
 #pragma mark - Object Marcos
 
 /// @property(nonatomic, strong) id xxx
-#define SWSynthesizeIdStrongProperty(_getterName, _setterName) _SWSynthesizeId(_getterName, _setterName, RETAIN)
+#define SWFSynthesizeIdStrongProperty(_getterName, _setterName) _SWFSynthesizeId(_getterName, _setterName, RETAIN)
 
 /// @property(nonatomic, weak) id xxx
-#define SWSynthesizeIdWeakProperty(_getterName, _setterName) _SWSynthesizeWeakId(_getterName, _setterName)
+#define SWFSynthesizeIdWeakProperty(_getterName, _setterName) _SWFSynthesizeWeakId(_getterName, _setterName)
 
 /// @property(nonatomic, copy) id xxx
-#define SWSynthesizeIdCopyProperty(_getterName, _setterName) _SWSynthesizeId(_getterName, _setterName, COPY)
+#define SWFSynthesizeIdCopyProperty(_getterName, _setterName) _SWFSynthesizeId(_getterName, _setterName, COPY)
 
 
 
 #pragma mark - NonObject Marcos
 
 /// @property(nonatomic, assign) Int xxx
-#define SWSynthesizeIntProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, int, numberWithInt, intValue)
+#define SWFSynthesizeIntProperty(_getterName, _setterName) _SWFSynthesizeNonObject(_getterName, _setterName, int, numberWithInt, intValue)
 
 /// @property(nonatomic, assign) unsigned int xxx
-#define SWSynthesizeUnsignedIntProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, unsigned int, numberWithUnsignedInt, unsignedIntValue)
+#define SWFSynthesizeUnsignedIntProperty(_getterName, _setterName) _SWFSynthesizeNonObject(_getterName, _setterName, unsigned int, numberWithUnsignedInt, unsignedIntValue)
 
 /// @property(nonatomic, assign) float xxx
-#define SWSynthesizeFloatProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, float, numberWithFloat, floatValue)
+#define SWFSynthesizeFloatProperty(_getterName, _setterName) _SWFSynthesizeNonObject(_getterName, _setterName, float, numberWithFloat, floatValue)
 
 /// @property(nonatomic, assign) double xxx
-#define SWSynthesizeDoubleProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, double, numberWithDouble, doubleValue)
+#define SWFSynthesizeDoubleProperty(_getterName, _setterName) _SWFSynthesizeNonObject(_getterName, _setterName, double, numberWithDouble, doubleValue)
 
 /// @property(nonatomic, assign) BOOL xxx
-#define SWSynthesizeBOOLProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, BOOL, numberWithBool, boolValue)
+#define SWFSynthesizeBOOLProperty(_getterName, _setterName) _SWFSynthesizeNonObject(_getterName, _setterName, BOOL, numberWithBool, boolValue)
 
 /// @property(nonatomic, assign) NSInteger xxx
-#define SWSynthesizeNSIntegerProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, NSInteger, numberWithInteger, integerValue)
+#define SWFSynthesizeNSIntegerProperty(_getterName, _setterName) _SWFSynthesizeNonObject(_getterName, _setterName, NSInteger, numberWithInteger, integerValue)
 
 /// @property(nonatomic, assign) NSUInteger xxx
-#define SWSynthesizeNSUIntegerProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, NSUInteger, numberWithUnsignedInteger, unsignedIntegerValue)
+#define SWFSynthesizeNSUIntegerProperty(_getterName, _setterName) _SWFSynthesizeNonObject(_getterName, _setterName, NSUInteger, numberWithUnsignedInteger, unsignedIntegerValue)
 
 /// @property(nonatomic, assign) CGFloat xxx
-#define SWSynthesizeCGFloatProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, CGFloat, numberWithDouble, sf_CGFloatValue)
+#define SWFSynthesizeCGFloatProperty(_getterName, _setterName) _SWFSynthesizeNonObject(_getterName, _setterName, CGFloat, numberWithDouble, swf_CGFloatValue)
 
 /// @property(nonatomic, assign) CGPoint xxx
-#define SWSynthesizeCGPointProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, CGPoint, valueWithCGPoint, CGPointValue)
+#define SWFSynthesizeCGPointProperty(_getterName, _setterName) _SWFSynthesizeNonObject(_getterName, _setterName, CGPoint, valueWithCGPoint, CGPointValue)
 
 /// @property(nonatomic, assign) CGSize xxx
-#define SWSynthesizeCGSizeProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, CGSize, valueWithCGSize, CGSizeValue)
+#define SWFSynthesizeCGSizeProperty(_getterName, _setterName) _SWFSynthesizeNonObject(_getterName, _setterName, CGSize, valueWithCGSize, CGSizeValue)
 
 /// @property(nonatomic, assign) CGRect xxx
-#define SWSynthesizeCGRectProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, CGRect, valueWithCGRect, CGRectValue)
+#define SWFSynthesizeCGRectProperty(_getterName, _setterName) _SWFSynthesizeNonObject(_getterName, _setterName, CGRect, valueWithCGRect, CGRectValue)
 
 /// @property(nonatomic, assign) UIEdgeInsets xxx
-#define SWSynthesizeUIEdgeInsetsProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, UIEdgeInsets, valueWithUIEdgeInsets, UIEdgeInsetsValue)
+#define SWFSynthesizeUIEdgeInsetsProperty(_getterName, _setterName) _SWFSynthesizeNonObject(_getterName, _setterName, UIEdgeInsets, valueWithUIEdgeInsets, UIEdgeInsetsValue)
 
 /// @property(nonatomic, assign) CGVector xxx
-#define SWSynthesizeCGVectorProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, CGVector, valueWithCGVector, CGVectorValue)
+#define SWFSynthesizeCGVectorProperty(_getterName, _setterName) _SWFSynthesizeNonObject(_getterName, _setterName, CGVector, valueWithCGVector, CGVectorValue)
 
 /// @property(nonatomic, assign) CGAffineTransform xxx
-#define SWSynthesizeCGAffineTransformProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, CGAffineTransform, valueWithCGAffineTransform, CGAffineTransformValue)
+#define SWFSynthesizeCGAffineTransformProperty(_getterName, _setterName) _SWFSynthesizeNonObject(_getterName, _setterName, CGAffineTransform, valueWithCGAffineTransform, CGAffineTransformValue)
 
 /// @property(nonatomic, assign) NSDirectionalEdgeInsets xxx
-#define SWSynthesizeNSDirectionalEdgeInsetsProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, NSDirectionalEdgeInsets, valueWithDirectionalEdgeInsets, NSDirectionalEdgeInsetsValue)
+#define SWFSynthesizeNSDirectionalEdgeInsetsProperty(_getterName, _setterName) _SWFSynthesizeNonObject(_getterName, _setterName, NSDirectionalEdgeInsets, valueWithDirectionalEdgeInsets, NSDirectionalEdgeInsetsValue)
 
 /// @property(nonatomic, assign) UIOffset xxx
-#define SWSynthesizeUIOffsetProperty(_getterName, _setterName) _SWSynthesizeNonObject(_getterName, _setterName, UIOffset, valueWithUIOffset, UIOffsetValue)
+#define SWFSynthesizeUIOffsetProperty(_getterName, _setterName) _SWFSynthesizeNonObject(_getterName, _setterName, UIOffset, valueWithUIOffset, UIOffsetValue)
 
 #pragma mark - 无障碍访问
 CG_INLINE void
@@ -405,7 +405,7 @@ AddAccessibilityHint(NSObject *obj, NSString *hint) {
 #pragma mark - 其他
 
 // 固定黑色的 StatusBarStyle，用于亮色背景，作为 -preferredStatusBarStyle 方法的 return 值使用。
-#define SWStatusBarStyleDarkContent [Helper statusBarStyleDarkContent]
+#define SWStatusBarStyleDarkContent [SWFHelper statusBarStyleDarkContent]
 
 #define StringFromBOOL(_flag) (_flag ? @"YES" : @"NO")
 
@@ -420,7 +420,7 @@ CG_INLINE SEL
 setterWithGetter(SEL getter) {
     NSString *getterString = NSStringFromSelector(getter);
     NSMutableString *setterString = [[NSMutableString alloc] initWithString:@"set"];
-    [setterString appendString:getterString.sf_capitalizedString];
+    [setterString appendString:getterString.swf_capitalizedString];
     [setterString appendString:@":"];
     SEL setter = NSSelectorFromString(setterString);
     return setter;

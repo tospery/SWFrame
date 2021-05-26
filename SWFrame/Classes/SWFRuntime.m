@@ -1,20 +1,20 @@
 //
-//  Runtime.m
+//  SWFRuntime.m
 //  SWFrame
 //
 //  Created by 杨建祥 on 2021/5/26.
 //
 
-#import "Runtime.h"
-#import "Defines.h"
-#import "Helper.h"
+#import "SWFRuntime.h"
+#import "SWFDefines.h"
+#import "SWFHelper.h"
 #include <mach-o/getsect.h>
 #include <mach-o/dyld.h>
 
-@implementation SWPropertyDescriptor
+@implementation SWFPropertyDescriptor
 
 + (instancetype)descriptorWithProperty:(objc_property_t)property {
-    SWPropertyDescriptor *descriptor = [[self alloc] init];
+    SWFPropertyDescriptor *descriptor = [[self alloc] init];
     NSString *propertyName = [NSString stringWithUTF8String:property_getName(property)];
     descriptor.name = propertyName;
     
@@ -74,7 +74,7 @@
     
     // type
     char *type = property_copyAttributeValue(property, "T");
-    descriptor.type = [SWPropertyDescriptor typeWithEncodeString:[NSString stringWithUTF8String:type]];
+    descriptor.type = [SWFPropertyDescriptor typeWithEncodeString:[NSString stringWithUTF8String:type]];
     if (type != NULL) {
         free(type);
     }
@@ -187,7 +187,7 @@ static classref_t *getDataSection(const headerType *machHeader, const char *sect
     return data;
 }
 
-int sf_getProjectClassList(classref_t **classes) {
+int swf_getProjectClassList(classref_t **classes) {
     size_t count = 0;
     if (!!classes) {
         *classes = getDataSection(getProjectImageHeader(), "__objc_classlist", &count);
@@ -198,7 +198,7 @@ int sf_getProjectClassList(classref_t **classes) {
 }
 
 
-BOOL sf_exists_dyld_image(const char *target_image_name) {
+BOOL swf_exists_dyld_image(const char *target_image_name) {
     const uint32_t imageCount = _dyld_image_count();
     for (uint32_t i = 0; i < imageCount; i++) {
         const char *image_name = _dyld_get_image_name(i);

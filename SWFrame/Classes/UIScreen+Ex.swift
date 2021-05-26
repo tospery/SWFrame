@@ -59,11 +59,11 @@ public extension UIScreen {
     }
     
     static var isNotched: Bool {
-        false // // YJX_TODO Helper.isNotchedScreen
+        false // // YJX_TODO SWFHelper.isNotchedScreen
     }
     
     static var isRegular: Bool {
-        false // YJX_TODO Helper.isRegularScreen
+        false // YJX_TODO SWFHelper.isRegularScreen
     }
     
     static var width: CGFloat {

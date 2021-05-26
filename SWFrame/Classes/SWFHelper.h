@@ -1,5 +1,5 @@
 //
-//  Helper.h
+//  SWFHelper.h
 //  SWFrame
 //
 //  Created by 杨建祥 on 2021/5/26.
@@ -7,14 +7,14 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "Defines.h"
+#import "SWFDefines.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-// TODO: molice 等废弃 sf_badgeCenterOffset 系列接口后再删除
+// TODO: molice 等废弃 swf_badgeCenterOffset 系列接口后再删除
 extern const CGPoint SWBadgeInvalidateOffset;
 
-@interface Helper : NSObject
+@interface SWFHelper : NSObject
 
 + (instancetype)sharedInstance;
 
@@ -31,7 +31,7 @@ extern const CGPoint SWBadgeInvalidateOffset;
 + (CALayerContentsGravity)layerContentsGravityWithContentMode:(UIViewContentMode)contentMode;
 @end
 
-@interface Helper (Bundle)
+@interface SWFHelper (Bundle)
 
 /// 获取 SWFrame.framework Images.xcassets 内的图片资源
 /// @param name 图片名
@@ -39,14 +39,14 @@ extern const CGPoint SWBadgeInvalidateOffset;
 
 @end
 
-@interface Helper (SystemVersion)
+@interface SWFHelper (SystemVersion)
 + (NSInteger)numbericOSVersion;
 + (NSComparisonResult)compareSystemVersion:(nonnull NSString *)currentVersion toVersion:(nonnull NSString *)targetVersion;
 + (BOOL)isCurrentSystemAtLeastVersion:(nonnull NSString *)targetVersion;
 + (BOOL)isCurrentSystemLowerThanVersion:(nonnull NSString *)targetVersion;
 @end
 
-@interface Helper (DynamicType)
+@interface SWFHelper (DynamicType)
 
 /// 返回当前 contentSize 的 level，这个值可以在设置里面的“字体大小”查看，辅助功能里面有个“更大字体”可以设置更大的字体，不过这里我们这个接口将更大字体都做了统一，都返回“字体大小”里面最大值。
 /// Returns the level of contentSize
@@ -60,7 +60,7 @@ extern const CGPoint SWBadgeInvalidateOffset;
 @end
 
 
-@interface Helper (Keyboard)
+@interface SWFHelper (Keyboard)
 
 /**
  * 判断当前 App 里的键盘是否升起，默认为 NO
@@ -83,9 +83,9 @@ extern const CGPoint SWBadgeInvalidateOffset;
 + (CGFloat)keyboardHeightWithNotification:(nullable NSNotification *)notification;
 
 /**
- * 获取当前键盘在屏幕上的可见高度，注意外接键盘（iPad那种）时，[Helper keyboardRectWithNotification]得到的键盘rect里有一部分是超出屏幕，不可见的，如果直接拿rect的高度来计算就会与意图相悖。
+ * 获取当前键盘在屏幕上的可见高度，注意外接键盘（iPad那种）时，[SWFHelper keyboardRectWithNotification]得到的键盘rect里有一部分是超出屏幕，不可见的，如果直接拿rect的高度来计算就会与意图相悖。
  * @param notification 接收到的键盘事件的UINotification对象
- * @param view 要得到的键盘高度是相对于哪个View的键盘高度，若为nil，则等同于调用[Helper keyboardHeightWithNotification:]
+ * @param view 要得到的键盘高度是相对于哪个View的键盘高度，若为nil，则等同于调用[SWFHelper keyboardHeightWithNotification:]
  * @warning 如果view.window为空（当前View尚不可见），则会使用App默认的UIWindow来做坐标转换，可能会导致一些计算错误
  * @return 键盘在view里的可视高度
  */
@@ -102,7 +102,7 @@ extern const CGPoint SWBadgeInvalidateOffset;
 @end
 
 
-@interface Helper (AudioSession)
+@interface SWFHelper (AudioSession)
 
 /**
  *  听筒和扬声器的切换
@@ -120,7 +120,7 @@ extern const CGPoint SWBadgeInvalidateOffset;
 + (void)setAudioSessionCategory:(nullable NSString *)category;
 @end
 
-@interface Helper (UIGraphic)
+@interface SWFHelper (UIGraphic)
 
 /// 获取一像素的大小
 @property(class, nonatomic, readonly) CGFloat pixelOne;
@@ -134,7 +134,7 @@ extern const CGPoint SWBadgeInvalidateOffset;
 @end
 
 
-@interface Helper (Device)
+@interface SWFHelper (Device)
 
 /// 如 iPhone12,5、iPad6,8
 /// @NEW_DEVICE_CHECKER
@@ -221,7 +221,7 @@ extern const CGPoint SWBadgeInvalidateOffset;
 
 @end
 
-@interface Helper (UIApplication)
+@interface SWFHelper (UIApplication)
 
 /**
  * 把App的主要window置灰，用于浮层弹出时，请注意要在适当时机调用`resetDimmedApplicationWindow`恢复到正常状态
@@ -242,7 +242,7 @@ extern const CGPoint SWBadgeInvalidateOffset;
 
 @end
 
-@interface Helper (Animation)
+@interface SWFHelper (Animation)
 
 /**
  在 animationBlock 里的操作完成之后会调用 completionBlock，常用于一些不提供 completionBlock 的系统动画操作。
@@ -255,7 +255,7 @@ extern const CGPoint SWBadgeInvalidateOffset;
 
 @end
 
-@interface Helper (Ex_Interface)
+@interface SWFHelper (Ex_Interface)
 
 /**
  *  旋转当前设备的方向到指定方向，一般用于 [UIViewController supportedInterfaceOrientations] 发生变化时主动触发界面方向的刷新
@@ -266,7 +266,7 @@ extern const CGPoint SWBadgeInvalidateOffset;
 
 /**
  *  记录手动旋转方向前的设备方向，当值不为 UIDeviceOrientationUnknown 时表示设备方向有经过了手动调整。默认值为 UIDeviceOrientationUnknown。
- *  @see [Helper rotateToDeviceOrientation]
+ *  @see [SWFHelper rotateToDeviceOrientation]
  */
 @property(nonatomic, assign) UIDeviceOrientation orientationBeforeChangingByHelper;
 
@@ -288,7 +288,7 @@ extern const CGPoint SWBadgeInvalidateOffset;
 /// 根据指定的旋转方向计算出对应的CGAffineTransform
 + (CGAffineTransform)transformWithInterfaceOrientation:(UIInterfaceOrientation)orientation;
 
-/// 给 Helper instance 通知用
+/// 给 SWFHelper instance 通知用
 - (void)handleDeviceOrientationNotification:(NSNotification *)notification;
 
 @end

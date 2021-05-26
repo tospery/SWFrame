@@ -17,89 +17,89 @@ public extension UIView {
     var top: CGFloat {
         get { 0 } set {}
 //        get {
-//            return self.sf_top
+//            return self.swf_top
 //        }
 //        set {
-//            self.sf_top = newValue
+//            self.swf_top = newValue
 //        }
     }
     
     var bottom: CGFloat {
         get { 0 } set {}
 //        get {
-//            return self.sf_bottom
+//            return self.swf_bottom
 //        }
 //        set {
-//            self.sf_bottom = newValue
+//            self.swf_bottom = newValue
 //        }
     }
     
     var left: CGFloat {
         get { 0 } set {}
 //        get {
-//            return self.sf_left
+//            return self.swf_left
 //        }
 //        set {
-//            self.sf_left = newValue
+//            self.swf_left = newValue
 //        }
     }
     
     var right: CGFloat {
         get { 0 } set {}
 //        get {
-//            return self.sf_right
+//            return self.swf_right
 //        }
 //        set {
-//            self.sf_right = newValue
+//            self.swf_right = newValue
 //        }
     }
     
     var extendToTop: CGFloat {
         get { 0 } set {}
 //        get {
-//            return self.sf_extendToTop
+//            return self.swf_extendToTop
 //        }
 //        set {
-//            self.sf_extendToTop = newValue
+//            self.swf_extendToTop = newValue
 //        }
     }
     
     var extendToBottom: CGFloat {
         get { 0 } set {}
 //        get {
-//            return self.sf_extendToBottom
+//            return self.swf_extendToBottom
 //        }
 //        set {
-//            self.sf_extendToBottom = newValue
+//            self.swf_extendToBottom = newValue
 //        }
     }
     
     var extendToLeft: CGFloat {
         get { 0 } set {}
 //        get {
-//            return self.sf_extendToLeft
+//            return self.swf_extendToLeft
 //        }
 //        set {
-//            self.sf_extendToLeft = newValue
+//            self.swf_extendToLeft = newValue
 //        }
     }
     
     var extendToRight: CGFloat {
         get { 0 } set {}
 //        get {
-//            return self.sf_extendToRight
+//            return self.swf_extendToRight
 //        }
 //        set {
-//            self.sf_extendToRight = newValue
+//            self.swf_extendToRight = newValue
 //        }
     }
     
     var leftWhenCenter: CGFloat {
-        0 // YJX_TODO return self.sf_leftWhenCenterInSuperview
+        0 // YJX_TODO return self.swf_leftWhenCenterInSuperview
     }
     
     var topWhenCenter: CGFloat {
-        0 // YJX_TODO return self.sf_topWhenCenterInSuperview
+        0 // YJX_TODO return self.swf_topWhenCenterInSuperview
     }
 
     var centerX: CGFloat {

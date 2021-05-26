@@ -1,24 +1,24 @@
 //
-//  SWButton.m
+//  SWFButton.m
 //  SWFrame
 //
 //  Created by 杨建祥 on 2021/5/26.
 //
 
-#import "SWButton.h"
-#import "Defines.h"
+#import "SWFButton.h"
+#import "SWFDefines.h"
 #import "CALayer+Ex.h"
-//#import "UIButton+QMUI.h" // YJX_TODO
+//#import "UIButton+SWF.h" // YJX_TODO
 
-const CGFloat SWButtonCornerRadiusAdjustsBounds = -1;
+const CGFloat SWFButtonCornerRadiusAdjustsBounds = -1;
 
-@interface SWButton ()
+@interface SWFButton ()
 
 @property(nonatomic, strong) CALayer *highlightedBackgroundLayer;
 @property(nonatomic, strong) UIColor *originBorderColor;
 @end
 
-@implementation SWButton
+@implementation SWFButton
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -52,12 +52,12 @@ const CGFloat SWButtonCornerRadiusAdjustsBounds = -1;
     self.adjustsButtonWhenDisabled = YES;
     
     // 图片默认在按钮左边，与系统UIButton保持一致
-    self.imagePosition = SWButtonImagePositionLeft;
+    self.imagePosition = SWFButtonImagePositionLeft;
 }
 
-// 系统访问 self.imageView 会触发 layout，而私有方法 _imageView 则是简单地访问 imageView，所以在 SWButton layoutSubviews 里应该用这个方法
-// https://github.com/Tencent/QMUI_iOS/issues/1051
-- (UIImageView *)_sf_imageView {
+// 系统访问 self.imageView 会触发 layout，而私有方法 _imageView 则是简单地访问 imageView，所以在 SWFButton layoutSubviews 里应该用这个方法
+// https://github.com/Tencent/SWF_iOS/issues/1051
+- (UIImageView *)_swf_imageView {
     BeginIgnorePerformSelectorLeaksWarning
     return [self performSelector:NSSelectorFromString(@"_imageView")];
     EndIgnorePerformSelectorLeaksWarning
@@ -79,13 +79,13 @@ const CGFloat SWButtonCornerRadiusAdjustsBounds = -1;
     CGSize contentLimitSize = CGSizeMake(size.width - UIEdgeInsetsGetHorizontalValue(contentEdgeInsets), size.height - UIEdgeInsetsGetVerticalValue(contentEdgeInsets));
     
     switch (self.imagePosition) {
-        case SWButtonImagePositionTop:
-        case SWButtonImagePositionBottom: {
+        case SWFButtonImagePositionTop:
+        case SWFButtonImagePositionBottom: {
             // 图片和文字上下排版时，宽度以文字或图片的最大宽度为最终宽度
             if (isImageViewShowing) {
                 CGFloat imageLimitWidth = contentLimitSize.width - UIEdgeInsetsGetHorizontalValue(self.imageEdgeInsets);
                 CGSize imageSize = self.imageView.image ? [self.imageView sizeThatFits:CGSizeMake(imageLimitWidth, CGFLOAT_MAX)] : self.currentImage.size;
-                imageSize.width = MIN(imageSize.width, imageLimitWidth);// SWButton sizeThatFits 时 self._imageView 为 nil 但 self.imageView 有值，而开启了 Bold Text 时，系统的 self.imageView sizeThatFits 返回值会比没开启 BoldText 时多 1pt（不知道为什么文字加粗与否会影响 imageView...），从而保证开启 Bold Text 后文字依然能完整展示出来，所以这里应该用 self.imageView 而不是 self._imageView
+                imageSize.width = MIN(imageSize.width, imageLimitWidth);// SWFButton sizeThatFits 时 self._imageView 为 nil 但 self.imageView 有值，而开启了 Bold Text 时，系统的 self.imageView sizeThatFits 返回值会比没开启 BoldText 时多 1pt（不知道为什么文字加粗与否会影响 imageView...），从而保证开启 Bold Text 后文字依然能完整展示出来，所以这里应该用 self.imageView 而不是 self._imageView
                 imageTotalSize = CGSizeMake(imageSize.width + UIEdgeInsetsGetHorizontalValue(self.imageEdgeInsets), imageSize.height + UIEdgeInsetsGetVerticalValue(self.imageEdgeInsets));
             }
             
@@ -102,15 +102,15 @@ const CGFloat SWButtonCornerRadiusAdjustsBounds = -1;
         }
             break;
             
-        case SWButtonImagePositionLeft:
-        case SWButtonImagePositionRight: {
+        case SWFButtonImagePositionLeft:
+        case SWFButtonImagePositionRight: {
             // 图片和文字水平排版时，高度以文字或图片的最大高度为最终高度
-            // 注意这里有一个和系统不一致的行为：当 titleLabel 为多行时，系统的 sizeThatFits: 计算结果固定是单行的，所以当 SWButtonImagePositionLeft 并且titleLabel 多行的情况下，SWButton 计算的结果与系统不一致
+            // 注意这里有一个和系统不一致的行为：当 titleLabel 为多行时，系统的 sizeThatFits: 计算结果固定是单行的，所以当 SWFButtonImagePositionLeft 并且titleLabel 多行的情况下，SWFButton 计算的结果与系统不一致
             
             if (isImageViewShowing) {
                 CGFloat imageLimitHeight = contentLimitSize.height - UIEdgeInsetsGetVerticalValue(self.imageEdgeInsets);
                 CGSize imageSize = self.imageView.image ? [self.imageView sizeThatFits:CGSizeMake(CGFLOAT_MAX, imageLimitHeight)] : self.currentImage.size;
-                imageSize.height = MIN(imageSize.height, imageLimitHeight);// SWButton sizeThatFits 时 self._imageView 为 nil 但 self.imageView 有值，而开启了 Bold Text 时，系统的 self.imageView sizeThatFits 返回值会比没开启 BoldText 时多 1pt（不知道为什么文字加粗与否会影响 imageView...），从而保证开启 Bold Text 后文字依然能完整展示出来，所以这里应该用 self.imageView 而不是 self._imageView
+                imageSize.height = MIN(imageSize.height, imageLimitHeight);// SWFButton sizeThatFits 时 self._imageView 为 nil 但 self.imageView 有值，而开启了 Bold Text 时，系统的 self.imageView sizeThatFits 返回值会比没开启 BoldText 时多 1pt（不知道为什么文字加粗与否会影响 imageView...），从而保证开启 Bold Text 后文字依然能完整展示出来，所以这里应该用 self.imageView 而不是 self._imageView
                 imageTotalSize = CGSizeMake(imageSize.width + UIEdgeInsetsGetHorizontalValue(self.imageEdgeInsets), imageSize.height + UIEdgeInsetsGetVerticalValue(self.imageEdgeInsets));
             }
             
@@ -141,7 +141,7 @@ const CGFloat SWButtonCornerRadiusAdjustsBounds = -1;
         return;
     }
     
-    if (self.cornerRadius == SWButtonCornerRadiusAdjustsBounds) {
+    if (self.cornerRadius == SWFButtonCornerRadiusAdjustsBounds) {
         self.layer.cornerRadius = CGRectGetHeight(self.bounds) / 2;
     }
     
@@ -160,7 +160,7 @@ const CGFloat SWButtonCornerRadiusAdjustsBounds = -1;
     // 图片的布局原则都是尽量完整展示，所以不管 imagePosition 的值是什么，这个计算过程都是相同的
     if (isImageViewShowing) {
         imageLimitSize = CGSizeMake(contentSize.width - UIEdgeInsetsGetHorizontalValue(self.imageEdgeInsets), contentSize.height - UIEdgeInsetsGetVerticalValue(self.imageEdgeInsets));
-        CGSize imageSize = self._sf_imageView.image ? [self._sf_imageView sizeThatFits:imageLimitSize] : self.currentImage.size;
+        CGSize imageSize = self._swf_imageView.image ? [self._swf_imageView sizeThatFits:imageLimitSize] : self.currentImage.size;
         imageSize.width = MIN(imageLimitSize.width, imageSize.width);
         imageSize.height = MIN(imageLimitSize.height, imageSize.height);
         imageFrame = CGRectMakeWithSize(imageSize);
@@ -168,7 +168,7 @@ const CGFloat SWButtonCornerRadiusAdjustsBounds = -1;
     }
     
     // UIButton 如果本身大小为 (0,0)，此时设置一个 imageEdgeInsets 会让 imageView 的 bounds 错误，导致后续 imageView 的 subviews 布局时会产生偏移，因此这里做一次保护
-    // https://github.com/Tencent/QMUI_iOS/issues/1012
+    // https://github.com/Tencent/SWF_iOS/issues/1012
     void (^makesureBoundsPositive)(UIView *) = ^void(UIView *view) {
         CGRect bounds = view.bounds;
         if (CGRectGetMinX(bounds) < 0 || CGRectGetMinY(bounds) < 0) {
@@ -177,13 +177,13 @@ const CGFloat SWButtonCornerRadiusAdjustsBounds = -1;
         }
     };
     if (isImageViewShowing) {
-        makesureBoundsPositive(self._sf_imageView);
+        makesureBoundsPositive(self._swf_imageView);
     }
     if (isTitleLabelShowing) {
         makesureBoundsPositive(self.titleLabel);
     }
     
-    if (self.imagePosition == SWButtonImagePositionTop || self.imagePosition == SWButtonImagePositionBottom) {
+    if (self.imagePosition == SWFButtonImagePositionTop || self.imagePosition == SWFButtonImagePositionBottom) {
         
         if (isTitleLabelShowing) {
             titleLimitSize = CGSizeMake(contentSize.width - UIEdgeInsetsGetHorizontalValue(self.titleEdgeInsets), contentSize.height - imageTotalSize.height - spacingBetweenImageAndTitle - UIEdgeInsetsGetVerticalValue(self.titleEdgeInsets));
@@ -221,7 +221,7 @@ const CGFloat SWButtonCornerRadiusAdjustsBounds = -1;
                 break;
         }
         
-        if (self.imagePosition == SWButtonImagePositionTop) {
+        if (self.imagePosition == SWFButtonImagePositionTop) {
             switch (self.contentVerticalAlignment) {
                 case UIControlContentVerticalAlignmentTop:
                     imageFrame = isImageViewShowing ? CGRectSetY(imageFrame, contentEdgeInsets.top + self.imageEdgeInsets.top) : imageFrame;
@@ -295,14 +295,14 @@ const CGFloat SWButtonCornerRadiusAdjustsBounds = -1;
         
         if (isImageViewShowing) {
             imageFrame = CGRectFlatted(imageFrame);
-            self._sf_imageView.frame = imageFrame;
+            self._swf_imageView.frame = imageFrame;
         }
         if (isTitleLabelShowing) {
             titleFrame = CGRectFlatted(titleFrame);
             self.titleLabel.frame = titleFrame;
         }
         
-    } else if (self.imagePosition == SWButtonImagePositionLeft || self.imagePosition == SWButtonImagePositionRight) {
+    } else if (self.imagePosition == SWFButtonImagePositionLeft || self.imagePosition == SWFButtonImagePositionRight) {
         
         if (isTitleLabelShowing) {
             titleLimitSize = CGSizeMake(contentSize.width - UIEdgeInsetsGetHorizontalValue(self.titleEdgeInsets) - imageTotalSize.width - spacingBetweenImageAndTitle, contentSize.height - UIEdgeInsetsGetVerticalValue(self.titleEdgeInsets));
@@ -339,7 +339,7 @@ const CGFloat SWButtonCornerRadiusAdjustsBounds = -1;
                 break;
         }
         
-        if (self.imagePosition == SWButtonImagePositionLeft) {
+        if (self.imagePosition == SWFButtonImagePositionLeft) {
             switch (self.contentHorizontalAlignment) {
                 case UIControlContentHorizontalAlignmentLeft:
                     imageFrame = isImageViewShowing ? CGRectSetX(imageFrame, contentEdgeInsets.left + self.imageEdgeInsets.left) : imageFrame;
@@ -430,7 +430,7 @@ const CGFloat SWButtonCornerRadiusAdjustsBounds = -1;
         
         if (isImageViewShowing) {
             imageFrame = CGRectFlatted(imageFrame);
-            self._sf_imageView.frame = imageFrame;
+            self._swf_imageView.frame = imageFrame;
         }
         if (isTitleLabelShowing) {
             titleFrame = CGRectFlatted(titleFrame);
@@ -445,7 +445,7 @@ const CGFloat SWButtonCornerRadiusAdjustsBounds = -1;
     [self setNeedsLayout];
 }
 
-- (void)setImagePosition:(SWButtonImagePosition)imagePosition {
+- (void)setImagePosition:(SWFButtonImagePosition)imagePosition {
     _imagePosition = imagePosition;
     
     [self setNeedsLayout];
@@ -506,12 +506,12 @@ const CGFloat SWButtonCornerRadiusAdjustsBounds = -1;
     if (self.highlightedBackgroundColor) {
         if (!self.highlightedBackgroundLayer) {
             self.highlightedBackgroundLayer = [CALayer layer];
-            [self.highlightedBackgroundLayer sf_removeDefaultAnimations];
+            [self.highlightedBackgroundLayer swf_removeDefaultAnimations];
             [self.layer insertSublayer:self.highlightedBackgroundLayer atIndex:0];
         }
         self.highlightedBackgroundLayer.frame = self.bounds;
         self.highlightedBackgroundLayer.cornerRadius = self.layer.cornerRadius;
-        self.highlightedBackgroundLayer.backgroundColor = self.highlighted ? self.highlightedBackgroundColor.CGColor : UIColor.clearColor.CGColor;
+        self.highlightedBackgroundLayer.backgroundColor = self.highlighted ? self.highlightedBackgroundColor.CGColor : UIColorMakeWithRGBA(255, 255, 255, 0).CGColor;
     }
     
     if (self.highlightedBorderColor) {
@@ -594,7 +594,7 @@ const CGFloat SWButtonCornerRadiusAdjustsBounds = -1;
 
 - (void)setCornerRadius:(CGFloat)cornerRadius {
     _cornerRadius = cornerRadius;
-    if (cornerRadius != SWButtonCornerRadiusAdjustsBounds) {
+    if (cornerRadius != SWFButtonCornerRadiusAdjustsBounds) {
         self.layer.cornerRadius = cornerRadius;
     }
     [self setNeedsLayout];

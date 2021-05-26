@@ -1,12 +1,12 @@
 //
-//  Helper.m
+//  SWFHelper.m
 //  SWFrame
 //
 //  Created by 杨建祥 on 2021/5/26.
 //
 
-#import "Helper.h"
-#import "Defines.h"
+#import "SWFHelper.h"
+#import "SWFDefines.h"
 // YJX_TODO #import "UIViewController+Ex.h"
 // YJX_TODO #import "UIInterface+Ex.h"
 #import "NSNumber+Ex.h"
@@ -19,7 +19,7 @@
 const CGPoint SWBadgeInvalidateOffset = {-1000, -1000};
 NSString *const kSWResourcesBundleName = @"SWResources";
 
-@implementation Helper (Bundle)
+@implementation SWFHelper (Bundle)
 
 + (UIImage *)imageWithName:(NSString *)name {
     static NSBundle *resourceBundle = nil;
@@ -35,7 +35,7 @@ NSString *const kSWResourcesBundleName = @"SWResources";
 @end
 
 
-@implementation Helper (DynamicType)
+@implementation SWFHelper (DynamicType)
 
 + (NSNumber *)preferredContentSizeLevel {
     NSNumber *index = nil;
@@ -76,19 +76,19 @@ NSString *const kSWResourcesBundleName = @"SWResources";
 }
 
 + (CGFloat)heightForDynamicTypeCell:(NSArray *)heights {
-    NSNumber *index = [Helper preferredContentSizeLevel];
-    return [((NSNumber *)[heights objectAtIndex:[index intValue]]) sf_CGFloatValue];
+    NSNumber *index = [SWFHelper preferredContentSizeLevel];
+    return [((NSNumber *)[heights objectAtIndex:[index intValue]]) swf_CGFloatValue];
 }
 @end
 
-@implementation Helper (Keyboard)
+@implementation SWFHelper (Keyboard)
 
-SWSynthesizeBOOLProperty(keyboardVisible, setKeyboardVisible)
-SWSynthesizeCGFloatProperty(lastKeyboardHeight, setLastKeyboardHeight)
+SWFSynthesizeBOOLProperty(keyboardVisible, setKeyboardVisible)
+SWFSynthesizeCGFloatProperty(lastKeyboardHeight, setLastKeyboardHeight)
 
 - (void)handleKeyboardWillShow:(NSNotification *)notification {
     self.keyboardVisible = YES;
-    self.lastKeyboardHeight = [Helper keyboardHeightWithNotification:notification];
+    self.lastKeyboardHeight = [SWFHelper keyboardHeightWithNotification:notification];
 }
 
 - (void)handleKeyboardWillHide:(NSNotification *)notification {
@@ -96,12 +96,12 @@ SWSynthesizeCGFloatProperty(lastKeyboardHeight, setLastKeyboardHeight)
 }
 
 + (BOOL)isKeyboardVisible {
-    BOOL visible = [Helper sharedInstance].keyboardVisible;
+    BOOL visible = [SWFHelper sharedInstance].keyboardVisible;
     return visible;
 }
 
 + (CGFloat)lastKeyboardHeightInApplicationWindowWhenVisible {
-    return [Helper sharedInstance].lastKeyboardHeight;
+    return [SWFHelper sharedInstance].lastKeyboardHeight;
 }
 
 + (CGRect)keyboardRectWithNotification:(NSNotification *)notification {
@@ -112,7 +112,7 @@ SWSynthesizeCGFloatProperty(lastKeyboardHeight, setLastKeyboardHeight)
 }
 
 + (CGFloat)keyboardHeightWithNotification:(NSNotification *)notification {
-    return [Helper keyboardHeightWithNotification:notification inView:nil];
+    return [SWFHelper keyboardHeightWithNotification:notification inView:nil];
 }
 
 + (CGFloat)keyboardHeightWithNotification:(nullable NSNotification *)notification inView:(nullable UIView *)view {
@@ -143,14 +143,14 @@ SWSynthesizeCGFloatProperty(lastKeyboardHeight, setLastKeyboardHeight)
 }
 
 + (UIViewAnimationOptions)keyboardAnimationOptionsWithNotification:(NSNotification *)notification {
-    UIViewAnimationOptions options = [Helper keyboardAnimationCurveWithNotification:notification]<<16;
+    UIViewAnimationOptions options = [SWFHelper keyboardAnimationCurveWithNotification:notification]<<16;
     return options;
 }
 
 @end
 
 
-@implementation Helper (AudioSession)
+@implementation SWFHelper (AudioSession)
 
 + (void)redirectAudioRouteWithSpeaker:(BOOL)speaker temporary:(BOOL)temporary {
     if (![[AVAudioSession sharedInstance].category isEqualToString:AVAudioSessionCategoryPlayAndRecord]) {
@@ -181,7 +181,7 @@ SWSynthesizeCGFloatProperty(lastKeyboardHeight, setLastKeyboardHeight)
 @end
 
 
-@implementation Helper (UIGraphic)
+@implementation SWFHelper (UIGraphic)
 
 static CGFloat pixelOne = -1.0f;
 + (CGFloat)pixelOne {
@@ -213,7 +213,7 @@ static CGFloat pixelOne = -1.0f;
 
 @end
 
-@implementation Helper (Device)
+@implementation SWFHelper (Device)
 
 + (NSString *)deviceModel {
     if (IS_SIMULATOR) {
@@ -462,14 +462,14 @@ static NSInteger isNotchedScreen = -1;
                 /*
                  检测方式解释/测试要点：
                  1. iOS 11 与 iOS 12 可能行为不同，所以要分别测试。
-                 2. 与触发 [Helper isNotchedScreen] 方法时的进程有关，例如[NSObject performSelectorOnMainThread:withObject:waitUntilDone:NO] 就会导致较多的异常。
+                 2. 与触发 [SWFHelper isNotchedScreen] 方法时的进程有关，例如[NSObject performSelectorOnMainThread:withObject:waitUntilDone:NO] 就会导致较多的异常。
                  3. iOS 12 下，在非第2点里提到的情况下，iPhone、iPad 均可通过 UIScreen -_peripheryInsets 方法的返回值区分，但如果满足了第2点，则 iPad 无法使用这个方法，这种情况下要依赖第4点。
                  4. iOS 12 下，不管是否满足第2点，不管是什么设备类型，均可以通过一个满屏的 UIWindow 的 rootViewController.view.frame.origin.y 的值来区分，如果是非全面屏，这个值必定为20，如果是全面屏，则可能是24或44等不同的值。但由于创建 UIWindow、UIViewController 等均属于较大消耗，所以只在前面的步骤无法区分的情况下才会使用第4点。
                  5. 对于第4点，经测试与当前设备的方向、是否有勾选 project 里的 General - Hide status bar、当前是否处于来电模式的状态栏这些都没关系。
                  */
                 SEL peripheryInsetsSelector = NSSelectorFromString([NSString stringWithFormat:@"_%@%@", @"periphery", @"Insets"]);
                 UIEdgeInsets peripheryInsets = UIEdgeInsetsZero;
-                [[UIScreen mainScreen] sf_performSelector:peripheryInsetsSelector withPrimitiveReturnValue:&peripheryInsets];
+                [[UIScreen mainScreen] swf_performSelector:peripheryInsetsSelector withPrimitiveReturnValue:&peripheryInsets];
                 if (peripheryInsets.bottom <= 0) {
                     UIWindow *window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
                     peripheryInsets = window.safeAreaInsets;
@@ -483,7 +483,7 @@ static NSInteger isNotchedScreen = -1;
                 }
                 isNotchedScreen = peripheryInsets.bottom > 0 ? 1 : 0;
             } else {
-                isNotchedScreen = [Helper is58InchScreen] ? 1 : 0;
+                isNotchedScreen = [SWFHelper is58InchScreen] ? 1 : 0;
             }
         }
     } else {
@@ -510,7 +510,7 @@ static NSInteger is65InchScreen = -1;
     if (is65InchScreen < 0) {
         // Since iPhone XS Max、iPhone 11 Pro Max and iPhone XR share the same resolution, we have to distinguish them using the model identifiers
         // 由于 iPhone XS Max、iPhone 11 Pro Max 这两款机型和 iPhone XR 的屏幕宽高是一致的，我们通过机器 Identifier 加以区别
-        is65InchScreen = (DEVICE_WIDTH == self.screenSizeFor65Inch.width && DEVICE_HEIGHT == self.screenSizeFor65Inch.height && ([[Helper deviceModel] isEqualToString:@"iPhone11,4"] || [[Helper deviceModel] isEqualToString:@"iPhone11,6"] || [[Helper deviceModel] isEqualToString:@"iPhone12,5"])) ? 1 : 0;
+        is65InchScreen = (DEVICE_WIDTH == self.screenSizeFor65Inch.width && DEVICE_HEIGHT == self.screenSizeFor65Inch.height && ([[SWFHelper deviceModel] isEqualToString:@"iPhone11,4"] || [[SWFHelper deviceModel] isEqualToString:@"iPhone11,6"] || [[SWFHelper deviceModel] isEqualToString:@"iPhone12,5"])) ? 1 : 0;
     }
     return is65InchScreen > 0;
 }
@@ -518,7 +518,7 @@ static NSInteger is65InchScreen = -1;
 static NSInteger is61InchScreenAndiPhone12 = -1;
 + (BOOL)is61InchScreenAndiPhone12 {
     if (is61InchScreenAndiPhone12 < 0) {
-        is61InchScreenAndiPhone12 = (DEVICE_WIDTH == self.screenSizeFor61InchAndiPhone12.width && DEVICE_HEIGHT == self.screenSizeFor61InchAndiPhone12.height && ([[Helper deviceModel] isEqualToString:@"iPhone13,2"] || [[Helper deviceModel] isEqualToString:@"iPhone13,3"])) ? 1 : 0;
+        is61InchScreenAndiPhone12 = (DEVICE_WIDTH == self.screenSizeFor61InchAndiPhone12.width && DEVICE_HEIGHT == self.screenSizeFor61InchAndiPhone12.height && ([[SWFHelper deviceModel] isEqualToString:@"iPhone13,2"] || [[SWFHelper deviceModel] isEqualToString:@"iPhone13,3"])) ? 1 : 0;
     }
     return is61InchScreenAndiPhone12 > 0;
 }
@@ -526,7 +526,7 @@ static NSInteger is61InchScreenAndiPhone12 = -1;
 static NSInteger is61InchScreen = -1;
 + (BOOL)is61InchScreen {
     if (is61InchScreen < 0) {
-        is61InchScreen = (DEVICE_WIDTH == self.screenSizeFor61Inch.width && DEVICE_HEIGHT == self.screenSizeFor61Inch.height && ([[Helper deviceModel] isEqualToString:@"iPhone11,8"] || [[Helper deviceModel] isEqualToString:@"iPhone12,1"])) ? 1 : 0;
+        is61InchScreen = (DEVICE_WIDTH == self.screenSizeFor61Inch.width && DEVICE_HEIGHT == self.screenSizeFor61Inch.height && ([[SWFHelper deviceModel] isEqualToString:@"iPhone11,8"] || [[SWFHelper deviceModel] isEqualToString:@"iPhone12,1"])) ? 1 : 0;
     }
     return is61InchScreen > 0;
 }
@@ -631,8 +631,8 @@ static CGFloat preferredLayoutWidth = -1;
         UIWindow *window = UIApplication.sharedApplication.delegate.window ?: [[UIWindow alloc] init];// iOS 9 及以上的系统，新 init 出来的 window 自动被设置为当前 App 的宽度
         CGFloat windowWidth = CGRectGetWidth(window.bounds);
         for (NSInteger i = 0; i < widths.count; i++) {
-            if (windowWidth <= widths[i].sf_CGFloatValue) {
-                preferredLayoutWidth = widths[i].sf_CGFloatValue;
+            if (windowWidth <= widths[i].swf_CGFloatValue) {
+                preferredLayoutWidth = widths[i].swf_CGFloatValue;
                 continue;
             }
         }
@@ -709,11 +709,11 @@ static CGFloat preferredLayoutWidth = -1;
         };
     }
     
-    NSString *deviceKey = [Helper deviceModel];
+    NSString *deviceKey = [SWFHelper deviceModel];
     if (!dict[deviceKey]) {
         deviceKey = @"iPhone12,5";// 默认按 iPhone 11 Pro Max
     }
-    if ([Helper isZoomedMode]) {
+    if ([SWFHelper isZoomedMode]) {
         deviceKey = [NSString stringWithFormat:@"%@-Zoom", deviceKey];
     }
     
@@ -741,8 +741,8 @@ static CGFloat preferredLayoutWidth = -1;
 static NSInteger isHighPerformanceDevice = -1;
 + (BOOL)isHighPerformanceDevice {
     if (isHighPerformanceDevice < 0) {
-        NSString *model = [Helper deviceModel];
-        NSString *identifier = [model sf_stringMatchedByPattern:@"\\d+"];
+        NSString *model = [SWFHelper deviceModel];
+        NSString *identifier = [model swf_stringMatchedByPattern:@"\\d+"];
         NSInteger version = identifier.integerValue;
         if (IS_IPAD) {
             isHighPerformanceDevice = version >= 5 ? 1 : 0;// iPad Air 2
@@ -785,7 +785,7 @@ static NSInteger isHighPerformanceDevice = -1;
 
 @end
 
-@implementation Helper (UIApplication)
+@implementation SWFHelper (UIApplication)
 
 + (void)dimmedApplicationWindow {
     UIWindow *window = UIApplication.sharedApplication.delegate.window;
@@ -808,7 +808,7 @@ static NSInteger isHighPerformanceDevice = -1;
 
 @end
 
-@implementation Helper (Animation)
+@implementation SWFHelper (Animation)
 
 + (void)executeAnimationBlock:(__attribute__((noescape)) void (^)(void))animationBlock completionBlock:(__attribute__((noescape)) void (^)(void))completionBlock {
     if (!animationBlock) return;
@@ -820,7 +820,7 @@ static NSInteger isHighPerformanceDevice = -1;
 
 @end
 
-@implementation Helper (SystemVersion)
+@implementation SWFHelper (SystemVersion)
 
 + (NSInteger)numbericOSVersion {
     NSString *OSVersion = [[UIDevice currentDevice] systemVersion];
@@ -842,27 +842,27 @@ static NSInteger isHighPerformanceDevice = -1;
 }
 
 + (BOOL)isCurrentSystemAtLeastVersion:(NSString *)targetVersion {
-    return [Helper compareSystemVersion:[[UIDevice currentDevice] systemVersion] toVersion:targetVersion] == NSOrderedSame || [Helper compareSystemVersion:[[UIDevice currentDevice] systemVersion] toVersion:targetVersion] == NSOrderedDescending;
+    return [SWFHelper compareSystemVersion:[[UIDevice currentDevice] systemVersion] toVersion:targetVersion] == NSOrderedSame || [SWFHelper compareSystemVersion:[[UIDevice currentDevice] systemVersion] toVersion:targetVersion] == NSOrderedDescending;
 }
 
 + (BOOL)isCurrentSystemLowerThanVersion:(NSString *)targetVersion {
-    return [Helper compareSystemVersion:[[UIDevice currentDevice] systemVersion] toVersion:targetVersion] == NSOrderedAscending;
+    return [SWFHelper compareSystemVersion:[[UIDevice currentDevice] systemVersion] toVersion:targetVersion] == NSOrderedAscending;
 }
 
 @end
 
-@implementation Helper
+@implementation SWFHelper
 
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        [Helper sharedInstance];// 确保内部的变量、notification 都正确配置
+        [SWFHelper sharedInstance];// 确保内部的变量、notification 都正确配置
     });
 }
 
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
-    static Helper *instance = nil;
+    static SWFHelper *instance = nil;
     dispatch_once(&onceToken,^{
         instance = [[super allocWithZone:NULL] init];
         // 先设置默认值，不然可能变量的指针地址错误
@@ -883,7 +883,7 @@ static NSInteger isHighPerformanceDevice = -1;
 }
 
 - (void)dealloc {
-    // Helper 若干个分类里有用到消息监听，所以在 dealloc 的时候注销一下
+    // SWFHelper 若干个分类里有用到消息监听，所以在 dealloc 的时候注销一下
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -923,13 +923,13 @@ static NSMutableSet<NSString *> *executedIdentifiers;
 
 @end
 
-@implementation Helper (Ex_Interface)
+@implementation SWFHelper (Ex_Interface)
 
-SWSynthesizeNSIntegerProperty(orientationBeforeChangingByHelper, setOrientationBeforeChangingByHelper)
+SWFSynthesizeNSIntegerProperty(orientationBeforeChangingByHelper, setOrientationBeforeChangingByHelper)
 
 - (void)handleDeviceOrientationNotification:(NSNotification *)notification {
     // 如果是由 setValue:forKey: 方式修改方向而走到这个 notification 的话，理论上是不需要重置为 Unknown 的，但因为在 UIViewController (Ex) 那边会再次记录旋转前的值，所以这里就算重置也无所谓
-    [Helper sharedInstance].orientationBeforeChangingByHelper = UIDeviceOrientationUnknown;
+    [SWFHelper sharedInstance].orientationBeforeChangingByHelper = UIDeviceOrientationUnknown;
 }
 
 + (BOOL)rotateToDeviceOrientation:(UIDeviceOrientation)orientation {
@@ -1022,11 +1022,11 @@ SWSynthesizeNSIntegerProperty(orientationBeforeChangingByHelper, setOrientationB
 }
 
 + (CGAffineTransform)transformForCurrentInterfaceOrientation {
-    return [Helper transformWithInterfaceOrientation:UIApplication.sharedApplication.statusBarOrientation];
+    return [SWFHelper transformWithInterfaceOrientation:UIApplication.sharedApplication.statusBarOrientation];
 }
 
 + (CGAffineTransform)transformWithInterfaceOrientation:(UIInterfaceOrientation)orientation {
-    CGFloat angle = [Helper angleForTransformWithInterfaceOrientation:orientation];
+    CGFloat angle = [SWFHelper angleForTransformWithInterfaceOrientation:orientation];
     return CGAffineTransformMakeRotation(angle);
 }
 @end

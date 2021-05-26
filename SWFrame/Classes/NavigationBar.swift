@@ -56,10 +56,10 @@ public class NavigationBar: UIView {
     // YJX_TODO
 //    @objc public dynamic var lineColor: UIColor? {
 //        get {
-//            return self.sf_borderColor
+//            return self.swf_borderColor
 //        }
 //        set {
-//            self.sf_borderColor = newValue
+//            self.swf_borderColor = newValue
 //        }
 //    }
     
@@ -98,9 +98,9 @@ public class NavigationBar: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         // YJX_TODO
-//        self.sf_borderPosition = .bottom
-//        self.sf_borderWidth = pixelOne
-//        self.sf_borderColor = .lightGray
+//        self.swf_borderPosition = .bottom
+//        self.swf_borderWidth = pixelOne
+//        self.swf_borderColor = .lightGray
         self.addSubview(self.bgImageView)
         self.addSubview(self.titleLabel)
     }
@@ -198,12 +198,12 @@ public class NavigationBar: UIView {
     
     public func transparet() {
         self.backgroundColor = .clear
-        // self.sf_borderPosition = SWViewBorderPosition(rawValue: 0) // YJX_TODO
+        // self.swf_borderPosition = SWViewBorderPosition(rawValue: 0) // YJX_TODO
     }
     
     public func reset() {
         self.backgroundColor = .white
-        // self.sf_borderPosition = .bottom // YJX_TODO
+        // self.swf_borderPosition = .bottom // YJX_TODO
     }
     
 }

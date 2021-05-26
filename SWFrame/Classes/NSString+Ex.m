@@ -8,17 +8,17 @@
 #import "NSString+Ex.h"
 
 @implementation NSString (Ex)
-- (NSString *)sf_trim {
+- (NSString *)swf_trim {
     return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
-- (NSString *)sf_capitalizedString {
+- (NSString *)swf_capitalizedString {
     if (self.length)
         return [NSString stringWithFormat:@"%@%@", [self substringToIndex:1].uppercaseString, [self substringFromIndex:1]].copy;
     return nil;
 }
 
-- (NSString *)sf_stringMatchedByPattern:(NSString *)pattern {
+- (NSString *)swf_stringMatchedByPattern:(NSString *)pattern {
     NSRange range = [self rangeOfString:pattern options:NSRegularExpressionSearch|NSCaseInsensitiveSearch];
     if (range.location != NSNotFound) {
         return [self substringWithRange:range];

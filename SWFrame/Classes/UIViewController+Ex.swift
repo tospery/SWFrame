@@ -13,20 +13,20 @@ import SwifterSwift
 
 public extension UIViewController {
     
-    struct RuntimeKey {
+    struct SWFRuntimeKey {
         static let automaticallySetModalPresentationStyleKey = UnsafeRawPointer.init(bitPattern: "automaticallySetModalPresentationStyleKey".hashValue)
     }
     
     var automaticallySetModalPresentationStyle: Bool? {
         get {
-            objc_getAssociatedObject(self, RuntimeKey.automaticallySetModalPresentationStyleKey!) as? Bool
+            objc_getAssociatedObject(self, SWFRuntimeKey.automaticallySetModalPresentationStyleKey!) as? Bool
         }
         set {
-            objc_setAssociatedObject(self, RuntimeKey.automaticallySetModalPresentationStyleKey!, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+            objc_setAssociatedObject(self, SWFRuntimeKey.automaticallySetModalPresentationStyleKey!, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
         }
     }
     
-    @objc func sf_present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
+    @objc func swf_present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
         if #available(iOS 13.0, *) {
             var need = true
             if let _ = self as? UIImagePickerController {
@@ -52,7 +52,7 @@ public extension UIViewController {
                 viewControllerToPresent.modalPresentationStyle = .fullScreen
             }
         }
-        self.sf_present(viewControllerToPresent, animated: flag, completion: completion)
+        self.swf_present(viewControllerToPresent, animated: flag, completion: completion)
     }
     
 }

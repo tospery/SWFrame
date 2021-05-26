@@ -8,6 +8,6 @@
 #import <Foundation/Foundation.h>
 
 @interface NSNumber (Ex)
-@property(nonatomic, assign, readonly) CGFloat sf_CGFloatValue;
+@property(nonatomic, assign, readonly) CGFloat swf_CGFloatValue;
 
 @end

@@ -86,7 +86,7 @@ open class ScrollViewController: BaseViewController {
 extension ScrollViewController: DZNEmptyDataSetSource {
     
     open func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        if let title = self.error?.asSWError.failureReason, !title.isEmpty {
+        if let title = self.error?.asSWFError.failureReason, !title.isEmpty {
             return title.styled(with: .alignment(.center),
                                 .font(.systemFont(ofSize: 20)),
                                 .color(.title))
@@ -95,7 +95,7 @@ extension ScrollViewController: DZNEmptyDataSetSource {
     }
     
     open func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        if let message = self.error?.asSWError.errorDescription, !message.isEmpty {
+        if let message = self.error?.asSWFError.errorDescription, !message.isEmpty {
             return message.styled(with: .alignment(.center),
                                   .font(.systemFont(ofSize: 14)),
                                   .color(.body))
@@ -104,14 +104,14 @@ extension ScrollViewController: DZNEmptyDataSetSource {
     }
     
     open func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
-        if let image = self.error?.asSWError.displayImage {
+        if let image = self.error?.asSWFError.displayImage {
             return image
         }
         return UIImage.loading
     }
     
     open func buttonTitle(forEmptyDataSet scrollView: UIScrollView!, for state: UIControl.State) -> NSAttributedString! {
-        if let retry = self.error?.asSWError.recoverySuggestion {
+        if let retry = self.error?.asSWFError.recoverySuggestion {
             return retry.styled(with: .font(.systemFont(ofSize: 15)),
                                 .color(state == UIControl.State.normal ? UIColor.background : UIColor.background.withAlphaComponent(0.8)))
         }
@@ -121,7 +121,7 @@ extension ScrollViewController: DZNEmptyDataSetSource {
     open func buttonBackgroundImage(forEmptyDataSet scrollView: UIScrollView!, for state: UIControl.State) -> UIImage! {
         // YJX_TODO
 //        if state == UIControl.State.normal,
-//            let image = UIImage.sf_image(with: .primary, size: CGSize(width: 120, height: 40), cornerRadius: 2.f) {
+//            let image = UIImage.swf_image(with: .primary, size: CGSize(width: 120, height: 40), cornerRadius: 2.f) {
 //            return image.withAlignmentRectInsets(UIEdgeInsets(horizontal: (self.view.width - 120) / 2.f * -1.f, vertical: 0))
 //        }
         return nil

@@ -7,8 +7,8 @@
 
 #import "NSObject+Ex.h"
 #import "WeakObjectContainer.h"
-#import "Defines.h"
-#import "Runtime.h"
+#import "SWFDefines.h"
+#import "SWFRuntime.h"
 #import "NSString+Ex.h"
 #import <objc/message.h>
 
@@ -16,11 +16,11 @@
 @implementation NSObject (Ex)
 
 
-- (BOOL)sf_hasOverrideMethod:(SEL)selector ofSuperclass:(Class)superclass {
-    return [NSObject sf_hasOverrideMethod:selector forClass:self.class ofSuperclass:superclass];
+- (BOOL)swf_hasOverrideMethod:(SEL)selector ofSuperclass:(Class)superclass {
+    return [NSObject swf_hasOverrideMethod:selector forClass:self.class ofSuperclass:superclass];
 }
 
-+ (BOOL)sf_hasOverrideMethod:(SEL)selector forClass:(Class)aClass ofSuperclass:(Class)superclass {
++ (BOOL)swf_hasOverrideMethod:(SEL)selector forClass:(Class)aClass ofSuperclass:(Class)superclass {
     if (![aClass isSubclassOfClass:superclass]) {
         return NO;
     }
@@ -37,7 +37,7 @@
     return YES;
 }
 
-- (id)sf_performSelectorToSuperclass:(SEL)aSelector {
+- (id)swf_performSelectorToSuperclass:(SEL)aSelector {
     struct objc_super mySuper;
     mySuper.receiver = self;
     mySuper.super_class = class_getSuperclass(object_getClass(self));
@@ -46,7 +46,7 @@
     return (*objc_superAllocTyped)(&mySuper, aSelector);
 }
 
-- (id)sf_performSelectorToSuperclass:(SEL)aSelector withObject:(id)object {
+- (id)swf_performSelectorToSuperclass:(SEL)aSelector withObject:(id)object {
     struct objc_super mySuper;
     mySuper.receiver = self;
     mySuper.super_class = class_getSuperclass(object_getClass(self));
@@ -55,7 +55,7 @@
     return (*objc_superAllocTyped)(&mySuper, aSelector, object);
 }
 
-- (id)sf_performSelector:(SEL)selector withArguments:(void *)firstArgument, ... {
+- (id)swf_performSelector:(SEL)selector withArguments:(void *)firstArgument, ... {
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:selector]];
     [invocation setTarget:self];
     [invocation setSelector:selector];
@@ -85,13 +85,13 @@
     return nil;
 }
 
-- (void)sf_performSelector:(SEL)selector withPrimitiveReturnValue:(void *)returnValue {
-    [self sf_performSelector:selector withPrimitiveReturnValue:returnValue arguments:nil];
+- (void)swf_performSelector:(SEL)selector withPrimitiveReturnValue:(void *)returnValue {
+    [self swf_performSelector:selector withPrimitiveReturnValue:returnValue arguments:nil];
 }
 
-- (void)sf_performSelector:(SEL)selector withPrimitiveReturnValue:(void *)returnValue arguments:(void *)firstArgument, ... {
+- (void)swf_performSelector:(SEL)selector withPrimitiveReturnValue:(void *)returnValue arguments:(void *)firstArgument, ... {
     NSMethodSignature *methodSignature = [self methodSignatureForSelector:selector];
-    NSAssert(methodSignature, @"- [%@ sf_performSelector:@selector(%@)] 失败，方法不存在。", NSStringFromClass(self.class), NSStringFromSelector(selector));
+    NSAssert(methodSignature, @"- [%@ swf_performSelector:@selector(%@)] 失败，方法不存在。", NSStringFromClass(self.class), NSStringFromSelector(selector));
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSignature];
     [invocation setTarget:self];
     [invocation setSelector:selector];
@@ -117,13 +117,13 @@
     }
 }
 
-- (void)sf_enumrateIvarsUsingBlock:(void (^)(Ivar ivar, NSString *ivarDescription))block {
-    [self sf_enumrateIvarsIncludingInherited:NO usingBlock:block];
+- (void)swf_enumrateIvarsUsingBlock:(void (^)(Ivar ivar, NSString *ivarDescription))block {
+    [self swf_enumrateIvarsIncludingInherited:NO usingBlock:block];
 }
 
-- (void)sf_enumrateIvarsIncludingInherited:(BOOL)includingInherited usingBlock:(void (^)(Ivar ivar, NSString *ivarDescription))block {
+- (void)swf_enumrateIvarsIncludingInherited:(BOOL)includingInherited usingBlock:(void (^)(Ivar ivar, NSString *ivarDescription))block {
     NSMutableArray<NSString *> *ivarDescriptions = [NSMutableArray new];
-    NSString *ivarList = [self sf_ivarList];
+    NSString *ivarList = [self swf_ivarList];
     NSError *error;
     NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"in %@:(.*?)((?=in \\w+:)|$)", NSStringFromClass(self.class)] options:NSRegularExpressionDotMatchesLineSeparators error:&error];
     if (!error) {
@@ -132,7 +132,7 @@
             NSString *ivars = [ivarList substringWithRange:[obj rangeAtIndex:1]];
             [ivars enumerateLinesUsingBlock:^(NSString * _Nonnull line, BOOL * _Nonnull stop) {
                 if (![line hasPrefix:@"\t\t"]) {// 有些 struct 类型的变量，会把 struct 的成员也缩进打出来，所以用这种方式过滤掉
-                    line = line.sf_trim;
+                    line = line.swf_trim;
                     if (line.length > 2) {// 过滤掉空行或者 struct 结尾的"}"
                         NSRange range = [line rangeOfString:@":"];
                         if (range.location != NSNotFound)// 有些"unknow type"的变量不会显示指针地址（例如 UIView->_viewFlags）
@@ -163,12 +163,12 @@
     if (includingInherited) {
         Class superclass = self.superclass;
         if (superclass) {
-            [NSObject sf_enumrateIvarsOfClass:superclass includingInherited:includingInherited usingBlock:block];
+            [NSObject swf_enumrateIvarsOfClass:superclass includingInherited:includingInherited usingBlock:block];
         }
     }
 }
 
-+ (void)sf_enumrateIvarsOfClass:(Class)aClass includingInherited:(BOOL)includingInherited usingBlock:(void (^)(Ivar, NSString *))block {
++ (void)swf_enumrateIvarsOfClass:(Class)aClass includingInherited:(BOOL)includingInherited usingBlock:(void (^)(Ivar, NSString *))block {
     if (!block) return;
     NSObject *obj = nil;
     if ([aClass isSubclassOfClass:[UICollectionView class]]) {
@@ -178,14 +178,14 @@
     } else {
         obj = [aClass new];
     }
-    [obj sf_enumrateIvarsIncludingInherited:includingInherited usingBlock:block];
+    [obj swf_enumrateIvarsIncludingInherited:includingInherited usingBlock:block];
 }
 
-- (void)sf_enumratePropertiesUsingBlock:(void (^)(objc_property_t property, NSString *propertyName))block {
-    [NSObject sf_enumratePropertiesOfClass:self.class includingInherited:NO usingBlock:block];
+- (void)swf_enumratePropertiesUsingBlock:(void (^)(objc_property_t property, NSString *propertyName))block {
+    [NSObject swf_enumratePropertiesOfClass:self.class includingInherited:NO usingBlock:block];
 }
 
-+ (void)sf_enumratePropertiesOfClass:(Class)aClass includingInherited:(BOOL)includingInherited usingBlock:(void (^)(objc_property_t, NSString *))block {
++ (void)swf_enumratePropertiesOfClass:(Class)aClass includingInherited:(BOOL)includingInherited usingBlock:(void (^)(objc_property_t, NSString *))block {
     if (!block) return;
     
     unsigned int propertiesCount = 0;
@@ -201,16 +201,16 @@
     if (includingInherited) {
         Class superclass = class_getSuperclass(aClass);
         if (superclass) {
-            [NSObject sf_enumratePropertiesOfClass:superclass includingInherited:includingInherited usingBlock:block];
+            [NSObject swf_enumratePropertiesOfClass:superclass includingInherited:includingInherited usingBlock:block];
         }
     }
 }
 
-- (void)sf_enumrateInstanceMethodsUsingBlock:(void (^)(Method, SEL))block {
-    [NSObject sf_enumrateInstanceMethodsOfClass:self.class includingInherited:NO usingBlock:block];
+- (void)swf_enumrateInstanceMethodsUsingBlock:(void (^)(Method, SEL))block {
+    [NSObject swf_enumrateInstanceMethodsOfClass:self.class includingInherited:NO usingBlock:block];
 }
 
-+ (void)sf_enumrateInstanceMethodsOfClass:(Class)aClass includingInherited:(BOOL)includingInherited usingBlock:(void (^)(Method, SEL))block {
++ (void)swf_enumrateInstanceMethodsOfClass:(Class)aClass includingInherited:(BOOL)includingInherited usingBlock:(void (^)(Method, SEL))block {
     if (!block) return;
     
     unsigned int methodCount = 0;
@@ -227,12 +227,12 @@
     if (includingInherited) {
         Class superclass = class_getSuperclass(aClass);
         if (superclass) {
-            [NSObject sf_enumrateInstanceMethodsOfClass:superclass includingInherited:includingInherited usingBlock:block];
+            [NSObject swf_enumrateInstanceMethodsOfClass:superclass includingInherited:includingInherited usingBlock:block];
         }
     }
 }
 
-+ (void)sf_enumerateProtocolMethods:(Protocol *)protocol usingBlock:(void (^)(SEL))block {
++ (void)swf_enumerateProtocolMethods:(Protocol *)protocol usingBlock:(void (^)(SEL))block {
     if (!block) return;
     
     unsigned int methodCount = 0;
@@ -250,7 +250,7 @@
 
 @implementation NSObject (Ex_KeyValueCoding)
 
-- (id)sf_valueForKey:(NSString *)key {
+- (id)swf_valueForKey:(NSString *)key {
     if (@available(iOS 13.0, *)) {
         if ([self isKindOfClass:[UIView class]]) {
             BeginIgnoreUIKVCAccessProhibited
@@ -262,7 +262,7 @@
     return [self valueForKey:key];
 }
 
-- (void)sf_setValue:(id)value forKey:(NSString *)key {
+- (void)swf_setValue:(id)value forKey:(NSString *)key {
     if (@available(iOS 13.0, *)) {
         if ([self isKindOfClass:[UIView class]]) {
             BeginIgnoreUIKVCAccessProhibited
@@ -275,11 +275,11 @@
     [self setValue:value forKey:key];
 }
 
-- (BOOL)sf_canGetValueForKey:(NSString *)key {
+- (BOOL)swf_canGetValueForKey:(NSString *)key {
     NSArray<NSString *> *getters = @[
-        [NSString stringWithFormat:@"get%@", key.sf_capitalizedString],   // get<Key>
+        [NSString stringWithFormat:@"get%@", key.swf_capitalizedString],   // get<Key>
         key,
-        [NSString stringWithFormat:@"is%@", key.sf_capitalizedString],    // is<Key>
+        [NSString stringWithFormat:@"is%@", key.swf_capitalizedString],    // is<Key>
         [NSString stringWithFormat:@"_%@", key]                             // _<key>
     ];
     for (NSString *selectorString in getters) {
@@ -288,13 +288,13 @@
     
     if (![self.class accessInstanceVariablesDirectly]) return NO;
     
-    return [self _sf_hasSpecifiedIvarWithKey:key];
+    return [self _swf_hasSpecifiedIvarWithKey:key];
 }
 
-- (BOOL)sf_canSetValueForKey:(NSString *)key {
+- (BOOL)swf_canSetValueForKey:(NSString *)key {
     NSArray<NSString *> *setter = @[
-        [NSString stringWithFormat:@"set%@:", key.sf_capitalizedString],   // set<Key>:
-        [NSString stringWithFormat:@"_set%@", key.sf_capitalizedString]   // _set<Key>
+        [NSString stringWithFormat:@"set%@:", key.swf_capitalizedString],   // set<Key>:
+        [NSString stringWithFormat:@"_set%@", key.swf_capitalizedString]   // _set<Key>
     ];
     for (NSString *selectorString in setter) {
         if ([self respondsToSelector:NSSelectorFromString(selectorString)]) return YES;
@@ -302,18 +302,18 @@
     
     if (![self.class accessInstanceVariablesDirectly]) return NO;
     
-    return [self _sf_hasSpecifiedIvarWithKey:key];
+    return [self _swf_hasSpecifiedIvarWithKey:key];
 }
 
-- (BOOL)_sf_hasSpecifiedIvarWithKey:(NSString *)key {
+- (BOOL)_swf_hasSpecifiedIvarWithKey:(NSString *)key {
     __block BOOL result = NO;
     NSArray<NSString *> *ivars = @[
         [NSString stringWithFormat:@"_%@", key],
-        [NSString stringWithFormat:@"_is%@", key.sf_capitalizedString],
+        [NSString stringWithFormat:@"_is%@", key.swf_capitalizedString],
         key,
-        [NSString stringWithFormat:@"is%@", key.sf_capitalizedString]
+        [NSString stringWithFormat:@"is%@", key.swf_capitalizedString]
     ];
-    [NSObject sf_enumrateIvarsOfClass:self.class includingInherited:YES usingBlock:^(Ivar  _Nonnull ivar, NSString * _Nonnull ivarDescription) {
+    [NSObject swf_enumrateIvarsOfClass:self.class includingInherited:YES usingBlock:^(Ivar  _Nonnull ivar, NSString * _Nonnull ivarDescription) {
         if (!result) {
             NSString *ivarName = [NSString stringWithFormat:@"%s", ivar_getName(ivar)];
             if ([ivars containsObject:ivarName]) {
@@ -330,7 +330,7 @@
 @implementation NSObject (Ex_DataBind)
 
 static char kAssociatedObjectKey_SWAllBoundObjects;
-- (NSMutableDictionary<id, id> *)sf_allBoundObjects {
+- (NSMutableDictionary<id, id> *)swf_allBoundObjects {
     NSMutableDictionary<id, id> *dict = objc_getAssociatedObject(self, &kAssociatedObjectKey_SWAllBoundObjects);
     if (!dict) {
         dict = [NSMutableDictionary dictionary];
@@ -339,49 +339,49 @@ static char kAssociatedObjectKey_SWAllBoundObjects;
     return dict;
 }
 
-- (void)sf_bindObject:(id)object forKey:(NSString *)key {
+- (void)swf_bindObject:(id)object forKey:(NSString *)key {
     if (!key.length) {
         NSAssert(NO, @"");
         return;
     }
     if (object) {
-        [[self sf_allBoundObjects] setObject:object forKey:key];
+        [[self swf_allBoundObjects] setObject:object forKey:key];
     } else {
-        [[self sf_allBoundObjects] removeObjectForKey:key];
+        [[self swf_allBoundObjects] removeObjectForKey:key];
     }
 }
 
-- (void)sf_bindObjectWeakly:(id)object forKey:(NSString *)key {
+- (void)swf_bindObjectWeakly:(id)object forKey:(NSString *)key {
     if (!key.length) {
         NSAssert(NO, @"");
         return;
     }
     if (object) {
         WeakObjectContainer *container = [[WeakObjectContainer alloc] initWithObject:object];
-        [self sf_bindObject:container forKey:key];
+        [self swf_bindObject:container forKey:key];
     } else {
-        [[self sf_allBoundObjects] removeObjectForKey:key];
+        [[self swf_allBoundObjects] removeObjectForKey:key];
     }
 }
 
-- (id)sf_getBoundObjectForKey:(NSString *)key {
+- (id)swf_getBoundObjectForKey:(NSString *)key {
     if (!key.length) {
         NSAssert(NO, @"");
         return nil;
     }
-    id storedObj = [[self sf_allBoundObjects] objectForKey:key];
+    id storedObj = [[self swf_allBoundObjects] objectForKey:key];
     if ([storedObj isKindOfClass:[WeakObjectContainer class]]) {
         storedObj = [(WeakObjectContainer *)storedObj object];
     }
     return storedObj;
 }
 
-- (void)sf_bindDouble:(double)doubleValue forKey:(NSString *)key {
-    [self sf_bindObject:@(doubleValue) forKey:key];
+- (void)swf_bindDouble:(double)doubleValue forKey:(NSString *)key {
+    [self swf_bindObject:@(doubleValue) forKey:key];
 }
 
-- (double)sf_getBoundDoubleForKey:(NSString *)key {
-    id object = [self sf_getBoundObjectForKey:key];
+- (double)swf_getBoundDoubleForKey:(NSString *)key {
+    id object = [self swf_getBoundObjectForKey:key];
     if ([object isKindOfClass:[NSNumber class]]) {
         double doubleValue = [(NSNumber *)object doubleValue];
         return doubleValue;
@@ -391,12 +391,12 @@ static char kAssociatedObjectKey_SWAllBoundObjects;
     }
 }
 
-- (void)sf_bindBOOL:(BOOL)boolValue forKey:(NSString *)key {
-    [self sf_bindObject:@(boolValue) forKey:key];
+- (void)swf_bindBOOL:(BOOL)boolValue forKey:(NSString *)key {
+    [self swf_bindObject:@(boolValue) forKey:key];
 }
 
-- (BOOL)sf_getBoundBOOLForKey:(NSString *)key {
-    id object = [self sf_getBoundObjectForKey:key];
+- (BOOL)swf_getBoundBOOLForKey:(NSString *)key {
+    id object = [self swf_getBoundObjectForKey:key];
     if ([object isKindOfClass:[NSNumber class]]) {
         BOOL boolValue = [(NSNumber *)object boolValue];
         return boolValue;
@@ -406,12 +406,12 @@ static char kAssociatedObjectKey_SWAllBoundObjects;
     }
 }
 
-- (void)sf_bindLong:(long)longValue forKey:(NSString *)key {
-    [self sf_bindObject:@(longValue) forKey:key];
+- (void)swf_bindLong:(long)longValue forKey:(NSString *)key {
+    [self swf_bindObject:@(longValue) forKey:key];
 }
 
-- (long)sf_getBoundLongForKey:(NSString *)key {
-    id object = [self sf_getBoundObjectForKey:key];
+- (long)swf_getBoundLongForKey:(NSString *)key {
+    id object = [self swf_getBoundObjectForKey:key];
     if ([object isKindOfClass:[NSNumber class]]) {
         long longValue = [(NSNumber *)object longValue];
         return longValue;
@@ -421,21 +421,21 @@ static char kAssociatedObjectKey_SWAllBoundObjects;
     }
 }
 
-- (void)sf_clearBindingForKey:(NSString *)key {
-    [self sf_bindObject:nil forKey:key];
+- (void)swf_clearBindingForKey:(NSString *)key {
+    [self swf_bindObject:nil forKey:key];
 }
 
-- (void)sf_clearAllBinding {
-    [[self sf_allBoundObjects] removeAllObjects];
+- (void)swf_clearAllBinding {
+    [[self swf_allBoundObjects] removeAllObjects];
 }
 
-- (NSArray<NSString *> *)sf_allBindingKeys {
-    NSArray<NSString *> *allKeys = [[self sf_allBoundObjects] allKeys];
+- (NSArray<NSString *> *)swf_allBindingKeys {
+    NSArray<NSString *> *allKeys = [[self swf_allBoundObjects] allKeys];
     return allKeys;
 }
 
-- (BOOL)sf_hasBindingKey:(NSString *)key {
-    return [[self sf_allBindingKeys] containsObject:key];
+- (BOOL)swf_hasBindingKey:(NSString *)key {
+    return [[self swf_allBindingKeys] containsObject:key];
 }
 
 @end
@@ -443,15 +443,15 @@ static char kAssociatedObjectKey_SWAllBoundObjects;
 @implementation NSObject (Ex_Debug)
 
 BeginIgnorePerformSelectorLeaksWarning
-- (NSString *)sf_methodList {
+- (NSString *)swf_methodList {
     return [self performSelector:NSSelectorFromString(@"_methodDescription")];
 }
 
-- (NSString *)sf_shortMethodList {
+- (NSString *)swf_shortMethodList {
     return [self performSelector:NSSelectorFromString(@"_shortMethodDescription")];
 }
 
-- (NSString *)sf_ivarList {
+- (NSString *)swf_ivarList {
     return [self performSelector:NSSelectorFromString(@"_ivarDescription")];
 }
 EndIgnorePerformSelectorLeaksWarning
@@ -460,7 +460,7 @@ EndIgnorePerformSelectorLeaksWarning
 
 @implementation NSThread (Ex_KVC)
 
-SWSynthesizeBOOLProperty(sf_shouldIgnoreUIKVCAccessProhibited, setSw_shouldIgnoreUIKVCAccessProhibited)
+SWFSynthesizeBOOLProperty(swf_shouldIgnoreUIKVCAccessProhibited, setSw_shouldIgnoreUIKVCAccessProhibited)
 
 @end
 
@@ -478,10 +478,10 @@ SWSynthesizeBOOLProperty(sf_shouldIgnoreUIKVCAccessProhibited, setSw_shouldIgnor
                 return ^(NSObject *selfObject, NSExceptionName raise, NSString *format, ...) {
                     
                     if (raise == NSGenericException && [format isEqualToString:@"Access to %@'s %@ ivar is prohibited. This is an application bug"]) {
-                        BOOL shouldIgnoreUIKVCAccessProhibited = NSThread.currentThread.sf_shouldIgnoreUIKVCAccessProhibited;
+                        BOOL shouldIgnoreUIKVCAccessProhibited = NSThread.currentThread.swf_shouldIgnoreUIKVCAccessProhibited;
                         if (shouldIgnoreUIKVCAccessProhibited) return;
 #ifdef DEBUG
-                        NSLog(@"【NSObject (Ex)】使用 KVC 访问了 UIKit 的私有属性，会触发系统的 NSException，建议尽量避免此类操作，仍需访问可使用 BeginIgnoreUIKVCAccessProhibited 和 EndIgnoreUIKVCAccessProhibited 把相关代码包裹起来，或者直接使用 sf_valueForKey: 、sf_setValue:forKey:");
+                        NSLog(@"【NSObject (Ex)】使用 KVC 访问了 UIKit 的私有属性，会触发系统的 NSException，建议尽量避免此类操作，仍需访问可使用 BeginIgnoreUIKVCAccessProhibited 和 EndIgnoreUIKVCAccessProhibited 把相关代码包裹起来，或者直接使用 swf_valueForKey: 、swf_setValue:forKey:");
 #endif
                     }
                     
