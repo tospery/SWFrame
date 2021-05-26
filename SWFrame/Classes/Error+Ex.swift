@@ -11,6 +11,7 @@ import RxOptional
 import Alamofire
 import SwifterSwift
 import Moya
+import SafariServices
 
 extension Error {
     
@@ -36,8 +37,14 @@ extension SWCompatibleError {
     }
 }
 
+// SFAuthenticationErrorDomain -> com.apple.SafariServices.Authentication
 extension NSError: SWCompatibleError {
     public var swError: SWError {
+        if self.domain == SFAuthenticationError.errorDomain {
+            if let compatible = self as? SFAuthenticationError as? SWCompatibleError {
+                return compatible.swError
+            }
+        }
         if self.domain == NSURLErrorDomain {
             return .network
         } else {

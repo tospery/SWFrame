@@ -39,39 +39,6 @@ public extension Reactive where Base: BaseViewController {
         }
     }
     
-    // Parameter.message
-//    func toast(_ text: String) -> Binder<Bool> {
-//        return Binder(self.base) { viewController, isProcessing in
-//            viewController.isProcessing = isProcessing
-//            guard viewController.isViewLoaded else { return }
-//            guard !viewController.emptying else { return }
-//            var url = "\(UIApplication.shared.urlScheme)://toast".url!
-//            url.appendQueryParameters([
-//                Parameter.active: loading.string
-//            ])
-//            viewController.navigator.open(url)
-//        }
-//    }
-    
-//    var emptying: Binder<Bool> {
-//        return Binder(self.base) { viewController, emptying in
-//            viewController.emptying = emptying
-//        }
-//    }
-    
-//    func loading(active: Bool = false, text: String? = nil) -> Binder<Bool> {
-//        return Binder(self.base) { viewController, loading in
-//            viewController.loading = loading
-//            guard viewController.isViewLoaded else { return }
-//            guard !viewController.emptying else { return }
-//            var url = "\(UIApplication.shared.urlScheme)://toast".url!
-//            url.appendQueryParameters([
-//                Parameter.active: loading.string
-//            ])
-//            viewController.navigator.open(url)
-//        }
-//    }
-    
     var error: Binder<Error?> {
         return Binder(self.base) { viewController, error in
             viewController.error = error
@@ -98,7 +65,7 @@ public extension Reactive where Base: BaseViewController {
                 }
                 var url = "\(UIApplication.shared.urlScheme)://toast".url!
                 url.appendQueryParameters([
-                    Parameter.message: error.localizedDescription
+                    Parameter.message: error.asSWError.localizedDescription
                 ])
                 viewController.navigator.open(url)
             }
