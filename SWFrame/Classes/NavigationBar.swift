@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import QMUIKit
 import RxSwift
 import RxCocoa
 import SwifterSwift
@@ -53,15 +54,14 @@ public class NavigationBar: UIView {
         }
     }
 
-    // YJX_TODO
-//    @objc public dynamic var lineColor: UIColor? {
-//        get {
-//            return self.swf_borderColor
-//        }
-//        set {
-//            self.swf_borderColor = newValue
-//        }
-//    }
+    @objc public dynamic var lineColor: UIColor? {
+        get {
+            return self.qmui_borderColor
+        }
+        set {
+            self.qmui_borderColor = newValue
+        }
+    }
     
     public var leftButtons: [UIButton] = []
     public var rightButtons: [UIButton] = []
@@ -97,10 +97,9 @@ public class NavigationBar: UIView {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        // YJX_TODO
-//        self.swf_borderPosition = .bottom
-//        self.swf_borderWidth = pixelOne
-//        self.swf_borderColor = .lightGray
+        self.qmui_borderPosition = .bottom
+        self.qmui_borderWidth = pixelOne
+        self.qmui_borderColor = .lightGray
         self.addSubview(self.bgImageView)
         self.addSubview(self.titleLabel)
     }
@@ -142,13 +141,13 @@ public class NavigationBar: UIView {
         let leftDistance = self.leftButtons.last?.right ?? 0
         let rightDistance = self.width - (self.rightButtons.last?.left ?? self.width)
         left = max(leftDistance, rightDistance)
-        // width = flat(self.width - left * 2) // YJX_TODO
+        width = flat(self.width - left * 2)
         self.titleLabel.frame = CGRect(x: left, y: UIScreen.statusBarHeightConstant, width: width, height: UINavigationBar.height)
         
         if let titleView = self.titleView {
             titleView.width = min(titleView.width, self.titleLabel.width)
             titleView.height = min(titleView.height, self.titleLabel.height)
-            // titleView.center = CGPointGetCenterWithRect(self.titleLabel.frame) // YJX_TODO
+            titleView.center = CGPointGetCenterWithRect(self.titleLabel.frame)
         }
     }
     
@@ -198,12 +197,12 @@ public class NavigationBar: UIView {
     
     public func transparet() {
         self.backgroundColor = .clear
-        // self.swf_borderPosition = SWViewBorderPosition(rawValue: 0) // YJX_TODO
+        self.qmui_borderPosition = QMUIViewBorderPosition(rawValue: 0)
     }
     
     public func reset() {
         self.backgroundColor = .white
-        // self.swf_borderPosition = .bottom // YJX_TODO
+        self.qmui_borderPosition = .bottom
     }
     
 }
@@ -231,7 +230,7 @@ public extension Reactive where Base: NavigationBar {
 
     var lineColor: Binder<UIColor?> {
         return Binder(self.base) { view, color in
-            // view.lineColor = color // YJX_TODO
+            view.lineColor = color
         }
     }
     

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import QMUIKit
 
 public extension UIView {
     
@@ -13,93 +14,84 @@ public extension UIView {
         return self.layer as? BorderLayer
     }
     
-    // YJX_TODO
     var top: CGFloat {
-        get { 0 } set {}
-//        get {
-//            return self.swf_top
-//        }
-//        set {
-//            self.swf_top = newValue
-//        }
+        get {
+            return self.qmui_top
+        }
+        set {
+            self.qmui_top = newValue
+        }
     }
     
     var bottom: CGFloat {
-        get { 0 } set {}
-//        get {
-//            return self.swf_bottom
-//        }
-//        set {
-//            self.swf_bottom = newValue
-//        }
+        get {
+            return self.qmui_bottom
+        }
+        set {
+            self.qmui_bottom = newValue
+        }
     }
     
     var left: CGFloat {
-        get { 0 } set {}
-//        get {
-//            return self.swf_left
-//        }
-//        set {
-//            self.swf_left = newValue
-//        }
+        get {
+            return self.qmui_left
+        }
+        set {
+            self.qmui_left = newValue
+        }
     }
     
     var right: CGFloat {
-        get { 0 } set {}
-//        get {
-//            return self.swf_right
-//        }
-//        set {
-//            self.swf_right = newValue
-//        }
+        get {
+            return self.qmui_right
+        }
+        set {
+            self.qmui_right = newValue
+        }
     }
     
     var extendToTop: CGFloat {
-        get { 0 } set {}
-//        get {
-//            return self.swf_extendToTop
-//        }
-//        set {
-//            self.swf_extendToTop = newValue
-//        }
+        get {
+            return self.qmui_extendToTop
+        }
+        set {
+            self.qmui_extendToTop = newValue
+        }
     }
     
     var extendToBottom: CGFloat {
-        get { 0 } set {}
-//        get {
-//            return self.swf_extendToBottom
-//        }
-//        set {
-//            self.swf_extendToBottom = newValue
-//        }
+        get {
+            return self.qmui_extendToBottom
+        }
+        set {
+            self.qmui_extendToBottom = newValue
+        }
     }
     
     var extendToLeft: CGFloat {
-        get { 0 } set {}
-//        get {
-//            return self.swf_extendToLeft
-//        }
-//        set {
-//            self.swf_extendToLeft = newValue
-//        }
+        get {
+            return self.qmui_extendToLeft
+        }
+        set {
+            self.qmui_extendToLeft = newValue
+        }
     }
     
     var extendToRight: CGFloat {
-        get { 0 } set {}
-//        get {
-//            return self.swf_extendToRight
-//        }
-//        set {
-//            self.swf_extendToRight = newValue
-//        }
+        get {
+            return self.qmui_extendToRight
+        }
+        set {
+            self.qmui_extendToRight = newValue
+        }
     }
     
     var leftWhenCenter: CGFloat {
-        0 // YJX_TODO return self.swf_leftWhenCenterInSuperview
+        return self.qmui_leftWhenCenterInSuperview
     }
     
     var topWhenCenter: CGFloat {
-        0 // YJX_TODO return self.swf_topWhenCenterInSuperview
+        return self.qmui_topWhenCenterInSuperview
     }
 
     var centerX: CGFloat {

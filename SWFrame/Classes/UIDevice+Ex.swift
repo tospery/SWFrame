@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import QMUIKit
 import UICKeyChainStore
 import FCUUID
 
@@ -37,7 +38,7 @@ public extension UIDevice {
     }
     
     var modelName: String {
-        "" // SWFHelper.deviceModel // YJX_TODO
+        QMUIHelper.deviceModel
     }
     
     var ip: String? {
@@ -52,18 +53,17 @@ public extension UIDevice {
         if UIDevice.kindValue != nil {
             return UIDevice.kindValue!
         }
-        // YJX_TODO
-//        if SWFHelper.isIPod {
-//            UIDevice.kindValue = .ipod
-//        } else if SWFHelper.isIPhone {
-//            UIDevice.kindValue = .iphone
-//        } else if SWFHelper.isIPad {
-//            UIDevice.kindValue = .ipad
-//        } else if SWFHelper.isSimulator {
-//            UIDevice.kindValue = .simulator
-//        } else {
-//            UIDevice.kindValue = .iphone
-//        }
+        if QMUIHelper.isIPod {
+            UIDevice.kindValue = .ipod
+        } else if QMUIHelper.isIPhone {
+            UIDevice.kindValue = .iphone
+        } else if QMUIHelper.isIPad {
+            UIDevice.kindValue = .ipad
+        } else if QMUIHelper.isSimulator {
+            UIDevice.kindValue = .simulator
+        } else {
+            UIDevice.kindValue = .iphone
+        }
         return UIDevice.kindValue!
     }
     
@@ -88,7 +88,7 @@ public extension UIDevice {
     }
     
     static var iosVersionNumber: Int {
-        0 // YJX_TODO SWFHelper.numbericOSVersion()
+        QMUIHelper.numbericOSVersion()
     }
     
 }

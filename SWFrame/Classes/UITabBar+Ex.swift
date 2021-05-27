@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import QMUIKit
 import RxSwift
 import RxCocoa
 import SwifterSwift
@@ -13,7 +14,7 @@ import SwifterSwift
 public extension UITabBar {
     
     static var height: CGFloat {
-        0 // YJX_TODO SWHelper.sharedInstance().tabBarHeight
+        SWHelper.sharedInstance().tabBarHeight
     }
 
 }
@@ -31,7 +32,7 @@ extension Reactive where Base: UITabBar {
 //        return Binder(self.base) { view, attr in
 //            if let items = view.items {
 //                for item in items {
-//                    item.image = item.image?.swf_image(withTintColor: attr)?.original
+//                    item.image = item.image?.qmui_image(withTintColor: attr)?.original
 //                }
 //            }
 //        }
@@ -41,7 +42,7 @@ extension Reactive where Base: UITabBar {
 //        return Binder(self.base) { view, attr in
 //            if let items = view.items {
 //                for item in items {
-//                    item.selectedImage = item.selectedImage?.swf_image(withTintColor: attr)?.original
+//                    item.selectedImage = item.selectedImage?.qmui_image(withTintColor: attr)?.original
 //                }
 //            }
 //        }

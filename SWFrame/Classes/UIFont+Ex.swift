@@ -6,12 +6,12 @@
 //
 
 import UIKit
+import QMUIKit
 
 public extension UIFont {
 
-    // YJX_TODO
-//    static func lightSystemFont(ofSize fontSize: CGFloat) -> UIFont {
-//        return .swf_lightSystemFont(ofSize: fontSize)
-//    }
+    static func lightSystemFont(ofSize fontSize: CGFloat) -> UIFont {
+        return .qmui_lightSystemFont(ofSize: fontSize)
+    }
     
 }
