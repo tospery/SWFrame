@@ -27,23 +27,14 @@ public extension ModelType {
 public struct BaseModel: ModelType {
     
     public var data: Any?
-    public var key: Any?
-    public var value: Any?
     
-    public var isValid: Bool {
-        self.data != nil || self.key != nil || self.value != nil
-    }
+    public var isValid: Bool { self.data != nil }
     
     public init() {
     }
     
     public init(_ data: Any?) {
         self.data = data
-    }
-    
-    public init(key: Any?, value: Any?) {
-        self.key = key
-        self.value = value
     }
     
     public init?(map: Map) {
