@@ -28,7 +28,7 @@ final public class Subjection {
     
     public class func update<T: Subjective>(_ type: T.Type, _ value: T?) {
         if let value = value {
-            T.storeObject(value, id: nil)
+            value.save(ignoreId: true)
         } else {
             T.eraseObject(id: nil)
         }
@@ -42,19 +42,12 @@ public protocol Subjective: Storable {
 }
 
 public extension Subjective {
-    
     static var current: Self? {
         let key = String(fullname: self)
         if let subject = subjects[key] as? BehaviorRelay<Self?> {
             return subject.value
         }
-        if let object = Self.cachedObject(id: nil) {
-            let subject = BehaviorRelay<Self?>(value: object)
-            subjects[key] = subject
-            return object
-        }
-        return nil
+        return Self.cachedObject(id: nil)
     }
-    
 }
 

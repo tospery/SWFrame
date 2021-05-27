@@ -13,7 +13,6 @@ open class BaseCollectionCell: UICollectionViewCell {
     
     public var disposeBag = DisposeBag()
     public var model: ModelType?
-    public var father: BaseViewReactor?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)

@@ -12,7 +12,7 @@ import RxCocoa
 import URLNavigator
 import DZNEmptyDataSet
 import BonMot
-import MJRefresh
+import ESPullToRefresh
 
 open class ScrollViewController: BaseViewController {
     
@@ -20,15 +20,10 @@ open class ScrollViewController: BaseViewController {
     public let refreshSubject = PublishSubject<Void>()
     public let loadMoreSubject = PublishSubject<Void>()
     public var scrollView: UIScrollView!
+    public var noMoreData = false
     
     public var shouldRefresh = false
     public var shouldLoadMore = false
-    
-    public var isLoading = false
-    public var isRefreshing = false
-    public var isLoadingMore = false
-    
-    public var noMoreData = false
     
     // MARK: - Init
     public override init(_ navigator: NavigatorType, _ reactor: BaseViewReactor) {
@@ -82,12 +77,42 @@ open class ScrollViewController: BaseViewController {
         super.bind(reactor: reactor)
     }
     
+    open func setupRefresh(should: Bool) {
+        if should {
+            let animator = ESRefreshHeaderAnimator.init(frame: .zero)
+            self.scrollView.es.addPullToRefresh(animator: animator) { [weak self] in
+                guard let `self` = self else { return }
+                self.refreshSubject.onNext(())
+            }
+            self.scrollView.refreshIdentifier = "Refresh"
+            self.scrollView.expiredTimeInterval = 30.0
+        } else {
+            self.scrollView.es.removeRefreshHeader()
+        }
+    }
+    
+    open func setupLoadMore(should: Bool) {
+        if should {
+            let animator = ESRefreshFooterAnimator.init(frame: .zero)
+            self.scrollView.es.addInfiniteScrolling(animator: animator) { [weak self] in
+                guard let `self` = self else { return }
+                self.loadMoreSubject.onNext(())
+            }
+        } else {
+            self.scrollView.es.removeRefreshFooter()
+        }
+    }
+    
+    func handle(theme: ThemeType) {
+        self.scrollView.reloadEmptyDataSet()
+    }
+    
 }
 
 extension ScrollViewController: DZNEmptyDataSetSource {
     
     open func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        if let title = self.error?.asSWFError.failureReason, !title.isEmpty {
+        if let title = (self.error as? LocalizedError)?.failureReason, !title.isEmpty {
             return title.styled(with: .alignment(.center),
                                 .font(.systemFont(ofSize: 20)),
                                 .color(.title))
@@ -96,7 +121,7 @@ extension ScrollViewController: DZNEmptyDataSetSource {
     }
     
     open func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        if let message = self.error?.asSWFError.errorDescription, !message.isEmpty {
+        if let message = (self.error as? LocalizedError)?.errorDescription, !message.isEmpty {
             return message.styled(with: .alignment(.center),
                                   .font(.systemFont(ofSize: 14)),
                                   .color(.body))
@@ -105,14 +130,14 @@ extension ScrollViewController: DZNEmptyDataSetSource {
     }
     
     open func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
-        if let image = self.error?.asSWFError.displayImage {
+        if let image = (self.error as? SWError)?.displayImage {
             return image
         }
         return UIImage.loading
     }
     
     open func buttonTitle(forEmptyDataSet scrollView: UIScrollView!, for state: UIControl.State) -> NSAttributedString! {
-        if let retry = self.error?.asSWFError.recoverySuggestion {
+        if let retry = (self.error as? LocalizedError)?.recoverySuggestion {
             return retry.styled(with: .font(.systemFont(ofSize: 15)),
                                 .color(state == UIControl.State.normal ? UIColor.background : UIColor.background.withAlphaComponent(0.8)))
         }
@@ -141,23 +166,16 @@ extension ScrollViewController: DZNEmptyDataSetSource {
     open func backgroundColor(forEmptyDataSet scrollView: UIScrollView!) -> UIColor! {
         .background
     }
-    
-    open func verticalOffset(forEmptyDataSet scrollView: UIScrollView!) -> CGFloat {
-        -metric(40)
-    }
-    
 }
 
 extension ScrollViewController: DZNEmptyDataSetDelegate {
     
     public func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
-        let should = (self.isLoading == true || self.error != nil)
-        return should
+        return (self.loading == true || self.error != nil)
     }
 
     public func emptyDataSetShouldAnimateImageView(_ scrollView: UIScrollView!) -> Bool {
-        let should = (self.isLoading == true && self.error == nil)
-        return should
+        return (self.loading == true || self.error == nil)
     }
     
     public func emptyDataSet(_ scrollView: UIScrollView!, didTap view: UIView!) {
@@ -171,5 +189,58 @@ extension ScrollViewController: DZNEmptyDataSetDelegate {
 }
 
 extension ScrollViewController: UIScrollViewDelegate {
+    
+}
+
+public extension Reactive where Base: ScrollViewController {
+    
+    var noMoreData: Binder<Bool> {
+        return Binder(self.base) { viewController, noMoreData in
+            viewController.noMoreData = noMoreData
+        }
+    }
+    
+    var emptyDataSet: ControlEvent<Void> {
+        let source = self.base.emptyDataSetSubject.map{ _ in }
+        return ControlEvent(events: source)
+    }
+    
+    var isRefreshing: Binder<Bool> {
+        return Binder(self.base) { viewController, isRefreshing in
+            if let scrollView = viewController.scrollView, !isRefreshing {
+                scrollView.es.stopPullToRefresh()
+            }
+        }
+    }
+    
+    var isLoadingMore: Binder<Bool> {
+        return Binder(self.base) { viewController, isLoadingMore in
+            if let scrollView = viewController.scrollView, !isLoadingMore {
+                if !viewController.noMoreData {
+                    scrollView.es.stopLoadingMore()
+                } else {
+                    scrollView.es.noticeNoMoreData()
+                }
+            }
+        }
+    }
+    
+    var refresh: ControlEvent<Void> {
+        let source = self.base.refreshSubject.map{ _ in }
+        return ControlEvent(events: source)
+    }
+    
+    var loadMore: ControlEvent<Void> {
+        let source = self.base.loadMoreSubject.map{ _ in }
+        return ControlEvent(events: source)
+    }
+    
+    var startPullToRefresh: Binder<Void> {
+        return Binder(self.base) { viewController, _ in
+            if let scrollView = viewController.scrollView {
+                scrollView.es.startPullToRefresh()
+            }
+        }
+    }
     
 }

@@ -13,7 +13,6 @@ import WebKit
 import URLNavigator
 import ReactorKit
 import SwifterSwift
-import WebViewJavascriptBridge
 
 open class WebViewController: ScrollViewController, View {
     
@@ -24,7 +23,7 @@ open class WebViewController: ScrollViewController, View {
     public var progressColor: UIColor?
     public var handlers = [String]()
     // public var jsHandlers: [String]?
-    public var bridge: WebViewJavascriptBridge!
+    // public var bridge: WebViewJavascriptBridge!
     // let jsHandler = "xyWebHandler"
 
     public lazy var progressView: WebProgressView = {
@@ -64,19 +63,19 @@ open class WebViewController: ScrollViewController, View {
             self.progress(value)
         }).disposed(by: self.disposeBag)
         
-        #if DEBUG
-        WebViewJavascriptBridge.enableLogging()
-        #endif
-        self.bridge = WebViewJavascriptBridge.init(forWebView: self.webView)
-        self.bridge.setWebViewDelegate(self)
-        // weak var weakSelf = self
-        for handler in self.handlers {
-            self.bridge.registerHandler(handler) { [weak self] data, callback in
-                guard let `self` = self else { return }
-                let result = self.handle(handler, data)
-                callback!(result) // 用Rx实现延迟的callback会更好
-            }
-        }
+//        #if DEBUG
+//        WebViewJavascriptBridge.enableLogging()
+//        #endif
+//        self.bridge = WebViewJavascriptBridge.init(forWebView: self.webView)
+//        self.bridge.setWebViewDelegate(self)
+//        // weak var weakSelf = self
+//        for handler in self.handlers {
+//            self.bridge.registerHandler(handler) { [weak self] data, callback in
+//                guard let `self` = self else { return }
+//                let result = self.handle(handler, data)
+//                callback!(result) // YJX_TODO 用Rx实现延迟的callback
+//            }
+//        }
         
         self.loadPage()
         
@@ -168,7 +167,7 @@ open class WebViewController: ScrollViewController, View {
             self.webView.navigationDelegate = nil
             self.webView.uiDelegate = nil
         }
-        self.bridge.setWebViewDelegate(nil)
+        // self.bridge.setWebViewDelegate(nil)
     }
     
 //    func saveCookies(_ cookies: [HTTPCookie]) {
@@ -191,7 +190,7 @@ open class WebViewController: ScrollViewController, View {
 extension WebViewController: WKNavigationDelegate {
 
     open func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        logger.print("网址: \(navigationAction.request.url?.absoluteString ?? "")", module: .swframe)
+        logger.print("网址: \(navigationAction.request.url?.absoluteString ?? "")", module: swframe)
         decisionHandler(.allow)
     }
     

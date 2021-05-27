@@ -8,13 +8,14 @@
 import Foundation
 import CocoaLumberjack
 
+let swframe = "SWFrame"
 public let logger = Logger.init()
 
 public protocol LoggerCompatible {
     
     func print(
         _ message: @autoclosure () -> Any,
-        module: Logger.Module,
+        module: String,
         level: DDLogLevel,
         flag: DDLogFlag,
         context: Int,
@@ -30,14 +31,12 @@ public protocol LoggerCompatible {
 
 public struct Logger {
 
-    public typealias Module = String
-    
     public init() {
     }
     
     public func print(
         _ message: @autoclosure () -> Any,
-        module: Module = .common,
+        module: String = "Common",
         level: DDLogLevel = DDDefaultLogLevel,
         flag: DDLogFlag = .debug,
         context: Int = 0,
@@ -80,11 +79,3 @@ public struct Logger {
 
 }
 
-extension Logger.Module {
-    
-    public static var common: Logger.Module { "common" }
-    public static var swframe: Logger.Module { "swframe" }
-    public static var library: Logger.Module { "library" }
-    public static var restful: Logger.Module { "restful" }
-    
-}

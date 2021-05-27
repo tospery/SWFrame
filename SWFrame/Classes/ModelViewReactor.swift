@@ -8,8 +8,8 @@
 import UIKit
 
 open class ModelViewReactor: ReactorType, WithModel, CustomStringConvertible {
-
-    public let model: ModelType
+    
+    public var model: ModelType
     
     public required init(_ model: ModelType) {
         self.model = model

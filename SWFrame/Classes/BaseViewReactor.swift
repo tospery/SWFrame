@@ -10,7 +10,7 @@ import QMUIKit
 import RxSwift
 import RxCocoa
 
-open class BaseViewReactor: NSObject, ReactorType {
+open class BaseViewReactor: ReactorType {
     
     public let provider: ProviderType
     public var parameters: [String: Any]
@@ -21,12 +21,6 @@ open class BaseViewReactor: NSObject, ReactorType {
         self.provider = provider
         self.parameters = parameters ?? [:]
         self.title = self.parameters[Parameter.title] as? String ?? nil
-    }
-    
-    deinit {
-        #if DEBUG
-        logger.print("\(self.className)已销毁！！！", module: .swframe)
-        #endif
     }
     
 }

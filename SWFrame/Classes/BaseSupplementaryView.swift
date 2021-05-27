@@ -29,8 +29,8 @@ open class BaseSupplementaryView: UICollectionReusableView, Supplementary {
         self.disposeBag = DisposeBag()
     }
     
-    // 不建议用bind，而应该在VC中进行单个属性的绑定
-    open func bind(reactor: BaseSupplementaryReactor) {
+    public func bind(reactor: BaseSupplementaryReactor) {
+        
     }
     
 }
@@ -44,14 +44,4 @@ public extension Supplementary {
     var kind: String {
         return UICollectionView.elementKindSectionHeader
     }
-}
-
-extension Reactive where Base: BaseSupplementaryView {
-    
-    public var reactor: Binder<BaseSupplementaryReactor> {
-        return Binder(self.base) { view, reactor in
-            view.bind(reactor: reactor)
-        }
-    }
-    
 }

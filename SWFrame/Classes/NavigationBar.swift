@@ -119,7 +119,7 @@ public class NavigationBar: UIView {
         
         let padding = 8.f
         var left = padding
-        let top = UIScreen.statusBarHeightConstant
+        let top = UIApplication.statusBarHeightConstant
         var width = UINavigationBar.height
         let height = width
         for (_, button) in self.leftButtons.enumerated() {
@@ -142,7 +142,7 @@ public class NavigationBar: UIView {
         let rightDistance = self.width - (self.rightButtons.last?.left ?? self.width)
         left = max(leftDistance, rightDistance)
         width = flat(self.width - left * 2)
-        self.titleLabel.frame = CGRect(x: left, y: UIScreen.statusBarHeightConstant, width: width, height: UINavigationBar.height)
+        self.titleLabel.frame = CGRect(x: left, y: UIApplication.statusBarHeightConstant, width: width, height: UINavigationBar.height)
         
         if let titleView = self.titleView {
             titleView.width = min(titleView.width, self.titleLabel.width)
@@ -152,14 +152,14 @@ public class NavigationBar: UIView {
     }
     
     func addBackButtonToLeft() -> UIButton {
-        return self.addButtonToLeft(image: UIImage.back)
+        return self.addButtonToLeft(UIImage.back)
     }
     
     func addCloseButtonToLeft() -> UIButton {
-        return self.addButtonToLeft(image: UIImage.close)
+        return self.addButtonToLeft(UIImage.close)
     }
     
-    public func addButtonToLeft(image: UIImage? = nil, title: String? = nil) -> UIButton {
+    public func addButtonToLeft(_ image: UIImage? = nil, _ title: String? = nil) -> UIButton {
         let button = UIButton(type: .custom)
         button.backgroundColor = .clear
         button.titleLabel?.font = .systemFont(ofSize: 16)
@@ -177,7 +177,7 @@ public class NavigationBar: UIView {
         return button
     }
     
-    public func addButtonToRight(image: UIImage? = nil, title: String? = nil) -> UIButton {
+    public func addButtonToRight(_ image: UIImage? = nil, _ title: String? = nil) -> UIButton {
         let button = UIButton(type: .custom)
         button.backgroundColor = .clear
         button.titleLabel?.font = .systemFont(ofSize: 16)
