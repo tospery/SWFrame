@@ -1,5 +1,5 @@
 //
-//  SWError.swift
+//  SWFError.swift
 //  SWFrame
 //
 //  Created by liaoya on 2021/1/5.
@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import Moya
 
-public enum SWError: Error {
+public enum SWFError: Error {
     case unknown
     case network
     case navigation
@@ -20,7 +20,7 @@ public enum SWError: Error {
     case app(Int, String?)
 }
 
-extension SWError: CustomNSError {
+extension SWFError: CustomNSError {
     public static let domain = "com.swframe.error"
     public var errorCode: Int {
         switch self {
@@ -36,7 +36,7 @@ extension SWError: CustomNSError {
     }
 }
 
-extension SWError: LocalizedError {
+extension SWFError: LocalizedError {
     /// 概述
     public var failureReason: String? {
         switch self {
@@ -70,8 +70,8 @@ extension SWError: LocalizedError {
 
 }
 
-extension SWError: Equatable {
-    public static func == (lhs: SWError, rhs: SWError) -> Bool {
+extension SWFError: Equatable {
+    public static func == (lhs: SWFError, rhs: SWFError) -> Bool {
         switch (lhs, rhs) {
         case (.unknown, .unknown),
              (.network, .network),
@@ -88,22 +88,22 @@ extension SWError: Equatable {
     }
 }
 
-extension SWError: CustomStringConvertible {
+extension SWFError: CustomStringConvertible {
     public var description: String {
         switch self {
-        case .unknown: return "SWError.unknown"
-        case .network: return "SWError.network"
-        case .navigation: return "SWError.navigation"
-        case .dataFormat: return "SWError.dataFormat"
-        case .listIsEmpty: return "SWError.listIsEmpty"
-        case .notLoginedIn: return "SWError.notLoginedIn"
-        case let .server(code, message): return "SWError.server(\(code), \(message))"
-        case let .app(code, message): return "SWError.app(\(code), \(message))"
+        case .unknown: return "SWFError.unknown"
+        case .network: return "SWFError.network"
+        case .navigation: return "SWFError.navigation"
+        case .dataFormat: return "SWFError.dataFormat"
+        case .listIsEmpty: return "SWFError.listIsEmpty"
+        case .notLoginedIn: return "SWFError.notLoginedIn"
+        case let .server(code, message): return "SWFError.server(\(code), \(message))"
+        case let .app(code, message): return "SWFError.app(\(code), \(message))"
         }
     }
 }
 
-extension SWError {
+extension SWFError {
     public var isNetwork: Bool {
         self == .network
     }
@@ -113,6 +113,9 @@ extension SWError {
         }
         return false
     }
+    public var isListIsEmpty: Bool {
+        self == .listIsEmpty
+    }
     public var isNotLoginedIn: Bool {
         self == .notLoginedIn
     }
@@ -121,6 +124,8 @@ extension SWError {
             return UIImage.networkError
         } else if self.isServer {
             return UIImage.serverError
+        } else if self.isListIsEmpty {
+            return UIImage.emptyError
         } else if self.isNotLoginedIn {
             return UIImage.expireError
         }

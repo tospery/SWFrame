@@ -70,7 +70,7 @@ public extension NetworkingType {
         //        NSURLErrorTimedOut(-1001): 请求超时
         //        NSURLErrorCannotConnectToHost(-1004): 找不到服务
         //        NSURLErrorDataNotAllowed(-1020): 网络不可用
-        self.provider.rx.request(target)/*.filterSuccessfulStatusCodes()*/.catchError { Single<Moya.Response>.error($0.asSWError)
+        self.provider.rx.request(target)/*.filterSuccessfulStatusCodes()*/.catchError { Single<Moya.Response>.error($0.asSWFError)
         }
     }
     
@@ -131,7 +131,7 @@ public extension NetworkingType {
                 let data = response.data(target)
                 guard let json = data as? [String: Any],
                       let model = Model.init(JSON: json) else {
-                    return .error(SWError.dataFormat)
+                    return .error(SWFError.dataFormat)
                 }
                 return .just(model)
         }
@@ -146,11 +146,11 @@ public extension NetworkingType {
                     return .error(error)
                 }
                 guard let json = response.data(target) as? [[String: Any]] else {
-                    return .error(SWError.dataFormat)
+                    return .error(SWFError.dataFormat)
                 }
                 let models = [Model].init(JSONArray: json)
 //                if models.count == 0 {
-//                    return .error(SWError.listIsEmpty)
+//                    return .error(SWFError.listIsEmpty)
 //                }
                 return .just(models)
         }
@@ -166,22 +166,22 @@ public extension NetworkingType {
                 }
                 guard let json = response.data(target) as? [String: Any],
                       let list = List<Model>.init(JSON: json) else {
-                        return .error(SWError.dataFormat)
+                        return .error(SWFError.dataFormat)
                 }
 //                if list.items.count == 0 {
-//                    return .error(SWError.listIsEmpty)
+//                    return .error(SWFError.listIsEmpty)
 //                }
                 return .just(list)
         }
         .observeOn(MainScheduler.instance)
     }
     
-    private func check(_ code: Int, _ message: String) -> SWError? {
+    private func check(_ code: Int, _ message: String) -> SWFError? {
         guard code == HTTPStatusCode.Success.ok.rawValue else {
             if code == HTTPStatusCode.Client.unauthorized.rawValue {
                 return .notLoginedIn
             }
-            return SWError.server(code, message)
+            return SWFError.server(code, message)
         }
         return nil
     }

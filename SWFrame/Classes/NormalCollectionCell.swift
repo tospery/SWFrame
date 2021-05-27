@@ -10,18 +10,18 @@ import UIKit
 import QMUIKit
 import ReactorKit
 
-open class NormalCollectionCell: BaseCollectionCell, View {
+open class NormalCollectionCell: BaseCollectionCell, ReactorKit.View {
     
-    public lazy var titleLabel: SWLabel = {
-        let label = SWLabel()
+    public lazy var titleLabel: UILabel = {
+        let label = UILabel.init()
         label.font = .systemFont(ofSize: 15)
         label.textColor = .darkGray
         label.sizeToFit()
         return label
     }()
     
-    public lazy var detailLabel: SWLabel = {
-        let label = SWLabel()
+    public lazy var detailLabel: UILabel = {
+        let label = UILabel.init()
         label.font = .systemFont(ofSize: 13)
         label.textAlignment = .right
         label.textColor = .gray

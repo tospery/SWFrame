@@ -28,7 +28,7 @@ final public class ReachabilityManager {
     
     func start() {
         self.network?.startListening(onUpdatePerforming: { status in
-            logger.print("网络状态: \(status)", module: swframe)
+            logger.print("网络状态: \(status)", module: .swframe)
             reachSubject.accept(status)
         })
     }

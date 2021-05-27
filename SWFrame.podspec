@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SWFrame'
-  s.version          = '1.3.11'
+  s.version          = '1.4.0'
   s.summary          = 'iOS App Framework.'
 
 # This description is used to generate tags and improve search results.
@@ -39,7 +39,7 @@ Pod::Spec.new do |s|
   }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  s.frameworks = 'UIKit'
+  s.frameworks = 'UIKit', 'CoreText'
   s.dependency 'CocoaLumberjack/Swift', '3.7.0'
   s.dependency 'QMUIKit/QMUICore', '4.2.3'
   s.dependency 'RxOptional', '4.1.0'
@@ -58,5 +58,6 @@ Pod::Spec.new do |s|
   s.dependency 'FCUUID', '1.3.1'
   s.dependency 'Kingfisher', '5.15.7'
   s.dependency 'DZNEmptyDataSet', '1.8.1'
-  s.dependency 'ESPullToRefresh', '2.9.3'
+  s.dependency 'MJRefresh', '3.6.1'
+  s.dependency 'WebViewJavascriptBridge', '6.0.3'
 end

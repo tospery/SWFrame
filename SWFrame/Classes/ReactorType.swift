@@ -12,6 +12,6 @@ public protocol ReactorType {
 }
 
 public protocol WithModel {
-    var model: ModelType { get set }
+    var model: ModelType { get }
     init(_ model: ModelType)
 }
