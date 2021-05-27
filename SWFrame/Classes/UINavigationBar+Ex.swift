@@ -10,15 +10,15 @@ import UIKit
 public extension UINavigationBar {
     
     static var height: CGFloat {
-        SWHelper.sharedInstance().navigationBarHeight
+        SWFHelper.sharedInstance().navigationBarHeight
     }
     
     static var contentHeight: CGFloat {
-        SWHelper.sharedInstance().navigationContentTop
+        SWFHelper.sharedInstance().navigationContentTop
     }
     
     static var contentHeightConstant: CGFloat {
-        SWHelper.sharedInstance().navigationContentTopConstant
+        SWFHelper.sharedInstance().navigationContentTopConstant
     }
 
 }

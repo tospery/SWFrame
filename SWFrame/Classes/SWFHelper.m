@@ -1,19 +1,19 @@
 //
-//  SWHelper.m
+//  SWFHelper.m
 //  SWFrame
 //
 //  Created by liaoya on 2021/4/19.
 //
 
-#import "SWHelper.h"
+#import "SWFHelper.h"
 #import <QMUIKit/QMUIKit.h>
 
-@interface SWHelper ()
+@interface SWFHelper ()
 
 @end
 
 
-@implementation SWHelper
+@implementation SWFHelper
 
 - (CGFloat)toolBarHeight {
     return ToolBarHeight;

@@ -1,5 +1,5 @@
 //
-//  SWButton.h
+//  SWFButton.h
 //  SWFrame
 //
 //  Created by liaoya on 2020/7/24.
@@ -9,12 +9,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// 控制图片在UIButton里的位置，默认为SWButtonImagePositionLeft
-typedef NS_ENUM(NSUInteger, SWButtonImagePosition) {
-    SWButtonImagePositionTop,             // imageView在titleLabel上面
-    SWButtonImagePositionLeft,            // imageView在titleLabel左边
-    SWButtonImagePositionBottom,          // imageView在titleLabel下面
-    SWButtonImagePositionRight,           // imageView在titleLabel右边
+/// 控制图片在UIButton里的位置，默认为SWFButtonImagePositionLeft
+typedef NS_ENUM(NSUInteger, SWFButtonImagePosition) {
+    SWFButtonImagePositionTop,             // imageView在titleLabel上面
+    SWFButtonImagePositionLeft,            // imageView在titleLabel左边
+    SWFButtonImagePositionBottom,          // imageView在titleLabel下面
+    SWFButtonImagePositionRight,           // imageView在titleLabel右边
 };
 
 /**
@@ -25,9 +25,9 @@ typedef NS_ENUM(NSUInteger, SWButtonImagePosition) {
  *  4. 支持点击时改变边框颜色（highlightedBorderColor）
  *  5. 支持设置图片相对于 titleLabel 的位置（imagePosition）
  *  6. 支持设置图片和 titleLabel 之间的间距，无需自行调整 titleEdgeInests、imageEdgeInsets（spacingBetweenImageAndTitle）
- *  @warning SWButton 重新定义了 UIButton.titleEdgeInests、imageEdgeInsets、contentEdgeInsets 这三者的布局逻辑，sizeThatFits: 里会把 titleEdgeInests 和 imageEdgeInsets 也考虑在内（UIButton 不会），以使这三个接口的使用更符合直觉。
+ *  @warning SWFButton 重新定义了 UIButton.titleEdgeInests、imageEdgeInsets、contentEdgeInsets 这三者的布局逻辑，sizeThatFits: 里会把 titleEdgeInests 和 imageEdgeInsets 也考虑在内（UIButton 不会），以使这三个接口的使用更符合直觉。
  */
-@interface SWButton : UIButton
+@interface SWFButton : UIButton
 
 /**
  *  子类继承时重写的方法，一般不建议重写 initWithXxx
@@ -79,10 +79,10 @@ typedef NS_ENUM(NSUInteger, SWButtonImagePosition) {
 @property(nonatomic, strong, nullable) IBInspectable UIColor *highlightedBorderColor;
 
 /**
- * 设置按钮里图标和文字的相对位置，默认为SWButtonImagePositionLeft<br/>
+ * 设置按钮里图标和文字的相对位置，默认为SWFButtonImagePositionLeft<br/>
  * 可配合imageEdgeInsets、titleEdgeInsets、contentHorizontalAlignment、contentVerticalAlignment使用
  */
-@property(nonatomic, assign) SWButtonImagePosition imagePosition;
+@property(nonatomic, assign) SWFButtonImagePosition imagePosition;
 
 /**
  * 设置按钮里图标和文字之间的间隔，会自动响应 imagePosition 的变化而变化，默认为0。<br/>

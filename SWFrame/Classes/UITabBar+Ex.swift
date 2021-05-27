@@ -14,7 +14,7 @@ import SwifterSwift
 public extension UITabBar {
     
     static var height: CGFloat {
-        SWHelper.sharedInstance().tabBarHeight
+        SWFHelper.sharedInstance().tabBarHeight
     }
 
 }

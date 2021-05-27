@@ -39,7 +39,7 @@ Pod::Spec.new do |s|
   }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  s.frameworks = 'UIKit'
+  s.frameworks = 'UIKit', 'CoreText'
   s.dependency 'CocoaLumberjack/Swift', '3.7.0'
   s.dependency 'QMUIKit/QMUICore', '4.2.3'
   s.dependency 'RxOptional', '4.1.0'

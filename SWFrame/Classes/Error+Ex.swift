@@ -15,33 +15,33 @@ import SafariServices
 
 extension Error {
     
-    public var asSWError: SWError {
-        if let sw = self as? SWError {
+    public var asSWFError: SWFError {
+        if let sw = self as? SWFError {
             return sw
         }
-        if let compatible = self as? SWCompatibleError {
-            return compatible.swError
+        if let compatible = self as? SWFErrorCompatible {
+            return compatible.swfError
         }
         return .server(0, self.localizedDescription)
     }
     
 }
 
-public protocol SWCompatibleError: Error {
-    var swError: SWError { get }
+public protocol SWFErrorCompatible: Error {
+    var swfError: SWFError { get }
 }
 
-extension SWCompatibleError {
-    public var swError: SWError {
+extension SWFErrorCompatible {
+    public var swfError: SWFError {
         .server(0, nil)
     }
 }
 
-extension NSError: SWCompatibleError {
-    public var swError: SWError {
+extension NSError: SWFErrorCompatible {
+    public var swfError: SWFError {
         if self.domain == SFAuthenticationError.errorDomain {
-            if let compatible = self as? SFAuthenticationError as? SWCompatibleError {
-                return compatible.swError
+            if let compatible = self as? SFAuthenticationError as? SWFErrorCompatible {
+                return compatible.swfError
             }
         }
         if self.domain == NSURLErrorDomain {
@@ -57,8 +57,8 @@ extension NSError: SWCompatibleError {
     }
 }
 
-extension AFError: SWCompatibleError {
-    public var swError: SWError {
+extension AFError: SWFErrorCompatible {
+    public var swfError: SWFError {
         switch self {
         case .sessionTaskFailed:
             return .network
@@ -68,11 +68,11 @@ extension AFError: SWCompatibleError {
     }
 }
 
-extension MoyaError: SWCompatibleError {
-    public var swError: SWError {
+extension MoyaError: SWFErrorCompatible {
+    public var swfError: SWFError {
         switch self {
         case let .underlying(error, _):
-            return (error as? SWCompatibleError)?.swError ?? .server(0, error.localizedDescription)
+            return (error as? SWFErrorCompatible)?.swfError ?? .server(0, error.localizedDescription)
         case let .statusCode(response):
             if response.statusCode == HTTPStatusCode.Client.unauthorized.rawValue {
                 return .notLoginedIn
@@ -84,8 +84,8 @@ extension MoyaError: SWCompatibleError {
     }
 }
 
-extension RxOptionalError: SWCompatibleError {
-    public var swError: SWError {
+extension RxOptionalError: SWFErrorCompatible {
+    public var swfError: SWFError {
         switch self {
         case .emptyOccupiable: return .listIsEmpty
         case .foundNilWhileUnwrappingOptional: return .dataFormat
