@@ -19,6 +19,11 @@ public extension NavigatorType {
     ) -> UIViewController? {
         let viewController = self.push(url, context: context, from: from, animated: animated)
         if viewController == nil {
+            if let name = UIViewController.topMost?.className,
+               name.contains("LoginViewController") {
+                logger.print("已处于登录页，不需要再次打开", module: .swframe)
+                return nil
+            }
             return self.present("\(UIApplication.shared.urlScheme)://login", context: context, wrap: NavigationController.self)
         }
         return viewController

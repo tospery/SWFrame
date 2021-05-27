@@ -10,8 +10,16 @@ import QMUIKit
 
 public extension UIFont {
 
-    static func lightSystemFont(ofSize fontSize: CGFloat) -> UIFont {
-        return .qmui_lightSystemFont(ofSize: fontSize)
+    static func light(_ size: CGFloat) -> UIFont {
+        .qmui_lightSystemFont(ofSize: size)
+    }
+    
+    static func normal(_ size: CGFloat) -> UIFont {
+        .systemFont(ofSize: size)
+    }
+    
+    static func bold(_ size: CGFloat) -> UIFont {
+        .boldSystemFont(ofSize: size)
     }
     
 }
