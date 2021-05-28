@@ -26,15 +26,20 @@ final public class Subjection {
         return subject
     }
     
-    public class func update<T: Subjective>(_ type: T.Type, _ value: T?) {
+    public class func update<T: Subjective>(_ type: T.Type, _ value: T?, _ reactive: Bool = true) {
         if let value = value {
             T.storeObject(value, id: nil)
         } else {
             T.eraseObject(id: nil)
         }
-        self.for(type).accept(value)
+        if reactive {
+            self.for(type).accept(value)
+        } else {
+            let key = String(fullname: type)
+            subjects[key] = value
+        }
     }
-    
+
 }
 
 public protocol Subjective: Storable {

@@ -10,6 +10,19 @@ import QMUIKit
 import RxSwift
 import CocoaLumberjack
 
+// MARK: - compare
+public func compare(_ left: ImageSource?, _ right: ImageSource?) -> Bool {
+    if let lImage = left as? UIImage,
+       let rImage = right as? UIImage {
+        return lImage == rImage
+    }
+    if let lURL = left as? URL,
+       let rURL = right as? URL {
+        return lURL == rURL
+    }
+    return false
+}
+
 // MARK: - Dictionary member
 public func colorMember(_ params: Dictionary<String, Any>?, _ key: String, _ default: UIColor?) -> UIColor? {
     if let value = params?[key] as? String, let color = UIColor(hexString: value) {

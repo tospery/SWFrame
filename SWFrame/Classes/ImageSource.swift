@@ -12,7 +12,7 @@ import RxCocoa
 import Kingfisher
 
 public protocol ImageSource {
-    
+
 }
 
 //extension ImageSource {
