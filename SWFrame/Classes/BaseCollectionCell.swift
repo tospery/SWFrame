@@ -13,7 +13,6 @@ open class BaseCollectionCell: UICollectionViewCell {
     
     public var disposeBag = DisposeBag()
     public var model: ModelType?
-    public var father: BaseViewReactor?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,10 +33,6 @@ open class BaseCollectionCell: UICollectionViewCell {
     // MARK: - Public
     open func bind(item: BaseCollectionItem) {
         self.model = item.model
-    }
-    
-    open func inject(father: BaseViewReactor) {
-        self.father = father
     }
     
     open class func size(width: CGFloat, item: BaseCollectionItem) -> CGSize {

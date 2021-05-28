@@ -9,4 +9,6 @@ import UIKit
 
 open class BaseCollectionItem: ModelViewReactor {
     
+    public var parent: BaseViewReactor?
+    
 }
