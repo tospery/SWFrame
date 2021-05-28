@@ -36,6 +36,10 @@ open class BaseCollectionCell: UICollectionViewCell {
         self.model = item.model
     }
     
+    open func inject(father: BaseViewReactor) {
+        self.father = father
+    }
+    
     open class func size(width: CGFloat, item: BaseCollectionItem) -> CGSize {
         return CGSize(width: width, height: metric(44))
     }
