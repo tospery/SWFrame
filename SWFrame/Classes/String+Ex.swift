@@ -24,15 +24,20 @@ public extension String {
     
     // MARK: - Initializers
     init?(any: Any?) {
-        if let number = any as? Int {
-            self.init(number)
-            return
-        }
+        guard let any = any else { return nil }
         if let string = any as? String {
             self = string
             return
+        } else if let number = any as? Int {
+            self = number.string
+            return
+        } else {
+            if let convertible = any as? CustomStringConvertible {
+                self = convertible.description
+                return
+            }
+            return nil
         }
-        return nil
     }
     
     init<Subject>(fullname subject: Subject) {
@@ -97,6 +102,20 @@ public extension String {
         }
         return from ..< to
     }
+    
+//    static func stringValue(_ any: Any?) -> String {
+//        guard let any = any else { return "" }
+//        if let string = any as? String {
+//            return string
+//        } else if let number = any as? Int {
+//            return number.string
+//        } else {
+//            if let convertible = any as? CustomStringConvertible {
+//                return convertible.description
+//            }
+//            return ""
+//        }
+//    }
     
 }
 

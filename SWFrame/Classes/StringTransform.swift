@@ -25,6 +25,9 @@ public class StringTransform: TransformType {
         } else if let string = value as? String {
             return string
         } else {
+            if let compatible = self as? TransformCompatible {
+                return compatible.toString(value)
+            }
             return nil
         }
     }

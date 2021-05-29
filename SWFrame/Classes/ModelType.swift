@@ -41,8 +41,13 @@ public struct BaseModel: ModelType {
     }
     
     public mutating func mapping(map: Map) {
+        data    <- map["data"]
     }
     
+    public var description: String {
+        String.init(any: self.data) ?? ""
+    }
+
 }
 
 //public struct ModelWrapper {
