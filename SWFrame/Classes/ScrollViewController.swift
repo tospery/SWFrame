@@ -77,6 +77,11 @@ open class ScrollViewController: BaseViewController {
             .disposed(by: self.rx.disposeBag)
     }
     
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // self.scrollView.frame = self.contentFrame
+    }
+    
     // MARK: - Method
     open override func bind(reactor: BaseViewReactor) {
         super.bind(reactor: reactor)

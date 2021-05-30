@@ -23,6 +23,7 @@ public struct Parameter {
     public static let active                = "active"
     public static let models                = "models"
     public static let isDark                = "isDark"
+    public static let isList                = "isList"
     public static let keyword               = "keyword"
     public static let context               = "_context"
     public static let message               = "message"
