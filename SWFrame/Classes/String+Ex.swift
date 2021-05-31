@@ -23,22 +23,25 @@ public extension String {
 //    }
     
     // MARK: - Initializers
-    init?(any: Any?) {
-        guard let any = any else { return nil }
-        if let string = any as? String {
-            self = string
-            return
-        } else if let number = any as? Int {
-            self = number.string
-            return
-        } else {
-            if let convertible = any as? CustomStringConvertible {
-                self = convertible.description
-                return
-            }
-            return nil
-        }
-    }
+//    init?(any: Any?) {
+//        guard let any = any else { return nil }
+//        if let string = any as? String {
+//            self = string
+//            return
+//        } else if let number = any as? Int {
+//            self = number.string
+//            return
+//        } else if let bool = any as? Bool {
+//            self = bool.string
+//            return
+//        } else {
+//            if let convertible = any as? CustomStringConvertible {
+//                self = convertible.description
+//                return
+//            }
+//            return nil
+//        }
+//    }
     
     init<Subject>(fullname subject: Subject) {
         self.init(reflecting: subject)

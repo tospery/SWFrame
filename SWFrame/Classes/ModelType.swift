@@ -45,7 +45,7 @@ public struct BaseModel: ModelType {
     }
     
     public var description: String {
-        String.init(any: self.data) ?? ""
+        String.init(describing: self.data)
     }
 
 }

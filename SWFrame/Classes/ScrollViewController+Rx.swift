@@ -21,6 +21,7 @@ public extension Reactive where Base: ScrollViewController {
             viewController.isLoading = isLoading
             guard viewController.isViewLoaded else { return }
             guard let scrollView = viewController.scrollView else { return }
+            scrollView.reloadEmptyDataSet()
             if isLoading {
                 if viewController.shouldLoadMore {
                     viewController.setupLoadMore(should: false)
