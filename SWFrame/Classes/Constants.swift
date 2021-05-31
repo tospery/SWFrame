@@ -8,6 +8,8 @@
 import UIKit
 import QMUIKit
 
+public typealias KVTuple = (key: Any, value: Any?)
+
 public var pixelOne: CGFloat { QMUIHelper.pixelOne }
 
 public var isLandscape: Bool { UIApplication.shared.statusBarOrientation.isLandscape }
