@@ -76,6 +76,12 @@ public extension String {
 //        return self.size(thatFits: size, font: font, maxLines: maxLines).height
 //    }
     
+    var urlPlaceholderValue: String {
+        guard self.hasPrefix("<") else { return self }
+        guard self.hasSuffix(":_>") else { return self }
+        return self.removingPrefix("<").removingPrefix(":_>")
+    }
+    
     var camelCasedWithoutUnderline: String {
         var result = ""
         let cmps = self.components(separatedBy: "_")
