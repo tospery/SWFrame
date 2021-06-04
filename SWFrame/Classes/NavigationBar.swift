@@ -148,6 +148,9 @@ public class NavigationBar: UIView {
             titleView.width = min(titleView.width, self.titleLabel.width)
             titleView.height = min(titleView.height, self.titleLabel.height)
             titleView.center = CGPointGetCenterWithRect(self.titleLabel.frame)
+            self.titleLabel.isHidden = true
+        } else {
+            self.titleLabel.isHidden = false
         }
     }
     
@@ -193,6 +196,15 @@ public class NavigationBar: UIView {
         self.layoutIfNeeded()
         
         return button
+    }
+    
+    public func removeAllLeftButtons() {
+        for button in self.leftButtons {
+            button.removeFromSuperview()
+        }
+        self.leftButtons.removeAll()
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
     }
     
     public func transparet() {
