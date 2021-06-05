@@ -24,6 +24,14 @@ public func compare(_ left: ImageSource?, _ right: ImageSource?) -> Bool {
 }
 
 // MARK: - Dictionary member
+public func boolMember(_ params: [String: Any]?, _ key: String, _ default: Bool) -> Bool {
+    guard let params = params else { return `default` }
+    return (params[key] as? Bool) ??
+    ((params[key] as? String)?.bool) ??
+    ((params[key] as? Int)?.bool) ??
+        `default`
+}
+
 public func colorMember(_ params: Dictionary<String, Any>?, _ key: String, _ default: UIColor?) -> UIColor? {
     if let value = params?[key] as? String, let color = UIColor(hexString: value) {
         return color
