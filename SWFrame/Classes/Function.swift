@@ -55,6 +55,20 @@ public func boolMember(_ params: [String: Any]?, _ key: String, _ default: Bool)
         `default`
 }
 
+public func stringMember(_ params: [String: Any]?, _ key: String, _ default: String?) -> String? {
+    guard let params = params else { return `default` }
+    return (params[key] as? String) ??
+    ((params[key] as? Int)?.string) ??
+        `default`
+}
+
+public func intMember(_ params: [String: Any]?, _ key: String, _ default: Int?) -> Int? {
+    guard let params = params else { return `default` }
+    return (params[key] as? Int) ??
+    ((params[key] as? String)?.int) ??
+        `default`
+}
+
 public func colorMember(_ params: Dictionary<String, Any>?, _ key: String, _ default: UIColor?) -> UIColor? {
     if let value = params?[key] as? String, let color = UIColor(hexString: value) {
         return color

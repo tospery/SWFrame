@@ -23,13 +23,13 @@ public struct List<Item: ModelType>: ModelType {
 
     mutating public func mapping(map: Map) {
         if let compatible = self as? ListCompatible {
-            hasNext = compatible.hasNext(map: map)
             count = compatible.count(map: map)
             items = compatible.items(map: map)
+            hasNext = compatible.hasNext(map: map)
         } else {
-            hasNext     <- map["has_next"]
-            count       <- map["count"]
             items       <- map["items"]
+            count       <- map["count"]
+            hasNext     <- map["has_next"]
         }
     }
 
@@ -41,3 +41,22 @@ public protocol ListCompatible {
     func items<Item: ModelType>(map: Map) -> [Item]
 }
 
+extension ListCompatible {
+    public func hasNext(map: Map) -> Bool {
+        var hasNext: Bool?
+        hasNext   <- map["has_next"]
+        return hasNext ?? false
+    }
+    
+    public func count(map: Map) -> Int {
+        var count: Int?
+        count   <- map["count"]
+        return count ?? 0
+    }
+
+    public func items<Item>(map: Map) -> [Item] where Item: ModelType {
+        var items: [Item]?
+        items         <- map["items"]
+        return items ?? []
+    }
+}
