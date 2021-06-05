@@ -11,7 +11,7 @@ import RxSwift
 import CocoaLumberjack
 
 // MARK: - compare
-public func compare(_ left: ImageSource?, _ right: ImageSource?) -> Bool {
+public func compareImage(_ left: ImageSource?, _ right: ImageSource?) -> Bool {
     if let lImage = left as? UIImage,
        let rImage = right as? UIImage {
         return lImage == rImage
@@ -21,6 +21,29 @@ public func compare(_ left: ImageSource?, _ right: ImageSource?) -> Bool {
         return lURL == rURL
     }
     return false
+}
+
+public func compareAny(_ left: Any?, _ right: Any?) -> Bool {
+    let leftType = type(of: left)
+    let rightType = type(of: right)
+    if leftType != rightType {
+        return false
+    }
+    if left == nil && right == nil {
+        return true
+    }
+    if left == nil && right != nil {
+        return false
+    }
+    if left != nil && right == nil {
+        return false
+    }
+    let leftString = String.init(describing: left!)
+    let rightString = String.init(describing: right!)
+    #if DEBUG
+    logger.print("compareAny\n\(leftString)\n\(rightString)", module: .swframe)
+    #endif
+    return leftString == rightString
 }
 
 // MARK: - Dictionary member
