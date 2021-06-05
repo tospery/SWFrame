@@ -129,7 +129,7 @@ public func fontSize(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat
 
 public func connectedToInternet() -> Observable<Bool> {
     return reachSubject.asObservable()
-        .ignore(.unknown)
+        .filter { $0 != .unknown }
         .distinctUntilChanged()
         .map { status -> Bool in
             switch status {

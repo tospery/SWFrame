@@ -9,7 +9,6 @@ import UIKit
 import QMUIKit
 import RxSwift
 import RxCocoa
-import RxSwiftExt
 import SwifterSwift
 import URLNavigator
 

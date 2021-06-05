@@ -71,7 +71,10 @@ open class ScrollViewController: BaseViewController {
         
         themeService.typeStream.skip(1)
             .observeOn(MainScheduler.instance)
-            .subscribeNext(weak: self, type(of: self).handle)
+            .subscribe(onNext: { [weak self] themeType in
+                guard let `self` = self else { return }
+                self.handle(theme: themeType)
+            })
             .disposed(by: self.disposeBag)
         
         themeService.rx

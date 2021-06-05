@@ -9,7 +9,6 @@ import UIKit
 import QMUIKit
 import RxSwift
 import RxCocoa
-import NSObject_Rx
 import SwifterSwift
 
 public extension UIViewController {

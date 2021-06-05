@@ -7,7 +7,6 @@
 
 import Foundation
 import RxSwift
-import RxOptional
 import Alamofire
 import SwifterSwift
 import Moya
@@ -80,15 +79,6 @@ extension MoyaError: SWFErrorCompatible {
             return .server(0, response.data.string(encoding: .utf8))
         default:
             return .server(0, self.localizedDescription)
-        }
-    }
-}
-
-extension RxOptionalError: SWFErrorCompatible {
-    public var swfError: SWFError {
-        switch self {
-        case .emptyOccupiable: return .listIsEmpty
-        case .foundNilWhileUnwrappingOptional: return .dataFormat
         }
     }
 }

@@ -8,7 +8,6 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import RxSwiftExt
 import Alamofire
 
 public let reachSubject = BehaviorRelay<NetworkReachabilityManager.NetworkReachabilityStatus>.init(value: .unknown)

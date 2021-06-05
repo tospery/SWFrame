@@ -9,7 +9,7 @@ import UIKit
 import QMUIKit
 import RxSwift
 import RxCocoa
-import RxSwiftExt
+import NSObject_Rx
 import SwifterSwift
 import URLNavigator
 
@@ -132,7 +132,7 @@ open class BaseViewController: UIViewController {
             gestureRecognizer.addTarget(self, action: #selector(handleInteractivePopGestureRecognizer(_:)))
         }
         
-        statusBarService.mapTo(()).skip(1).subscribe(onNext: { [weak self] _ in
+        statusBarService.map { _ in () }.skip(1).subscribe(onNext: { [weak self] _ in
             guard let `self` = self else { return }
             self.setNeedsStatusBarAppearanceUpdate()
         }).disposed(by: self.rx.disposeBag)

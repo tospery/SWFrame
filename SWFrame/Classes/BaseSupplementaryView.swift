@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import NSObject_Rx
 
 open class BaseSupplementaryView: UICollectionReusableView, Supplementary {
     
