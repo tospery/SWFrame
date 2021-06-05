@@ -20,6 +20,7 @@ public struct Parameter {
     public static let model                 = "model"
     public static let active                = "active"
     public static let models                = "models"
+    public static let portal                = "portal"
     public static let isDark                = "isDark"
     public static let isList                = "isList"
     public static let keyword               = "keyword"

@@ -38,7 +38,7 @@ public struct Logger {
     public func print(
         _ message: @autoclosure () -> Any,
         module: Module = .common,
-        level: DDLogLevel = DDDefaultLogLevel,
+        level: DDLogLevel = .debug,
         flag: DDLogFlag = .debug,
         context: Int = 0,
         file: StaticString = #file,
