@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SWFHelper : NSObject
+@property(nonatomic, assign, readonly) BOOL isDebug;
 @property(nonatomic, assign, readonly) CGFloat toolBarHeight;
 @property(nonatomic, assign, readonly) CGFloat tabBarHeight;
 @property(nonatomic, assign, readonly) CGFloat statusBarHeight;

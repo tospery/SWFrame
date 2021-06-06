@@ -15,6 +15,10 @@
 
 @implementation SWFHelper
 
+- (BOOL)isDebug {
+    return IS_DEBUG;
+}
+
 - (CGFloat)toolBarHeight {
     return ToolBarHeight;
 }

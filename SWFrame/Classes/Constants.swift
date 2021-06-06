@@ -10,6 +10,7 @@ import QMUIKit
 
 public typealias KVTuple = (key: Any, value: Any?)
 
+public var isDebug: Bool { SWFHelper.sharedInstance().isDebug }
 public var pixelOne: CGFloat { QMUIHelper.pixelOne }
 
 public var isLandscape: Bool { UIApplication.shared.statusBarOrientation.isLandscape }
