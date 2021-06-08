@@ -52,6 +52,7 @@ Pod::Spec.new do |s|
   s.dependency 'BonMot', '5.6.0'
   s.dependency 'SwifterSwift', '5.2.0'
   s.dependency 'FCUUID', '1.3.1'
+  s.dependency 'BZMWebViewJSBridge', '1.0.0'
   s.dependency 'Kingfisher', '5.15.7'
   s.dependency 'DZNEmptyDataSet', '1.8.1'
   s.dependency 'MJRefresh', '3.6.1'

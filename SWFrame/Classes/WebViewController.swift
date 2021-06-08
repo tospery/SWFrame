@@ -13,6 +13,7 @@ import WebKit
 import URLNavigator
 import ReactorKit
 import SwifterSwift
+import BZMWebViewJSBridge
 
 open class WebViewController: ScrollViewController, View {
     
@@ -22,7 +23,7 @@ open class WebViewController: ScrollViewController, View {
     public var url: URL?
     public var progressColor: UIColor?
     public var handlers = [String]()
-    // public var bridge: WebViewJSBridge!
+    public var bridge: BZMWKWebViewJSBridge!
 
     public lazy var progressView: WebProgressView = {
         let view = WebProgressView(frame: .zero)
@@ -61,19 +62,18 @@ open class WebViewController: ScrollViewController, View {
             self.progress(value)
         }).disposed(by: self.disposeBag)
         
-//        #if DEBUG
-//        WebViewJSBridge.enableLogging()
-//        #endif
-//        self.bridge = WebViewJSBridge.init(forWebView: self.webView)
-//        self.bridge.setWebViewDelegate(self)
-//        // weak var weakSelf = self
-//        for handler in self.handlers {
-//            self.bridge.registerHandler(handler) { [weak self] data, callback in
-//                guard let `self` = self else { return }
-//                let result = self.handle(handler, data)
-//                callback!(result) // 用Rx实现延迟的callback会更好
-//            }
-//        }
+        #if DEBUG
+        BZMWKWebViewJSBridge.enableLogging()
+        #endif
+        self.bridge = BZMWKWebViewJSBridge.init(for: self.webView)
+        self.bridge.setWebViewDelegate(self)
+        for handler in self.handlers {
+            self.bridge.registerHandler(handler) { [weak self] data, callback in
+                guard let `self` = self else { return }
+                let result = self.handle(handler, data)
+                callback!(result) // 用Rx实现延迟的callback会更好
+            }
+        }
         
         self.loadPage()
         
@@ -165,7 +165,7 @@ open class WebViewController: ScrollViewController, View {
             self.webView.navigationDelegate = nil
             self.webView.uiDelegate = nil
         }
-        // self.bridge.setWebViewDelegate(nil)
+        self.bridge.setWebViewDelegate(nil)
     }
     
 }
