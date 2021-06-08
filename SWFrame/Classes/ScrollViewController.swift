@@ -48,8 +48,8 @@ open class ScrollViewController: BaseViewController {
             scrollView.contentInsetAdjustmentBehavior = .never
         }
         self.scrollView = scrollView
-        self.shouldRefresh = boolMember(reactor.parameters, Parameter.shouldRefresh, false)
-        self.shouldLoadMore = boolMember(reactor.parameters, Parameter.shouldLoadMore, false)
+        self.shouldRefresh = reactor.parameters.bool(for: Parameter.shouldRefresh) ?? false
+        self.shouldLoadMore = reactor.parameters.bool(for: Parameter.shouldLoadMore) ?? false
     }
     
     required public init?(coder: NSCoder) {

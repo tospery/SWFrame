@@ -36,9 +36,9 @@ open class WebViewController: ScrollViewController, View {
             self.reactor = reactor
         }
         super.init(navigator, reactor)
-        self.url = urlMember(reactor.parameters, Parameter.url, nil)
-        self.progressColor = colorMember(reactor.parameters, Parameter.progressColor, .primary)
-        self.handlers = arrayMember(reactor.parameters, Parameter.handers, nil) as? [String] ?? []
+        self.url = reactor.parameters.url(for: Parameter.url)
+        self.progressColor = reactor.parameters.color(for: Parameter.progressColor) ?? .primary
+        self.handlers = reactor.parameters.array(for: Parameter.handers) as? [String] ?? []
     }
     
     required public init?(coder: NSCoder) {

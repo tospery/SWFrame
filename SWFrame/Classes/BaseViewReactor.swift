@@ -20,7 +20,7 @@ open class BaseViewReactor: NSObject, ReactorType {
     required public init(_ provider: ProviderType, _ parameters: [String: Any]?) {
         self.provider = provider
         self.parameters = parameters ?? [:]
-        self.title = stringMember(self.parameters, Parameter.title, nil)
+        self.title = self.parameters.string(for: Parameter.title)
     }
     
     deinit {

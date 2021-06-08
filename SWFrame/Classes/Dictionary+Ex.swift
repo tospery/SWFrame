@@ -40,16 +40,32 @@ public extension Dictionary where Key == String {
         return value as? [Any]
     }
     
-//    public func modelMember<Model: ModelType>(_ params: [String: Any]?, _ key: String, _ type: Model.Type) -> Model? {
-//        guard let string = stringMember(params, key, nil) else { return nil }
-//        guard let base64 = string.base64Decoded else { return nil }
-//        guard let model = Model.init(JSONString: base64) else { return nil }
-//        return model
-//    }
-    
     func model<Model: ModelType>(for key: String, type: Model.Type) -> Model? {
         guard let value = self[key] else { return nil }
-        return (value as? Model) ?? UIColor.init(hexString: (value as? String) ?? "")
+        if value is Model {
+            return value as! Model
+        }
+        guard let string = self.string(for: key) else { return nil }
+        guard let base64 = string.base64Decoded else { return nil }
+        return Model.init(JSONString: base64)
+    }
+    
+    func `enum`<T: RawRepresentable>(for key: String, type: T.Type) -> T? where T.RawValue == String {
+        guard let value = self[key] else { return nil }
+        if value is T {
+            return value as! T
+        }
+        guard let string = self.string(for: key) else { return nil }
+        return T.init(rawValue: string)
+    }
+    
+    func `enum`<T: RawRepresentable>(for key: String, type: T.Type) -> T? where T.RawValue == Int {
+        guard let value = self[key] else { return nil }
+        if value is T {
+            return value as! T
+        }
+        guard let int = self.int(for: key) else { return nil }
+        return T.init(rawValue: int)
     }
     
 }
