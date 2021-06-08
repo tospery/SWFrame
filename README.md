@@ -22,7 +22,7 @@ pod 'SWFrame'
 
 ## Author
 
-tospery, tospery@gmail.com
+YangJianxiang, tospery@gmail.com
 
 ## License
 
