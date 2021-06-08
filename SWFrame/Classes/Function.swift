@@ -90,6 +90,33 @@ public func arrayMember(_ params: Dictionary<String, Any>?, _ key: String, _ def
     return `default`
 }
 
+public func modelMember<Model: ModelType>(_ params: [String: Any]?, _ key: String, _ type: Model.Type) -> Model? {
+    guard let string = stringMember(params, key, nil) else { return nil }
+    guard let base64 = string.base64Decoded else { return nil }
+    guard let model = Model.init(JSONString: base64) else { return nil }
+    return model
+}
+
+public func enumMember<T: RawRepresentable>(
+    _ params: [String: Any]?,
+    _ key: String,
+    _ type: T.Type
+) -> T? where T.RawValue == String {
+    guard let string = stringMember(params, key, nil) else { return nil }
+    guard let value = T.init(rawValue: string) else { return nil }
+    return value
+}
+
+public func enumMember<T: RawRepresentable>(
+    _ params: [String: Any]?,
+    _ key: String,
+    _ type: T.Type
+) -> T? where T.RawValue == Int {
+    guard let int = intMember(params, key, nil) else { return nil }
+    guard let value = T.init(rawValue: int) else { return nil }
+    return value
+}
+
 // value - 375标准
 public func metric(_ value: CGFloat) -> CGFloat {
     (value / 375.f * UIScreen.width).flat
