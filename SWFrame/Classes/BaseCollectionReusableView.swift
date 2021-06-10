@@ -1,5 +1,5 @@
 //
-//  BaseSupplementaryView.swift
+//  BaseCollectionReusableView.swift
 //  SWFrame
 //
 //  Created by 杨建祥 on 2020/4/20.
@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-open class BaseSupplementaryView: UICollectionReusableView, Supplementary {
+open class BaseCollectionReusableView: UICollectionReusableView, Supplementary {
     
     public var disposeBag = DisposeBag()
     
@@ -47,7 +47,7 @@ public extension Supplementary {
     }
 }
 
-extension Reactive where Base: BaseSupplementaryView {
+extension Reactive where Base: BaseCollectionReusableView {
     
     public var reactor: Binder<BaseSupplementaryReactor> {
         return Binder(self.base) { view, reactor in
