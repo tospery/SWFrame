@@ -40,10 +40,37 @@ public func compareAny(_ left: Any?, _ right: Any?) -> Bool {
     }
     let leftString = String.init(describing: left!)
     let rightString = String.init(describing: right!)
-    #if DEBUG
-    logger.print("compareAny\n\(leftString)\n\(rightString)", module: .swframe)
-    #endif
     return leftString == rightString
+}
+
+public func compareModels(_ left: [[ModelType]]?, _ right: [[ModelType]]?) -> Bool {
+    if left == nil && right == nil {
+        return true
+    }
+    if left == nil && right != nil {
+        return false
+    }
+    if left != nil && right == nil {
+        return false
+    }
+    if left!.count != right!.count {
+        return false
+    }
+    for (arrayIndex, array1) in left!.enumerated() {
+        let array2 = right![arrayIndex]
+        if array1.count != array2.count {
+            return false
+        }
+        for (modelIndex, model2) in array2.enumerated() {
+            let model1 = array1[modelIndex]
+            let leftString = String.init(describing: model1)
+            let rightString = String.init(describing: model2)
+            if leftString != rightString {
+                return false
+            }
+        }
+    }
+    return true
 }
 
 // value - 375标准

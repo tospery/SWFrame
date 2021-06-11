@@ -16,6 +16,10 @@ public extension Array {
 //        return nil
 //    }
     
+    subscript (safe index: Int) -> Element? {
+        return (0 ..< count).contains(index) ? self[index] : nil
+    }
+    
     func jsonData(prettify: Bool = false) -> Data? {
         guard JSONSerialization.isValidJSONObject(self) else {
             return nil
