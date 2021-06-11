@@ -117,32 +117,33 @@ public class NavigationBar: UIView {
         
         self.bgImageView.frame = self.bounds
         
-        let padding = 8.f
+        let padding = 10.f
         var left = padding
         let top = UIScreen.statusBarHeightConstant
-        var width = UINavigationBar.height
-        let height = width
-        for (_, button) in self.leftButtons.enumerated() {
-            button.width = max(width, button.width)
-            button.height = height
-            button.top = top
+        var navBarHeight = UINavigationBar.height
+        for button in self.leftButtons {
+            button.sizeToFit()
+            button.height = min(navBarHeight, button.height)
+            button.top = top + (navBarHeight - button.height) / 2.f
             button.left = left
             left += button.width
         }
         var right = self.width - padding
-        for (_, button) in self.rightButtons.enumerated() {
-            button.width = max(width, button.width)
-            button.height = height
-            button.top = top
+        for button in self.rightButtons {
+            button.sizeToFit()
+            button.height = min(navBarHeight, button.height)
+            button.top = top + (navBarHeight - button.height) / 2.f
             button.right = right
             right -= button.width
         }
         
         let leftDistance = self.leftButtons.last?.right ?? 0
         let rightDistance = self.width - (self.rightButtons.last?.left ?? self.width)
-        left = max(leftDistance, rightDistance)
-        width = flat(self.width - left * 2)
-        self.titleLabel.frame = CGRect(x: left, y: UIScreen.statusBarHeightConstant, width: width, height: UINavigationBar.height)
+        let margin = max(leftDistance, rightDistance)
+        let titleWidth = flat(self.width - margin * 2)
+        self.titleLabel.frame = CGRect(
+            x: margin, y: UIScreen.statusBarHeightConstant, width: titleWidth, height: navBarHeight
+        )
         
         if let titleView = self.titleView {
             titleView.width = min(titleView.width, self.titleLabel.width)
@@ -163,14 +164,7 @@ public class NavigationBar: UIView {
     }
     
     public func addButtonToLeft(image: UIImage? = nil, title: String? = nil) -> UIButton {
-        let button = UIButton(type: .custom)
-        button.backgroundColor = .clear
-        button.titleLabel?.font = .systemFont(ofSize: 16)
-        button.tintColor = self.itemColor
-        button.setTitleColor(self.itemColor, for: .normal)
-        button.setTitle(title, for: .normal)
-        button.setImage(image?.template, for: .normal)
-        button.sizeToFit()
+        let button = self.createButton(image: image, title: title)
         self.addSubview(button)
         
         self.leftButtons.append(button)
@@ -181,20 +175,28 @@ public class NavigationBar: UIView {
     }
     
     public func addButtonToRight(image: UIImage? = nil, title: String? = nil) -> UIButton {
-        let button = UIButton(type: .custom)
-        button.backgroundColor = .clear
-        button.titleLabel?.font = .systemFont(ofSize: 16)
-        button.tintColor = self.itemColor
-        button.setTitleColor(self.itemColor, for: .normal)
-        button.setTitle(title, for: .normal)
-        button.setImage(image?.template, for: .normal)
-        button.sizeToFit()
+        let button = self.createButton(image: image, title: title)
+        button.titleEdgeInsets = .init(top: -10, left: -20, bottom: 0, right: 0)
+        button.imageEdgeInsets = .init(top: -10, left: -20, bottom: 0, right: 0)
+        button.contentEdgeInsets = .init(top: 10, left: 20, bottom: 0, right: 0)
         self.addSubview(button)
         
         self.rightButtons.append(button)
         self.setNeedsLayout()
         self.layoutIfNeeded()
         
+        return button
+    }
+    
+    private func createButton(image: UIImage?, title: String?) -> UIButton {
+        let button = UIButton(type: .custom)
+        button.backgroundColor = .clear
+        button.titleLabel?.font = .normal(14)
+        button.tintColor = self.itemColor
+        button.setTitleColor(self.itemColor, for: .normal)
+        button.setTitle(title, for: .normal)
+        button.setImage(image?.template, for: .normal)
+        button.sizeToFit()
         return button
     }
     
