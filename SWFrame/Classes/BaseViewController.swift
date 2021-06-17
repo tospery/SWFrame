@@ -17,6 +17,8 @@ public let statusBarService = BehaviorRelay<UIStatusBarStyle>(value: .default)
 
 open class BaseViewController: UIViewController {
     
+    public var result: Any?
+    public var callback: AnyObserver<Any>?
     public var disposeBag = DisposeBag()
     public let navigator: NavigatorType
     
@@ -73,6 +75,7 @@ open class BaseViewController: UIViewController {
         self.hidesNavigationBar = reactor.parameters.bool(for: Parameter.hideNavBar) ?? false
         self.hidesNavBottomLine = reactor.parameters.bool(for: Parameter.hideNavLine) ?? false
         self.transparetNavBar = reactor.parameters.bool(for: Parameter.transparetNavBar) ?? false
+        self.callback = reactor.parameters[Parameter.observer] as? AnyObserver<Any>
     }
     
     required public init?(coder: NSCoder) {
@@ -80,6 +83,10 @@ open class BaseViewController: UIViewController {
     }
     
     deinit {
+        if self.result != nil {
+            self.callback?.onNext(self.result!)
+        }
+        self.callback?.onCompleted()
         #if DEBUG
         logger.print("\(self.className)已销毁！！！", module: .swframe)
         #endif
@@ -168,7 +175,7 @@ open class BaseViewController: UIViewController {
     }
     
     open func didClosed() {
-        // self.closeSubject.onNext(())
+        // self.callback?.onCompleted()
     }
     
     @objc func handleInteractivePopGestureRecognizer(_ gestureRecognizer: UIScreenEdgePanGestureRecognizer) {

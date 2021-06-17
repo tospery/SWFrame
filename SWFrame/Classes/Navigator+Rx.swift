@@ -32,16 +32,29 @@ public extension Reactive where Base: Navigator {
         }
     }
 
-    func present(_ url: URLConvertible, context: Any? = nil, wrap: UINavigationController.Type? = nil, from: UIViewControllerType? = nil, animated: Bool = true, completion: (() -> Void)? = nil) -> Observable<UIViewController> {
+    func present(
+        _ url: URLConvertible,
+        context: Any? = nil,
+        wrap: UINavigationController.Type? = nil,
+        from: UIViewControllerType? = nil,
+        animated: Bool = true,
+        completion: (() -> Void)? = nil
+    ) -> Observable<Any> {
         return .create { [weak base] observer -> Disposable in
             guard let base = base else { return Disposables.create { } }
-            guard let viewController = base.present(url, context: context, wrap: wrap, from: from, animated: animated, completion: {
-                observer.onCompleted()
-            }) else {
+            var ctx = [String: Any].init()
+            if let context = context as? [String: Any] {
+                ctx = context
+            } else {
+                ctx[Parameter.context] = context
+            }
+            ctx[Parameter.observer] = observer
+            guard base.present(
+                url, context: ctx, wrap: wrap, from: from, animated: animated, completion: completion
+            ) != nil else {
                 observer.onError(SWFError.navigation)
                 return Disposables.create { }
             }
-            observer.onNext(viewController)
             return Disposables.create { }
         }
     }
@@ -49,14 +62,16 @@ public extension Reactive where Base: Navigator {
     func open(_ url: URLConvertible, context: Any? = nil) -> Observable<Any> {
         return .create { [weak base] observer -> Disposable in
             guard let base = base else { return Disposables.create { } }
-            if var ctx = context as? [String: Any] {
-                ctx[Parameter.observer] = observer
-                base.open(url, context: ctx)
+            var ctx = [String: Any].init()
+            if let context = context as? [String: Any] {
+                ctx = context
             } else {
-                var ctx = [String: Any].init()
-                ctx[Parameter.observer] = observer
                 ctx[Parameter.context] = context
-                base.open(url, context: ctx)
+            }
+            ctx[Parameter.observer] = observer
+            guard base.open(url, context: ctx) else {
+                observer.onError(SWFError.navigation)
+                return Disposables.create { }
             }
             return Disposables.create { }
         }

@@ -41,6 +41,7 @@ public struct Parameter {
     public static let transparetNavBar      = "transparetNavBar"
     public static let host                  = "_router_host"
     public static let path                  = "_router_path"
+    public static let extra                 = "_router_extra"
     public static let context               = "_router_context"
     public static let observer              = "_router_observer"
 }
