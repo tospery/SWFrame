@@ -84,7 +84,7 @@ open class ScrollViewController: BaseViewController {
     
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        // self.scrollView.frame = self.contentFrame
+        self.scrollView.frame = self.contentFrame
     }
     
     // MARK: - Method
