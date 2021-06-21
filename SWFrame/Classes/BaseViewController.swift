@@ -48,9 +48,9 @@ open class BaseViewController: UIViewController {
         var height = 0.f
         if let tabBar = self.tabBarController?.tabBar,
             tabBar.isHidden == false,
-            self.qmui_previous == nil {
+            self.qmui_previous == nil,
+            self.hidesBottomBarWhenPushed == false {
             height += tabBar.height
-            // height += UITabBar.height
         }
         return height
     }
