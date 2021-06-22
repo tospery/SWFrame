@@ -83,6 +83,12 @@ open class WebViewController: ScrollViewController, View {
             .disposed(by: self.rx.disposeBag)
     }
     
+//    // YJX_TODO webView作为view，里面的scrollView暴露出来
+//    open override func loadView() {
+//        view = self.createWebView()
+//        self.scrollView = (view as! WKWebView).scrollView
+//    }
+    
 //    open override func viewWillAppear(_ animated: Bool) {
 //        super.viewWillAppear(animated)
 //        self.bridge.setWebViewDelegate(self)
