@@ -1,25 +1,25 @@
 //
-//  SWFLabel.m
+//  SWLabel.m
 //  SWFrame
 //
 //  Created by liaoya on 2020/7/24.
 //
 
-#import "SWFLabel.h"
+#import "SWLabel.h"
 #import <QuartzCore/QuartzCore.h>
 #import <Availability.h>
 #import <objc/runtime.h>
 
-#define kSWFLineBreakWordWrapTextWidthScalingFactor (M_PI / M_E)
+#define kSWLineBreakWordWrapTextWidthScalingFactor (M_PI / M_E)
 
 static CGFloat const SWFFLOAT_MAX = 100000;
 
-NSString * const kSWFStrikeOutAttributeName = @"SWFStrikeOutAttribute";
-NSString * const kSWFBackgroundFillColorAttributeName = @"SWFBackgroundFillColor";
-NSString * const kSWFBackgroundFillPaddingAttributeName = @"SWFBackgroundFillPadding";
-NSString * const kSWFBackgroundStrokeColorAttributeName = @"SWFBackgroundStrokeColor";
-NSString * const kSWFBackgroundLineWidthAttributeName = @"SWFBackgroundLineWidth";
-NSString * const kSWFBackgroundCornerRadiusAttributeName = @"SWFBackgroundCornerRadius";
+NSString * const kSWStrikeOutAttributeName = @"SWFStrikeOutAttribute";
+NSString * const kSWBackgroundFillColorAttributeName = @"SWFBackgroundFillColor";
+NSString * const kSWBackgroundFillPaddingAttributeName = @"SWFBackgroundFillPadding";
+NSString * const kSWBackgroundStrokeColorAttributeName = @"SWFBackgroundStrokeColor";
+NSString * const kSWBackgroundLineWidthAttributeName = @"SWFBackgroundLineWidth";
+NSString * const kSWBackgroundCornerRadiusAttributeName = @"SWFBackgroundCornerRadius";
 
 const NSTextAlignment SWFTextAlignmentLeft = NSTextAlignmentLeft;
 const NSTextAlignment SWFTextAlignmentCenter = NSTextAlignmentCenter;
@@ -110,7 +110,7 @@ static inline CGFloat SWFFlushFactorForTextAlignment(NSTextAlignment textAlignme
     }
 }
 
-static inline NSDictionary * NSAttributedStringAttributesFromLabel(SWFLabel *label) {
+static inline NSDictionary * NSAttributedStringAttributesFromLabel(SWLabel *label) {
     NSMutableDictionary *mutableAttributes = [NSMutableDictionary dictionary];
 
     if ([NSMutableParagraphStyle class]) {
@@ -265,18 +265,18 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
 
 @end
 
-@interface SWFLabel ()
+@interface SWLabel ()
 @property (readwrite, nonatomic, copy) NSAttributedString *inactiveAttributedText;
 @property (readwrite, nonatomic, copy) NSAttributedString *renderedAttributedText;
 @property (readwrite, atomic, strong) NSDataDetector *dataDetector;
 @property (readwrite, nonatomic, strong) NSArray *linkModels;
-@property (readwrite, nonatomic, strong) SWFLabelLink *activeLink;
+@property (readwrite, nonatomic, strong) SWLabelLink *activeLink;
 @property (readwrite, nonatomic, strong) NSArray *accessibilityElements;
 
 - (void) longPressGestureDidFire:(UILongPressGestureRecognizer *)sender;
 @end
 
-@implementation SWFLabel {
+@implementation SWLabel {
 @private
     BOOL _needsFramesetter;
     CTFramesetterRef _framesetter;
@@ -520,7 +520,7 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
     }
 }
 
-- (void)addLink:(SWFLabelLink *)link {
+- (void)addLink:(SWLabelLink *)link {
     [self addLinks:@[link]];
 }
 
@@ -529,7 +529,7 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
     
     NSMutableAttributedString *mutableAttributedString = [self.attributedText mutableCopy];
 
-    for (SWFLabelLink *link in links) {
+    for (SWLabelLink *link in links) {
         if (link.attributes) {
             [mutableAttributedString addAttributes:link.attributes range:link.result.range];
         }
@@ -543,7 +543,7 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
     self.linkModels = [NSArray arrayWithArray:mutableLinkModels];
 }
 
-- (SWFLabelLink *)addLinkWithTextCheckingResult:(NSTextCheckingResult *)result
+- (SWLabelLink *)addLinkWithTextCheckingResult:(NSTextCheckingResult *)result
                                                attributes:(NSDictionary *)attributes
 {
     return [self addLinksWithTextCheckingResults:@[result] attributes:attributes].firstObject;
@@ -558,7 +558,7 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
         NSDictionary *activeAttributes = attributes ? self.activeLinkAttributes : nil;
         NSDictionary *inactiveAttributes = attributes ? self.inactiveLinkAttributes : nil;
         
-        SWFLabelLink *link = [[SWFLabelLink alloc] initWithAttributes:attributes
+        SWLabelLink *link = [[SWLabelLink alloc] initWithAttributes:attributes
                                                                          activeAttributes:activeAttributes
                                                                        inactiveAttributes:inactiveAttributes
                                                                        textCheckingResult:result];
@@ -571,35 +571,35 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
     return links;
 }
 
-- (SWFLabelLink *)addLinkWithTextCheckingResult:(NSTextCheckingResult *)result {
+- (SWLabelLink *)addLinkWithTextCheckingResult:(NSTextCheckingResult *)result {
     return [self addLinkWithTextCheckingResult:result attributes:self.linkAttributes];
 }
 
-- (SWFLabelLink *)addLinkToURL:(NSURL *)url
+- (SWLabelLink *)addLinkToURL:(NSURL *)url
                                withRange:(NSRange)range
 {
     return [self addLinkWithTextCheckingResult:[NSTextCheckingResult linkCheckingResultWithRange:range URL:url]];
 }
 
-- (SWFLabelLink *)addLinkToAddress:(NSDictionary *)addressComponents
+- (SWLabelLink *)addLinkToAddress:(NSDictionary *)addressComponents
                                    withRange:(NSRange)range
 {
     return [self addLinkWithTextCheckingResult:[NSTextCheckingResult addressCheckingResultWithRange:range components:addressComponents]];
 }
 
-- (SWFLabelLink *)addLinkToPhoneNumber:(NSString *)phoneNumber
+- (SWLabelLink *)addLinkToPhoneNumber:(NSString *)phoneNumber
                                        withRange:(NSRange)range
 {
     return [self addLinkWithTextCheckingResult:[NSTextCheckingResult phoneNumberCheckingResultWithRange:range phoneNumber:phoneNumber]];
 }
 
-- (SWFLabelLink *)addLinkToDate:(NSDate *)date
+- (SWLabelLink *)addLinkToDate:(NSDate *)date
             withRange:(NSRange)range
 {
     return [self addLinkWithTextCheckingResult:[NSTextCheckingResult dateCheckingResultWithRange:range date:date]];
 }
 
-- (SWFLabelLink *)addLinkToDate:(NSDate *)date
+- (SWLabelLink *)addLinkToDate:(NSDate *)date
                                  timeZone:(NSTimeZone *)timeZone
                                  duration:(NSTimeInterval)duration
                                 withRange:(NSRange)range
@@ -607,7 +607,7 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
     return [self addLinkWithTextCheckingResult:[NSTextCheckingResult dateCheckingResultWithRange:range date:date timeZone:timeZone duration:duration]];
 }
 
-- (SWFLabelLink *)addLinkToTransitInformation:(NSDictionary *)components
+- (SWLabelLink *)addLinkToTransitInformation:(NSDictionary *)components
                                               withRange:(NSRange)range
 {
     return [self addLinkWithTextCheckingResult:[NSTextCheckingResult transitInformationCheckingResultWithRange:range components:components]];
@@ -619,14 +619,14 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
     return [self linkAtPoint:point] != nil;
 }
 
-- (SWFLabelLink *)linkAtPoint:(CGPoint)point {
+- (SWLabelLink *)linkAtPoint:(CGPoint)point {
     
     // Stop quickly if none of the points to be tested are in the bounds.
     if (!CGRectContainsPoint(CGRectInset(self.bounds, -15.f, -15.f), point) || self.links.count == 0) {
         return nil;
     }
     
-    SWFLabelLink *result = [self linkAtCharacterIndex:[self characterIndexAtPoint:point]];
+    SWLabelLink *result = [self linkAtCharacterIndex:[self characterIndexAtPoint:point]];
     
     if (!result && self.extendsLinkTouchArea) {
         result = [self linkAtRadius:2.5f aroundPoint:point]
@@ -639,7 +639,7 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
     return result;
 }
 
-- (SWFLabelLink *)linkAtRadius:(const CGFloat)radius aroundPoint:(CGPoint)point {
+- (SWLabelLink *)linkAtRadius:(const CGFloat)radius aroundPoint:(CGPoint)point {
     const CGFloat diagonal = CGFloat_sqrt(2 * radius * radius);
     const CGPoint deltas[] = {
         CGPointMake(0, -radius), CGPointMake(0, radius), // Above and below
@@ -649,7 +649,7 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
     };
     const size_t count = sizeof(deltas) / sizeof(CGPoint);
     
-    SWFLabelLink *link = nil;
+    SWLabelLink *link = nil;
     
     for (NSInteger i = 0; i < count && link.result == nil; i ++) {
         CGPoint currentPoint = CGPointMake(point.x + deltas[i].x, point.y + deltas[i].y);
@@ -659,14 +659,14 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
     return link;
 }
 
-- (SWFLabelLink *)linkAtCharacterIndex:(CFIndex)idx {
+- (SWLabelLink *)linkAtCharacterIndex:(CFIndex)idx {
     // Do not enumerate if the index is outside of the bounds of the text.
     if (!NSLocationInRange((NSUInteger)idx, NSMakeRange(0, self.attributedText.length))) {
         return nil;
     }
     
     NSEnumerator *enumerator = [self.linkModels reverseObjectEnumerator];
-    SWFLabelLink *link = nil;
+    SWLabelLink *link = nil;
     while ((link = [enumerator nextObject])) {
         if (NSLocationInRange((NSUInteger)idx, link.result.range)) {
             return link;
@@ -910,11 +910,11 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
 
         for (id glyphRun in (__bridge NSArray *)CTLineGetGlyphRuns((__bridge CTLineRef)line)) {
             NSDictionary *attributes = (__bridge NSDictionary *)CTRunGetAttributes((__bridge CTRunRef) glyphRun);
-            CGColorRef strokeColor = CGColorRefFromColor([attributes objectForKey:kSWFBackgroundStrokeColorAttributeName]);
-            CGColorRef fillColor = CGColorRefFromColor([attributes objectForKey:kSWFBackgroundFillColorAttributeName]);
-            UIEdgeInsets fillPadding = [[attributes objectForKey:kSWFBackgroundFillPaddingAttributeName] UIEdgeInsetsValue];
-            CGFloat cornerRadius = [[attributes objectForKey:kSWFBackgroundCornerRadiusAttributeName] floatValue];
-            CGFloat lineWidth = [[attributes objectForKey:kSWFBackgroundLineWidthAttributeName] floatValue];
+            CGColorRef strokeColor = CGColorRefFromColor([attributes objectForKey:kSWBackgroundStrokeColorAttributeName]);
+            CGColorRef fillColor = CGColorRefFromColor([attributes objectForKey:kSWBackgroundFillColorAttributeName]);
+            UIEdgeInsets fillPadding = [[attributes objectForKey:kSWBackgroundFillPaddingAttributeName] UIEdgeInsetsValue];
+            CGFloat cornerRadius = [[attributes objectForKey:kSWBackgroundCornerRadiusAttributeName] floatValue];
+            CGFloat lineWidth = [[attributes objectForKey:kSWBackgroundLineWidthAttributeName] floatValue];
 
             if (strokeColor || fillColor) {
                 CGRect runBounds = CGRectZero;
@@ -981,7 +981,7 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
 
         for (id glyphRun in (__bridge NSArray *)CTLineGetGlyphRuns((__bridge CTLineRef)line)) {
             NSDictionary *attributes = (__bridge NSDictionary *)CTRunGetAttributes((__bridge CTRunRef) glyphRun);
-            BOOL strikeOut = [[attributes objectForKey:kSWFStrikeOutAttributeName] boolValue];
+            BOOL strikeOut = [[attributes objectForKey:kSWStrikeOutAttributeName] boolValue];
             NSInteger superscriptStyle = [[attributes objectForKey:(id)kCTSuperscriptAttributeName] integerValue];
 
             if (strikeOut) {
@@ -1046,7 +1046,7 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
     }
 }
 
-#pragma mark - SWFLabel
+#pragma mark - SWLabel
 
 - (void)setText:(id)text {
     NSParameterAssert(!text || [text isKindOfClass:[NSAttributedString class]] || [text isKindOfClass:[NSString class]]);
@@ -1105,7 +1105,7 @@ afterInheritingLabelAttributesAndConfiguringWithBlock:(NSMutableAttributedString
     [self setText:mutableAttributedString];
 }
 
-- (void)setActiveLink:(SWFLabelLink *)activeLink {
+- (void)setActiveLink:(SWLabelLink *)activeLink {
     _activeLink = activeLink;
     
     NSDictionary *activeAttributes = activeLink.activeAttributes ?: self.activeLinkAttributes;
@@ -1192,13 +1192,13 @@ afterInheritingLabelAttributesAndConfiguringWithBlock:(NSMutableAttributedString
     if (textSize.height < bounds.size.height) {
         CGFloat yOffset = 0.0f;
         switch (self.verticalAlignment) {
-            case SWFLabelVerticalAlignmentCenter:
+            case SWLabelVerticalAlignmentCenter:
                 yOffset = CGFloat_floor((bounds.size.height - textSize.height) / 2.0f);
                 break;
-            case SWFLabelVerticalAlignmentBottom:
+            case SWLabelVerticalAlignmentBottom:
                 yOffset = bounds.size.height - textSize.height;
                 break;
-            case SWFLabelVerticalAlignmentTop:
+            case SWLabelVerticalAlignmentTop:
             default:
                 break;
         }
@@ -1236,7 +1236,7 @@ afterInheritingLabelAttributesAndConfiguringWithBlock:(NSMutableAttributedString
         CGFloat textWidth = [self sizeThatFits:maxSize].width;
         CGFloat availableWidth = self.frame.size.width * self.numberOfLines;
         if (self.numberOfLines > 1 && self.lineBreakMode == SWFLineBreakByWordWrapping) {
-            textWidth *= kSWFLineBreakWordWrapTextWidthScalingFactor;
+            textWidth *= kSWLineBreakWordWrapTextWidthScalingFactor;
         }
 
         if (textWidth > availableWidth && textWidth > 0.0f) {
@@ -1323,7 +1323,7 @@ afterInheritingLabelAttributesAndConfiguringWithBlock:(NSMutableAttributedString
         @synchronized(self) {
             NSMutableArray *mutableAccessibilityItems = [NSMutableArray array];
 
-            for (SWFLabelLink *link in self.linkModels) {
+            for (SWLabelLink *link in self.linkModels) {
                 
                 if (link.result.range.location == NSNotFound) {
                     continue;
@@ -1401,7 +1401,7 @@ afterInheritingLabelAttributesAndConfiguringWithBlock:(NSMutableAttributedString
     BOOL isInactive = (self.tintAdjustmentMode == UIViewTintAdjustmentModeDimmed);
 
     NSMutableAttributedString *mutableAttributedString = [self.attributedText mutableCopy];
-    for (SWFLabelLink *link in self.linkModels) {
+    for (SWLabelLink *link in self.linkModels) {
         NSDictionary *attributesToRemove = isInactive ? link.attributes : link.inactiveAttributes;
         NSDictionary *attributesToAdd = isInactive ? link.inactiveAttributes : link.attributes;
         
@@ -1556,7 +1556,7 @@ afterInheritingLabelAttributesAndConfiguringWithBlock:(NSMutableAttributedString
     switch (sender.state) {
         case UIGestureRecognizerStateBegan: {
             CGPoint touchPoint = [sender locationInView:self];
-            SWFLabelLink *link = [self linkAtPoint:touchPoint];
+            SWLabelLink *link = [self linkAtPoint:touchPoint];
             
             if (link) {
                 if (link.linkLongPressBlock) {
@@ -1760,9 +1760,9 @@ afterInheritingLabelAttributesAndConfiguringWithBlock:(NSMutableAttributedString
 
 @end
 
-#pragma mark - SWFLabelLink
+#pragma mark - SWLabelLink
 
-@implementation SWFLabelLink
+@implementation SWLabelLink
 
 - (instancetype)initWithAttributes:(NSDictionary *)attributes
                   activeAttributes:(NSDictionary *)activeAttributes
@@ -1779,7 +1779,7 @@ afterInheritingLabelAttributesAndConfiguringWithBlock:(NSMutableAttributedString
     return self;
 }
 
-- (instancetype)initWithAttributesFromLabel:(SWFLabel*)label
+- (instancetype)initWithAttributesFromLabel:(SWLabel*)label
                          textCheckingResult:(NSTextCheckingResult *)result {
     
     return [self initWithAttributes:label.linkAttributes
@@ -1854,7 +1854,7 @@ static inline NSDictionary * convertNSAttributedStringAttributesToCTAttributes(N
     
     NSDictionary *NSToCTAttributeNamesMap = @{
         NSFontAttributeName:            (NSString *)kCTFontAttributeName,
-        NSBackgroundColorAttributeName: (NSString *)kSWFBackgroundFillColorAttributeName,
+        NSBackgroundColorAttributeName: (NSString *)kSWBackgroundFillColorAttributeName,
         NSForegroundColorAttributeName: (NSString *)kCTForegroundColorAttributeName,
         NSUnderlineColorAttributeName:  (NSString *)kCTUnderlineColorAttributeName,
         NSUnderlineStyleAttributeName:  (NSString *)kCTUnderlineStyleAttributeName,

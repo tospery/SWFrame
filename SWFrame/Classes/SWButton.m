@@ -1,20 +1,20 @@
 //
-//  SWFButton.m
+//  SWButton.m
 //  SWFrame
 //
 //  Created by liaoya on 2020/7/24.
 //
 
-#import "SWFButton.h"
+#import "SWButton.h"
 #import <QMUIKit/QMUIKit.h>
 
-@interface SWFButton ()
+@interface SWButton ()
 
 @property(nonatomic, strong) CALayer *highlightedBackgroundLayer;
 @property(nonatomic, strong) UIColor *originBorderColor;
 @end
 
-@implementation SWFButton
+@implementation SWButton
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -49,7 +49,7 @@
     self.adjustsButtonWhenDisabled = YES;
     
     // 图片默认在按钮左边，与系统UIButton保持一致
-    self.imagePosition = SWFButtonImagePositionLeft;
+    self.imagePosition = SWButtonImagePositionLeft;
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
@@ -68,8 +68,8 @@
     CGSize contentLimitSize = CGSizeMake(size.width - UIEdgeInsetsGetHorizontalValue(contentEdgeInsets), size.height - UIEdgeInsetsGetVerticalValue(contentEdgeInsets));
     
     switch (self.imagePosition) {
-        case SWFButtonImagePositionTop:
-        case SWFButtonImagePositionBottom: {
+        case SWButtonImagePositionTop:
+        case SWButtonImagePositionBottom: {
             // 图片和文字上下排版时，宽度以文字或图片的最大宽度为最终宽度
             if (isImageViewShowing) {
                 CGFloat imageLimitWidth = contentLimitSize.width - UIEdgeInsetsGetHorizontalValue(self.imageEdgeInsets);
@@ -91,10 +91,10 @@
         }
             break;
             
-        case SWFButtonImagePositionLeft:
-        case SWFButtonImagePositionRight: {
+        case SWButtonImagePositionLeft:
+        case SWButtonImagePositionRight: {
             // 图片和文字水平排版时，高度以文字或图片的最大高度为最终高度
-            // 注意这里有一个和系统不一致的行为：当 titleLabel 为多行时，系统的 sizeThatFits: 计算结果固定是单行的，所以当 SWFButtonImagePositionLeft 并且titleLabel 多行的情况下，SWFButton 计算的结果与系统不一致
+            // 注意这里有一个和系统不一致的行为：当 titleLabel 为多行时，系统的 sizeThatFits: 计算结果固定是单行的，所以当 SWButtonImagePositionLeft 并且titleLabel 多行的情况下，SWButton 计算的结果与系统不一致
             
             if (isImageViewShowing) {
                 CGFloat imageLimitHeight = contentLimitSize.height - UIEdgeInsetsGetVerticalValue(self.imageEdgeInsets);
@@ -152,7 +152,7 @@
         imageTotalSize = CGSizeMake(imageSize.width + UIEdgeInsetsGetHorizontalValue(self.imageEdgeInsets), imageSize.height + UIEdgeInsetsGetVerticalValue(self.imageEdgeInsets));
     }
     
-    if (self.imagePosition == SWFButtonImagePositionTop || self.imagePosition == SWFButtonImagePositionBottom) {
+    if (self.imagePosition == SWButtonImagePositionTop || self.imagePosition == SWButtonImagePositionBottom) {
         
         if (isTitleLabelShowing) {
             titleLimitSize = CGSizeMake(contentSize.width - UIEdgeInsetsGetHorizontalValue(self.titleEdgeInsets), contentSize.height - imageTotalSize.height - spacingBetweenImageAndTitle - UIEdgeInsetsGetVerticalValue(self.titleEdgeInsets));
@@ -190,7 +190,7 @@
                 break;
         }
         
-        if (self.imagePosition == SWFButtonImagePositionTop) {
+        if (self.imagePosition == SWButtonImagePositionTop) {
             switch (self.contentVerticalAlignment) {
                 case UIControlContentVerticalAlignmentTop:
                     imageFrame = isImageViewShowing ? CGRectSetY(imageFrame, contentEdgeInsets.top + self.imageEdgeInsets.top) : imageFrame;
@@ -269,7 +269,7 @@
             self.titleLabel.frame = CGRectFlatted(titleFrame);
         }
         
-    } else if (self.imagePosition == SWFButtonImagePositionLeft || self.imagePosition == SWFButtonImagePositionRight) {
+    } else if (self.imagePosition == SWButtonImagePositionLeft || self.imagePosition == SWButtonImagePositionRight) {
         
         if (isTitleLabelShowing) {
             titleLimitSize = CGSizeMake(contentSize.width - UIEdgeInsetsGetHorizontalValue(self.titleEdgeInsets) - imageTotalSize.width - spacingBetweenImageAndTitle, contentSize.height - UIEdgeInsetsGetVerticalValue(self.titleEdgeInsets));
@@ -306,7 +306,7 @@
                 break;
         }
         
-        if (self.imagePosition == SWFButtonImagePositionLeft) {
+        if (self.imagePosition == SWButtonImagePositionLeft) {
             switch (self.contentHorizontalAlignment) {
                 case UIControlContentHorizontalAlignmentLeft:
                     imageFrame = isImageViewShowing ? CGRectSetX(imageFrame, contentEdgeInsets.left + self.imageEdgeInsets.left) : imageFrame;
@@ -410,7 +410,7 @@
     [self setNeedsLayout];
 }
 
-- (void)setImagePosition:(SWFButtonImagePosition)imagePosition {
+- (void)setImagePosition:(SWButtonImagePosition)imagePosition {
     _imagePosition = imagePosition;
     
     [self setNeedsLayout];

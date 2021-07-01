@@ -10,7 +10,7 @@ import UIKit
 public extension UIToolbar {
     
     static var height: CGFloat {
-        SWFHelper.sharedInstance().toolBarHeight
+        SWHelper.sharedInstance().toolBarHeight
     }
 
 }

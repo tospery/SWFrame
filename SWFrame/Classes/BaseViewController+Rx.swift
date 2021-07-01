@@ -43,7 +43,7 @@ public extension Reactive where Base: BaseViewController {
             viewController.error = error
             guard viewController.isViewLoaded else { return }
             guard let error = error else { return }
-            if (error as? SWFError)?.isNotLoginedIn ?? false {
+            if (error as? SWError)?.isNotLoginedIn ?? false {
                 if let name = UIViewController.topMost?.className,
                    name.contains("LoginViewController") {
                     logger.print("已处于登录页，不需要再次打开", module: .swframe)
@@ -57,14 +57,14 @@ public extension Reactive where Base: BaseViewController {
                         return
                     } else if scrollViewController.isRefreshing {
                         // refreshing的empty错误，不进行toast
-                        if error.asSWFError.isListIsEmpty {
+                        if error.asSWError.isListIsEmpty {
                             return
                         }
                     }
                 }
                 var url = "\(UIApplication.shared.urlScheme)://toast".url!
                 url.appendQueryParameters([
-                    Parameter.message: error.asSWFError.localizedDescription
+                    Parameter.message: error.asSWError.localizedDescription
                 ])
                 viewController.navigator.open(url)
             }

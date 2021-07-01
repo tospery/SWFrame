@@ -14,33 +14,33 @@ import SafariServices
 
 extension Error {
     
-    public var asSWFError: SWFError {
-        if let sw = self as? SWFError {
+    public var asSWError: SWError {
+        if let sw = self as? SWError {
             return sw
         }
-        if let compatible = self as? SWFErrorCompatible {
-            return compatible.swfError
+        if let compatible = self as? SWErrorCompatible {
+            return compatible.swError
         }
         return .server(0, self.localizedDescription)
     }
     
 }
 
-public protocol SWFErrorCompatible: Error {
-    var swfError: SWFError { get }
+public protocol SWErrorCompatible: Error {
+    var swError: SWError { get }
 }
 
-extension SWFErrorCompatible {
-    public var swfError: SWFError {
+extension SWErrorCompatible {
+    public var swError: SWError {
         .server(0, nil)
     }
 }
 
-extension NSError: SWFErrorCompatible {
-    public var swfError: SWFError {
+extension NSError: SWErrorCompatible {
+    public var swError: SWError {
         if self.domain == SFAuthenticationError.errorDomain {
-            if let compatible = self as? SFAuthenticationError as? SWFErrorCompatible {
-                return compatible.swfError
+            if let compatible = self as? SFAuthenticationError as? SWErrorCompatible {
+                return compatible.swError
             }
         }
         if self.domain == NSURLErrorDomain {
@@ -56,8 +56,8 @@ extension NSError: SWFErrorCompatible {
     }
 }
 
-extension AFError: SWFErrorCompatible {
-    public var swfError: SWFError {
+extension AFError: SWErrorCompatible {
+    public var swError: SWError {
         switch self {
         case .sessionTaskFailed:
             return .network
@@ -67,11 +67,11 @@ extension AFError: SWFErrorCompatible {
     }
 }
 
-extension MoyaError: SWFErrorCompatible {
-    public var swfError: SWFError {
+extension MoyaError: SWErrorCompatible {
+    public var swError: SWError {
         switch self {
         case let .underlying(error, _):
-            return (error as? SWFErrorCompatible)?.swfError ?? .server(0, error.localizedDescription)
+            return (error as? SWErrorCompatible)?.swError ?? .server(0, error.localizedDescription)
         case let .statusCode(response):
             if response.statusCode == HTTPStatusCode.Client.unauthorized.rawValue {
                 return .notLoginedIn

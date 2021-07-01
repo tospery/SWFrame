@@ -76,11 +76,11 @@ public extension UIScreen {
     }
     
     static var statusBarHeight: CGFloat {
-        SWFHelper.sharedInstance().statusBarHeight
+        SWHelper.sharedInstance().statusBarHeight
     }
     
     static var statusBarHeightConstant: CGFloat {
-        SWFHelper.sharedInstance().statusBarHeightConstant
+        SWHelper.sharedInstance().statusBarHeightConstant
     }
     
     static var safeArea: UIEdgeInsets {

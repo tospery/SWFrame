@@ -1,5 +1,5 @@
 //
-//  SWFHelper.h
+//  SWHelper.h
 //  SWFrame
 //
 //  Created by liaoya on 2021/4/19.
@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SWFHelper : NSObject
+@interface SWHelper : NSObject
 @property(nonatomic, assign, readonly) BOOL isDebug;
 @property(nonatomic, assign, readonly) CGFloat toolBarHeight;
 @property(nonatomic, assign, readonly) CGFloat tabBarHeight;
