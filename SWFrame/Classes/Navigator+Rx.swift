@@ -46,7 +46,7 @@ public extension Reactive where Base: Navigator {
             if let context = context as? [String: Any] {
                 ctx = context
             } else {
-                ctx[Parameter.context] = context
+                ctx[Parameter.extra] = context
             }
             ctx[Parameter.observer] = observer
             guard base.present(
@@ -66,7 +66,7 @@ public extension Reactive where Base: Navigator {
             if let context = context as? [String: Any] {
                 ctx = context
             } else {
-                ctx[Parameter.context] = context
+                ctx[Parameter.extra] = context
             }
             ctx[Parameter.observer] = observer
             guard base.open(url, context: ctx) else {

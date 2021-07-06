@@ -20,13 +20,16 @@ public extension ModelType {
     var isValid: Bool { true }
     
     var description: String {
-        guard let chars = self.toJSONString()?.sorted() else { return "" }
-        return String.init(chars).base64Encoded ?? ""
+        let json = self.toJSONString(prettyPrint: false) ?? ""
+        let chars = json.sorted()
+        let string = String.init(chars)
+        return string
     }
     
     public var debugDescription: String {
         self.toJSONString(prettyPrint: true) ?? ""
     }
+    
 }
 
 public struct BaseModel: ModelType {
