@@ -10,6 +10,14 @@ import QMUIKit
 
 public extension CGRect {
     
+    var minEdge: CGFloat {
+        return min(width, height)
+    }
+    
+    var maxEdge: CGFloat {
+        return max(width, height)
+    }
+    
     var isNaN: Bool {
         QMUIKit.CGRectIsNaN(self)
     }
@@ -61,5 +69,6 @@ public extension CGRect {
     func rectBy(size: CGSize) -> CGRect {
         QMUIKit.CGRectSetSize(self, size)
     }
+    
 }
 

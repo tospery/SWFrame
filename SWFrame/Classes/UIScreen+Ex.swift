@@ -75,6 +75,14 @@ public extension UIScreen {
         self.main.bounds.size.height
     }
     
+    static var minEdge: CGFloat {
+        self.main.bounds.minEdge
+    }
+    
+    static var maxEdge: CGFloat {
+        self.main.bounds.maxEdge
+    }
+    
     static var statusBarHeight: CGFloat {
         SWHelper.sharedInstance().statusBarHeight
     }

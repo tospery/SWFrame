@@ -39,7 +39,12 @@ open class BaseViewController: UIViewController {
             self.transparetNavBar ||
             self.navigationBar.isHidden ||
             self.navigationBar.isTransparet {
-            height = 0
+            if let navBar = self.navigationController?.navigationBar,
+               navBar.isTranslucent == false {
+                height = UINavigationBar.height
+            } else {
+                height = 0
+            }
         }
         return height
     }
