@@ -68,6 +68,15 @@ public extension Dictionary where Key == String {
         return T.init(rawValue: int)
     }
     
+    var toStringString: [String: String] {
+        var result = [String: String].init()
+        for key in self.keys {
+            let value = self[key]!
+            result[key] = String.init(describing: value)
+        }
+        return result
+    }
+    
     var sortedJSONString: String {
         var temp = self
         var keys = [String].init()

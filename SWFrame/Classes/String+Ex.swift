@@ -21,6 +21,10 @@ public extension String {
         self.replacingOccurrences(of: "/", with: " ").camelCased
     }
     
+    var emptyToNil: String? {
+        self.isEmpty ? nil : self
+    }
+    
 //    var attributedString: NSAttributedString {
 //        return NSAttributedString(string: self)
 //    }
