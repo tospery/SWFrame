@@ -11,7 +11,7 @@ import RxCocoa
 import ObjectMapper
 
 // MARK: - 模型协议
-public protocol ModelType: Mappable, CustomStringConvertible, CustomDebugStringConvertible {
+public protocol ModelType: Mappable, CustomStringConvertible {
     var isValid: Bool { get }
     init()
 }
@@ -20,16 +20,11 @@ public extension ModelType {
     var isValid: Bool { true }
     
     var description: String {
-        let json = self.toJSONString(prettyPrint: false) ?? ""
-        let chars = json.sorted()
-        let string = String.init(chars)
+        let json = self.toJSON()
+        let string = json.sortedJSONString
         return string
     }
-    
-    public var debugDescription: String {
-        self.toJSONString(prettyPrint: true) ?? ""
-    }
-    
+
 }
 
 public struct BaseModel: ModelType {

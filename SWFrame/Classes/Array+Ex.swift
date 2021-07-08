@@ -9,12 +9,24 @@ import UIKit
 
 public extension Array {
     
-//    func jsonString(prettyPrinted: Bool = true) -> String? {
-//        if let data = try? JSONSerialization.data(withJSONObject: self, options: prettyPrinted ? .prettyPrinted : []) {
-//            return String(data: data, encoding: .utf8)
-//        }
-//        return nil
-//    }
+    var sortedJSONString: String {
+        var temp = self
+        var strings = [String].init()
+        for value in temp {
+            if let dictionary = value as? [String: Any] {
+                strings.append(dictionary.sortedJSONString)
+            } else if let array = value as? [Any] {
+                strings.append(array.sortedJSONString)
+            } else {
+                strings.append("\"\(value)\"")
+            }
+        }
+        strings.sort { $0 < $1 }
+        var result = "["
+        result += strings.joined(separator: ",")
+        result += "]"
+        return result
+    }
     
     subscript (safe index: Int) -> Element? {
         return (0 ..< count).contains(index) ? self[index] : nil

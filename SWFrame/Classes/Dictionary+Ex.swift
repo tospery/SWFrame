@@ -68,4 +68,27 @@ public extension Dictionary where Key == String {
         return T.init(rawValue: int)
     }
     
+    var sortedJSONString: String {
+        var temp = self
+        var keys = [String].init()
+        for key in temp.keys {
+            keys.append(key)
+        }
+        keys.sort { $0 < $1 }
+        var strings = [String].init()
+        for key in keys {
+            if let value = temp[key] as? [String: Any] {
+                strings.append("\"\(key)\":\(value.sortedJSONString)")
+            } else if let value = temp[key] as? [Any] {
+                strings.append("\"\(key)\":\(value.sortedJSONString)")
+            } else {
+                strings.append("\"\(key)\":\"\(temp[key]!)\"")
+            }
+        }
+        var result = "{"
+        result += strings.joined(separator: ",")
+        result += "}"
+        return result
+    }
+    
 }
