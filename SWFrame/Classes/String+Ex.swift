@@ -17,6 +17,9 @@ public extension String {
         return UIColor(hexString: self)
     }
     
+    var method: String {
+        self.replacingOccurrences(of: "/", with: " ").camelCased
+    }
     
 //    var attributedString: NSAttributedString {
 //        return NSAttributedString(string: self)
