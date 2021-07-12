@@ -10,6 +10,11 @@ import QMUIKit
 import RxSwift
 import CocoaLumberjack
 
+public func ToString(_ any: Any?) -> String? {
+    guard let any = any else { return nil }
+    return String.init(describing: any)
+}
+
 // MARK: - compare
 public func compareImage(_ left: ImageSource?, _ right: ImageSource?) -> Bool {
     if let lImage = left as? UIImage,
