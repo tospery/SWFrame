@@ -9,6 +9,7 @@ import UIKit
 
 open class BaseCollectionItem: ModelViewReactor {
     
+    public var size = CGSize.zero
     public weak var parent: BaseViewReactor?
     
 }
