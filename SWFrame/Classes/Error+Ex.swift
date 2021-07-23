@@ -77,6 +77,8 @@ extension MoyaError: SWErrorCompatible {
                 return .notLoginedIn
             }
             return .server(0, response.data.string(encoding: .utf8))
+        case let .jsonMapping(response):
+            return .server(response.statusCode, self.localizedDescription)
         default:
             return .server(0, self.localizedDescription)
         }
