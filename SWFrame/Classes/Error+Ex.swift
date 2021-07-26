@@ -11,6 +11,7 @@ import Alamofire
 import SwifterSwift
 import Moya
 import SafariServices
+import StoreKit
 
 extension Error {
     
@@ -40,6 +41,11 @@ extension NSError: SWErrorCompatible {
     public var swError: SWError {
         if self.domain == SFAuthenticationError.errorDomain {
             if let compatible = self as? SFAuthenticationError as? SWErrorCompatible {
+                return compatible.swError
+            }
+        }
+        if self.domain == SKError.errorDomain {
+            if let compatible = self as? SKError as? SWErrorCompatible {
                 return compatible.swError
             }
         }
