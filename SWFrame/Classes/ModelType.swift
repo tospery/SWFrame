@@ -12,11 +12,13 @@ import ObjectMapper
 
 // MARK: - 模型协议
 public protocol ModelType: Mappable, CustomStringConvertible {
+    var uuid: String { get }
     var isValid: Bool { get }
     init()
 }
 
 public extension ModelType {
+    var uuid: String { UUID.init().uuidString }
     var isValid: Bool { true }
     
     var description: String {
