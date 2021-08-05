@@ -10,9 +10,9 @@ import RxSwift
 import Moya
 
 public enum SWError: Error {
+    case ignore
     case unknown
     case network
-    case cancelled
     case navigation
     case dataFormat
     case listIsEmpty
@@ -25,9 +25,9 @@ extension SWError: CustomNSError {
     public static let domain = "com.swframe.error"
     public var errorCode: Int {
         switch self {
-        case .unknown: return 1
-        case .network: return 2
-        case .cancelled: return 3
+        case .ignore: return 1
+        case .unknown: return 2
+        case .network: return 3
         case .navigation: return 4
         case .dataFormat: return 5
         case .listIsEmpty: return 6
@@ -42,9 +42,9 @@ extension SWError: LocalizedError {
     /// 概述
     public var failureReason: String? {
         switch self {
+        case .ignore: return NSLocalizedString("Error.Ignore.Title", value: "忽略错误", comment: "")
         case .unknown: return NSLocalizedString("Error.Unknown.Title", value: "未知错误", comment: "")
         case .network: return NSLocalizedString("Error.Network.Title", value: "网络错误", comment: "")
-        case .cancelled: return NSLocalizedString("Error.Cancelled.Title", value: "用户取消", comment: "")
         case .navigation: return NSLocalizedString("Error.Navigation.Title", value: "导航错误", comment: "")
         case .dataFormat: return NSLocalizedString("Error.DataFormat.Title", value: "数据格式异常", comment: "")
         case .listIsEmpty: return NSLocalizedString("Error.ListIsEmpty.Title", value: "列表为空", comment: "")
@@ -56,9 +56,9 @@ extension SWError: LocalizedError {
     /// 详情
     public var errorDescription: String? {
         switch self {
+        case .ignore: return NSLocalizedString("Error.Ignore.Message", value: "忽略错误", comment: "")
         case .unknown: return NSLocalizedString("Error.Unknown.Message", value: "未知错误", comment: "")
         case .network: return NSLocalizedString("Error.Network.Message", value: "网络错误", comment: "")
-        case .cancelled: return NSLocalizedString("Error.Cancelled.Message", value: "用户取消", comment: "")
         case .navigation: return NSLocalizedString("Error.Navigation.Message", value: "导航错误", comment: "")
         case .dataFormat: return NSLocalizedString("Error.DataFormat.Message", value: "数据格式异常", comment: "")
         case .listIsEmpty: return NSLocalizedString("Error.ListIsEmpty.Message", value: "列表为空", comment: "")
@@ -77,9 +77,9 @@ extension SWError: LocalizedError {
 extension SWError: Equatable {
     public static func == (lhs: SWError, rhs: SWError) -> Bool {
         switch (lhs, rhs) {
-        case (.unknown, .unknown),
+        case (.ignore, .ignore),
+             (.unknown, .unknown),
              (.network, .network),
-             (.cancelled, .cancelled),
              (.navigation, .navigation),
              (.dataFormat, .dataFormat),
              (.listIsEmpty, .listIsEmpty),
@@ -96,9 +96,9 @@ extension SWError: Equatable {
 extension SWError: CustomStringConvertible {
     public var description: String {
         switch self {
+        case .ignore: return "SWError.ignore"
         case .unknown: return "SWError.unknown"
         case .network: return "SWError.network"
-        case .cancelled: return "SWError.cancelled"
         case .navigation: return "SWError.navigation"
         case .dataFormat: return "SWError.dataFormat"
         case .listIsEmpty: return "SWError.listIsEmpty"
@@ -119,8 +119,8 @@ extension SWError {
         }
         return false
     }
-    public var isCancelled: Bool {
-        self == .cancelled
+    public var isIgnore: Bool {
+        self == .ignore
     }
     public var isListIsEmpty: Bool {
         self == .listIsEmpty
