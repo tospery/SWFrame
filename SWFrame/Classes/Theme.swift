@@ -12,6 +12,7 @@ public let themeService = ThemeType.service(initial: .current)
 
 /// 假设从白到黑值为：0~9
 public protocol Theme {
+    var clearColor: UIColor { get }                             // 透明
     var backgroundColor: UIColor { get }                        // 背景
     var foregroundColor: UIColor { get }                        // 前景
     var lightColor: UIColor { get }                             // 浅色
