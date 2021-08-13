@@ -68,6 +68,7 @@ open class BaseViewController: UIViewController {
     
     lazy public var navigationBar: NavigationBar = {
         let navigationBar = NavigationBar()
+        navigationBar.layer.zPosition = .greatestFiniteMagnitude
         navigationBar.sizeToFit()
         return navigationBar
     }()
@@ -150,9 +151,11 @@ open class BaseViewController: UIViewController {
         }).disposed(by: self.rx.disposeBag)
         
         themeService.rx
-            .bind({ $0.titleColor }, to: self.navigationBar.rx.itemColor)
             .bind({ $0.borderColor }, to: self.navigationBar.rx.lineColor)
-            .bind({ $0.titleColor }, to: self.navigationBar.rx.titleColor)
+            .bind({ $0.foregroundColor }, to: [
+                self.navigationBar.rx.titleColor,
+                self.navigationBar.rx.itemColor
+            ])
             .disposed(by: self.rx.disposeBag)
         if !self.transparetNavBar {
             themeService.rx
