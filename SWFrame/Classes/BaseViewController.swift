@@ -68,7 +68,7 @@ open class BaseViewController: UIViewController {
     
     lazy public var navigationBar: NavigationBar = {
         let navigationBar = NavigationBar()
-        navigationBar.layer.zPosition = .greatestFiniteMagnitude
+        navigationBar.layer.zPosition = -CGFloat(FLT_MAX)
         navigationBar.sizeToFit()
         return navigationBar
     }()
@@ -184,6 +184,20 @@ open class BaseViewController: UIViewController {
 //            guard let `self` = self else { return }
 //            self.dismiss(animated: true, completion: nil)
 //        }).disposed(by: self.disposeBag)
+    }
+    
+    open func close(event: ControlEvent<Void>.Element) {
+        if self.navigationController?.viewControllers.count ?? 0 > 1 {
+            self.navigationController?.popViewController(animated: true, { [weak self] in
+                guard let `self` = self else { return }
+                self.didClosed()
+            })
+        } else {
+            self.dismiss(animated: true) { [weak self] in
+                guard let `self` = self else { return }
+                self.didClosed()
+            }
+        }
     }
     
     open func didClosed() {

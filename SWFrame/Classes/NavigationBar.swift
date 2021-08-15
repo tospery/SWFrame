@@ -77,7 +77,6 @@ public class NavigationBar: UIView {
         }
     }
     
-    
     public lazy var bgImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .clear
