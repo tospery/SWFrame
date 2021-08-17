@@ -68,7 +68,7 @@ open class BaseViewController: UIViewController {
     
     lazy public var navigationBar: NavigationBar = {
         let navigationBar = NavigationBar()
-        navigationBar.layer.zPosition = -CGFloat(FLT_MAX)
+        navigationBar.layer.zPosition = -.greatestFiniteMagnitude
         navigationBar.sizeToFit()
         return navigationBar
     }()
