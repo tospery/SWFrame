@@ -68,7 +68,7 @@ open class BaseViewController: UIViewController {
     
     lazy public var navigationBar: NavigationBar = {
         let navigationBar = NavigationBar()
-        navigationBar.layer.zPosition = -.greatestFiniteMagnitude
+        navigationBar.layer.zPosition = .greatestFiniteMagnitude // -.greatestFiniteMagnitude
         navigationBar.sizeToFit()
         return navigationBar
     }()
@@ -123,19 +123,13 @@ open class BaseViewController: UIViewController {
             if self.navigationController?.viewControllers.count ?? 0 > 1 {
                 self.navigationBar.addBackButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
                     guard let `self` = self else { return }
-                    self.navigationController?.popViewController(animated: true, { [weak self] in
-                        guard let `self` = self else { return }
-                        self.didClosed()
-                    })
+                    self.close()
                 }).disposed(by: self.disposeBag)
             } else {
                 if self.qmui_isPresented() {
                     self.navigationBar.addCloseButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
                         guard let `self` = self else { return }
-                        self.dismiss(animated: true) { [weak self] in
-                            guard let `self` = self else { return }
-                            self.didClosed()
-                        }
+                        self.close()
                     }).disposed(by: self.disposeBag)
                 }
             }
@@ -186,7 +180,7 @@ open class BaseViewController: UIViewController {
 //        }).disposed(by: self.disposeBag)
     }
     
-    open func close(event: ControlEvent<Void>.Element) {
+    open func close(_: Void? = nil) {
         if self.navigationController?.viewControllers.count ?? 0 > 1 {
             self.navigationController?.popViewController(animated: true, { [weak self] in
                 guard let `self` = self else { return }

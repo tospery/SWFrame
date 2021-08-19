@@ -34,7 +34,7 @@ public extension UIScreen {
     
     /// 320
     ///
-    ///     320x480         4
+    ///     320x480(0.67)         4
     ///     320x568         5/5s
     static var isSmall: Bool {
         self.kind == .small
@@ -54,7 +54,7 @@ public extension UIScreen {
     ///
     ///     414x736         6Plus
     ///     414x896         Xr/XsMax/11/11ProMax
-    ///     428x926         12ProMax
+    ///     428x926(0.46)         12ProMax
     static var isLarge: Bool {
         self.kind == .large
     }

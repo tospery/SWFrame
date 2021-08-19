@@ -15,19 +15,34 @@ public extension Reactive where Base: Navigator {
     
     func push(_ url: URLConvertible, context: Any? = nil, from: UINavigationControllerType? = nil, animated: Bool = true) -> Observable<UIViewController> {
         return .create { [weak base] observer -> Disposable in
+//            guard let base = base else { return Disposables.create { } }
+//            var viewController: UIViewController?
+//            CATransaction.begin()
+//            CATransaction.setCompletionBlock {
+//                if viewController == nil {
+//                    observer.onError(SWError.navigation)
+//                } else {
+//                    observer.onNext(viewController!)
+//                    observer.onCompleted()
+//                }
+//            }
+//            viewController = base.push(url, context: context, from: from, animated: animated)
+//            CATransaction.commit()
+            
             guard let base = base else { return Disposables.create { } }
-            var viewController: UIViewController?
-            CATransaction.begin()
-            CATransaction.setCompletionBlock {
-                if viewController == nil {
-                    observer.onError(SWError.navigation)
-                } else {
-                    observer.onNext(viewController!)
-                    observer.onCompleted()
-                }
+            var ctx = [String: Any].init()
+            if let context = context as? [String: Any] {
+                ctx = context
+            } else {
+                ctx[Parameter.extra] = context
             }
-            viewController = base.push(url, context: context, from: from, animated: animated)
-            CATransaction.commit()
+            ctx[Parameter.observer] = observer
+            guard base.push(
+                url, context: ctx, from: from, animated: animated
+            ) != nil else {
+                observer.onError(SWError.navigation)
+                return Disposables.create { }
+            }
             return Disposables.create { }
         }
     }
