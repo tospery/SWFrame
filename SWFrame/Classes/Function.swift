@@ -79,20 +79,26 @@ public func compareModels(_ left: [[ModelType]]?, _ right: [[ModelType]]?) -> Bo
 }
 
 // value - 375标准
-public func metric(_ value: CGFloat) -> CGFloat {
-    (value / 375.f * UIScreen.width).flat
+//public func metric(_ value: CGFloat) -> CGFloat {
+//    (value / 375.f * UIScreen.width).flat
+//}
+
+// value - 375标准
+public func metric(
+    _ value: CGFloat,
+    small: CGFloat = .greatestFiniteMagnitude,
+    middle: CGFloat = .greatestFiniteMagnitude,
+    large: CGFloat = .greatestFiniteMagnitude
+) -> CGFloat {
+    switch UIScreen.kind {
+    case .small: return small != .greatestFiniteMagnitude ? small : (value / 375.f * UIScreen.width).flat
+    case .middle: return middle != .greatestFiniteMagnitude ? middle : (value / 375.f * UIScreen.width).flat
+    case .large: return large != .greatestFiniteMagnitude ? large : (value / 375.f * UIScreen.width).flat
+    }
 }
 
-public func metric(_ value: CGFloat, notched: CGFloat) -> CGFloat {
-    UIScreen.isNotched ? notched : value
-}
-
-public func metric(_ value: CGFloat, small: CGFloat) -> CGFloat {
-    UIScreen.isSmall ? small : value
-}
-
-public func metric(_ value: CGFloat, large: CGFloat) -> CGFloat {
-    UIScreen.isLarge ? large : value
+public func metric(regular: CGFloat, notched: CGFloat) -> CGFloat {
+    UIScreen.isNotched ? notched : regular
 }
 
 public func metric(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
@@ -103,17 +109,17 @@ public func metric(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
     }
 }
 
-public func fontSize(_ value: CGFloat) -> CGFloat {
-    (value / 375.f * UIScreen.width).flat
-}
-
-public func fontSize(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
-    switch UIScreen.kind {
-    case .small: return small
-    case .middle: return middle
-    case .large: return large
-    }
-}
+//public func fontSize(_ value: CGFloat) -> CGFloat {
+//    (value / 375.f * UIScreen.width).flat
+//}
+//
+//public func fontSize(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
+//    switch UIScreen.kind {
+//    case .small: return small
+//    case .middle: return middle
+//    case .large: return large
+//    }
+//}
 
 public func connectedToInternet() -> Observable<Bool> {
     return reachSubject.asObservable()

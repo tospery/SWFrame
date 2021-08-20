@@ -75,6 +75,10 @@ public extension UIScreen {
         self.main.bounds.size.height
     }
     
+    static var rawHeight: CGFloat {
+        self.height - UINavigationBar.contentHeightConstant - self.safeBottom
+    }
+    
     static var minEdge: CGFloat {
         self.main.bounds.minEdge
     }

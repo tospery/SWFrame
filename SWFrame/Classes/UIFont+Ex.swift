@@ -14,43 +14,29 @@ public extension UIFont {
         .qmui_lightSystemFont(ofSize: size)
     }
     
-    static func normal(_ size: CGFloat) -> UIFont {
-        .systemFont(ofSize: size)
-    }
-    
-    static func normal(_ size: CGFloat, small: CGFloat) -> UIFont {
-        UIScreen.isSmall ? .systemFont(ofSize: small) : .systemFont(ofSize: size)
-    }
-    
-    static func normal(_ size: CGFloat, large: CGFloat) -> UIFont {
-        UIScreen.isLarge ? .systemFont(ofSize: large) : .systemFont(ofSize: size)
-    }
-    
-    static func normal(small: CGFloat, middle: CGFloat, large: CGFloat) -> UIFont {
+    static func normal(
+        _ size: CGFloat,
+        small: CGFloat = .greatestFiniteMagnitude,
+        middle: CGFloat = .greatestFiniteMagnitude,
+        large: CGFloat = .greatestFiniteMagnitude
+    ) -> UIFont {
         switch UIScreen.kind {
-        case .small: return .systemFont(ofSize: small)
-        case .middle: return .systemFont(ofSize: middle)
-        case .large: return .systemFont(ofSize: large)
+        case .small: return .systemFont(ofSize: (small != .greatestFiniteMagnitude ? small : size))
+        case .middle: return .systemFont(ofSize: (middle != .greatestFiniteMagnitude ? middle : size))
+        case .large: return .systemFont(ofSize: (large != .greatestFiniteMagnitude ? large : size))
         }
     }
     
-    static func bold(_ size: CGFloat) -> UIFont {
-        .boldSystemFont(ofSize: size)
-    }
-    
-    static func bold(_ size: CGFloat, small: CGFloat) -> UIFont {
-        UIScreen.isSmall ? .boldSystemFont(ofSize: small) : .boldSystemFont(ofSize: size)
-    }
-    
-    static func bold(_ size: CGFloat, large: CGFloat) -> UIFont {
-        UIScreen.isLarge ? .boldSystemFont(ofSize: large) : .boldSystemFont(ofSize: size)
-    }
-    
-    static func bold(small: CGFloat, middle: CGFloat, large: CGFloat) -> UIFont {
+    static func bold(
+        _ size: CGFloat,
+        small: CGFloat = .greatestFiniteMagnitude,
+        middle: CGFloat = .greatestFiniteMagnitude,
+        large: CGFloat = .greatestFiniteMagnitude
+    ) -> UIFont {
         switch UIScreen.kind {
-        case .small: return .boldSystemFont(ofSize: small)
-        case .middle: return .boldSystemFont(ofSize: middle)
-        case .large: return .boldSystemFont(ofSize: large)
+        case .small: return .boldSystemFont(ofSize: (small != .greatestFiniteMagnitude ? small : size))
+        case .middle: return .boldSystemFont(ofSize: (middle != .greatestFiniteMagnitude ? middle : size))
+        case .large: return .boldSystemFont(ofSize: (large != .greatestFiniteMagnitude ? large : size))
         }
     }
     
