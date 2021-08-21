@@ -42,21 +42,21 @@ extension SWError: LocalizedError {
     /// 概述
     public var failureReason: String? {
         switch self {
-        case .ignore: return NSLocalizedString("Error.Ignore.Title", comment: "")
-        case .unknown: return NSLocalizedString("Error.Unknown.Title", comment: "")
-        case .network: return NSLocalizedString("Error.Network.Title", comment: "")
-        case .navigation: return NSLocalizedString("Error.Navigation.Title", comment: "")
-        case .dataFormat: return NSLocalizedString("Error.DataFormat.Title", comment: "")
-        case .listIsEmpty: return NSLocalizedString("Error.ListIsEmpty.Title", comment: "")
-        case .notLoginedIn: return NSLocalizedString("Error.NotLoginedIn.Title", comment: "")
-        case .server: return NSLocalizedString("Error.Server.Title", comment: "")
-        case .app: return NSLocalizedString("Error.App.Title", comment: "")
+        case .ignore: return NSLocalizedString("Error.Ignore.Title", value: "", comment: "")
+        case .unknown: return NSLocalizedString("Error.Unknown.Title", value: "", comment: "")
+        case .network: return NSLocalizedString("Error.Network.Title", value: "", comment: "")
+        case .navigation: return NSLocalizedString("Error.Navigation.Title", value: "", comment: "")
+        case .dataFormat: return NSLocalizedString("Error.DataFormat.Title", value: "", comment: "")
+        case .listIsEmpty: return NSLocalizedString("Error.ListIsEmpty.Title", value: "", comment: "")
+        case .notLoginedIn: return NSLocalizedString("Error.NotLoginedIn.Title", value: "", comment: "")
+        case .server: return NSLocalizedString("Error.Server.Title", value: "", comment: "")
+        case .app: return NSLocalizedString("Error.App.Title", value: "", comment: "")
         }
     }
     /// 详情
     public var errorDescription: String? {
         switch self {
-        case .ignore: return NSLocalizedString("Error.Ignore.Message", comment: "")
+        case .ignore: return NSLocalizedString("Error.Ignore.Message", value: "", comment: "")
         case .unknown: return NSLocalizedString("Error.Unknown.Message", value: "未知错误", comment: "")
         case .network: return NSLocalizedString("Error.Network.Message", value: "网络错误", comment: "")
         case .navigation: return NSLocalizedString("Error.Navigation.Message", value: "导航错误", comment: "")

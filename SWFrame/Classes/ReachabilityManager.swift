@@ -16,7 +16,7 @@ final public class ReachabilityManager {
     
     public static let shared = ReachabilityManager()
     
-    let network = NetworkReachabilityManager.default
+    let network = NetworkReachabilityManager.init()
     
     init() {
         
