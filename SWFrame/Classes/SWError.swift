@@ -42,34 +42,41 @@ extension SWError: LocalizedError {
     /// 概述
     public var failureReason: String? {
         switch self {
-        case .ignore: return NSLocalizedString("Error.Ignore.Title", value: "忽略错误", comment: "")
-        case .unknown: return NSLocalizedString("Error.Unknown.Title", value: "未知错误", comment: "")
-        case .network: return NSLocalizedString("Error.Network.Title", value: "网络错误", comment: "")
-        case .navigation: return NSLocalizedString("Error.Navigation.Title", value: "导航错误", comment: "")
-        case .dataFormat: return NSLocalizedString("Error.DataFormat.Title", value: "数据格式异常", comment: "")
-        case .listIsEmpty: return NSLocalizedString("Error.ListIsEmpty.Title", value: "列表为空", comment: "")
-        case .notLoginedIn: return NSLocalizedString("Error.NotLoginedIn.Title", value: "用户未登录", comment: "")
-        case .server: return NSLocalizedString("Error.Server.Title", value: "服务异常", comment: "")
-        case .app: return NSLocalizedString("Error.App.Title", value: "操作错误", comment: "")
+        case .ignore: return NSLocalizedString("Error.Ignore.Title", comment: "")
+        case .unknown: return NSLocalizedString("Error.Unknown.Title", comment: "")
+        case .network: return NSLocalizedString("Error.Network.Title", comment: "")
+        case .navigation: return NSLocalizedString("Error.Navigation.Title", comment: "")
+        case .dataFormat: return NSLocalizedString("Error.DataFormat.Title", comment: "")
+        case .listIsEmpty: return NSLocalizedString("Error.ListIsEmpty.Title", comment: "")
+        case .notLoginedIn: return NSLocalizedString("Error.NotLoginedIn.Title", comment: "")
+        case .server: return NSLocalizedString("Error.Server.Title", comment: "")
+        case .app: return NSLocalizedString("Error.App.Title", comment: "")
         }
     }
     /// 详情
     public var errorDescription: String? {
         switch self {
-        case .ignore: return NSLocalizedString("Error.Ignore.Message", value: "忽略错误", comment: "")
+        case .ignore: return NSLocalizedString("Error.Ignore.Message", comment: "")
         case .unknown: return NSLocalizedString("Error.Unknown.Message", value: "未知错误", comment: "")
         case .network: return NSLocalizedString("Error.Network.Message", value: "网络错误", comment: "")
         case .navigation: return NSLocalizedString("Error.Navigation.Message", value: "导航错误", comment: "")
-        case .dataFormat: return NSLocalizedString("Error.DataFormat.Message", value: "数据格式异常", comment: "")
+        case .dataFormat: return NSLocalizedString("Error.DataFormat.Message", value: "数据异常", comment: "")
         case .listIsEmpty: return NSLocalizedString("Error.ListIsEmpty.Message", value: "列表为空", comment: "")
         case .notLoginedIn: return NSLocalizedString("Error.NotLoginedIn.Message", value: "用户未登录", comment: "")
         case let .server(_, message): return message ?? NSLocalizedString("Error.Server.Message", value: "服务异常", comment: "")
-        case let .app(_, message): return message ?? NSLocalizedString("Error.App.Message", value: "操作错误", comment: "")
+        case let .app(_, message): return message ?? NSLocalizedString("Error.App.Message", value: "非法操作", comment: "")
         }
     }
     /// 重试
     public var recoverySuggestion: String? {
-        NSLocalizedString("Error.Retry", value: "重试", comment: "")
+        switch self {
+        case .network: return NSLocalizedString(
+            "Error.Network.Suggestion",
+            value: NSLocalizedString("Retry", value: "重试", comment: ""),
+            comment: ""
+        )
+        default: return NSLocalizedString("Retry", value: "重试", comment: "")
+        }
     }
 
 }

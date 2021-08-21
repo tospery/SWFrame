@@ -99,8 +99,8 @@ extension ScrollViewController: DZNEmptyDataSetSource {
     open func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         if let title = self.error?.asSWError.failureReason, !title.isEmpty {
             return title.styled(with: .alignment(.center),
-                                .font(.normal(20)),
-                                .color(.title))
+                                .font(.bold(20)),
+                                .color(.foreground))
         }
         return nil
     }
@@ -109,7 +109,7 @@ extension ScrollViewController: DZNEmptyDataSetSource {
         if let message = self.error?.asSWError.errorDescription, !message.isEmpty {
             return message.styled(with: .alignment(.center),
                                   .font(.normal(14)),
-                                  .color(.body))
+                                  .color(.foreground))
         }
         return nil
     }
