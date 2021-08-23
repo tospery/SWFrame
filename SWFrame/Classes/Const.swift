@@ -15,3 +15,5 @@ public var pixelOne: CGFloat { QMUIHelper.pixelOne }
 
 public var isLandscape: Bool { UIApplication.shared.statusBarOrientation.isLandscape }
 public var isDeviceLandscape: Bool { UIDevice.current.orientation.isLandscape }
+
+public var dateTimeFormatStyle1: String { "yyyy/MM/dd HH:mm:ss" }
