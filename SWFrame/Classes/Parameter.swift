@@ -39,6 +39,7 @@ public struct Parameter {
     public static let shouldLoadMore        = "shouldLoadMore"
     public static let statusBarStyle        = "statusBarStyle"
     public static let backgroundColor       = "backgroundColor"
+    public static let backgroundImage       = "backgroundImage"
     public static let transparetNavBar      = "transparetNavBar"
     public static let host                  = "_router_host"
     public static let path                  = "_router_path"
