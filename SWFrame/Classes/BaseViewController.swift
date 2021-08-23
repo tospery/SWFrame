@@ -29,6 +29,7 @@ open class BaseViewController: UIViewController {
             self.navigationBar.isTransparet = self.transparetNavBar
         }
     }
+    public var navBarStyle   = NavigationBar.Style.automatic
     
     public var isActivating = false
     public var error: Error?
@@ -81,6 +82,7 @@ open class BaseViewController: UIViewController {
         self.hidesNavigationBar = reactor.parameters.bool(for: Parameter.hideNavBar) ?? false
         self.hidesNavBottomLine = reactor.parameters.bool(for: Parameter.hideNavLine) ?? false
         self.transparetNavBar = reactor.parameters.bool(for: Parameter.transparetNavBar) ?? false
+        self.navBarStyle = .init(rawValue: reactor.parameters.int(for: Parameter.navBarStyle) ?? 0) ?? .automatic
         self.callback = reactor.parameters[Parameter.observer] as? AnyObserver<Any>
     }
     
@@ -109,6 +111,7 @@ open class BaseViewController: UIViewController {
         self.automaticallyAdjustsScrollViewInsets = false
         
         self.navigationController?.navigationBar.isHidden = true
+        self.navigationBar.style = self.navBarStyle
         self.view.addSubview(self.navigationBar)
         if self.hidesNavigationBar {
             self.navigationBar.isHidden = true

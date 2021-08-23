@@ -13,7 +13,13 @@ import SwifterSwift
 
 public class NavigationBar: UIView {
     
+    public enum Style: Int {
+        case automatic
+        case nosafe
+    }
+    
     public var isTransparet = false
+    public var style = Style.automatic
     
     @objc public dynamic var titleColor: UIColor? {
         get {
@@ -108,7 +114,8 @@ public class NavigationBar: UIView {
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return CGSize(width: UIScreen.width, height: UINavigationBar.contentHeightConstant)
+        let height = self.style == .automatic ? UINavigationBar.contentHeightConstant : UINavigationBar.height
+        return CGSize(width: UIScreen.width, height: height)
     }
     
     public override func layoutSubviews() {
