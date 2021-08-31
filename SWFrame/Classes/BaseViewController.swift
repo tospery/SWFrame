@@ -148,6 +148,7 @@ open class BaseViewController: UIViewController {
         }).disposed(by: self.rx.disposeBag)
         
         themeService.rx
+            .bind({ $0.backgroundColor }, to: self.view.rx.backgroundColor)
             .bind({ $0.borderColor }, to: self.navigationBar.rx.lineColor)
             .bind({ $0.foregroundColor }, to: [
                 self.navigationBar.rx.titleColor,
@@ -156,7 +157,10 @@ open class BaseViewController: UIViewController {
             .disposed(by: self.rx.disposeBag)
         if !self.transparetNavBar {
             themeService.rx
-                .bind({ $0.backgroundColor }, to: self.navigationBar.rx.barColor)
+                .bind({ $0.backgroundColor }, to: [
+                    self.navigationBar.rx.barColor,
+                    self.view.rx.backgroundColor
+                ])
                 .disposed(by: self.rx.disposeBag)
         }
     }
