@@ -191,7 +191,17 @@ public class NavigationBar: UIView {
         return button
     }
     
-    private func createButton(image: UIImage?, title: String?) -> UIButton {
+    public func addButtonToRight(button: UIButton) -> UIButton {
+        self.addSubview(button)
+        
+        self.rightButtons.append(button)
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
+        
+        return button
+    }
+    
+    public func createButton(image: UIImage?, title: String?) -> UIButton {
         let button = UIButton(type: .custom)
         button.titleEdgeInsets = .init(top: -10, left: -20, bottom: 0, right: 0)
         button.imageEdgeInsets = .init(top: -10, left: -20, bottom: 0, right: 0)
