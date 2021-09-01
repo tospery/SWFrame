@@ -13,23 +13,15 @@ public extension UIImage {
     fileprivate class func image(name: String) -> UIImage {
         var image = UIImage(named: name, in: Bundle.main, compatibleWith: nil)
         if image == nil {
-            let bundle = Bundle(path: Bundle(module: "SWFrame")!.path(forResource: "SWFrame", ofType: "bundle")!)
-            image = UIImage(named: name, in: bundle, compatibleWith: nil)
-        }
-        if image == nil {
             var bundle = Bundle(for: BaseView.self)
             if let path = bundle.path(forResource: "SWFrame", ofType: "bundle") {
                 bundle = Bundle(path: path)!
             }
             image = UIImage(named: name, in: bundle, compatibleWith: nil)
-        }
-        if image == nil {
-            var bundle = Bundle(for: BaseView.self)
-            if let path = bundle.path(forResource: "SWFrame", ofType: "bundle") {
-                bundle = Bundle(path: path)!
-            }
-            if let path = bundle.path(forResource: "\(name)@2x", ofType: "png") {
-                image = .init(contentsOfFile: path)
+            if image == nil {
+                if let path = bundle.path(forResource: "\(name)@2x", ofType: "png") {
+                    image = .init(contentsOfFile: path)
+                }
             }
         }
         return image!
