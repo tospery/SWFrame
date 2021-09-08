@@ -13,7 +13,27 @@ import NSObject_Rx
 import SwifterSwift
 import URLNavigator
 
-public let statusBarService = BehaviorRelay<UIStatusBarStyle>(value: .default)
+public let statusBarService = BehaviorRelay<UIStatusBarStyle>(
+    value: defaultStatusBarStyle()
+)
+
+func defaultStatusBarStyle() -> UIStatusBarStyle {
+    guard let style = Bundle.main.infoDictionary?["UIStatusBarStyle"] as? String else { return UIApplication.shared.statusBarStyle }
+    switch style {
+    case "UIStatusBarStyleDefault":
+        return .default
+    case "UIStatusBarStyleLightContent":
+        return .lightContent
+    case "UIStatusBarStyleDarkContent":
+        if #available(iOS 13.0, *) {
+            return .darkContent
+        } else {
+            return .default
+        }
+    default:
+        return UIApplication.shared.statusBarStyle
+    }
+}
 
 open class BaseViewController: UIViewController {
     
