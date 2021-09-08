@@ -90,3 +90,14 @@ extension MoyaError: SWErrorCompatible {
         }
     }
 }
+
+extension SKError: SWErrorCompatible {
+    public var swError: SWError {
+        switch self.code {
+        case .paymentCancelled:
+            return .ignore
+        default:
+            return .app(0, self.localizedDescription)
+        }
+    }
+}
