@@ -99,8 +99,8 @@ open class BaseViewController: UIViewController {
         self.navigator = navigator
         super.init(nibName: nil, bundle: nil)
         self.hidesBottomBarWhenPushed = true
-        self.hidesNavigationBar = reactor.parameters.bool(for: Parameter.hideNavBar) ?? false
-        self.hidesNavBottomLine = reactor.parameters.bool(for: Parameter.hideNavLine) ?? false
+        self.hidesNavigationBar = reactor.parameters.bool(for: Parameter.hidesNavigationBar) ?? false
+        self.hidesNavBottomLine = reactor.parameters.bool(for: Parameter.hidesNavBottomLine) ?? false
         self.transparetNavBar = reactor.parameters.bool(for: Parameter.transparetNavBar) ?? false
         self.navBarStyle = .init(rawValue: reactor.parameters.int(for: Parameter.navBarStyle) ?? 0) ?? .automatic
         self.callback = reactor.parameters[Parameter.observer] as? AnyObserver<Any>
