@@ -43,9 +43,6 @@ public extension Reactive where Base: BaseViewController {
             viewController.error = error
             guard viewController.isViewLoaded else { return }
             guard let error = error?.asSWError else { return }
-            if error.isIgnore {
-                return
-            }
             if error.isNotLoginedIn {
                 if let name = UIViewController.topMost?.className,
                    name.contains("LoginViewController") {

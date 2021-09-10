@@ -95,7 +95,7 @@ extension SKError: SWErrorCompatible {
     public var swError: SWError {
         switch self.code {
         case .paymentCancelled:
-            return .ignore
+            return .cancel
         default:
             return .app(0, self.localizedDescription)
         }

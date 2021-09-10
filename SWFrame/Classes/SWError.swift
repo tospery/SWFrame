@@ -10,7 +10,7 @@ import RxSwift
 import Moya
 
 public enum SWError: Error {
-    case ignore
+    case cancel
     case unknown
     case network
     case navigation
@@ -25,7 +25,7 @@ extension SWError: CustomNSError {
     public static let domain = "com.swframe.error"
     public var errorCode: Int {
         switch self {
-        case .ignore: return 1
+        case .cancel: return 1
         case .unknown: return 2
         case .network: return 3
         case .navigation: return 4
@@ -42,7 +42,7 @@ extension SWError: LocalizedError {
     /// 概述
     public var failureReason: String? {
         switch self {
-        case .ignore: return NSLocalizedString("Error.Ignore.Title", value: "", comment: "")
+        case .cancel: return NSLocalizedString("Error.Cancel.Title", value: "", comment: "")
         case .unknown: return NSLocalizedString("Error.Unknown.Title", value: "", comment: "")
         case .network: return NSLocalizedString("Error.Network.Title", value: "", comment: "")
         case .navigation: return NSLocalizedString("Error.Navigation.Title", value: "", comment: "")
@@ -56,7 +56,7 @@ extension SWError: LocalizedError {
     /// 详情
     public var errorDescription: String? {
         switch self {
-        case .ignore: return NSLocalizedString("Error.Ignore.Message", value: "", comment: "")
+        case .cancel: return NSLocalizedString("Error.Cancel.Message", value: "", comment: "")
         case .unknown: return NSLocalizedString("Error.Unknown.Message", value: "未知错误", comment: "")
         case .network: return NSLocalizedString("Error.Network.Message", value: "网络错误", comment: "")
         case .navigation: return NSLocalizedString("Error.Navigation.Message", value: "导航错误", comment: "")
@@ -84,7 +84,7 @@ extension SWError: LocalizedError {
 extension SWError: Equatable {
     public static func == (lhs: SWError, rhs: SWError) -> Bool {
         switch (lhs, rhs) {
-        case (.ignore, .ignore),
+        case (.cancel, .cancel),
              (.unknown, .unknown),
              (.network, .network),
              (.navigation, .navigation),
@@ -103,7 +103,7 @@ extension SWError: Equatable {
 extension SWError: CustomStringConvertible {
     public var description: String {
         switch self {
-        case .ignore: return "SWError.ignore"
+        case .cancel: return "SWError.cancel"
         case .unknown: return "SWError.unknown"
         case .network: return "SWError.network"
         case .navigation: return "SWError.navigation"
@@ -126,8 +126,8 @@ extension SWError {
         }
         return false
     }
-    public var isIgnore: Bool {
-        self == .ignore
+    public var isCancel: Bool {
+        self == .cancel
     }
     public var isListIsEmpty: Bool {
         self == .listIsEmpty
