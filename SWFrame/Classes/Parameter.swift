@@ -36,6 +36,7 @@ public struct Parameter {
     public static let primaryColor          = "primaryColor"
     public static let toastMessage          = "toastMessage"
     public static let toastActivity         = "toastActivity"
+    public static let closeManually         = "closeManually"
     public static let shouldRefresh         = "shouldRefresh"
     public static let progressColor         = "progressColor"
     public static let shouldLoadMore        = "shouldLoadMore"
