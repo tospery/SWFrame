@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+public enum ForwardManner {
+    case push
+    case present
+    case open
+}

@@ -27,7 +27,22 @@ public extension Dictionary where Key == String {
     
     func url(for key: String) -> URL? {
         guard let value = self[key] else { return nil }
-        return (value as? URL) ?? URL.init(string: (value as? String))
+        //return (value as? URL) ?? URL.init(string: (value as? String))
+        if let url = value as? URL {
+            return url
+        }
+        if let string = value as? String {
+            if let url = URL.init(string: string) {
+                return url
+            }
+            if let url = URL.init(string: string.urlEncoded) {
+                return url
+            }
+            if let url = URL.init(string: string.urlDecoded) {
+                return url
+            }
+        }
+        return nil
     }
     
     func color(for key: String) -> UIColor? {

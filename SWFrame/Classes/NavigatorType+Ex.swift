@@ -16,17 +16,11 @@ public extension NavigatorType {
         context: Any? = nil,
         from: UINavigationControllerType? = nil,
         animated: Bool = true
-    ) -> UIViewController? {
-        let viewController = self.push(url, context: context, from: from, animated: animated)
-        if viewController == nil {
-            if let name = UIViewController.topMost?.className,
-               name.contains("LoginViewController") {
-                logger.print("已处于登录页，不需要再次打开", module: .swframe)
-                return nil
-            }
-            return self.present("\(UIApplication.shared.urlScheme)://login", context: context, wrap: NavigationController.self)
+    ) -> Bool {
+        if self.push(url, context: context, from: from, animated: animated) != nil {
+            return true
         }
-        return viewController
+        return self.open(url, context: context)
     }
 
 }

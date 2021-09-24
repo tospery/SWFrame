@@ -51,4 +51,6 @@ public struct Parameter {
     public static let extra                 = "_router_extra"
     public static let context               = "_router_context"
     public static let observer              = "_router_observer"
+    public static let needLogin             = "_router_needLogin"
+    public static let currentUser           = "_router_currentUser"
 }

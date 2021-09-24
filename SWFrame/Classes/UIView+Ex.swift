@@ -8,6 +8,10 @@
 import UIKit
 import QMUIKit
 
+public enum ShadowPattern {
+    case top, bottom, left, right, around, common
+}
+
 public extension UIView {
     
     var borderLayer: BorderLayer? {
@@ -110,6 +114,40 @@ public extension UIView {
         set {
             self.center = CGPoint(x: self.center.x, y: newValue)
         }
+    }
+    
+    func addShadow(
+        color: UIColor,
+        opacity: CGFloat,
+        radius: CGFloat,
+        path: CGFloat,
+        pattern: ShadowPattern
+    ) {
+        self.layer.masksToBounds = false // 必须要等于false否则会把阴影切割隐藏掉
+        self.layer.shadowColor = color.cgColor // 阴影颜色
+        self.layer.shadowOpacity = opacity.float // 阴影透明度，默认0
+        self.layer.shadowOffset = .zero // 阴影偏移，默认(0, -3),这个跟shadowRadius配合使用
+        self.layer.shadowRadius = radius // 阴影半径，默认3
+        
+        let x = 0.f, y = 0.f
+        let width = self.bounds.size.width, height = self.bounds.size.height
+        
+        var rect = CGRect.init()
+        switch pattern {
+        case .top:
+            rect = .init(x: x, y: x - path / 2, width: width, height: path)
+        case .bottom:
+            rect = .init(x: y, y: height - path / 2, width: width, height: path)
+        case .left:
+            rect = .init(x: x - path / 2, y: y, width: path, height: height)
+        case .right:
+            rect = .init(x: width - path / 2, y: y, width: path, height: height)
+        case .around:
+            rect = .init(x: x - path / 2, y: y - path / 2, width: width + path, height: height + path)
+        case .common:
+            rect = .init(x: x - path / 2, y: 2, width: width + path, height: height + path / 2)
+        }
+        self.layer.shadowPath = UIBezierPath.init(rect: rect).cgPath // 阴影路径
     }
     
 }

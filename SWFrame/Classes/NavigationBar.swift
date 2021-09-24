@@ -92,7 +92,7 @@ public class NavigationBar: UIView {
     
     public lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 17)
+        label.font = .normal(17)
         label.backgroundColor = .clear
         label.textAlignment = .center
         label.textColor = .darkText
@@ -207,7 +207,7 @@ public class NavigationBar: UIView {
         button.imageEdgeInsets = .init(top: -10, left: -20, bottom: 0, right: 0)
         button.contentEdgeInsets = .init(top: 10, left: 20, bottom: 0, right: 0)
         button.backgroundColor = .clear
-        button.titleLabel?.font = .normal(14)
+        button.titleLabel?.font = .normal(16)
         button.tintColor = self.itemColor
         button.setTitleColor(self.itemColor, for: .normal)
         button.setTitle(title, for: .normal)
