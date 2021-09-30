@@ -13,6 +13,17 @@ import SwifterSwift
 public extension String {
     
     // MARK: - Properties
+    var forcedURL: URL? {
+        var url = URL.init(string: self)
+        if url == nil {
+            url = URL.init(string: self.urlDecoded)
+        }
+        if url == nil {
+            url = URL.init(string: self.urlEncoded)
+        }
+        return url
+    }
+    
     var color: UIColor? {
         return UIColor(hexString: self)
     }

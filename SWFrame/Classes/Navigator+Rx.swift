@@ -160,4 +160,27 @@ public extension Reactive where Base: Navigator {
         }
     }
     
+    func forward(
+        _ url: URLConvertible,
+        context: Any? = nil,
+        from: UINavigationControllerType? = nil,
+        animated: Bool = true
+    ) -> Observable<Any> {
+        return .create { [weak base] observer -> Disposable in
+            guard let base = base else { return Disposables.create { } }
+            var ctx = [String: Any].init()
+            if let context = context as? [String: Any] {
+                ctx = context
+            } else {
+                ctx[Parameter.extra] = context
+            }
+            ctx[Parameter.observer] = observer
+            guard base.forward(url, context: ctx, from: from, animated: animated) else {
+                observer.onError(SWError.navigation)
+                return Disposables.create { }
+            }
+            return Disposables.create { }
+        }
+    }
+    
 }

@@ -149,7 +149,7 @@ extension ScrollViewController: DZNEmptyDataSetSource {
     }
     
     open func backgroundColor(forEmptyDataSet scrollView: UIScrollView!) -> UIColor! {
-        .background
+        .clear
     }
     
     open func verticalOffset(forEmptyDataSet scrollView: UIScrollView!) -> CGFloat {
