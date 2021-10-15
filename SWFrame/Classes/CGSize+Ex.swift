@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import QMUIKit
 
 public extension CGSize {
 
@@ -15,39 +14,39 @@ public extension CGSize {
     }
 
     var isNaN: Bool {
-        QMUIKit.CGSizeIsNaN(self)
+        self.width.isNaN || self.height.isNaN
     }
     
     var isInf: Bool {
-        QMUIKit.CGSizeIsInf(self)
+        self.width.isInfinite || self.height.isInfinite
     }
     
     var isEmpty: Bool {
-        QMUIKit.CGSizeIsEmpty(self)
+        self.width <= 0 || self.height <= 0
     }
     
     var isValidated: Bool {
-        QMUIKit.CGSizeIsValidated(self)
+        !self.isEmpty && !self.isInf && !self.isNaN
     }
     
     var removeMin: CGSize {
-        QMUIKit.CGSizeRemoveFloatMin(self)
+        .init(width: self.width.removeMin, height: self.height.removeMin)
     }
             
     var flat: CGSize {
-        QMUIKit.CGSizeFlatted(self)
+        .init(width: self.width.flat, height: self.height.flat)
     }
     
     var ceil: CGSize {
-        QMUIKit.CGSizeCeil(self)
+        .init(width: self.width.ceil, height: self.height.ceil)
     }
     
     var floor: CGSize {
-        QMUIKit.CGSizeFloor(self)
+        .init(width: self.width.floor, height: self.height.floor)
     }
             
     func fixed(_ precision: UInt) -> CGSize {
-        QMUIKit.CGSizeToFixed(self, precision)
+        .init(width: self.width.fixed(precision), height: self.height.fixed(precision))
     }
     
 }

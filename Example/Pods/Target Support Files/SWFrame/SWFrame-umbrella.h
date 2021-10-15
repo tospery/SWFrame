@@ -11,8 +11,13 @@
 #endif
 
 #import "SWButton.h"
-#import "SWLabel.h"
-#import "UILabel+Ext.h"
+#import "SWHelper.h"
+#import "UIImage+Ex.h"
+#import "UILabel+Ex.h"
+#import "UINavigationController+Ex.h"
+#import "UITextView+Ex.h"
+#import "UIView+Border.h"
+#import "UIViewController+Ex.h"
 
 FOUNDATION_EXPORT double SWFrameVersionNumber;
 FOUNDATION_EXPORT const unsigned char SWFrameVersionString[];

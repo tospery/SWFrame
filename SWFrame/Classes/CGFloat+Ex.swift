@@ -6,28 +6,37 @@
 //
 
 import Foundation
-import QMUIKit
 
 public extension CGFloat {
     
     var removeMin: CGFloat {
-        QMUIKit.removeFloatMin(self)
+        self == CGFloat.leastNormalMagnitude ? 0 : self
     }
     
     var safed: CGFloat {
-        QMUIKit.CGFloatSafeValue(self)
+        self.isNaN ? 0 : self
     }
     
     var flat: CGFloat {
-        QMUIKit.flat(self)
+        Darwin.ceil(self.removeMin * UIScreen.main.scale) / UIScreen.main.scale
     }
     
     var floorInPixel: CGFloat {
-        QMUIKit.floorInPixel(self)
+        Darwin.floor(self.removeMin * UIScreen.main.scale) / UIScreen.main.scale
     }
     
     func fixed(_ precision: UInt) -> CGFloat {
-        QMUIKit.CGFloatToFixed(self, precision)
+//        NSString *formatString = [NSString stringWithFormat:@"%%.%@f", @(precision)];
+//        NSString *toString = [NSString stringWithFormat:formatString, value];
+//        #if CGFLOAT_IS_DOUBLE
+//        CGFloat result = [toString doubleValue];
+//        #else
+//        CGFloat result = [toString floatValue];
+//        #endif
+//        return result;
+        let format = String.init(format: "%%.%@f", NSNumber.init(value: precision))
+        let string = String.init(format: format, self)
+        return string.cgFloat() ?? 0
     }
     
 }

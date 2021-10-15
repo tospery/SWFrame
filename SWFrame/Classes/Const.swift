@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import QMUIKit
 
 public typealias KVTuple = (key: Any, value: Any?)
 

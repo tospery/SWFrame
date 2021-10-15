@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import QMUIKit
 
 public enum ShadowPattern {
     case top, bottom, left, right, around, common

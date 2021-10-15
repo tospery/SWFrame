@@ -40,7 +40,7 @@ Pod::Spec.new do |s|
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'UIKit', 'CoreText'
-  s.dependency 'QMUIKit/QMUICore', '4.3.0'
+  s.dependency 'DeviceKit', '4.5.0'
   s.dependency 'SwiftyBeaver', '1.9.4'
   s.dependency 'RxTheme', '4.1.1'
   s.dependency 'RxDataSources', '4.0.1'
@@ -49,7 +49,7 @@ Pod::Spec.new do |s|
   s.dependency 'ObjectMapper', '4.2.0'
   s.dependency 'ReactorKit', '2.1.1'
   s.dependency 'URLNavigator', '2.3.0'
-  s.dependency 'BonMot', '5.6.0'
+  s.dependency 'BonMot', '6.0.0'
   s.dependency 'SwifterSwift', '5.2.0'
   s.dependency 'FCUUID', '1.3.1'
   s.dependency 'BZMWebViewJSBridge', '1.0.0'

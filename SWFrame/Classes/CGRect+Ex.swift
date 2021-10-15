@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import QMUIKit
 
 public extension CGRect {
     
@@ -19,55 +18,94 @@ public extension CGRect {
     }
     
     var isNaN: Bool {
-        QMUIKit.CGRectIsNaN(self)
+        self.origin.x.isNaN || self.origin.y.isNaN || self.size.width.isNaN || self.size.height.isNaN
     }
 
     var isInf: Bool {
-        QMUIKit.CGRectIsInf(self)
+        self.origin.x.isInfinite || self.origin.y.isInfinite || self.size.width.isInfinite || self.size.height.isInfinite
     }
 
     var isValidated: Bool {
-        QMUIKit.CGRectIsValidated(self)
+        !self.isNull && !self.isInfinite && !self.isNaN && !self.isInf
     }
 
     var removeMin: CGRect {
-        QMUIKit.CGRectRemoveFloatMin(self)
+        .init(
+            x: self.origin.x.removeMin,
+            y: self.origin.y.removeMin,
+            width: self.size.width.removeMin,
+            height: self.size.height.removeMin
+        )
     }
             
     var safed: CGRect {
-        QMUIKit.CGRectSafeValue(self)
+        .init(
+            x: self.origin.x.safed,
+            y: self.origin.y.safed,
+            width: self.size.width.safed,
+            height: self.size.height.safed
+        )
     }
             
     var flat: CGRect {
-        QMUIKit.CGRectFlatted(self)
+        .init(
+            x: self.origin.x.flat,
+            y: self.origin.y.flat,
+            width: self.size.width.flat,
+            height: self.size.height.flat
+        )
     }
 
     func fixed(_ precision: UInt) -> CGRect {
-        QMUIKit.CGRectToFixed(self, precision)
+        .init(
+            x: self.origin.x.fixed(precision),
+            y: self.origin.y.fixed(precision),
+            width: self.size.width.fixed(precision),
+            height: self.size.height.fixed(precision)
+        )
     }
     
     func rectBy(x: CGFloat) -> CGRect {
-        QMUIKit.CGRectSetX(self, x)
+        var rect = self
+        rect.origin.x = x.flat
+        return rect
     }
     
     func rectBy(y: CGFloat) -> CGRect {
-        QMUIKit.CGRectSetY(self, y)
+        var rect = self
+        rect.origin.y = y.flat
+        return rect
     }
     
     func rectBy(x: CGFloat, y: CGFloat) -> CGRect {
-        QMUIKit.CGRectSetXY(self, x, y)
+        var rect = self
+        rect.origin.x = x.flat
+        rect.origin.y = y.flat
+        return rect
     }
     
     func rectBy(width: CGFloat) -> CGRect {
-        QMUIKit.CGRectSetWidth(self, width)
+        if width < 0 {
+            return self
+        }
+        var rect = self
+        rect.size.width = width.flat
+        return rect
     }
     
     func rectBy(height: CGFloat) -> CGRect {
-        QMUIKit.CGRectSetHeight(self, height)
+        if height < 0 {
+            return self
+        }
+        var rect = self
+        rect.size.height = height.flat
+        return rect
     }
     
     func rectBy(size: CGSize) -> CGRect {
-        QMUIKit.CGRectSetSize(self, size)
+        var rect = self
+        rect.size = size.flat
+        return rect
     }
     
 }

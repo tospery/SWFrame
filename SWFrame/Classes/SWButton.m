@@ -6,7 +6,6 @@
 //
 
 #import "SWButton.h"
-#import <QMUIKit/QMUIKit.h>
 
 @interface SWButton ()
 

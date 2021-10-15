@@ -6,16 +6,15 @@
 //
 
 import Foundation
-import QMUIKit
 
 public extension CGPoint {
     
     var removeMin: CGPoint {
-        QMUIKit.CGPointRemoveFloatMin(self)
+        .init(x: self.x.removeMin, y: self.y.removeMin)
     }
         
     func fixed(_ precision: UInt) -> CGPoint {
-        QMUIKit.CGPointToFixed(self, precision)
+        .init(x: self.x.fixed(precision), y: self.y.fixed(precision))
     }
     
 }
