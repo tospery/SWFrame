@@ -9,25 +9,23 @@ import UIKit
 import QMUIKit
 import RxSwift
 import RxCocoa
-//import SwiftyBeaver
-
-//public let log = SwiftyBeaver.self
+import SwiftyBeaver
 
 open class Library {
     
     open class func setup() {
         self.setupReachability()
-        //self.setupSwiftyBeaver()
+        self.setupSwiftyBeaver()
     }
     
     open class func setupReachability() {
         ReachabilityManager.shared.start()
     }
 
-//    open class func setupSwiftyBeaver() {
-//        log.addDestination(ConsoleDestination.init())
-//        log.addDestination(FileDestination.init())
-//    }
+    open class func setupSwiftyBeaver() {
+        sblog.addDestination(ConsoleDestination.init())
+        sblog.addDestination(FileDestination.init())
+    }
     
 }
 

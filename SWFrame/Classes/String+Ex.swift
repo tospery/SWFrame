@@ -16,10 +16,14 @@ public extension String {
     var forcedURL: URL? {
         var url = URL.init(string: self)
         if url == nil {
-            url = URL.init(string: self.urlDecoded)
-        }
-        if url == nil {
-            url = URL.init(string: self.urlEncoded)
+            let raw = self.trimmed
+            url = URL.init(string: raw)
+            if url == nil {
+                url = URL.init(string: raw.urlDecoded)
+            }
+            if url == nil {
+                url = URL.init(string: raw.urlEncoded)
+            }
         }
         return url
     }

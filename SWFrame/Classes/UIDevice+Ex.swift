@@ -45,12 +45,16 @@ public extension UIDevice {
         QMUIHelper.deviceName
     }
     
-    var ip: String? {
-        guard let ip = try? String.init(contentsOf: URL.init(string: "https://api.ipify.org")!, encoding: .utf8) else {
-            return try? String.init(contentsOf: URL.init(string: "https://api.myip.la")!, encoding: .utf8)
-        }
-        return ip
-    }
+//    var ip: String? {
+//        let server = "https://api.ipify.org" // https://api.myip.la
+//        let request = NSURLRequest.init(url: server.url!, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 2)
+//        var response: AutoreleasingUnsafeMutablePointer<URLResponse?>? = nil
+//        guard let data = try? NSURLConnection.sendSynchronousRequest(request as URLRequest, returning: response) else {
+//            return nil
+//        }
+//        let result = String.init(data: data, encoding: .utf8)
+//        return result
+//    }
     
     private static var kindValue: Kind?
     static var kind: Kind {

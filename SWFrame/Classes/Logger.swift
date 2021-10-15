@@ -6,8 +6,9 @@
 //
 
 import Foundation
-import CocoaLumberjack
+import SwiftyBeaver
 
+public let sblog = SwiftyBeaver.self
 public let logger = Logger.init()
 
 public protocol LoggerCompatible {
@@ -15,15 +16,11 @@ public protocol LoggerCompatible {
     func print(
         _ message: @autoclosure () -> Any,
         module: Logger.Module,
-        level: DDLogLevel,
-        flag: DDLogFlag,
-        context: Int,
-        file: StaticString,
-        function: StaticString,
-        line: UInt,
-        tag: Any?,
-        asynchronous async: Bool,
-        ddlog: DDLog
+        level: SwiftyBeaver.Level,
+        file: String,
+        function: String,
+        line: Int,
+        context: Any?
     )
     
 }
@@ -38,42 +35,30 @@ public struct Logger {
     public func print(
         _ message: @autoclosure () -> Any,
         module: Module = .common,
-        level: DDLogLevel = DDDefaultLogLevel,
-        flag: DDLogFlag = .debug,
-        context: Int = 0,
-        file: StaticString = #file,
-        function: StaticString = #function,
-        line: UInt = #line,
-        tag: Any? = nil,
-        asynchronous async: Bool = asyncLoggingEnabled,
-        ddlog: DDLog = .sharedInstance
+        level: SwiftyBeaver.Level = .debug,
+        file: String = #file,
+        function: String = #function,
+        line: Int = #line,
+        context: Any? = nil
     ) {
         if let compatible = self as? LoggerCompatible {
             compatible.print(
                 message(),
                 module: module,
                 level: level,
-                flag: flag,
-                context: context,
                 file: file,
                 function: function,
                 line: line,
-                tag: tag,
-                asynchronous: async,
-                ddlog: ddlog
+                context: context
             )
         } else {
-            _DDLogMessage(
-                "【\(module)】\(message())",
+            sblog.custom(
                 level: level,
-                flag: flag,
-                context: context,
+                message: "【\(module)】\(message())",
                 file: file,
                 function: function,
                 line: line,
-                tag: tag,
-                asynchronous: async,
-                ddlog: ddlog
+                context: context
             )
         }
     }
