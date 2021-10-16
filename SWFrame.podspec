@@ -40,7 +40,6 @@ Pod::Spec.new do |s|
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'UIKit', 'CoreText'
-  s.dependency 'DeviceKit', '4.5.0'
   s.dependency 'SwiftyBeaver', '1.9.4'
   s.dependency 'RxTheme', '4.1.1'
   s.dependency 'RxDataSources', '4.0.1'

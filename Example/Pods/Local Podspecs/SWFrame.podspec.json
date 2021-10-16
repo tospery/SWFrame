@@ -31,9 +31,6 @@
     "CoreText"
   ],
   "dependencies": {
-    "DeviceKit": [
-      "4.5.0"
-    ],
     "SwiftyBeaver": [
       "1.9.4"
     ],

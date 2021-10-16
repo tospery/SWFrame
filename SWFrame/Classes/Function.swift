@@ -125,36 +125,34 @@ public func metric(
     middle: CGFloat = .greatestFiniteMagnitude,
     large: CGFloat = .greatestFiniteMagnitude
 ) -> CGFloat {
-    switch UIScreen.kind {
-    case .small: return small != .greatestFiniteMagnitude ? small : (value / 375.f * UIScreen.width).flat
-    case .middle: return middle != .greatestFiniteMagnitude ? middle : (value / 375.f * UIScreen.width).flat
-    case .large: return large != .greatestFiniteMagnitude ? large : (value / 375.f * UIScreen.width).flat
+    if isSmallScreen {
+        return small != .greatestFiniteMagnitude ? small : (value / 375.f * deviceWidth).flat
     }
+    if isMiddleScreen {
+        return middle != .greatestFiniteMagnitude ? middle : (value / 375.f * deviceWidth).flat
+    }
+    if isLargeScreen {
+        return large != .greatestFiniteMagnitude ? large : (value / 375.f * deviceWidth).flat
+    }
+    return (value / 375.f * deviceWidth).flat
 }
 
-public func metric(regular: CGFloat, notched: CGFloat) -> CGFloat {
-    UIScreen.isNotched ? notched : regular
-}
+//public func metric(regular: CGFloat, notched: CGFloat) -> CGFloat {
+//    UIScreen.isNotched ? notched : regular
+//}
 
 public func metric(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
-    switch UIScreen.kind {
-    case .small: return small
-    case .middle: return middle
-    case .large: return large
+    if isSmallScreen {
+        return small
     }
+    if isMiddleScreen {
+        return middle
+    }
+    if isLargeScreen {
+        return large
+    }
+    return middle
 }
-
-//public func fontSize(_ value: CGFloat) -> CGFloat {
-//    (value / 375.f * UIScreen.width).flat
-//}
-//
-//public func fontSize(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
-//    switch UIScreen.kind {
-//    case .small: return small
-//    case .middle: return middle
-//    case .large: return large
-//    }
-//}
 
 public func connectedToInternet() -> Observable<Bool> {
     return reachSubject.asObservable()
@@ -168,13 +166,17 @@ public func connectedToInternet() -> Observable<Bool> {
     }
 }
 
-// 区分全面屏（iPhone X 系列）和非全面屏
-public func alternate(notched: CGFloat, other: CGFloat) -> CGFloat {
-    return (UIScreen.isNotched ? notched : other)
+/// 将所有屏幕按照宽松/紧凑分类，其中 iPad、iPhone XS Max/XR/Plus 均为宽松屏幕，但开启了放大模式的设备均会视为紧凑屏幕
+public func preferredValue(regular: CGFloat, compact: CGFloat) -> CGFloat {
+    SWHelper.isRegularScreen ? regular : compact
 }
 
-// 区分紧凑屏
-public func alternate(regular: CGFloat, compact: CGFloat) -> CGFloat {
-    return (UIScreen.isRegular ? regular : compact)
+/// 将所有屏幕按照 Phone/Pad 分类，由于历史上宽高比最大（最胖）的手机为 iPhone 4，所以这里以它为基准，只要宽高比比 iPhone 4 更小的，都视为 Phone，其他情况均视为 Pad。注意 iPad 分屏则取分屏后的宽高来计算。
+public func preferredValue(phone: CGFloat, pad: CGFloat) -> CGFloat {
+    (applicationWidth / applicationHeight <= SWHelper.screenSizeFor35Inch.width / SWHelper.screenSizeFor35Inch.height ? phone : pad)
 }
 
+/// 区分全面屏和非全面屏
+public func preferredValue(notched: CGFloat, other: CGFloat) -> CGFloat {
+    SWHelper.isNotchedScreen ? notched : other
+}

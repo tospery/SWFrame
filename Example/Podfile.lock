@@ -2,7 +2,6 @@ PODS:
   - Alamofire (5.4.4)
   - BonMot (6.0.0)
   - BZMWebViewJSBridge (1.0.0)
-  - DeviceKit (4.5.0)
   - Differentiator (4.0.1)
   - DZNEmptyDataSet (1.8.1)
   - FCUUID (1.3.1):
@@ -38,7 +37,6 @@ PODS:
   - SWFrame (1.5.6):
     - BonMot (= 6.0.0)
     - BZMWebViewJSBridge (= 1.0.0)
-    - DeviceKit (= 4.5.0)
     - DZNEmptyDataSet (= 1.8.1)
     - FCUUID (= 1.3.1)
     - Kingfisher (= 5.15.7)
@@ -90,7 +88,6 @@ SPEC REPOS:
     - Alamofire
     - BonMot
     - BZMWebViewJSBridge
-    - DeviceKit
     - Differentiator
     - DZNEmptyDataSet
     - FCUUID
@@ -119,7 +116,6 @@ SPEC CHECKSUMS:
   Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
   BonMot: fb2b6a2209cb3149aca37b7131d49c051c04ae86
   BZMWebViewJSBridge: e50f14b0008b77b04edcfe2d08488177ef67020c
-  DeviceKit: b68cded46afdaefc5d2253d631d441ba7049a7fe
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   FCUUID: bb054fc90cd7cd99320f9f6ff8e130fe607fba05
@@ -134,7 +130,7 @@ SPEC CHECKSUMS:
   RxRelay: 5a18c2eb2d68326ebaf0112f80d837ae41b92b97
   RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
   RxTheme: 7cda2f036363a0b620cf07b3480cbbbbb00c1d25
-  SWFrame: c94aed94c8f2d24626907726ce5ee97806997e9d
+  SWFrame: 00e8e6853a92e7052e21287425a0e79a4b1fed0b
   SwifterSwift: 334181863c416882d97b7a60c05054d9e4d799e2
   SwiftyBeaver: 576177b2c5c94b3aedd5993914e91271a0524e88
   UICKeyChainStore: 85db518bb1d294366d15ec9b92a416c4e670518f
