@@ -6,7 +6,7 @@
 //
 
 #import "SWButton.h"
-#import "Function.h"
+#import <QMUIKit/QMUIKit.h>
 
 @interface SWButton ()
 
@@ -20,7 +20,7 @@
     if (self = [super initWithFrame:frame]) {
         [self didInitialize];
         
-        self.tintColor = UIColor.blueColor;
+        self.tintColor = ButtonTintColor;
         if (!self.adjustsTitleTintColorAutomatically) {
             [self setTitleColor:self.tintColor forState:UIControlStateNormal];
         }

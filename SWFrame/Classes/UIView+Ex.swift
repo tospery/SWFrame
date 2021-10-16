@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import QMUIKit
 
 public enum ShadowPattern {
     case top, bottom, left, right, around, common
@@ -19,86 +20,82 @@ public extension UIView {
     
     var top: CGFloat {
         get {
-            self.frame.minY
+            return self.qmui_top
         }
         set {
-            self.frame = self.frame.rectBy(y: newValue)
+            self.qmui_top = newValue
         }
     }
     
     var bottom: CGFloat {
         get {
-            self.frame.maxY
+            return self.qmui_bottom
         }
         set {
-            self.frame = self.frame.rectBy(y: newValue - self.frame.height)
+            self.qmui_bottom = newValue
         }
     }
     
     var left: CGFloat {
         get {
-            self.frame.minX
+            return self.qmui_left
         }
         set {
-            self.frame = self.frame.rectBy(x: newValue)
+            self.qmui_left = newValue
         }
     }
     
     var right: CGFloat {
         get {
-            self.frame.maxX
+            return self.qmui_right
         }
         set {
-            self.frame = self.frame.rectBy(x: newValue - self.frame.width)
+            self.qmui_right = newValue
         }
     }
     
     var extendToTop: CGFloat {
         get {
-            self.top
+            return self.qmui_extendToTop
         }
         set {
-            self.height = self.bottom - newValue
-            self.top = newValue
+            self.qmui_extendToTop = newValue
         }
     }
     
     var extendToBottom: CGFloat {
         get {
-            self.bottom
+            return self.qmui_extendToBottom
         }
         set {
-            self.height = newValue - self.top
-            self.bottom = newValue
+            self.qmui_extendToBottom = newValue
         }
     }
     
     var extendToLeft: CGFloat {
         get {
-            self.left
+            return self.qmui_extendToLeft
         }
         set {
-            self.width = self.right - newValue
-            self.left = newValue
+            self.qmui_extendToLeft = newValue
         }
     }
     
     var extendToRight: CGFloat {
         get {
-            self.right
+            return self.qmui_extendToRight
         }
         set {
-            self.width = newValue - self.left
-            self.right = newValue
+            self.qmui_extendToRight = newValue
         }
     }
     
     var leftWhenCenter: CGFloat {
-        CGFloatGetCenter(self.superview?.bounds.width ?? 0, self.frame.width)
+        return self.qmui_leftWhenCenterInSuperview
     }
     
     var topWhenCenter: CGFloat {
-        CGFloatGetCenter(self.superview?.bounds.height ?? 0, self.frame.height)
+        return self.qmui_topWhenCenterInSuperview
     }
 
     var centerX: CGFloat {

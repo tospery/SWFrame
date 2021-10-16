@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import QMUIKit
 import RxSwift
 import RxCocoa
 import NSObject_Rx
@@ -61,7 +62,7 @@ open class BaseViewController: UIViewController {
             self.navigationBar.isTransparet {
             if let navBar = self.navigationController?.navigationBar,
                navBar.isTranslucent == false {
-                height = navigationBarHeight
+                height = UINavigationBar.height
             } else {
                 height = 0
             }

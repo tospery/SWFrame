@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import QMUIKit
 import ObjectMapper
 import SwifterSwift
 

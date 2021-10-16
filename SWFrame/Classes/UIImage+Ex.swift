@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import QMUIKit
 
 public extension UIImage {
     
