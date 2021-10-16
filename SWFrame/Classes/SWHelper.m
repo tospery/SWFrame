@@ -80,6 +80,21 @@ static CGFloat pixelOne = -1.0f;
     return pixelOne;
 }
 
++ (void)inspectContextSize:(CGSize)size {
+    if (!CGSizeIsValidated(size)) {
+        NSAssert(NO, @"QMUIHelper (UIGraphic)", @"QMUI CGPostError, %@:%d %s, 非法的size：%@\n%@", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __PRETTY_FUNCTION__, NSStringFromCGSize(size), [NSThread callStackSymbols]);
+    }
+}
+
++ (BOOL)inspectContextIfInvalidated:(CGContextRef)context {
+    if (!context) {
+        // crash 了就找 molice
+        NSAssert(NO, @"SWHelper (UIGraphic)", @"QMUI CGPostError, %@:%d %s, 非法的context：%@\n%@", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __PRETTY_FUNCTION__, context, [NSThread callStackSymbols]);
+        return NO;
+    }
+    return YES;
+}
+
 @end
 
 @implementation SWHelper (Device)

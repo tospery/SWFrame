@@ -11,10 +11,6 @@ import RxCocoa
 import SwifterSwift
 
 public extension UITabBar {
-    
-    static var height: CGFloat {
-        SWHelper.sharedInstance().tabBarHeight
-    }
 
 }
 

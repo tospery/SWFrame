@@ -10,7 +10,7 @@ import UIKit
 public extension UIScreen {
     
     static var rawHeight: CGFloat {
-        deviceHeight - UINavigationBar.contentHeightConstant - safeBottom
+        deviceHeight - navigationContentTopConstant - safeBottom
     }
     
     static var minEdge: CGFloat {

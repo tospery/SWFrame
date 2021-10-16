@@ -10,7 +10,7 @@ import UIKit
 public extension UIFont {
 
     static func light(_ size: CGFloat) -> UIFont {
-        .qmui_lightSystemFont(ofSize: size)
+        .systemFont(ofSize: size, weight: UIFont.Weight.light)
     }
     
     static func normal(
@@ -19,11 +19,16 @@ public extension UIFont {
         middle: CGFloat = .greatestFiniteMagnitude,
         large: CGFloat = .greatestFiniteMagnitude
     ) -> UIFont {
-        switch UIScreen.kind {
-        case .small: return .systemFont(ofSize: (small != .greatestFiniteMagnitude ? small : size))
-        case .middle: return .systemFont(ofSize: (middle != .greatestFiniteMagnitude ? middle : size))
-        case .large: return .systemFont(ofSize: (large != .greatestFiniteMagnitude ? large : size))
+        if isSmallScreen {
+            return .systemFont(ofSize: (small != .greatestFiniteMagnitude ? small : size))
         }
+        if isMiddleScreen {
+            return .systemFont(ofSize: (middle != .greatestFiniteMagnitude ? middle : size))
+        }
+        if isLargeScreen {
+            return .systemFont(ofSize: (large != .greatestFiniteMagnitude ? large : size))
+        }
+        return .systemFont(ofSize: (middle != .greatestFiniteMagnitude ? middle : size))
     }
     
     static func bold(
@@ -32,11 +37,16 @@ public extension UIFont {
         middle: CGFloat = .greatestFiniteMagnitude,
         large: CGFloat = .greatestFiniteMagnitude
     ) -> UIFont {
-        switch UIScreen.kind {
-        case .small: return .boldSystemFont(ofSize: (small != .greatestFiniteMagnitude ? small : size))
-        case .middle: return .boldSystemFont(ofSize: (middle != .greatestFiniteMagnitude ? middle : size))
-        case .large: return .boldSystemFont(ofSize: (large != .greatestFiniteMagnitude ? large : size))
+        if isSmallScreen {
+            return .boldSystemFont(ofSize: (small != .greatestFiniteMagnitude ? small : size))
         }
+        if isMiddleScreen {
+            return .boldSystemFont(ofSize: (middle != .greatestFiniteMagnitude ? middle : size))
+        }
+        if isLargeScreen {
+            return .boldSystemFont(ofSize: (large != .greatestFiniteMagnitude ? large : size))
+        }
+        return .boldSystemFont(ofSize: (middle != .greatestFiniteMagnitude ? middle : size))
     }
     
 }

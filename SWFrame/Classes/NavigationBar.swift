@@ -113,8 +113,8 @@ public class NavigationBar: UIView {
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
-        let height = self.style == .automatic ? UINavigationBar.contentHeightConstant : UINavigationBar.height
-        return CGSize(width: UIScreen.width, height: height)
+        let height = self.style == .automatic ? navigationContentTopConstant : navigationBarHeight
+        return CGSize(width: deviceWidth, height: height)
     }
     
     public override func layoutSubviews() {
@@ -124,8 +124,8 @@ public class NavigationBar: UIView {
         
         let padding = 10.f
         var left = padding
-        let top = UIScreen.statusBarHeightConstant
-        var navBarHeight = UINavigationBar.height
+        let top = statusBarHeightConstant
+        let navBarHeight = navigationBarHeight
         for button in self.leftButtons {
             button.sizeToFit()
             button.height = min(navBarHeight, button.height)
@@ -145,15 +145,15 @@ public class NavigationBar: UIView {
         let leftDistance = self.leftButtons.last?.right ?? 0
         let rightDistance = self.width - (self.rightButtons.last?.left ?? self.width)
         let margin = max(leftDistance, rightDistance)
-        let titleWidth = flat(self.width - margin * 2)
+        let titleWidth = (self.width - margin * 2).flat
         self.titleLabel.frame = CGRect(
-            x: margin, y: UIScreen.statusBarHeightConstant, width: titleWidth, height: navBarHeight
+            x: margin, y: statusBarHeightConstant, width: titleWidth, height: navBarHeight
         )
         
         if let titleView = self.titleView {
             titleView.width = min(titleView.width, self.titleLabel.width)
             titleView.height = min(titleView.height, self.titleLabel.height)
-            titleView.center = CGPointGetCenterWithRect(self.titleLabel.frame)
+            titleView.center = self.titleLabel.frame.center
             self.titleLabel.isHidden = true
         } else {
             self.titleLabel.isHidden = false

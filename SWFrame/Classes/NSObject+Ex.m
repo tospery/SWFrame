@@ -15,7 +15,7 @@
 
 - (void)qmui_performSelector:(SEL)selector withPrimitiveReturnValue:(void *)returnValue arguments:(void *)firstArgument, ... {
     NSMethodSignature *methodSignature = [self methodSignatureForSelector:selector];
-    QMUIAssert(methodSignature, @"NSObject (QMUI)", @"- [%@ qmui_performSelector:@selector(%@)] 失败，方法不存在。", NSStringFromClass(self.class), NSStringFromSelector(selector));
+    NSAssert(methodSignature, @"NSObject (QMUI)", @"- [%@ qmui_performSelector:@selector(%@)] 失败，方法不存在。", NSStringFromClass(self.class), NSStringFromSelector(selector));
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSignature];
     [invocation setTarget:self];
     [invocation setSelector:selector];

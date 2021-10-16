@@ -28,6 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// 获取一像素的大小
 @property(class, nonatomic, readonly) CGFloat pixelOne;
 
+/// 判断size是否超出范围
++ (void)inspectContextSize:(CGSize)size;
+
+/// context是否合法
++ (BOOL)inspectContextIfInvalidated:(CGContextRef)context;
 
 @end
 

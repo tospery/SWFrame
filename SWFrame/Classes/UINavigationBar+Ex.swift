@@ -8,17 +8,5 @@
 import UIKit
 
 public extension UINavigationBar {
-    
-    static var height: CGFloat {
-        SWHelper.sharedInstance().navigationBarHeight
-    }
-    
-    static var contentHeight: CGFloat {
-        SWHelper.sharedInstance().navigationContentTop
-    }
-    
-    static var contentHeightConstant: CGFloat {
-        SWHelper.sharedInstance().navigationContentTopConstant
-    }
 
 }

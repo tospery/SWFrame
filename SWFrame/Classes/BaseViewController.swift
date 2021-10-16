@@ -61,7 +61,7 @@ open class BaseViewController: UIViewController {
             self.navigationBar.isTransparet {
             if let navBar = self.navigationController?.navigationBar,
                navBar.isTranslucent == false {
-                height = UINavigationBar.height
+                height = navigationBarHeight
             } else {
                 height = 0
             }

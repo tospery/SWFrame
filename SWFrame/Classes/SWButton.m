@@ -6,6 +6,7 @@
 //
 
 #import "SWButton.h"
+#import "Function.h"
 
 @interface SWButton ()
 
@@ -19,7 +20,7 @@
     if (self = [super initWithFrame:frame]) {
         [self didInitialize];
         
-        self.tintColor = ButtonTintColor;
+        self.tintColor = UIColor.blueColor;
         if (!self.adjustsTitleTintColorAutomatically) {
             [self setTitleColor:self.tintColor forState:UIControlStateNormal];
         }

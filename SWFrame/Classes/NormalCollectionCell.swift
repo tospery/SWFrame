@@ -89,7 +89,7 @@ open class NormalCollectionCell: BaseCollectionCell, ReactorKit.View {
             self.avatarImageView.frame = .zero
         } else {
             self.avatarImageView.sizeToFit()
-            self.avatarImageView.height = flat(self.contentView.height * 0.6)
+            self.avatarImageView.height = (self.contentView.height * 0.6).flat
             self.avatarImageView.width = self.avatarImageView.height
             self.avatarImageView.top = self.avatarImageView.topWhenCenter
             self.avatarImageView.right = self.detailLabel.left - 8

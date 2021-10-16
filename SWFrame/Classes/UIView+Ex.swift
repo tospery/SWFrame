@@ -19,82 +19,86 @@ public extension UIView {
     
     var top: CGFloat {
         get {
-            return self.qmui_top
+            self.frame.minY
         }
         set {
-            self.qmui_top = newValue
+            self.frame = self.frame.rectBy(y: newValue)
         }
     }
     
     var bottom: CGFloat {
         get {
-            return self.qmui_bottom
+            self.frame.maxY
         }
         set {
-            self.qmui_bottom = newValue
+            self.frame = self.frame.rectBy(y: newValue - self.frame.height)
         }
     }
     
     var left: CGFloat {
         get {
-            return self.qmui_left
+            self.frame.minX
         }
         set {
-            self.qmui_left = newValue
+            self.frame = self.frame.rectBy(x: newValue)
         }
     }
     
     var right: CGFloat {
         get {
-            return self.qmui_right
+            self.frame.maxX
         }
         set {
-            self.qmui_right = newValue
+            self.frame = self.frame.rectBy(x: newValue - self.frame.width)
         }
     }
     
     var extendToTop: CGFloat {
         get {
-            return self.qmui_extendToTop
+            self.top
         }
         set {
-            self.qmui_extendToTop = newValue
+            self.height = self.bottom - newValue
+            self.top = newValue
         }
     }
     
     var extendToBottom: CGFloat {
         get {
-            return self.qmui_extendToBottom
+            self.bottom
         }
         set {
-            self.qmui_extendToBottom = newValue
+            self.height = newValue - self.top
+            self.bottom = newValue
         }
     }
     
     var extendToLeft: CGFloat {
         get {
-            return self.qmui_extendToLeft
+            self.left
         }
         set {
-            self.qmui_extendToLeft = newValue
+            self.width = self.right - newValue
+            self.left = newValue
         }
     }
     
     var extendToRight: CGFloat {
         get {
-            return self.qmui_extendToRight
+            self.right
         }
         set {
-            self.qmui_extendToRight = newValue
+            self.width = newValue - self.left
+            self.right = newValue
         }
     }
     
     var leftWhenCenter: CGFloat {
-        return self.qmui_leftWhenCenterInSuperview
+        CGFloatGetCenter(self.superview?.bounds.width ?? 0, self.frame.width)
     }
     
     var topWhenCenter: CGFloat {
-        return self.qmui_topWhenCenterInSuperview
+        CGFloatGetCenter(self.superview?.bounds.height ?? 0, self.frame.height)
     }
 
     var centerX: CGFloat {
