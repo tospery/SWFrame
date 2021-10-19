@@ -31,6 +31,9 @@
     "CoreText"
   ],
   "dependencies": {
+    "QMUIKit/QMUICore": [
+      "4.3.0"
+    ],
     "SwiftyBeaver": [
       "1.9.4"
     ],

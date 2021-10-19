@@ -18,6 +18,11 @@ PODS:
   - "NSObject+Rx (5.1.0)":
     - RxSwift (~> 5.1)
   - ObjectMapper (4.2.0)
+  - QMUIKit/QMUICore (4.3.0):
+    - QMUIKit/QMUILog
+    - QMUIKit/QMUIWeakObjectContainer
+  - QMUIKit/QMUILog (4.3.0)
+  - QMUIKit/QMUIWeakObjectContainer (4.3.0)
   - ReactorKit (2.1.1):
     - RxSwift (~> 5.0)
     - WeakMapTable (~> 1.1)
@@ -44,6 +49,7 @@ PODS:
     - Moya/RxSwift (= 14.0.0)
     - "NSObject+Rx (= 5.1.0)"
     - ObjectMapper (= 4.2.0)
+    - QMUIKit/QMUICore (= 4.3.0)
     - ReactorKit (= 2.1.1)
     - RxDataSources (= 4.0.1)
     - RxTheme (= 4.1.1)
@@ -96,6 +102,7 @@ SPEC REPOS:
     - Moya
     - "NSObject+Rx"
     - ObjectMapper
+    - QMUIKit
     - ReactorKit
     - RxCocoa
     - RxDataSources
@@ -124,13 +131,14 @@ SPEC CHECKSUMS:
   Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
   "NSObject+Rx": fa6bbcc1ab1faa06b01466bc09b1e0692bbc5946
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
+  QMUIKit: 67888be9aa0ee0b12b8a219fcea2eec900afd841
   ReactorKit: 6d894a20c3d508344320901cd8e386fde92df4b6
   RxCocoa: e2ed092d5432e4296aa818021d27de4090ac0354
   RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
   RxRelay: 5a18c2eb2d68326ebaf0112f80d837ae41b92b97
   RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
   RxTheme: 7cda2f036363a0b620cf07b3480cbbbbb00c1d25
-  SWFrame: 00e8e6853a92e7052e21287425a0e79a4b1fed0b
+  SWFrame: 2758a714159725bb7402d157af1eed37d84d739a
   SwifterSwift: 334181863c416882d97b7a60c05054d9e4d799e2
   SwiftyBeaver: 576177b2c5c94b3aedd5993914e91271a0524e88
   UICKeyChainStore: 85db518bb1d294366d15ec9b92a416c4e670518f
@@ -139,4 +147,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 3d1c197b4ecc81280f37e581563bad1e5870d2f1
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.10.1
