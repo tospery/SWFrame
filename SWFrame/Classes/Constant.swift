@@ -30,6 +30,27 @@ public var deviceHeight: CGFloat { max(UIScreen.main.bounds.size.width, UIScreen
 public var applicationWidth: CGFloat { QMUIHelper.applicationSize.width }
 public var applicationHeight: CGFloat { QMUIHelper.applicationSize.height }
 
+public var isNotchedScreen: Bool { QMUIHelper.isNotchedScreen }
+public var isRegularScreen: Bool { QMUIHelper.isRegularScreen }
+public var isCompactScreen: Bool { !QMUIHelper.isRegularScreen }
+
+public var isSmallScreen: Bool { deviceWidth <= 320 }
+public var isMiddleScreen: Bool { deviceWidth > 320 && deviceWidth < 414 }
+public var isLargeScreen: Bool { deviceWidth >= 414 }
+
+public var toolBarHeight: CGFloat { SWHelper.sharedInstance().toolBarHeight }
+public var tabBarHeight: CGFloat { SWHelper.sharedInstance().tabBarHeight }
+public var statusBarHeight: CGFloat { SWHelper.sharedInstance().statusBarHeight }
+public var statusBarHeightConstant: CGFloat { SWHelper.sharedInstance().statusBarHeightConstant }
+public var navigationBarHeight: CGFloat { SWHelper.sharedInstance().navigationBarHeight }
+public var navigationContentTop: CGFloat { SWHelper.sharedInstance().navigationContentTop }
+public var navigationContentTopConstant: CGFloat { SWHelper.sharedInstance().navigationContentTopConstant }
+
+public var safeArea: UIEdgeInsets { QMUIHelper.safeAreaInsetsForDeviceWithNotch }
+public var safeBottom: CGFloat { safeArea.bottom }
+
+public var pixelOne: CGFloat { QMUIHelper.pixelOne }
+
 // MARK: - Other
 public typealias KVTuple = (key: Any, value: Any?)
 public var dateTimeFormatStyle1: String { "yyyy/MM/dd HH:mm:ss" }

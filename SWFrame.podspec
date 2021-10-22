@@ -49,7 +49,7 @@ Pod::Spec.new do |s|
   s.dependency 'ObjectMapper', '4.2.0'
   s.dependency 'ReactorKit', '2.1.1'
   s.dependency 'URLNavigator', '2.3.0'
-  s.dependency 'BonMot', '6.0.0'
+  s.dependency 'BonMot', '5.6.0'
   s.dependency 'SwifterSwift', '5.2.0'
   s.dependency 'FCUUID', '1.3.1'
   s.dependency 'BZMWebViewJSBridge', '1.0.0'
