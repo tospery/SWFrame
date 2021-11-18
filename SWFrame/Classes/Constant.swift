@@ -38,13 +38,13 @@ public var isSmallScreen: Bool { deviceWidth <= 320 }
 public var isMiddleScreen: Bool { deviceWidth > 320 && deviceWidth < 414 }
 public var isLargeScreen: Bool { deviceWidth >= 414 }
 
-public var toolBarHeight: CGFloat { SWHelper.sharedInstance().toolBarHeight }
-public var tabBarHeight: CGFloat { SWHelper.sharedInstance().tabBarHeight }
 public var statusBarHeight: CGFloat { SWHelper.sharedInstance().statusBarHeight }
 public var statusBarHeightConstant: CGFloat { SWHelper.sharedInstance().statusBarHeightConstant }
 public var navigationBarHeight: CGFloat { SWHelper.sharedInstance().navigationBarHeight }
 public var navigationContentTop: CGFloat { SWHelper.sharedInstance().navigationContentTop }
 public var navigationContentTopConstant: CGFloat { SWHelper.sharedInstance().navigationContentTopConstant }
+public var tabBarHeight: CGFloat { SWHelper.sharedInstance().tabBarHeight }
+public var toolBarHeight: CGFloat { SWHelper.sharedInstance().toolBarHeight }
 
 public var safeArea: UIEdgeInsets { QMUIHelper.safeAreaInsetsForDeviceWithNotch }
 public var safeBottom: CGFloat { safeArea.bottom }

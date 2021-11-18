@@ -38,11 +38,10 @@ open class AppDependency {
         logger.print("设备型号: \(UIDevice.current.deviceName)", module: .swframe)
         logger.print("系统版本: \(UIDevice.current.systemVersion)", module: .swframe)
         logger.print("屏幕尺寸: \(UIScreen.main.bounds.size)", module: .swframe)
-        logger.print("安全区域: \(UIScreen.safeArea)", module: .swframe)
-        logger.print("状态栏: \(SWHelper.sharedInstance().statusBarHeightConstant)", module: .swframe)
-        logger.print("导航栏: \(SWHelper.sharedInstance().navigationBarHeight)", module: .swframe)
-        logger.print("标签栏: \(SWHelper.sharedInstance().tabBarHeight)", module: .swframe)
-        logger.print("底部栏: \(UIScreen.safeBottom)", module: .swframe)
+        logger.print("安全区域: \(safeArea)", module: .swframe)
+        logger.print("状态栏: \(statusBarHeightConstant)", module: .swframe)
+        logger.print("导航栏: \(navigationBarHeight)", module: .swframe)
+        logger.print("标签栏: \(tabBarHeight)", module: .swframe)
     }
     
     open func application(_ application: UIApplication, leaveDidFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
