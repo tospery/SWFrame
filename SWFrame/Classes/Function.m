@@ -6,7 +6,3 @@
 //
 
 #import "Function.h"
-
-@implementation Function
-
-@end

@@ -116,7 +116,7 @@ public func compareVersion(_ version1: String, _ version2: String, amount: Int =
 
 // value - 375标准
 //public func metric(_ value: CGFloat) -> CGFloat {
-//    (value / 375.f * UIScreen.width).flat
+//    (value / 375.f * deviceWidth).flat
 //}
 
 // value - 375标准
@@ -126,27 +126,31 @@ public func metric(
     middle: CGFloat = .greatestFiniteMagnitude,
     large: CGFloat = .greatestFiniteMagnitude
 ) -> CGFloat {
-    switch UIScreen.kind {
-    case .small: return small != .greatestFiniteMagnitude ? small : (value / 375.f * UIScreen.width).flat
-    case .middle: return middle != .greatestFiniteMagnitude ? middle : (value / 375.f * UIScreen.width).flat
-    case .large: return large != .greatestFiniteMagnitude ? large : (value / 375.f * UIScreen.width).flat
+    if isSmallScreen {
+        return small != .greatestFiniteMagnitude ? small : (value / 375.f * deviceWidth).flat
+    } else if isMiddleScreen {
+        return middle != .greatestFiniteMagnitude ? middle : (value / 375.f * deviceWidth).flat
+    } else {
+        return large != .greatestFiniteMagnitude ? large : (value / 375.f * deviceWidth).flat
     }
 }
 
 public func metric(regular: CGFloat, notched: CGFloat) -> CGFloat {
-    UIScreen.isNotched ? notched : regular
+    isNotchedScreen ? notched : regular
 }
 
 public func metric(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
-    switch UIScreen.kind {
-    case .small: return small
-    case .middle: return middle
-    case .large: return large
+    if isSmallScreen {
+        return small
+    } else if isMiddleScreen {
+        return middle
+    } else {
+        return large
     }
 }
 
 //public func fontSize(_ value: CGFloat) -> CGFloat {
-//    (value / 375.f * UIScreen.width).flat
+//    (value / 375.f * deviceWidth).flat
 //}
 //
 //public func fontSize(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
@@ -171,11 +175,11 @@ public func connectedToInternet() -> Observable<Bool> {
 
 // 区分全面屏（iPhone X 系列）和非全面屏
 public func alternate(notched: CGFloat, other: CGFloat) -> CGFloat {
-    return (UIScreen.isNotched ? notched : other)
+    return (isNotchedScreen ? notched : other)
 }
 
 // 区分紧凑屏
 public func alternate(regular: CGFloat, compact: CGFloat) -> CGFloat {
-    return (UIScreen.isRegular ? regular : compact)
+    return (isRegularScreen ? regular : compact)
 }
 

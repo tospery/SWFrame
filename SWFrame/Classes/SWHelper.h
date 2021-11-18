@@ -6,7 +6,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <QMUIKit/QMUIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,45 +22,5 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedInstance;
 
 @end
-
-//inline BOOL
-//isDebug() {
-//    return IS_DEBUG;
-//}
-//
-//inline CGFloat
-//statusBarHeight() {
-//    return StatusBarHeight;
-//}
-//
-//inline CGFloat
-//statusBarHeightConstant() {
-//    return StatusBarHeightConstant;
-//}
-//
-//inline CGFloat
-//navigationBarHeight() {
-//    return NavigationBarHeight;
-//}
-//
-//inline CGFloat
-//navigationContentTop() {
-//    return NavigationContentTop;
-//}
-//
-//inline CGFloat
-//navigationContentTopConstant() {
-//    return NavigationContentTopConstant;
-//}
-//
-//inline CGFloat
-//tabBarHeight() {
-//    return TabBarHeight;
-//}
-//
-//inline CGFloat
-//toolBarHeight() {
-//    return ToolBarHeight;
-//}
 
 NS_ASSUME_NONNULL_END

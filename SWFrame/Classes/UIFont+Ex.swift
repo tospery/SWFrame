@@ -20,10 +20,12 @@ public extension UIFont {
         middle: CGFloat = .greatestFiniteMagnitude,
         large: CGFloat = .greatestFiniteMagnitude
     ) -> UIFont {
-        switch UIScreen.kind {
-        case .small: return .systemFont(ofSize: (small != .greatestFiniteMagnitude ? small : size))
-        case .middle: return .systemFont(ofSize: (middle != .greatestFiniteMagnitude ? middle : size))
-        case .large: return .systemFont(ofSize: (large != .greatestFiniteMagnitude ? large : size))
+        if isSmallScreen {
+            return .systemFont(ofSize: (small != .greatestFiniteMagnitude ? small : size))
+        } else if isMiddleScreen {
+            return .systemFont(ofSize: (middle != .greatestFiniteMagnitude ? middle : size))
+        } else {
+            return .systemFont(ofSize: (large != .greatestFiniteMagnitude ? large : size))
         }
     }
     
@@ -33,10 +35,12 @@ public extension UIFont {
         middle: CGFloat = .greatestFiniteMagnitude,
         large: CGFloat = .greatestFiniteMagnitude
     ) -> UIFont {
-        switch UIScreen.kind {
-        case .small: return .boldSystemFont(ofSize: (small != .greatestFiniteMagnitude ? small : size))
-        case .middle: return .boldSystemFont(ofSize: (middle != .greatestFiniteMagnitude ? middle : size))
-        case .large: return .boldSystemFont(ofSize: (large != .greatestFiniteMagnitude ? large : size))
+        if isSmallScreen {
+            return .boldSystemFont(ofSize: (small != .greatestFiniteMagnitude ? small : size))
+        } else if isMiddleScreen {
+            return .boldSystemFont(ofSize: (middle != .greatestFiniteMagnitude ? middle : size))
+        } else {
+            return .boldSystemFont(ofSize: (large != .greatestFiniteMagnitude ? large : size))
         }
     }
     
