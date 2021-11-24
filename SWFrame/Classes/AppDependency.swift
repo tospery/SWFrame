@@ -19,7 +19,7 @@ open class AppDependency {
     public var window: UIWindow!
     
     // MARK: - Initialize
-    init() {
+    public init() {
         self.navigator = Navigator()
         self.provider = Provider()
     }
@@ -30,10 +30,6 @@ open class AppDependency {
     
     // MARK: - Application
     open func application(_ application: UIApplication, entryDidFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
-        RuntimeManager.shared.setup()
-        LibraryManager.shared.setup()
-        AppearanceManager.shared.setup()
-        RouterManager.shared.setup(provider: self.provider, navigator: self.navigator)
         logger.print("运行环境: \(UIApplication.shared.inferredEnvironment)", module: .swframe)
         logger.print("设备型号: \(UIDevice.current.deviceName)", module: .swframe)
         logger.print("系统版本: \(UIDevice.current.systemVersion)", module: .swframe)

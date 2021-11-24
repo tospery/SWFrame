@@ -1,21 +1,18 @@
 //
-//  AppearanceManager.swift
+//  Appearance.swift
 //  SWFrame
 //
 //  Created by liaoya on 2021/11/18.
 //
 
 import UIKit
+import RxSwift
 
-final public class AppearanceManager: NSObject {
+open class Appearance {
     
-    public static let shared = AppearanceManager()
+    public static let disposeBag = DisposeBag()
     
-    override init() {
-        super.init()
-    }
-    
-    public func setup() {
+    open class func config() {
 //        // NavBar
 //        if (@available(iOS 13.0, *)) {
 //            UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
@@ -37,7 +34,7 @@ final public class AppearanceManager: NSObject {
 //                NSFontAttributeName: [UIFont boldSystemFontOfSize:17]
 //            };
 //        }
-//        
+//
 //        // TabBar
 //        if (@available(iOS 13.0, *)) {
 //            UITabBarAppearance *appearance = [[UITabBarAppearance alloc] init];
