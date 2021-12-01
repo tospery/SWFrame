@@ -17,7 +17,7 @@ public var isPhone: Bool { QMUIHelper.isIPhone }
 public var isSimulator: Bool { QMUIHelper.isSimulator }
 public var isMac: Bool { QMUIHelper.isMac }
 
-public var iOSVersion: Double { (UIDevice.current.systemName as NSString).doubleValue }
+public var iOSVersion: Double { (UIDevice.current.systemVersion as NSString).doubleValue }
 public var iOSVersionNumber: Int { QMUIHelper.numbericOSVersion() }
 
 public var isLandscape: Bool { UIApplication.shared.statusBarOrientation.isLandscape }

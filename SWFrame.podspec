@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SWFrame'
-  s.version          = '1.5.8'
+  s.version          = '1.5.9'
   s.summary          = 'iOS App Framework.'
 
 # This description is used to generate tags and improve search results.
