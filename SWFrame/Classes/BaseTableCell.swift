@@ -17,9 +17,7 @@ open class BaseTableCell: UITableViewCell {
     
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        themeService.rx
-            .bind({ $0.backgroundColor }, to: self.contentView.rx.backgroundColor)
-            .disposed(by: self.rx.disposeBag)
+        self.contentView.theme.backgroundColor = themeService.attribute { $0.backgroundColor }
     }
     
     required public init?(coder: NSCoder) {

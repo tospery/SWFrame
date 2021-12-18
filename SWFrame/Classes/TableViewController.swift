@@ -26,8 +26,6 @@ open class TableViewController: ScrollViewController {
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        themeService.rx
-            .bind({ $0.backgroundColor }, to: self.tableView.rx.backgroundColor)
-            .disposed(by: self.rx.disposeBag)
+        self.tableView.theme.backgroundColor = themeService.attribute { $0.backgroundColor }
     }
 }

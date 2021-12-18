@@ -167,21 +167,13 @@ open class BaseViewController: UIViewController {
             self.setNeedsStatusBarAppearanceUpdate()
         }).disposed(by: self.rx.disposeBag)
         
-        themeService.rx
-            .bind({ $0.backgroundColor }, to: self.view.rx.backgroundColor)
-            .bind({ $0.borderColor }, to: self.navigationBar.rx.lineColor)
-            .bind({ $0.foregroundColor }, to: [
-                self.navigationBar.rx.titleColor,
-                self.navigationBar.rx.itemColor
-            ])
-            .disposed(by: self.rx.disposeBag)
+        self.view.theme.backgroundColor = themeService.attribute { $0.backgroundColor }
+        self.navigationBar.theme.titleColor = themeService.attribute { $0.foregroundColor }
+        self.navigationBar.theme.itemColor = themeService.attribute { $0.foregroundColor }
+        self.navigationBar.theme.lineColor = themeService.attribute { $0.borderColor }
         if !self.transparetNavBar {
-            themeService.rx
-                .bind({ $0.backgroundColor }, to: [
-                    self.navigationBar.rx.barColor,
-                    self.view.rx.backgroundColor
-                ])
-                .disposed(by: self.rx.disposeBag)
+            self.view.theme.backgroundColor = themeService.attribute { $0.backgroundColor }
+            self.navigationBar.theme.barColor = themeService.attribute { $0.backgroundColor }
         }
     }
     

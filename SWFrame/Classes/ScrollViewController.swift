@@ -69,17 +69,15 @@ open class ScrollViewController: BaseViewController {
             .setDelegate(self)
             .disposed(by: self.disposeBag)
         
-        themeService.typeStream.skip(1)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] themeType in
-                guard let `self` = self else { return }
-                self.handle(theme: themeType)
-            })
-            .disposed(by: self.disposeBag)
+//        themeService.typeStream.skip(1)
+//            .observeOn(MainScheduler.instance)
+//            .subscribe(onNext: { [weak self] themeType in
+//                guard let `self` = self else { return }
+//                self.handle(theme: themeType)
+//            })
+//            .disposed(by: self.disposeBag)
         
-        themeService.rx
-            .bind({ $0.backgroundColor }, to: self.scrollView.rx.backgroundColor)
-            .disposed(by: self.rx.disposeBag)
+        self.scrollView.theme.backgroundColor = themeService.attribute { $0.backgroundColor }
     }
     
     open override func viewDidLayoutSubviews() {

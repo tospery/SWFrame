@@ -10,6 +10,7 @@ import QMUIKit
 import RxSwift
 import RxCocoa
 import SwifterSwift
+import RxTheme
 
 public class NavigationBar: UIView {
     
@@ -261,6 +262,70 @@ public extension Reactive where Base: NavigationBar {
     var lineColor: Binder<UIColor?> {
         return Binder(self.base) { view, color in
             view.lineColor = color
+        }
+    }
+    
+}
+
+public extension ThemeProxy where Base: NavigationBar {
+    
+    var lineColor: ThemeAttribute<UIColor?> {
+        get { fatalError("set only") }
+        set {
+            base.qmui_borderColor = newValue.value
+            let disposable = newValue.stream
+                .take(until: base.rx.deallocating)
+                .observe(on: MainScheduler.instance)
+                .bind(to: base.rx.lineColor)
+            hold(disposable, for: "lineColor")
+        }
+    }
+
+    var titleColor: ThemeAttribute<UIColor?> {
+        get { fatalError("set only") }
+        set {
+            base.titleLabel.textColor = newValue.value
+            let disposable = newValue.stream
+                .take(until: base.rx.deallocating)
+                .observe(on: MainScheduler.instance)
+                .bind(to: base.rx.titleColor)
+            hold(disposable, for: "titleColor")
+        }
+    }
+
+    var itemColor: ThemeAttribute<UIColor?> {
+        get { fatalError("set only") }
+        set {
+            base.tintColor = newValue.value
+            for button in base.leftButtons {
+                button.tintColor = newValue.value
+                button.setTitleColor(newValue.value, for: .normal)
+            }
+            for button in base.rightButtons {
+                button.tintColor = newValue.value
+                button.setTitleColor(newValue.value, for: .normal)
+            }
+            let disposable = newValue.stream
+                .take(until: base.rx.deallocating)
+                .observe(on: MainScheduler.instance)
+                .bind(to: base.rx.itemColor)
+            hold(disposable, for: "itemColor")
+        }
+    }
+    
+    var barColor: ThemeAttribute<UIColor?> {
+        get { fatalError("set only") }
+        set {
+            if base.isTransparet {
+                base.backgroundColor = .clear
+            } else {
+                base.backgroundColor = newValue.value
+            }
+            let disposable = newValue.stream
+                .take(until: base.rx.deallocating)
+                .observe(on: MainScheduler.instance)
+                .bind(to: base.rx.barColor)
+            hold(disposable, for: "barColor")
         }
     }
     

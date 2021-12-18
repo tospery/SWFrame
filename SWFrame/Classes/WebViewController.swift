@@ -77,10 +77,8 @@ open class WebViewController: ScrollViewController, View {
         
         self.loadPage()
         
-        themeService.rx
-            .bind({ $0.primaryColor }, to: self.progressView.barView.rx.backgroundColor)
-            .bind({ $0.backgroundColor }, to: self.webView.rx.backgroundColor)
-            .disposed(by: self.rx.disposeBag)
+        self.webView.theme.backgroundColor = themeService.attribute { $0.backgroundColor }
+        self.progressView.barView.theme.backgroundColor = themeService.attribute { $0.primaryColor }
     }
     
 //    // YJX_TODO webView作为view，里面的scrollView暴露出来

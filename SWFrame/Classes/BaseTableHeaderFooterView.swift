@@ -16,9 +16,7 @@ open class BaseTableHeaderFooterView: UITableViewHeaderFooterView {
     
     public override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-        themeService.rx
-            .bind({ $0.backgroundColor }, to: self.contentView.rx.backgroundColor)
-            .disposed(by: self.rx.disposeBag)
+        self.contentView.theme.backgroundColor = themeService.attribute { $0.backgroundColor }
     }
     
     required public init?(coder: NSCoder) {
