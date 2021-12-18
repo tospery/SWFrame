@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SWFrame'
-  s.version          = '1.5.9'
+  s.version          = '2.0.0'
   s.summary          = 'iOS App Framework.'
 
 # This description is used to generate tags and improve search results.
@@ -40,20 +40,20 @@ Pod::Spec.new do |s|
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'UIKit', 'CoreText'
-  s.dependency 'QMUIKit/QMUICore', '4.3.0'
-  s.dependency 'SwiftyBeaver', '1.9.4'
-  s.dependency 'RxTheme', '4.1.1'
-  s.dependency 'RxDataSources', '4.0.1'
-  s.dependency 'NSObject+Rx', '5.1.0'
-  s.dependency 'Moya/RxSwift', '14.0.0'
+  s.dependency 'QMUIKit/QMUICore', '4.4.0'
+  s.dependency 'SwiftyBeaver', '1.9.5'
+  s.dependency 'RxTheme', '6.0.0'
+  s.dependency 'RxDataSources', '5.0.0'
+  s.dependency 'NSObject+Rx', '5.2.2'
+  s.dependency 'Moya/RxSwift', '15.0.0'
   s.dependency 'ObjectMapper', '4.2.0'
-  s.dependency 'ReactorKit', '2.1.1'
+  s.dependency 'ReactorKit', '3.1.0'
   s.dependency 'URLNavigator', '2.3.0'
   s.dependency 'BonMot', '6.0.0'
   s.dependency 'SwifterSwift', '5.2.0'
   s.dependency 'FCUUID', '1.3.1'
   s.dependency 'BZMWebViewJSBridge', '1.0.0'
-  s.dependency 'Kingfisher', '5.15.7'
+  s.dependency 'Kingfisher', '6.3.1'
   s.dependency 'DZNEmptyDataSet', '1.8.1'
-  s.dependency 'MJRefresh', '3.6.1'
+  s.dependency 'MJRefresh', '3.7.5'
 end

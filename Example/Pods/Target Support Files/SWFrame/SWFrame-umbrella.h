@@ -10,7 +10,7 @@
 #endif
 #endif
 
-#import "SWButton.h"
+#import "Function.h"
 #import "SWHelper.h"
 #import "UIImage+Ex.h"
 #import "UILabel+Ex.h"

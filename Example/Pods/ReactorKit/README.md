@@ -22,24 +22,35 @@ You may want to see the [Examples](#examples) section first if you'd like to see
 
 ## Table of Contents
 
-* [Basic Concept](#basic-concept)
-    * [Design Goal](#design-goal)
-    * [View](#view)
-    * [Reactor](#reactor)
-* [Advanced](#advanced)
-    * [Global States](#global-states)
-    * [View Communication](#view-communication)
-    * [Testing](#testing)
-    * [Scheduling](#scheduling)
-* [Examples](#examples)
-* [Dependencies](#dependencies)
-* [Requirements](#requirements)
-* [Installation](#installation)
-* [Contributing](#contribution)
-* [Community](#community)
-* [Who's using ReactorKit](#whos-using-reactorkit)
-* [Changelog](#changelog)
-* [License](#license)
+- [Table of Contents](#table-of-contents)
+- [Basic Concept](#basic-concept)
+  - [Design Goal](#design-goal)
+  - [View](#view)
+    - [Storyboard Support](#storyboard-support)
+  - [Reactor](#reactor)
+    - [`mutate()`](#mutate)
+    - [`reduce()`](#reduce)
+    - [`transform()`](#transform)
+- [Advanced](#advanced)
+  - [Global States](#global-states)
+  - [View Communication](#view-communication)
+  - [Testing](#testing)
+    - [What to test](#what-to-test)
+    - [View testing](#view-testing)
+    - [Reactor testing](#reactor-testing)
+  - [Scheduling](#scheduling)
+  - [Pulse](#pulse)
+- [Examples](#examples)
+- [Dependencies](#dependencies)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Contribution](#contribution)
+- [Community](#community)
+  - [Join](#join)
+  - [Community Projects](#community-projects)
+- [Who's using ReactorKit](#whos-using-reactorkit)
+- [Changelog](#changelog)
+- [License](#license)
 
 ## Basic Concept
 
@@ -323,22 +334,32 @@ func testIsBookmarked() {
 }
 ```
 
-Sometimes a state is changed more than one time for a single action. For example, a `.refresh` action sets `state.isLoading` to `true` at first and sets to `false` after the refreshing. In this case it's difficult to test `state.isLoading` with `currentState` so you might need to use [RxTest](https://github.com/ReactiveX/RxSwift) or [RxExpect](https://github.com/devxoul/RxExpect). Here is an example test case using RxExpect:
+Sometimes a state is changed more than one time for a single action. For example, a `.refresh` action sets `state.isLoading` to `true` at first and sets to `false` after the refreshing. In this case it's difficult to test `state.isLoading` with `currentState` so you might need to use [RxTest](https://github.com/ReactiveX/RxSwift) or [RxExpect](https://github.com/devxoul/RxExpect). Here is an example test case using RxSwift:
 
 ```swift
 func testIsLoading() {
-  RxExpect("it should change isLoading") { test in
-    let reactor = test.retain(MyReactor())
-    test.input(reactor.action, [
-      next(100, .refresh) // send .refresh at 100 scheduler time
+  // given
+  let scheduler = TestScheduler(initialClock: 0)
+  let reactor = MyReactor()
+  let disposeBag = DisposeBag()
+
+  // when
+  scheduler
+    .createHotObservable([
+      .next(100, .refresh) // send .refresh at 100 scheduler time
     ])
-    test.assert(reactor.state.map { $0.isLoading })
-      .since(100) // values since 100 scheduler time
-      .assert([
-        true,  // just after .refresh
-        false, // after refreshing
-      ])
+    .subscribe(reactor.action)
+    .disposed(by: disposeBag)
+
+  // then
+  let response = scheduler.start(created: 0, subscribed: 0, disposed: 1000) {
+    reactor.state.map(\.isLoading)
   }
+  XCTAssertEqual(response.events.map(\.value.element), [
+    false, // initial state
+    true,  // just after .refresh
+    false  // after refreshing
+  ])
 }
 ```
 
@@ -356,6 +377,65 @@ final class MyReactor: Reactor {
     return state
   }
 }
+```
+
+### Pulse
+
+`Pulse` has diff only when mutated
+To explain in code, the results are as follows.
+```swift
+var messagePulse: Pulse<String?> = Pulse(wrappedValue: "Hello tokijh")
+
+let oldMessagePulse: Pulse<String?> = message
+message = "Hello tokijh"
+
+oldMessagePulse != messagePulse // true
+oldMessagePulse.value == messagePulse.value // true
+```
+
+Use when you want to receive an event only if the new value is assigned, even if it is the same value.
+like `alertMessage` (See follows or [PulseTests.swift](https://github.com/ReactorKit/ReactorKit/blob/master/Tests/ReactorKitTests/PulseTests.swift))
+```swift
+// Reactor
+private final class MyReactor: Reactor {
+  struct State {
+    @Pulse var alertMessage: String?
+  }
+
+  func mutate(action: Action) -> Observable<Mutation> {
+    switch action {
+    case let .alert(message):
+      return Observable.just(Mutation.setAlertMessage(message))
+    }
+  }
+
+  func reduce(state: State, mutation: Mutation) -> State {
+    var newState = state
+
+    switch mutation {
+    case let .setAlertMessage(alertMessage):
+      newState.alertMessage = alertMessage
+    }
+
+    return newState
+  }
+}
+
+// View
+reactor.pulse(\.$alertMessage)
+  .compactMap { $0 } // filter nil
+  .subscribe(onNext: { [weak self] (message: String) in
+    self?.showAlert(message)
+  })
+  .disposed(by: disposeBag)
+
+// Cases
+reactor.action.onNext(.alert("Hello"))  // showAlert() is called with `Hello`
+reactor.action.onNext(.alert("Hello"))  // showAlert() is called with `Hello`
+reactor.action.onNext(.doSomeAction)    // showAlert() is not called
+reactor.action.onNext(.alert("Hello"))  // showAlert() is called with `Hello`
+reactor.action.onNext(.alert("tokijh")) // showAlert() is called with `tokijh`
+reactor.action.onNext(.doSomeAction)    // showAlert() is not called
 ```
 
 ## Examples
@@ -441,7 +521,7 @@ Any discussions and pull requests are welcomed 💖
   <br>
   <a href="https://www.stylesha.re"><img align="center" height="48" alt="StyleShare" hspace="15" src="https://user-images.githubusercontent.com/931655/30255218-e16fedfe-966f-11e7-973d-7d8d1726d7f6.png"></a>
   <a href="http://www.kakaocorp.com"><img align="center" height="36" alt="Kakao" hspace="15" src="https://user-images.githubusercontent.com/931655/30324656-cbea148a-97fc-11e7-9101-ba38d50f08f4.png"></a>
-  <a href="https://www.wantedly.com"><img align="center" height="33" alt="Wantedly" hspace="15" src="https://user-images.githubusercontent.com/2222333/36962929-c448de2a-2094-11e8-9c45-d300890a1a97.png"></a>
+  <a href="https://www.wantedly.com"><img align="center" height="48" alt="Wantedly" hspace="15" src="https://user-images.githubusercontent.com/5885032/123386862-12314780-d5d2-11eb-91c6-f9dc14a329f0.png"></a>
   <br><br>
   <a href="http://getdoctalk.com"><img align="center" height="48" alt="DocTalk" hspace="15" src="https://user-images.githubusercontent.com/931655/30633896-503d142c-9e28-11e7-8e67-69c2822efe77.png"></a>
   <a href="https://www.constantcontact.com"><img align="center" height="44" alt="Constant Contact" hspace="15" src="https://user-images.githubusercontent.com/931655/43634090-2cb30c7e-9746-11e8-8e18-e4fcf87a08cc.png"></a>
