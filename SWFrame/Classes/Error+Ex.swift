@@ -13,29 +13,6 @@ import Moya
 import SafariServices
 import StoreKit
 
-extension Error {
-    
-    public var asSWError: SWError {
-        if let sw = self as? SWError {
-            return sw
-        }
-        if let compatible = self as? SWErrorCompatible {
-            return compatible.swError
-        }
-        return .server(0, self.localizedDescription)
-    }
-    
-}
-
-public protocol SWErrorCompatible: Error {
-    var swError: SWError { get }
-}
-
-extension SWErrorCompatible {
-    public var swError: SWError {
-        .server(0, nil)
-    }
-}
 
 extension NSError: SWErrorCompatible {
     public var swError: SWError {

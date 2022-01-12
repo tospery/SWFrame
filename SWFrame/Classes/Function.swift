@@ -15,37 +15,6 @@ public func ToString(_ any: Any?) -> String? {
 }
 
 // MARK: - compare
-public func compareImage(_ left: ImageSource?, _ right: ImageSource?) -> Bool {
-    if let lImage = left as? UIImage,
-       let rImage = right as? UIImage {
-        return lImage == rImage
-    }
-    if let lURL = left as? URL,
-       let rURL = right as? URL {
-        return lURL == rURL
-    }
-    return false
-}
-
-public func compareAny(_ left: Any?, _ right: Any?) -> Bool {
-    let leftType = type(of: left)
-    let rightType = type(of: right)
-    if leftType != rightType {
-        return false
-    }
-    if left == nil && right == nil {
-        return true
-    }
-    if left == nil && right != nil {
-        return false
-    }
-    if left != nil && right == nil {
-        return false
-    }
-    let leftString = String.init(describing: left!)
-    let rightString = String.init(describing: right!)
-    return leftString == rightString
-}
 
 public func compareModels(_ left: [[ModelType]]?, _ right: [[ModelType]]?) -> Bool {
     if left == nil && right == nil {
@@ -113,54 +82,6 @@ public func compareVersion(_ version1: String, _ version2: String, amount: Int =
     return .orderedSame
 }
 
-
-// value - 375标准
-//public func metric(_ value: CGFloat) -> CGFloat {
-//    (value / 375.f * deviceWidth).flat
-//}
-
-// value - 375标准
-public func metric(
-    _ value: CGFloat,
-    small: CGFloat = .greatestFiniteMagnitude,
-    middle: CGFloat = .greatestFiniteMagnitude,
-    large: CGFloat = .greatestFiniteMagnitude
-) -> CGFloat {
-    if isSmallScreen {
-        return small != .greatestFiniteMagnitude ? small : (value / 375.f * deviceWidth).flat
-    } else if isMiddleScreen {
-        return middle != .greatestFiniteMagnitude ? middle : (value / 375.f * deviceWidth).flat
-    } else {
-        return large != .greatestFiniteMagnitude ? large : (value / 375.f * deviceWidth).flat
-    }
-}
-
-public func metric(regular: CGFloat, notched: CGFloat) -> CGFloat {
-    isNotchedScreen ? notched : regular
-}
-
-public func metric(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
-    if isSmallScreen {
-        return small
-    } else if isMiddleScreen {
-        return middle
-    } else {
-        return large
-    }
-}
-
-//public func fontSize(_ value: CGFloat) -> CGFloat {
-//    (value / 375.f * deviceWidth).flat
-//}
-//
-//public func fontSize(small: CGFloat, middle: CGFloat, large: CGFloat) -> CGFloat {
-//    switch UIScreen.kind {
-//    case .small: return small
-//    case .middle: return middle
-//    case .large: return large
-//    }
-//}
-
 public func connectedToInternet() -> Observable<Bool> {
     return reachSubject.asObservable()
         .filter { $0 != .unknown }
@@ -171,15 +92,5 @@ public func connectedToInternet() -> Observable<Bool> {
             default: return false
         }
     }
-}
-
-// 区分全面屏（iPhone X 系列）和非全面屏
-public func alternate(notched: CGFloat, other: CGFloat) -> CGFloat {
-    return (isNotchedScreen ? notched : other)
-}
-
-// 区分紧凑屏
-public func alternate(regular: CGFloat, compact: CGFloat) -> CGFloat {
-    return (isRegularScreen ? regular : compact)
 }
 
