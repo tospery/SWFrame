@@ -10,50 +10,64 @@ Pod::Spec.new do |s|
   s.name             = 'SWFrame'
   s.version          = '2.0.0'
   s.summary          = 'iOS App Framework.'
-
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
-
   s.description      = <<-DESC
 						iOS App Framework using Swift.
                        DESC
 
   s.homepage         = 'https://github.com/tospery/SWFrame'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'tospery' => 'tospery@gmail.com' }
   s.source           = { :git => 'https://github.com/tospery/SWFrame.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.requires_arc = true
   s.swift_version = '5.0'
   s.ios.deployment_target = '11.0'
+  s.frameworks = 'Foundation', 'UIKit', 'CoreGraphics'
 
-  s.source_files = 'SWFrame/Classes/**/*'
+  s.subspec 'Core' do |ss|
+    ss.source_files = 'SWFrame/Core/**/*'
+	ss.dependency 'ObjectMapper', '4.2.0'
+	ss.dependency 'DeviceKit', '4.5.2'
+	ss.dependency 'SwiftyBeaver', '1.9.5'
+	ss.dependency 'SwifterSwift/SwiftStdlib', '5.2.0'
+  end
   
-  s.resource_bundles = {
-    'SWFrame' => ['SWFrame/Assets/*.png']
-  }
-
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  s.frameworks = 'UIKit', 'CoreText'
-  s.dependency 'QMUIKit/QMUICore', '4.4.0'
-  s.dependency 'SwiftyBeaver', '1.9.5'
-  s.dependency 'RxTheme', '6.0.0'
-  s.dependency 'RxDataSources', '5.0.0'
-  s.dependency 'NSObject+Rx', '5.2.2'
-  s.dependency 'Moya/RxSwift', '15.0.0'
-  s.dependency 'ObjectMapper', '4.2.0'
-  s.dependency 'ReactorKit', '3.1.0'
-  s.dependency 'URLNavigator', '2.3.0'
-  s.dependency 'BonMot', '6.0.0'
-  s.dependency 'SwifterSwift', '5.2.0'
-  s.dependency 'FCUUID', '1.3.1'
-  s.dependency 'BZMWebViewJSBridge', '1.0.0'
-  s.dependency 'Kingfisher', '6.3.1'
-  s.dependency 'DZNEmptyDataSet', '1.8.1'
-  s.dependency 'MJRefresh', '3.7.5'
+  s.subspec 'Network' do |ss|
+    ss.source_files = 'SWFrame/Network/**/*'
+  	ss.dependency 'SWFrame/Core'
+	ss.dependency 'RxRelay', '6.2.0'
+  	ss.dependency 'Moya/RxSwift', '15.0.0'
+	ss.dependency 'SwifterSwift/Foundation', '5.2.0'
+  end
+  
+  s.subspec 'Reactor' do |ss|
+    ss.source_files = 'SWFrame/Reactor/**/*'
+	ss.dependency 'SWFrame/Network'
+	ss.dependency 'SWFrame/Resources'
+	ss.dependency 'SWFrame/Components/JSBridge'
+	ss.dependency 'RxTheme', '6.0.0'
+	ss.dependency 'RxDataSources', '5.0.0'
+	ss.dependency 'NSObject+Rx', '5.2.2'
+	ss.dependency 'ReactorKit', '3.1.0'
+	ss.dependency 'URLNavigator', '2.3.0'
+	ss.dependency 'BonMot', '6.0.0'
+	ss.dependency 'SwifterSwift', '5.2.0'
+	ss.dependency 'FCUUID', '1.3.1'
+	ss.dependency 'BZMWebViewJSBridge', '1.0.0'
+	ss.dependency 'Kingfisher', '6.3.1'
+	ss.dependency 'DZNEmptyDataSet', '1.8.1'
+	ss.dependency 'MJRefresh', '3.7.5'
+  end
+  
+  s.subspec 'Resources' do |ss|
+    ss.resource_bundles = {'Resources' => ['SWFrame/Resources/*.*']}
+  end
+  
+  s.subspec 'Components' do |ss|
+    ss.subspec 'JSBridge' do |sss|
+      sss.source_files = 'SWFrame/Components/JSBridge/**/*'
+  	  sss.frameworks = 'WebKit'
+    end
+  end
+  
 end
