@@ -13,18 +13,24 @@ public enum ShadowPattern {
     case top, bottom, left, right, around, common
 }
 
-//public struct BorderType: OptionSet {
-//    /// Specifies that intermediate directories for the destination URL should be created.
-//    public static let createIntermediateDirectories = Options(rawValue: 1 << 0)
-//    /// Specifies that any previous file at the destination `URL` should be removed.
-//    public static let removePreviousFile = Options(rawValue: 1 << 1)
-//
-//    public let rawValue: Int
-//
-//    public init(rawValue: Int) {
-//        self.rawValue = rawValue
-//    }
-//}
+public struct ViewBorderPosition: OptionSet {
+    
+    public static let top = ViewBorderPosition(rawValue: 1 << 0)
+    public static let left = ViewBorderPosition(rawValue: 1 << 1)
+    public static let bottom = ViewBorderPosition(rawValue: 1 << 2)
+    public static let right = ViewBorderPosition(rawValue: 1 << 3)
+
+    public let rawValue: Int
+
+    public init(rawValue: Int) {
+        self.rawValue = rawValue
+    }
+    
+}
+
+public enum ViewBorderLocation {
+    case inside, center, outside
+}
 
 public extension UIView {
     
@@ -167,5 +173,28 @@ public extension UIView {
         }
         self.layer.shadowPath = UIBezierPath.init(rect: rect).cgPath // 阴影路径
     }
+    
+    // MARK: Border start
+//    public var borders: Border = [] {
+//        didSet {
+//            self.updateBordersHidden()
+//        }
+//    }
+    
+    struct RuntimeKey {
+        static let borderLocationKey = UnsafeRawPointer.init(bitPattern: "borderLocationKey".hashValue)
+    }
+    
+    var borderLocation: ViewBorderLocation? {
+        get {
+            objc_getAssociatedObject(self, RuntimeKey.borderLocationKey!) as? ViewBorderLocation
+        }
+        set {
+            objc_setAssociatedObject(self, RuntimeKey.borderLocationKey!, newValue, .OBJC_ASSOCIATION_ASSIGN)
+        }
+    }
+    
+    
+    // MARK: Border end
     
 }

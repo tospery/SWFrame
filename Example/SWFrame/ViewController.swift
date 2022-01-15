@@ -7,17 +7,29 @@
 //
 
 import UIKit
+import SWFrame
 
 class ViewController: UIViewController {
+    
+    lazy var testView: UIView = {
+        let view = UIView.init()
+        view.width = 200
+        view.height = 200
+        view.backgroundColor = UIColor.red
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.view.backgroundColor = UIColor.white;
+        self.view.addSubview(self.testView)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.testView.left = self.testView.leftWhenCenter
+        self.testView.top = self.testView.topWhenCenter
     }
 
 }

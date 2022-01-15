@@ -81,7 +81,7 @@ SWFSynthesizeIdStrongProperty(swf_borderLayer, setSwf_borderLayer)
 }
 
 static char kAssociatedObjectKey_borderLocation;
-- (void)setQmui_borderLocation:(SWFViewBorderLocation)swf_borderLocation {
+- (void)setSwf_borderLocation:(SWFViewBorderLocation)swf_borderLocation {
     BOOL valueChanged = self.swf_borderLocation != swf_borderLocation;
     objc_setAssociatedObject(self, &kAssociatedObjectKey_borderLocation, @(swf_borderLocation), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self _swfbd_createBorderLayerIfNeeded];
@@ -95,7 +95,7 @@ static char kAssociatedObjectKey_borderLocation;
 }
 
 static char kAssociatedObjectKey_borderPosition;
-- (void)setQmui_borderPosition:(SWFViewBorderPosition)swf_borderPosition {
+- (void)setSwf_borderPosition:(SWFViewBorderPosition)swf_borderPosition {
     BOOL valueChanged = self.swf_borderPosition != swf_borderPosition;
     objc_setAssociatedObject(self, &kAssociatedObjectKey_borderPosition, @(swf_borderPosition), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self _swfbd_createBorderLayerIfNeeded];
@@ -109,7 +109,7 @@ static char kAssociatedObjectKey_borderPosition;
 }
 
 static char kAssociatedObjectKey_borderWidth;
-- (void)setQmui_borderWidth:(CGFloat)swf_borderWidth {
+- (void)setSwf_borderWidth:(CGFloat)swf_borderWidth {
     BOOL valueChanged = self.swf_borderWidth != swf_borderWidth;
     objc_setAssociatedObject(self, &kAssociatedObjectKey_borderWidth, @(swf_borderWidth), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self _swfbd_createBorderLayerIfNeeded];
@@ -128,7 +128,7 @@ static char kAssociatedObjectKey_borderWidth;
 }
 
 static char kAssociatedObjectKey_borderInsets;
-- (void)setQmui_borderInsets:(UIEdgeInsets)swf_borderInsets {
+- (void)setSwf_borderInsets:(UIEdgeInsets)swf_borderInsets {
     BOOL valueChanged = !UIEdgeInsetsEqualToEdgeInsets(self.swf_borderInsets, swf_borderInsets);
     objc_setAssociatedObject(self, &kAssociatedObjectKey_borderInsets, @(swf_borderInsets), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self _swfbd_createBorderLayerIfNeeded];
@@ -142,7 +142,7 @@ static char kAssociatedObjectKey_borderInsets;
 }
 
 static char kAssociatedObjectKey_borderColor;
-- (void)setQmui_borderColor:(UIColor *)swf_borderColor {
+- (void)setSwf_borderColor:(UIColor *)swf_borderColor {
     objc_setAssociatedObject(self, &kAssociatedObjectKey_borderColor, swf_borderColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self _swfbd_createBorderLayerIfNeeded];
     if (self.swf_borderLayer && !self.swf_borderLayer.hidden) {
@@ -155,7 +155,7 @@ static char kAssociatedObjectKey_borderColor;
 }
 
 static char kAssociatedObjectKey_dashPhase;
-- (void)setQmui_dashPhase:(CGFloat)swf_dashPhase {
+- (void)setSwf_dashPhase:(CGFloat)swf_dashPhase {
     BOOL valueChanged = self.swf_dashPhase != swf_dashPhase;
     objc_setAssociatedObject(self, &kAssociatedObjectKey_dashPhase, @(swf_dashPhase), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self _swfbd_createBorderLayerIfNeeded];
@@ -174,7 +174,7 @@ static char kAssociatedObjectKey_dashPhase;
 }
 
 static char kAssociatedObjectKey_dashPattern;
-- (void)setQmui_dashPattern:(NSArray<NSNumber *> *)swf_dashPattern {
+- (void)setSwf_dashPattern:(NSArray<NSNumber *> *)swf_dashPattern {
     BOOL valueChanged = [self.swf_dashPattern isEqualToArray:swf_dashPattern];
     objc_setAssociatedObject(self, &kAssociatedObjectKey_dashPattern, swf_dashPattern, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self _swfbd_createBorderLayerIfNeeded];
