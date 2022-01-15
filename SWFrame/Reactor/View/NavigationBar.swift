@@ -63,13 +63,10 @@ public class NavigationBar: UIView {
 
     @objc public dynamic var lineColor: UIColor? {
         get {
-            // YJX_TODO
-            // return self.swf_borderColor
-            return UIColor.red
+            return self.swf_borderColor
         }
         set {
-            // YJX_TODO
-            //self.swf_borderColor = newValue
+            self.swf_borderColor = newValue
         }
     }
     
@@ -106,10 +103,9 @@ public class NavigationBar: UIView {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        // YJX_TODO
-//        self.swf_borderPosition = .bottom
-//        self.swf_borderWidth = pixelOne
-//        self.swf_borderColor = .lightGray
+        self.swf_borderPosition = .bottom
+        self.swf_borderWidth = pixelOne
+        self.swf_borderColor = .lightGray
         self.addSubview(self.bgImageView)
         self.addSubview(self.titleLabel)
     }
@@ -159,7 +155,7 @@ public class NavigationBar: UIView {
         if let titleView = self.titleView {
             titleView.width = min(titleView.width, self.titleLabel.width)
             titleView.height = min(titleView.height, self.titleLabel.height)
-            // YJX_TODO titleView.center = CGPointGetCenterWithRect(self.titleLabel.frame)
+            titleView.center = .init(x: self.titleLabel.frame.midX, y: self.titleLabel.frame.midY)
             self.titleLabel.isHidden = true
         } else {
             self.titleLabel.isHidden = false
@@ -232,12 +228,12 @@ public class NavigationBar: UIView {
     
     public func transparet() {
         self.backgroundColor = .clear
-        // YJX_TODO self.swf_borderPosition = SWFViewBorderPosition(rawValue: 0)
+        self.swf_borderPosition = SWFViewBorderPosition(rawValue: 0)
     }
     
     public func reset() {
         self.backgroundColor = .white
-        // YJX_TODO self.swf_borderPosition = .bottom
+        self.swf_borderPosition = .bottom
     }
     
 }
@@ -276,7 +272,7 @@ public extension ThemeProxy where Base: NavigationBar {
     var lineColor: ThemeAttribute<UIColor?> {
         get { fatalError("set only") }
         set {
-            // YJX_TODO base.swf_borderColor = newValue.value
+            base.swf_borderColor = newValue.value
             let disposable = newValue.stream
                 .take(until: base.rx.deallocating)
                 .observe(on: MainScheduler.instance)

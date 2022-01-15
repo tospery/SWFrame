@@ -7,8 +7,6 @@
 
 #import <UIKit/UIKit.h>
 
-// YJX_TODO 转换为swift版本
-
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_OPTIONS(NSUInteger, SWFViewBorderPosition) {

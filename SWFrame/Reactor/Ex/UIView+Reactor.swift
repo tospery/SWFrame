@@ -13,6 +13,19 @@ public enum ShadowPattern {
     case top, bottom, left, right, around, common
 }
 
+//public struct BorderType: OptionSet {
+//    /// Specifies that intermediate directories for the destination URL should be created.
+//    public static let createIntermediateDirectories = Options(rawValue: 1 << 0)
+//    /// Specifies that any previous file at the destination `URL` should be removed.
+//    public static let removePreviousFile = Options(rawValue: 1 << 1)
+//
+//    public let rawValue: Int
+//
+//    public init(rawValue: Int) {
+//        self.rawValue = rawValue
+//    }
+//}
+
 public extension UIView {
     
     var borderLayer: BorderLayer? {
@@ -96,13 +109,11 @@ public extension UIView {
     }
     
     var leftWhenCenter: CGFloat {
-        // YJX_TODO
-        0 // CGFloatGetCenter(self.superview?.bounds.width ?? 0, self.frame.width)
+        ((self.superview?.bounds.width ?? 0 - self.frame.width) / 2.0).flat
     }
     
     var topWhenCenter: CGFloat {
-        // YJX_TODO
-        0 // CGFloatGetCenter(self.superview?.bounds.height ?? 0, self.frame.height)
+        ((self.superview?.bounds.height ?? 0 - self.frame.height) / 2.0).flat
     }
 
     var centerX: CGFloat {

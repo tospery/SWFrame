@@ -25,8 +25,7 @@ public extension Reactive where Base: UIView {
     
     var swf_borderColor: Binder<UIColor?> {
         return Binder(self.base) { view, color in
-            // YJX_TODO
-            // view.swf_borderColor = color
+            view.swf_borderColor = color
         }
     }
     

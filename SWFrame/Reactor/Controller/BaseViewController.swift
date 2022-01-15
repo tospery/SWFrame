@@ -139,8 +139,7 @@ open class BaseViewController: UIViewController {
                 self.navigationBar.transparet()
             } else {
                 if self.hidesNavBottomLine {
-                    // YJX_TODO
-                    // self.navigationBar.swf_borderPosition = ViewBorderPosition(rawValue: 0)
+                    self.navigationBar.swf_borderPosition = SWFViewBorderPosition(rawValue: 0)
                 }
             }
             if self.navigationController?.viewControllers.count ?? 0 > 1 {

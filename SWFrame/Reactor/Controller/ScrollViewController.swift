@@ -6,13 +6,13 @@
 //
 
 import UIKit
-
 import RxSwift
 import RxCocoa
 import URLNavigator
 import DZNEmptyDataSet
 import BonMot
 import MJRefresh
+import SwifterSwift
 
 open class ScrollViewController: BaseViewController {
     
@@ -116,8 +116,7 @@ extension ScrollViewController: DZNEmptyDataSetSource {
         if let image = self.error?.asSWError.displayImage {
             return image
         }
-        // YJX_TODO
-        return nil // return UIImage.loading.swf_image(withTintColor: .foreground)
+        return UIImage.loading.tint(.foreground, blendMode: .color)
     }
     
     open func buttonTitle(forEmptyDataSet scrollView: UIScrollView!, for state: UIControl.State) -> NSAttributedString! {
@@ -129,11 +128,10 @@ extension ScrollViewController: DZNEmptyDataSetSource {
     }
     
     open func buttonBackgroundImage(forEmptyDataSet scrollView: UIScrollView!, for state: UIControl.State) -> UIImage! {
-        // YJX_TODO
-//        if state == UIControl.State.normal,
-//            let image = UIImage.swf_image(with: .primary, size: CGSize(width: 120, height: 40), cornerRadius: 2.f) {
-//            return image.withAlignmentRectInsets(UIEdgeInsets(horizontal: (self.view.width - 120) / 2.f * -1.f, vertical: 0))
-//        }
+        if state == UIControl.State.normal,
+            let image = UIImage.init(color: .primary, size: .init(width: 120, height: 40)).withRoundedCorners(radius: 2) {
+            return image.withAlignmentRectInsets(UIEdgeInsets(horizontal: (self.view.width - 120) / 2.f * -1.f, vertical: 0))
+        }
         return nil
     }
     
