@@ -7,7 +7,7 @@
 
 #import "SWButton.h"
 #import "Defines.h"
-#import "CALayer+SWFrame.h"
+#import "CALayer+Reactor.h"
 
 const CGFloat SWFButtonCornerRadiusAdjustsBounds = -1;
 

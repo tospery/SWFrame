@@ -9,7 +9,7 @@
 #import "Lab.h"
 #import "Runtime.h"
 #import "SWHelper.h"
-#import "CALayer+SWFrame.h"
+#import "CALayer+Reactor.h"
 
 @interface SWFBorderLayer : CAShapeLayer
 
