@@ -22,14 +22,16 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+//        self.testView.borderPositions = [.top, .left]
+//        let aaa = self.testView.borderPositions
         self.view.backgroundColor = UIColor.white;
         self.view.addSubview(self.testView)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.testView.left = self.testView.leftWhenCenter
-        self.testView.top = self.testView.topWhenCenter
+        self.testView.left = 50
+        self.testView.top = 200
     }
 
 }
