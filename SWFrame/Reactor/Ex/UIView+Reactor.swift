@@ -35,6 +35,14 @@ public enum ViewBorderLocation: Int {
 extension UIView: NSSwiftyLoadProtocol {
     @objc public static func swiftyLoad() {
         DispatchQueue.once {
+            ExtendImplementationOfUIViewMethodWithCGRectArgument(UIView.self, #selector(UIView.init(frame:))) { selfObject, frame, originReturnValue in
+                selfObject?.swf_setDefaultStyle()
+                return originReturnValue
+            }
+            ExtendImplementationOfUIViewMethodWithCGRectArgument(UIView.self, #selector(UIView.init(coder:))) { selfObject, frame, originReturnValue in
+                selfObject?.swf_setDefaultStyle()
+                return originReturnValue
+            }
         }
     }
 }
