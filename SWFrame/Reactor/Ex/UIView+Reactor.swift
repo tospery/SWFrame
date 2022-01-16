@@ -32,6 +32,13 @@ public enum ViewBorderLocation: Int {
     case inside, center, outside
 }
 
+extension UIView: NSSwiftyLoadProtocol {
+    @objc public static func swiftyLoad() {
+        DispatchQueue.once {
+        }
+    }
+}
+
 public extension UIView {
     
     var borderLayer: BorderLayer? {
@@ -182,60 +189,75 @@ public extension UIView {
 //    }
     
     struct RuntimeKey {
-        static let borderLocationKey = UnsafeRawPointer.init(bitPattern: "borderLocationKey".hashValue)!
-        static let borderPositionsKey = UnsafeRawPointer.init(bitPattern: "borderPositionsKey".hashValue)!
-        static let borderWidthKey = UnsafeRawPointer.init(bitPattern: "borderWidthKey".hashValue)!
-        static let borderInsetsKey = UnsafeRawPointer.init(bitPattern: "borderInsetsKey".hashValue)!
-        static let borderColorKey = UnsafeRawPointer.init(bitPattern: "borderColorKey".hashValue)!
+        static let swfBorderLocationKey = UnsafeRawPointer.init(bitPattern: "swfBorderLocationKey".hashValue)!
+        static let swfBorderPositionsKey = UnsafeRawPointer.init(bitPattern: "swfBorderPositionsKey".hashValue)!
+        static let swfBorderWidthKey = UnsafeRawPointer.init(bitPattern: "swfBorderWidthKey".hashValue)!
+        static let swfBorderInsetsKey = UnsafeRawPointer.init(bitPattern: "swfBorderInsetsKey".hashValue)!
+        static let swfBorderColorKey = UnsafeRawPointer.init(bitPattern: "swfBorderColorKey".hashValue)!
     }
     
     /// 设置边框的位置，默认为 nil，与 view.layer.border 一致。
-    var swfBorderLocation: ViewBorderLocation? {
+    var swf_borderLocation: ViewBorderLocation? {
         get {
-            objc_getAssociatedObject(self, RuntimeKey.borderLocationKey) as? ViewBorderLocation
+            objc_getAssociatedObject(self, RuntimeKey.swfBorderLocationKey) as? ViewBorderLocation
         }
         set {
-            objc_setAssociatedObject(self, RuntimeKey.borderLocationKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, RuntimeKey.swfBorderLocationKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     /// 设置边框类型，支持组合，例如：`borderPosition = [.left, .bottom]`。默认为 []。
-    var swfBorderPositions: [ViewBorderPosition] {
+    var swf_borderPositions: [ViewBorderPosition] {
         get {
-            objc_getAssociatedObject(self, RuntimeKey.borderPositionsKey) as? [ViewBorderPosition] ?? []
+            objc_getAssociatedObject(self, RuntimeKey.swfBorderPositionsKey) as? [ViewBorderPosition] ?? []
         }
         set {
-            objc_setAssociatedObject(self, RuntimeKey.borderPositionsKey, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+            objc_setAssociatedObject(self, RuntimeKey.swfBorderPositionsKey, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
         }
     }
     
     /// 边框的大小，默认为pixelOne。请注意修改 swf_borderPosition 的值以将边框显示出来。
-    var swfBorderWidth: CGFloat {
+    var swf_borderWidth: CGFloat {
         get {
-            objc_getAssociatedObject(self, RuntimeKey.borderWidthKey) as? CGFloat ?? 0
+            objc_getAssociatedObject(self, RuntimeKey.swfBorderWidthKey) as? CGFloat ?? 0
         }
         set {
-            objc_setAssociatedObject(self, RuntimeKey.borderWidthKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, RuntimeKey.swfBorderWidthKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
-    var swfBorderInsets: UIEdgeInsets {
+    var swf_borderInsets: UIEdgeInsets {
         get {
-            objc_getAssociatedObject(self, RuntimeKey.borderInsetsKey) as? UIEdgeInsets ?? .zero
+            objc_getAssociatedObject(self, RuntimeKey.swfBorderInsetsKey) as? UIEdgeInsets ?? .zero
         }
         set {
-            objc_setAssociatedObject(self, RuntimeKey.borderInsetsKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, RuntimeKey.swfBorderInsetsKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
-    var swfBorderColor: UIColor? {
+    var swf_borderColor: UIColor? {
         get {
-            objc_getAssociatedObject(self, RuntimeKey.borderColorKey) as? UIColor
+            objc_getAssociatedObject(self, RuntimeKey.swfBorderColorKey) as? UIColor
         }
         set {
-            objc_setAssociatedObject(self, RuntimeKey.borderColorKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, RuntimeKey.swfBorderColorKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
+    
+    func swf_setDefaultStyle() {
+        self.swf_borderWidth = pixelOne
+        self.swf_borderColor = UIColor.green
+    }
+
+//    @objc func swf_init(frame: CGRect) {
+//        self.swf_init(frame: frame)
+//        self.swf_setDefaultStyle()
+//    }
+//
+//    @objc func swf_init(coder: NSCoder) {
+//        self.swf_init(coder: coder)
+//        self.swf_setDefaultStyle()
+//    }
     
     // MARK: Border end
     

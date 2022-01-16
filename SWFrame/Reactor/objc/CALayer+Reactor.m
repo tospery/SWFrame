@@ -26,15 +26,16 @@ SWFSynthesizeCGFloatProperty(swf_originCornerRadius, setSwf_originCornerRadius)
     BOOL cornerRadiusChanged = self.swf_originCornerRadius != cornerRadius;// flat 处理，避免浮点精度问题
     self.swf_originCornerRadius = cornerRadius;
     [self swflayer_setCornerRadius:cornerRadius];
-    if (cornerRadiusChanged) {
-        // 需要刷新border
-        if ([self.delegate respondsToSelector:@selector(layoutSublayersOfLayer:)]) {
-            UIView *view = (UIView *)self.delegate;
-            if (view.swf_borderPosition > 0 && view.swf_borderWidth > 0) {
-                [view.swf_borderLayer setNeedsLayout];// 直接调用 layer 的 setNeedsLayout，没有线程限制，如果通过 view 调用则需要在主线程才行
-            }
-        }
-    }
+    // YJX_TODO
+//    if (cornerRadiusChanged) {
+//        // 需要刷新border
+//        if ([self.delegate respondsToSelector:@selector(layoutSublayersOfLayer:)]) {
+//            UIView *view = (UIView *)self.delegate;
+//            if (view.swf_borderPosition > 0 && view.swf_borderWidth > 0) {
+//                [view.swf_borderLayer setNeedsLayout];// 直接调用 layer 的 setNeedsLayout，没有线程限制，如果通过 view 调用则需要在主线程才行
+//            }
+//        }
+//    }
 }
 
 - (void)swf_sendSublayerToBack:(CALayer *)sublayer {

@@ -6,6 +6,7 @@
 //
 
 #import "SWHelper.h"
+#import "Runtime.h"
 
 @interface SWHelper ()
 
@@ -30,6 +31,26 @@ static NSMutableSet<NSString *> *executedIdentifiers;
     }
 }
 
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [SWHelper sharedInstance];
+        // UIView运行时设置
+//        ExtendImplementationOfNonVoidMethodWithSingleArgument(UIView.class, @selector(initWithFrame:), CGRect, UIView *, ^UIView *(UIView *selfObject, CGRect frame, UIView *originReturnValue) {
+//            [selfObject swf_setDefaultStyle];
+//            return originReturnValue;
+//        });
+//        OverrideImplementation(UIView.class, @selector(initWithFrame:), ^id(__unsafe_unretained Class originClass, SEL originCMD, IMP (^originalIMPProvider)(void)) {
+//            return ^UIView * (__unsafe_unretained __kindof NSObject *selfObject, CGRect firstArgv) {
+//                UIView * (*originSelectorIMP)(id, SEL, CGRect);
+//                originSelectorIMP = (UIView * (*)(id, SEL, CGRect))originalIMPProvider();
+//                UIView * result = originSelectorIMP(selfObject, originCMD, firstArgv);
+//                return originalIMPProvider(selfObject, firstArgv, result);
+//            };
+//        });
+    });
+}
+
 + (instancetype)sharedInstance {
     static id instance;
     static dispatch_once_t onceToken;
@@ -40,3 +61,19 @@ static NSMutableSet<NSString *> *executedIdentifiers;
 }
 
 @end
+
+//ExtendImplementationOfNonVoidMethodWithSingleArgument([UIView class], @selector(initWithFrame:), CGRect, UIView *, ^UIView *(UIView *selfObject, CGRect frame, UIView *originReturnValue) {
+//    [selfObject _qmuibd_setDefaultStyle];
+//    return originReturnValue;
+//});
+//
+//#define ExtendImplementationOfNonVoidMethodWithSingleArgument(_targetClass, _targetSelector, _argumentType, _returnType, _implementationBlock) OverrideImplementation(_targetClass, _targetSelector, ^id(__unsafe_unretained Class originClass, SEL originCMD, IMP (^originalIMPProvider)(void)) {\
+//        return ^_returnType (__unsafe_unretained __kindof NSObject *selfObject, _argumentType firstArgv) {\
+//            \
+//            _returnType (*originSelectorIMP)(id, SEL, _argumentType);\
+//            originSelectorIMP = (_returnType (*)(id, SEL, _argumentType))originalIMPProvider();\
+//            _returnType result = originSelectorIMP(selfObject, originCMD, firstArgv);\
+//            \
+//            return _implementationBlock(selfObject, firstArgv, result);\
+//        };\
+//    });

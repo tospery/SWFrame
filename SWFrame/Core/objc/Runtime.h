@@ -156,6 +156,28 @@ ExtendImplementationOfVoidMethodWithoutArguments(Class targetClass, SEL targetSe
     });
 }
 
+//#define ExtendImplementationOfNonVoidMethodWithSingleArgument(_targetClass, _targetSelector, _argumentType, _returnType, _implementationBlock) OverrideImplementation(_targetClass, _targetSelector, ^id(__unsafe_unretained Class originClass, SEL originCMD, IMP (^originalIMPProvider)(void)) {\
+//        return ^_returnType (__unsafe_unretained __kindof NSObject *selfObject, _argumentType firstArgv) {\
+//            \
+            _returnType (*originSelectorIMP)(id, SEL, _argumentType);\
+            originSelectorIMP = (_returnType (*)(id, SEL, _argumentType))originalIMPProvider();\
+            _returnType result = originSelectorIMP(selfObject, originCMD, firstArgv);\
+            \
+            return _implementationBlock(selfObject, firstArgv, result);\
+//        };\
+//    });
+//CG_INLINE BOOL
+//ExtendImplementationOfUIViewMethodWithCGRectArgument(Class targetClass, SEL targetSelector, UIView * (^implementationBlock)(UIView *selfObject, CGRect frame, UIView *originReturnValue)) {
+//    return OverrideImplementation(targetClass, targetSelector, ^id(__unsafe_unretained Class originClass, SEL originCMD, IMP (^originalIMPProvider)(void)) {
+//        return ^UIView * (__unsafe_unretained __kindof NSObject *selfObject, CGRect firstArgv) {
+//            UIView * (*originSelectorIMP)(id, SEL, CGRect);
+//                    originSelectorIMP = (UIView * (*)(id, SEL, CGRect))originalIMPProvider();
+//            UIView * result = originSelectorIMP(selfObject, originCMD, firstArgv);
+//                    return _implementationBlock(selfObject, firstArgv, result);
+//        };
+//    });
+//}
+
 /**
  *  用 block 重写某个 class 的某个无参数且带返回值的方法，会自动在调用 block 之前先调用该方法原本的实现。
  *  @param _targetClass 要重写的 class
