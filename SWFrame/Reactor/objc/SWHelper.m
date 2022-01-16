@@ -35,19 +35,6 @@ static NSMutableSet<NSString *> *executedIdentifiers;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         [SWHelper sharedInstance];
-        // UIView运行时设置
-//        ExtendImplementationOfNonVoidMethodWithSingleArgument(UIView.class, @selector(initWithFrame:), CGRect, UIView *, ^UIView *(UIView *selfObject, CGRect frame, UIView *originReturnValue) {
-//            [selfObject swf_setDefaultStyle];
-//            return originReturnValue;
-//        });
-//        OverrideImplementation(UIView.class, @selector(initWithFrame:), ^id(__unsafe_unretained Class originClass, SEL originCMD, IMP (^originalIMPProvider)(void)) {
-//            return ^UIView * (__unsafe_unretained __kindof NSObject *selfObject, CGRect firstArgv) {
-//                UIView * (*originSelectorIMP)(id, SEL, CGRect);
-//                originSelectorIMP = (UIView * (*)(id, SEL, CGRect))originalIMPProvider();
-//                UIView * result = originSelectorIMP(selfObject, originCMD, firstArgv);
-//                return originalIMPProvider(selfObject, firstArgv, result);
-//            };
-//        });
     });
 }
 

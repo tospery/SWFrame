@@ -13,40 +13,6 @@ public enum ShadowPattern {
     case top, bottom, left, right, around, common
 }
 
-public struct ViewBorderPosition: OptionSet {
-    
-    public static let top = ViewBorderPosition(rawValue: 1 << 0)
-    public static let left = ViewBorderPosition(rawValue: 1 << 1)
-    public static let bottom = ViewBorderPosition(rawValue: 1 << 2)
-    public static let right = ViewBorderPosition(rawValue: 1 << 3)
-
-    public let rawValue: Int
-
-    public init(rawValue: Int) {
-        self.rawValue = rawValue
-    }
-    
-}
-
-public enum ViewBorderLocation: Int {
-    case inside, center, outside
-}
-
-extension UIView: NSSwiftyLoadProtocol {
-    @objc public static func swiftyLoad() {
-        DispatchQueue.once {
-            ExtendImplementationOfUIViewMethodWithCGRectArgument(UIView.self, #selector(UIView.init(frame:))) { selfObject, frame, originReturnValue in
-                selfObject?.swf_setDefaultStyle()
-                return originReturnValue
-            }
-            ExtendImplementationOfUIViewMethodWithCGRectArgument(UIView.self, #selector(UIView.init(coder:))) { selfObject, frame, originReturnValue in
-                selfObject?.swf_setDefaultStyle()
-                return originReturnValue
-            }
-        }
-    }
-}
-
 public extension UIView {
     
     var borderLayer: BorderLayer? {
@@ -188,59 +154,20 @@ public extension UIView {
         }
         self.layer.shadowPath = UIBezierPath.init(rect: rect).cgPath // 阴影路径
     }
-    
-    // MARK: Border start
-//    public var borders: Border = [] {
-//        didSet {
-//            self.updateBordersHidden()
-//        }
-//    }
+
+    enum ViewSide {
+        case top
+        case right
+        case bottom
+        case left
+    }
     
     struct RuntimeKey {
-        static let swfBorderLocationKey = UnsafeRawPointer.init(bitPattern: "swfBorderLocationKey".hashValue)!
-        static let swfBorderPositionsKey = UnsafeRawPointer.init(bitPattern: "swfBorderPositionsKey".hashValue)!
-        static let swfBorderWidthKey = UnsafeRawPointer.init(bitPattern: "swfBorderWidthKey".hashValue)!
-        static let swfBorderInsetsKey = UnsafeRawPointer.init(bitPattern: "swfBorderInsetsKey".hashValue)!
         static let swfBorderColorKey = UnsafeRawPointer.init(bitPattern: "swfBorderColorKey".hashValue)!
-    }
-    
-    /// 设置边框的位置，默认为 nil，与 view.layer.border 一致。
-    var swf_borderLocation: ViewBorderLocation? {
-        get {
-            objc_getAssociatedObject(self, RuntimeKey.swfBorderLocationKey) as? ViewBorderLocation
-        }
-        set {
-            objc_setAssociatedObject(self, RuntimeKey.swfBorderLocationKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-    }
-    
-    /// 设置边框类型，支持组合，例如：`borderPosition = [.left, .bottom]`。默认为 []。
-    var swf_borderPositions: [ViewBorderPosition] {
-        get {
-            objc_getAssociatedObject(self, RuntimeKey.swfBorderPositionsKey) as? [ViewBorderPosition] ?? []
-        }
-        set {
-            objc_setAssociatedObject(self, RuntimeKey.swfBorderPositionsKey, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
-        }
-    }
-    
-    /// 边框的大小，默认为pixelOne。请注意修改 swf_borderPosition 的值以将边框显示出来。
-    var swf_borderWidth: CGFloat {
-        get {
-            objc_getAssociatedObject(self, RuntimeKey.swfBorderWidthKey) as? CGFloat ?? 0
-        }
-        set {
-            objc_setAssociatedObject(self, RuntimeKey.swfBorderWidthKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-    }
-    
-    var swf_borderInsets: UIEdgeInsets {
-        get {
-            objc_getAssociatedObject(self, RuntimeKey.swfBorderInsetsKey) as? UIEdgeInsets ?? .zero
-        }
-        set {
-            objc_setAssociatedObject(self, RuntimeKey.swfBorderInsetsKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
+        static let swfLeftBorderKey = UnsafeRawPointer.init(bitPattern: "swfLeftBorderKey".hashValue)!
+        static let swfBottomBorderKey = UnsafeRawPointer.init(bitPattern: "swfBottomBorderKey".hashValue)!
+        static let swfTopBorderKey = UnsafeRawPointer.init(bitPattern: "swfTopBorderKey".hashValue)!
+        static let swfRightBorderKey = UnsafeRawPointer.init(bitPattern: "swfRightBorderKey".hashValue)!
     }
     
     var swf_borderColor: UIColor? {
@@ -249,24 +176,109 @@ public extension UIView {
         }
         set {
             objc_setAssociatedObject(self, RuntimeKey.swfBorderColorKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            self.swf_topBorderLayer?.borderColor = newValue?.cgColor
+            self.swf_leftBorderLayer?.borderColor = newValue?.cgColor
+            self.swf_bottomBorderLayer?.borderColor = newValue?.cgColor
+            self.swf_rightBorderLayer?.borderColor = newValue?.cgColor
         }
     }
     
-    func swf_setDefaultStyle() {
-        self.swf_borderWidth = pixelOne
-        self.swf_borderColor = UIColor.green
+    private var swf_leftBorderLayer: CALayer? {
+        get {
+            objc_getAssociatedObject(self, RuntimeKey.swfLeftBorderKey) as? CALayer
+        }
+        set {
+            objc_setAssociatedObject(self, RuntimeKey.swfLeftBorderKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
     }
-
-//    @objc func swf_init(frame: CGRect) {
-//        self.swf_init(frame: frame)
-//        self.swf_setDefaultStyle()
-//    }
-//
-//    @objc func swf_init(coder: NSCoder) {
-//        self.swf_init(coder: coder)
-//        self.swf_setDefaultStyle()
-//    }
     
-    // MARK: Border end
+    private var swf_bottomBorderLayer: CALayer? {
+        get {
+            objc_getAssociatedObject(self, RuntimeKey.swfBottomBorderKey) as? CALayer
+        }
+        set {
+            objc_setAssociatedObject(self, RuntimeKey.swfBottomBorderKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    private var swf_topBorderLayer: CALayer? {
+        get {
+            objc_getAssociatedObject(self, RuntimeKey.swfTopBorderKey) as? CALayer
+        }
+        set {
+            objc_setAssociatedObject(self, RuntimeKey.swfTopBorderKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    private var swf_rightBorderLayer: CALayer? {
+        get {
+            objc_getAssociatedObject(self, RuntimeKey.swfRightBorderKey) as? CALayer
+        }
+        set {
+            objc_setAssociatedObject(self, RuntimeKey.swfRightBorderKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    func addBorder(side: ViewSide, thickness: CGFloat, color: UIColor, leftOffset: CGFloat = 0, rightOffset: CGFloat = 0, topOffset: CGFloat = 0, bottomOffset: CGFloat = 0) {
+        
+        switch side {
+        case .top:
+            let border: CALayer = _getOneSidedBorder(frame: CGRect(x: 0 + leftOffset,
+                                             y: 0 + topOffset,
+                                             width: self.frame.size.width - leftOffset - rightOffset,
+                                             height: thickness), color: color)
+            if let old = self.swf_topBorderLayer {
+                old.removeFromSuperlayer()
+            }
+            self.swf_topBorderLayer = border
+            self.layer.addSublayer(border)
+        case .right:
+            let border: CALayer = _getOneSidedBorder(frame: CGRect(x: self.frame.size.width-thickness-rightOffset,
+                                             y: 0 + topOffset, width: thickness,
+                                             height: self.frame.size.height - topOffset - bottomOffset), color: color)
+            if let old = self.swf_rightBorderLayer {
+                old.removeFromSuperlayer()
+            }
+            self.swf_rightBorderLayer = border
+            self.layer.addSublayer(border)
+        case .bottom:
+            let border: CALayer = _getOneSidedBorder(frame: CGRect(x: 0 + leftOffset,
+                                             y: self.frame.size.height-thickness-bottomOffset,
+                                             width: self.frame.size.width - leftOffset - rightOffset, height: thickness), color: color)
+            if let old = self.swf_bottomBorderLayer {
+                old.removeFromSuperlayer()
+            }
+            self.swf_bottomBorderLayer = border
+            self.layer.addSublayer(border)
+        case .left:
+            let border: CALayer = _getOneSidedBorder(frame: CGRect(x: 0 + leftOffset,
+                                             y: 0 + topOffset,
+                                             width: thickness,
+                                             height: self.frame.size.height - topOffset - bottomOffset), color: color)
+            if let old = self.swf_leftBorderLayer {
+                old.removeFromSuperlayer()
+            }
+            self.swf_leftBorderLayer = border
+            self.layer.addSublayer(border)
+        }
+    }
+    
+    func removeBorders() {
+        self.swf_topBorderLayer?.removeFromSuperlayer()
+        self.swf_leftBorderLayer?.removeFromSuperlayer()
+        self.swf_bottomBorderLayer?.removeFromSuperlayer()
+        self.swf_rightBorderLayer?.removeFromSuperlayer()
+        self.swf_topBorderLayer = nil
+        self.swf_leftBorderLayer = nil
+        self.swf_bottomBorderLayer = nil
+        self.swf_rightBorderLayer = nil
+    }
+    
+    fileprivate func _getOneSidedBorder(frame: CGRect, color: UIColor) -> CALayer {
+        let border:CALayer = CALayer()
+        border.frame = frame
+        border.backgroundColor = color.cgColor
+        return border
+    }
     
 }

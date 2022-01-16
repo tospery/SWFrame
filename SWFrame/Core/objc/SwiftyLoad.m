@@ -7,5 +7,5 @@
 
 #import "SwiftyLoad.h"
 
-SWIFTY_LOAD_INITIALIZE(UIView)
+// SWIFTY_LOAD_INITIALIZE(UIView)
 

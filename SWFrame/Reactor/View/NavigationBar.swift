@@ -103,10 +103,7 @@ public class NavigationBar: UIView {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        // YJX_TODO
-//        self.swf_borderPosition = .bottom
-//        self.swf_borderWidth = pixelOne
-//        self.swf_borderColor = .lightGray
+        self.addBorder(side: .bottom, thickness: pixelOne, color: .lightGray)
         self.addSubview(self.bgImageView)
         self.addSubview(self.titleLabel)
     }
@@ -229,12 +226,12 @@ public class NavigationBar: UIView {
     
     public func transparet() {
         self.backgroundColor = .clear
-        // YJX_TODO self.swf_borderPosition = SWFViewBorderPosition(rawValue: 0)
+        self.removeBorders()
     }
     
     public func reset() {
         self.backgroundColor = .white
-        // YJX_TODO self.swf_borderPosition = .bottom
+        self.addBorder(side: .bottom, thickness: pixelOne, color: self.borderColor ?? .lightGray)
     }
     
 }

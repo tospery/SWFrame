@@ -45,12 +45,7 @@ open class NormalCollectionCell: BaseCollectionCell, ReactorKit.View {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        // YJX_TODO
-//        self.swf_borderPosition = .bottom
-//        self.swf_borderWidth = pixelOne
-//        self.swf_borderColor = .lightGray
-        
+        self.addBorder(side: .bottom, thickness: pixelOne, color: .lightGray)
         self.contentView.addSubview(self.titleLabel)
         self.contentView.addSubview(self.detailLabel)
         self.contentView.addSubview(self.avatarImageView)
