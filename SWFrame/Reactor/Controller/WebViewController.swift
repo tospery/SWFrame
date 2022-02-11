@@ -6,14 +6,12 @@
 //
 
 import UIKit
-
 import RxSwift
 import RxCocoa
 import WebKit
 import URLNavigator
 import ReactorKit
 import SwifterSwift
-import BZMWebViewJSBridge
 
 open class WebViewController: ScrollViewController, View {
     
@@ -23,7 +21,7 @@ open class WebViewController: ScrollViewController, View {
     public var url: URL?
     public var progressColor: UIColor?
     public var handlers = [String]()
-    public var bridge: BZMWKWebViewJSBridge!
+    public var bridge: WKWebViewJavascriptBridge!
 
     public lazy var progressView: WebProgressView = {
         let view = WebProgressView(frame: .zero)
@@ -63,9 +61,9 @@ open class WebViewController: ScrollViewController, View {
         }).disposed(by: self.disposeBag)
         
         #if DEBUG
-        BZMWKWebViewJSBridge.enableLogging()
+        WKWebViewJavascriptBridge.enableLogging()
         #endif
-        self.bridge = BZMWKWebViewJSBridge.init(for: self.webView)
+        self.bridge = WKWebViewJavascriptBridge.init(for: self.webView)
         self.bridge.setWebViewDelegate(self)
         for handler in self.handlers {
             self.bridge.registerHandler(handler) { [weak self] data, callback in
