@@ -34,9 +34,18 @@ open class AppDependency {
     open func test(launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
     }
     
+    // MARK: - Update
+    open func updateConfiguration() {
+    }
+    
+    open func updatePreference() {
+    }
+    
+    open func updateUser() {
+    }
+    
     // MARK: - Lifecycle
     open func application(_ application: UIApplication, entryDidFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
-        // 基础日志
         logger.print("运行环境: \(UIApplication.shared.inferredEnvironment)", module: .swframe)
         logger.print("设备型号: \(Device.current.safeDescription)", module: .swframe)
         logger.print("系统版本: \(UIDevice.current.systemVersion)", module: .swframe)
@@ -45,18 +54,12 @@ open class AppDependency {
         logger.print("状态栏: \(statusBarHeightConstant)", module: .swframe)
         logger.print("导航栏: \(navigationBarHeight)", module: .swframe)
         logger.print("标签栏: \(tabBarHeight)", module: .swframe)
-        // 初始化
-        Runtime.work()
-        Library.setup()
-        Appearance.config()
-        Router.shared.initialize(self.provider, self.navigator)
-        // 数据更新
-//        [self updateConfiguration];
-//        [self updatePreference];
-//        [self updateUser];
     }
     
     open func application(_ application: UIApplication, leaveDidFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
+        self.updateConfiguration()
+        self.updatePreference()
+        self.updateUser()
 #if DEBUG
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.test(launchOptions: launchOptions)
