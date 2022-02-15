@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Defines.h"
+#import <QMUIKit/QMUIKit.h>
 
 #define SWIFTY_LOAD_INITIALIZE(className) \
 @interface className(swizzle_swifty_hook)  \

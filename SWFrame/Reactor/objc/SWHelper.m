@@ -7,7 +7,6 @@
 
 #import "SWHelper.h"
 #import <QMUIKit/QMUIKit.h>
-#import "Runtime.h"
 
 @interface SWHelper ()
 
