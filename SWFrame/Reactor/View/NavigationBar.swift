@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import QMUIKit
 import RxSwift
 import RxCocoa
 import SwifterSwift
@@ -63,10 +63,10 @@ public class NavigationBar: UIView {
 
     @objc public dynamic var lineColor: UIColor? {
         get {
-            return self.swf_borderColor
+            return self.qmui_borderColor
         }
         set {
-            self.swf_borderColor = newValue
+            self.qmui_borderColor = newValue
         }
     }
     
@@ -103,7 +103,9 @@ public class NavigationBar: UIView {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        self.addBorder(side: .bottom, thickness: pixelOne, color: .lightGray)
+        self.qmui_borderColor = .lightGray
+        self.qmui_borderWidth = pixelOne
+        self.qmui_borderPosition = .bottom
         self.addSubview(self.bgImageView)
         self.addSubview(self.titleLabel)
     }
@@ -226,12 +228,14 @@ public class NavigationBar: UIView {
     
     public func transparet() {
         self.backgroundColor = .clear
-        self.removeBorders()
+        self.qmui_borderPosition = .init(rawValue: 0)
     }
     
     public func reset() {
         self.backgroundColor = .white
-        self.addBorder(side: .bottom, thickness: pixelOne, color: self.borderColor ?? .lightGray)
+        self.qmui_borderColor = self.borderColor ?? .lightGray
+        self.qmui_borderWidth = pixelOne
+        self.qmui_borderPosition = .bottom
     }
     
 }
@@ -270,7 +274,7 @@ public extension ThemeProxy where Base: NavigationBar {
     var lineColor: ThemeAttribute<UIColor?> {
         get { fatalError("set only") }
         set {
-            base.swf_borderColor = newValue.value
+            base.qmui_borderColor = newValue.value
             let disposable = newValue.stream
                 .take(until: base.rx.deallocating)
                 .observe(on: MainScheduler.instance)

@@ -139,7 +139,7 @@ open class BaseViewController: UIViewController {
                 self.navigationBar.transparet()
             } else {
                 if self.hidesNavBottomLine {
-                    self.navigationBar.removeBorders()
+                    self.navigationBar.qmui_borderPosition = QMUIViewBorderPosition.init(rawValue: 0)
                 }
             }
             if self.navigationController?.viewControllers.count ?? 0 > 1 {
