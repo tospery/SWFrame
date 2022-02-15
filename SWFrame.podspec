@@ -26,9 +26,9 @@ Pod::Spec.new do |s|
 
   s.subspec 'Core' do |ss|
     ss.source_files = 'SWFrame/Core/**/*'
-	ss.dependency 'ObjectMapper', '4.2.0'
-	ss.dependency 'DeviceKit', '4.5.2'
+	ss.dependency 'QMUIKit/QMUICore', '4.4.3'
 	ss.dependency 'SwiftyBeaver', '1.9.5'
+	ss.dependency 'ObjectMapper', '4.2.0'
 	ss.dependency 'SwifterSwift/SwiftStdlib', '5.2.0'
   end
   
