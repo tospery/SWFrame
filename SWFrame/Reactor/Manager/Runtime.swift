@@ -7,11 +7,22 @@
 
 import UIKit
 
+public protocol RuntimeCompatible {
+    func myWork()
+}
 
-open class Runtime {
+final public class Runtime {
 
-    open class func work() {
+    public static var shared = Runtime()
+    
+    public init() {
+    }
+    
+    public func work() {
         ExchangeImplementations(UIViewController.self, #selector(UIViewController.present(_:animated:completion:)), #selector(UIViewController.swf_present(_:animated:completion:)))
+        if let compatible = self as? RuntimeCompatible {
+            compatible.myWork()
+        }
     }
     
 }

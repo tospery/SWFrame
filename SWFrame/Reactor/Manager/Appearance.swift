@@ -8,11 +8,24 @@
 import UIKit
 import RxSwift
 
-open class Appearance {
+public protocol AppearanceCompatible {
+    func myConfig()
+}
+
+final public class Appearance {
     
-    public static let disposeBag = DisposeBag()
+    public let disposeBag = DisposeBag()
     
-    open class func config() {
+    public static var shared = Appearance()
+    
+    public init() {
+    }
+    
+    public func config() {
+        if let compatible = self as? AppearanceCompatible {
+            compatible.myConfig()
+        }
+        
 //        // NavBar
 //        if (@available(iOS 13.0, *)) {
 //            UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
@@ -50,6 +63,7 @@ open class Appearance {
 //            UITabBar.appearance.translucent = NO;
 //            UITabBar.appearance.theme_barTintColor = ThemeColorPicker.barTint;
 //        }
+        
     }
     
 }

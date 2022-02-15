@@ -10,18 +10,30 @@ import RxSwift
 import RxCocoa
 import SwiftyBeaver
 
-open class Library {
+public protocol LibraryCompatible {
+    func mySetup()
+}
+
+final public class Library {
     
-    open class func setup() {
-        self.setupReachability()
-        self.setupSwiftyBeaver()
+    public static var shared = Library()
+    
+    public init() {
     }
     
-    open class func setupReachability() {
+    public func setup() {
+        self.setupReachability()
+        self.setupSwiftyBeaver()
+        if let compatible = self as? LibraryCompatible {
+            compatible.mySetup()
+        }
+    }
+    
+    func setupReachability() {
         ReachManager.shared.start()
     }
 
-    open class func setupSwiftyBeaver() {
+    func setupSwiftyBeaver() {
         sblog.addDestination(ConsoleDestination.init())
         sblog.addDestination(FileDestination.init())
     }

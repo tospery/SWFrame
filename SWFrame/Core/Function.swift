@@ -10,39 +10,6 @@ import UIKit
 // MARK: - Compare
 public func compareVersion(_ version1: String, _ version2: String, amount: Int = 3) -> ComparisonResult {
     version1.compare(version2, options: .numeric)
-//    if version1 == version2 {
-//        return .orderedSame
-//    }
-//    let items1 = version1.components(separatedBy: ".")
-//    let items2 = version2.components(separatedBy: ".")
-//    guard items1.count == amount, items2.count == amount else {
-//        return .orderedSame
-//    }
-//    guard let first1 = items1[0].int, let first2 = items2[0].int else {
-//        return .orderedSame
-//    }
-//    if first1 > first2 {
-//        return .orderedDescending
-//    } else if first1 < first2 {
-//        return .orderedAscending
-//    }
-//    guard let second1 = items1[1].int, let second2 = items2[1].int else {
-//        return .orderedSame
-//    }
-//    if second1 > second2 {
-//        return .orderedDescending
-//    } else if second1 < second2 {
-//        return .orderedAscending
-//    }
-//    guard let third1 = items1[2].int, let third2 = items2[2].int else {
-//        return .orderedSame
-//    }
-//    if third1 > third2 {
-//        return .orderedDescending
-//    } else if third1 < third2 {
-//        return .orderedAscending
-//    }
-//    return .orderedSame
 }
 
 public func compareImage(_ left: ImageSource?, _ right: ImageSource?) -> Bool {
