@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import QMUIKit
 import RxSwift
 import RxCocoa
 import NSObject_Rx
@@ -74,7 +74,7 @@ open class BaseViewController: UIViewController {
         var height = 0.f
         if let tabBar = self.tabBarController?.tabBar,
             tabBar.isHidden == false,
-            self.previous == nil,
+            self.qmui_previous == nil,
             self.hidesBottomBarWhenPushed == false {
             height += tabBar.height
         }
@@ -148,7 +148,7 @@ open class BaseViewController: UIViewController {
                     self.close()
                 }).disposed(by: self.disposeBag)
             } else {
-                if self.isPresented {
+                if self.qmui_isPresented() {
                     self.navigationBar.addCloseButtonToLeft().rx.tap.subscribe(onNext: { [weak self] _ in
                         guard let `self` = self else { return }
                         self.close()

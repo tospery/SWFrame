@@ -25,27 +25,6 @@ public extension UIViewController {
         }
     }
     
-    var isPresented: Bool {
-        var viewController = self
-        if let navigationController = self.navigationController {
-            if navigationController.rootViewController != self {
-                return false
-            }
-            viewController = navigationController
-        }
-        return viewController.presentingViewController?.presentedViewController == viewController
-    }
-    
-    /** 获取和自身处于同一个UINavigationController里的上一个UIViewController */
-    var previous: UIViewController? {
-        if let viewControllers = self.navigationController?.viewControllers,
-           let index = viewControllers.firstIndex(of: self),
-            index > 0 {
-            return viewControllers[index - 1]
-        }
-        return nil
-    }
-    
     @objc func swf_present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
         if #available(iOS 13.0, *) {
             var need = true
