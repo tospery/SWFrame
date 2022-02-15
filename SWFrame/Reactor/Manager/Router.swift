@@ -1,5 +1,5 @@
 //
-//  Router.swift
+//  MyRouter.swift
 //  SWFrame
 //
 //  Created by liaoya on 2022/2/11.
@@ -7,34 +7,152 @@
 
 import Foundation
 import URLNavigator
+import SwifterSwift
 
 public protocol RouterCompatible {
+    
+    func isLegalHost(host: Router.Host) -> Bool
+    func allowedPaths(host: Router.Host) -> [Router.Path]
+    
+    func shouldRefresh(host: Router.Host) -> Bool
+    func shouldLoadMore(host: Router.Host) -> Bool
+    
+    func title(host: Router.Host) -> String?
+    func parameters(_ url: URLConvertible, _ values: [String: Any], _ context: Any?) -> [String: Any]?
+    
     func web(_ provider: SWFrame.ProviderType, _ navigator: NavigatorType)
     func page(_ provider: SWFrame.ProviderType, _ navigator: NavigatorType)
     func model(_ provider: SWFrame.ProviderType, _ navigator: NavigatorType)
+    
 }
 
 final public class Router {
 
+    public typealias Host = String
+    public typealias Path = String
+    
     public static var shared = Router()
     
     init() {
     }
     
     public func initialize(_ provider: SWFrame.ProviderType, _ navigator: NavigatorType) {
-//        navigator.matcher.valueConverters["type"] = { pathComponents, index in
-//            guard let host = Host.init(rawValue: pathComponents[0]) else { return nil }
-//            let allowedPaths = host.allowedPaths.map { $0.rawValue }
-//            if allowedPaths.contains(pathComponents[index]) {
-//                return pathComponents[index]
+        navigator.matcher.valueConverters["type"] = { [weak self] pathComponents, index in
+            guard let `self` = self else { return nil }
+            if let compatible = self as? RouterCompatible {
+                let host = pathComponents[0]
+                if compatible.isLegalHost(host: host) {
+                    let path = pathComponents[index]
+                    if compatible.allowedPaths(host: host).contains(path) {
+                        return path
+                    }
+                }
+            }
+            return nil
+        }
+//        let webFactory: ViewControllerFactory = { (url: URLNavigator.URLConvertible, _, context: Any?) in
+//            guard let url = url.urlValue else { return nil }
+//            // (1) 原生支持
+//            let string = url.absoluteString
+//            let base = UIApplication.shared.baseWebUrl + "/"
+//            if string.hasPrefix(base) {
+//                let url = string.replacingOccurrences(of: base, with: UIApplication.shared.urlScheme + "://")
+//                if navigator.push(url, context: context) != nil {
+//                    return nil
+//                }
+//                if navigator.open(url, context: context) {
+//                    return nil
+//                }
 //            }
-//            return nil
+//            // (2) 网页跳转
+//            var paramters = [Parameter.url: url.absoluteString]
+//            if let title = url.queryValue(for: Parameter.title) {
+//                paramters[Parameter.title] = title
+//            }
+//
+////            if let reactorType = NSClassFromString("WebViewReactor") as? WebViewReactor.Type,
+////               let controllerType = NSClassFromString("WebViewController") as? WebViewController.Type {
+////                return controllerType.init(navigator, reactorType.init(provider, paramters))
+////            }
+//
+//            return WebViewController(navigator, WebViewReactor(provider, paramters))
 //        }
+//        navigator.register("http://<path:_>", webFactory)
+//        navigator.register("https://<path:_>", webFactory)
         if let compatible = self as? RouterCompatible {
             compatible.web(provider, navigator)
             compatible.page(provider, navigator)
             compatible.model(provider, navigator)
         }
     }
+    
+    public func parameters(_ url: URLConvertible, _ values: [String: Any], _ context: Any?) -> [String: Any]? {
+        // 1. 基础参数
+        var parameters: [String: Any] = url.queryParameters
+        for (key, value) in values {
+            parameters[key] = value
+        }
+        if let context = context {
+            if let ctx = context as? [String: Any] {
+                for (key, value) in ctx {
+                    parameters[key] = value
+                }
+            } else {
+                parameters[Parameter.context] = context
+            }
+        }
+        // 2. Host
+        guard let host = url.urlValue?.host else { return nil }
+        parameters[Parameter.host] = host
+        // 3. Path
+        let path = url.urlValue?.path.removingPrefix("/").removingSuffix("/")
+        parameters[Parameter.path] = path
+        // 4. 标题
+        var title: String? = nil
+        if let compatible = self as? RouterCompatible {
+            title = compatible.title(host: host)
+        }
+        parameters[Parameter.title] = parameters.string(for: Parameter.title) ?? title
+        // 5. 刷新/加载
+        var shouldRefresh = false
+        var shouldLoadMore = false
+        if let compatible = self as? RouterCompatible {
+            shouldRefresh = compatible.shouldRefresh(host: host)
+            shouldLoadMore = compatible.shouldLoadMore(host: host)
+        }
+        parameters[Parameter.shouldRefresh] = parameters.bool(for: Parameter.shouldRefresh) ?? shouldRefresh
+        parameters[Parameter.shouldLoadMore] = parameters.bool(for: Parameter.shouldLoadMore) ?? shouldLoadMore
+        return parameters
+    }
+    
+    public static func urlPattern(host: Router.Host) -> String {
+        if host == Router.Host.user {
+            return "\(UIApplication.shared.urlScheme)://\(host)/<id>"
+        }
+        if host == Router.Host.popup {
+            return "\(UIApplication.shared.urlScheme)://\(host)/<type:_>"
+        }
+        return "\(UIApplication.shared.urlScheme)://\(host)"
+    }
+    
+    public static func urlString(host: Router.Host) -> String {
+        self.urlPattern(host: host)
+            .replacingOccurrences(of: "/<id>", with: "")
+            .replacingOccurrences(of: "/<type:_>", with: "")
+    }
 
+}
+
+extension Router.Host {
+    public static var toast: Router.Host { "toast" }
+    public static var alert: Router.Host { "alert" }
+    public static var sheet: Router.Host { "sheet" }
+    public static var popup: Router.Host { "popup" }
+    
+    public static var user: Router.Host { "user" }
+    public static var login: Router.Host { "login" }
+}
+
+extension Router.Path {
+    public static var detail: Router.Path { "detail" }
 }
