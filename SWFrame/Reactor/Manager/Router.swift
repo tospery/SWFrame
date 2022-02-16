@@ -37,6 +37,7 @@ final public class Router {
     }
     
     public func initialize(_ provider: SWFrame.ProviderType, _ navigator: NavigatorType) {
+        // valid
         navigator.matcher.valueConverters["type"] = { [weak self] pathComponents, index in
             guard let `self` = self else { return nil }
             if let compatible = self as? RouterCompatible {
@@ -50,35 +51,39 @@ final public class Router {
             }
             return nil
         }
-//        let webFactory: ViewControllerFactory = { (url: URLNavigator.URLConvertible, _, context: Any?) in
-//            guard let url = url.urlValue else { return nil }
-//            // (1) 原生支持
-//            let string = url.absoluteString
-//            let base = UIApplication.shared.baseWebUrl + "/"
-//            if string.hasPrefix(base) {
-//                let url = string.replacingOccurrences(of: base, with: UIApplication.shared.urlScheme + "://")
-//                if navigator.push(url, context: context) != nil {
-//                    return nil
-//                }
-//                if navigator.open(url, context: context) {
-//                    return nil
-//                }
-//            }
-//            // (2) 网页跳转
-//            var paramters = [Parameter.url: url.absoluteString]
-//            if let title = url.queryValue(for: Parameter.title) {
-//                paramters[Parameter.title] = title
-//            }
-//
-////            if let reactorType = NSClassFromString("WebViewReactor") as? WebViewReactor.Type,
-////               let controllerType = NSClassFromString("WebViewController") as? WebViewController.Type {
-////                return controllerType.init(navigator, reactorType.init(provider, paramters))
-////            }
-//
-//            return WebViewController(navigator, WebViewReactor(provider, paramters))
+        // web
+        let webFactory: ViewControllerFactory = { (url: URLNavigator.URLConvertible, _, context: Any?) in
+            guard let url = url.urlValue else { return nil }
+            // (1) 原生支持
+            let string = url.absoluteString
+            let base = UIApplication.shared.baseWebUrl + "/"
+            if string.hasPrefix(base) {
+                let url = string.replacingOccurrences(of: base, with: UIApplication.shared.urlScheme + "://")
+                if navigator.push(url, context: context) != nil {
+                    return nil
+                }
+                if navigator.open(url, context: context) {
+                    return nil
+                }
+            }
+            // (2) 网页跳转
+            var paramters = [Parameter.url: url.absoluteString]
+            if let title = url.queryValue(for: Parameter.title) {
+                paramters[Parameter.title] = title
+            }
+
+            if let reactorType = NSClassFromString("WebViewReactor") as? WebViewReactor.Type,
+               let controllerType = NSClassFromString("WebViewController") as? WebViewController.Type {
+                return controllerType.init(navigator, reactorType.init(provider, paramters))
+            }
+            return WebViewController(navigator, WebViewReactor(provider, paramters))
+        }
+        navigator.register("http://<path:_>", webFactory)
+        navigator.register("https://<path:_>", webFactory)
+        // login
+//        navigator.register(self.urlPattern(host: .login)) { url, values, context in
+//            LoginViewController(navigator, LoginViewReactor.init(provider, self.parameters(url, values, context)))
 //        }
-//        navigator.register("http://<path:_>", webFactory)
-//        navigator.register("https://<path:_>", webFactory)
         if let compatible = self as? RouterCompatible {
             compatible.web(provider, navigator)
             compatible.page(provider, navigator)
@@ -125,7 +130,7 @@ final public class Router {
         return parameters
     }
     
-    public static func urlPattern(host: Router.Host) -> String {
+    public func urlPattern(host: Router.Host) -> String {
         if host == Router.Host.user {
             return "\(UIApplication.shared.urlScheme)://\(host)/<id>"
         }
@@ -135,7 +140,7 @@ final public class Router {
         return "\(UIApplication.shared.urlScheme)://\(host)"
     }
     
-    public static func urlString(host: Router.Host) -> String {
+    public func urlString(host: Router.Host) -> String {
         self.urlPattern(host: host)
             .replacingOccurrences(of: "/<id>", with: "")
             .replacingOccurrences(of: "/<type:_>", with: "")

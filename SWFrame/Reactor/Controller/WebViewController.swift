@@ -29,9 +29,9 @@ open class WebViewController: ScrollViewController, View {
         return view
     }()
     
-    public init(_ navigator: NavigatorType, _ reactor: WebViewReactor) {
+    required public init(_ navigator: NavigatorType, _ reactor: BaseViewReactor) {
         defer {
-            self.reactor = reactor
+            self.reactor = reactor as? WebViewReactor
         }
         super.init(navigator, reactor)
         self.url = reactor.parameters.url(for: Parameter.url)

@@ -12,7 +12,7 @@ open class TableViewController: ScrollViewController {
     
     public var tableView: UITableView!
     
-    public override init(_ navigator: NavigatorType, _ reactor: BaseViewReactor) {
+    required public init(_ navigator: NavigatorType, _ reactor: BaseViewReactor) {
         super.init(navigator, reactor)
         self.tableView = (self.scrollView as! UITableView)
         self.tableView.separatorStyle = .none

@@ -31,7 +31,7 @@ open class ScrollViewController: BaseViewController {
     public var noMoreData = false
     
     // MARK: - Init
-    public override init(_ navigator: NavigatorType, _ reactor: BaseViewReactor) {
+    required public init(_ navigator: NavigatorType, _ reactor: BaseViewReactor) {
         super.init(navigator, reactor)
         var scrollView: UIScrollView!
         if self is TableViewController {

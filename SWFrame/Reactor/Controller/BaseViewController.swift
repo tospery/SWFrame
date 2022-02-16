@@ -95,7 +95,7 @@ open class BaseViewController: UIViewController {
     }()
     
     // MARK: - Init
-    public init(_ navigator: NavigatorType, _ reactor: BaseViewReactor) {
+    required public init(_ navigator: NavigatorType, _ reactor: BaseViewReactor) {
         self.navigator = navigator
         super.init(nibName: nil, bundle: nil)
         self.hidesBottomBarWhenPushed = true

@@ -15,7 +15,7 @@ open class TabBarController: UITabBarController {
     public let navigator: NavigatorType
     public var disposeBag = DisposeBag()
 
-    public init(_ navigator: NavigatorType, _ reactor: TabBarReactor) {
+    required public init(_ navigator: NavigatorType, _ reactor: BaseViewReactor) {
         self.navigator = navigator
         super.init(nibName: nil, bundle: nil)
     }
