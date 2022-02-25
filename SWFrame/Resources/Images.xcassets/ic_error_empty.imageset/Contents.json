@@ -5,12 +5,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "waiting@2x.png",
+      "filename" : "ic_error_empty@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "waiting@3x.png",
+      "filename" : "ic_error_empty@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

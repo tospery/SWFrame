@@ -23,4 +23,54 @@ public extension NavigatorType {
         return self.open(url, context: context)
     }
 
+    // MARK: - Toast
+    public func toastMessage(_ message: String) {
+        guard !message.isEmpty else { return }
+        self.open(Router.shared.urlString(host: .toast, parameters: [
+            Parameter.message: message
+        ]))
+    }
+    
+    public func showToastActivity() {
+        self.open(Router.shared.urlString(host: .toast, parameters: [
+            Parameter.active: true.string
+        ]))
+    }
+    
+    public func hideToastActivity() {
+        self.open(Router.shared.urlString(host: .toast, parameters: [
+            Parameter.active: false.string
+        ]))
+    }
+    
+//    func alert(_ title: String, _ message: String, _ actions: [AlertActionType]) {
+//        self.navigator.open(
+//            Router.urlString(host: .alert, parameters: [Parameter.title: title,Parameter.message: message]),
+//            context: [Parameter.actions: actions]
+//        )
+//    }
+//
+//    func rxAlert(_ title: String, _ message: String, _ actions: [AlertActionType]) -> Observable<Any> {
+//        (self.navigator as! Navigator).rx.open(
+//            Router.urlString(host: .alert, parameters: [Parameter.title: title,Parameter.message: message]),
+//            context: [Parameter.actions: actions]
+//        )
+//    }
+//    
+//    func sheet(_ path: Router.Path, context: Any? = nil) {
+//        self.navigator.open(Router.urlString(host: .sheet, path: path), context: context)
+//    }
+//    
+//    func rxSheet(_ path: Router.Path, context: Any? = nil) -> Observable<Any> {
+//        (self.navigator as! Navigator).rx.open(Router.urlString(host: .sheet, path: path), context: context)
+//    }
+//
+//    func popup(_ path: Router.Path, context: Any? = nil) {
+//        self.navigator.open(Router.urlString(host: .popup, path: path), context: context)
+//    }
+//    
+//    func rxPopup(_ path: Router.Path, context: Any? = nil) -> Observable<Any> {
+//        (self.navigator as! Navigator).rx.open(Router.urlString(host: .popup, path: path), context: context)
+//    }
+    
 }

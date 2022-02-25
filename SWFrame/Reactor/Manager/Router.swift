@@ -140,10 +140,28 @@ final public class Router {
         return "\(UIApplication.shared.urlScheme)://\(host)"
     }
     
-    public func urlString(host: Router.Host) -> String {
-        self.urlPattern(host: host)
+    public func urlString(host: Router.Host, path: Path? = nil, parameters: [String: String]? = nil) -> String {
+        let string = self.urlPattern(host: host)
             .replacingOccurrences(of: "/<id>", with: "")
             .replacingOccurrences(of: "/<type:_>", with: "")
+        var url = string.url!
+        if let path = path {
+            url.appendPathComponent(path)
+        }
+        if let parameters = parameters {
+            url.appendQueryParameters(parameters)
+        }
+//        if host.needLogin || path?.needLogin ?? false {
+//            url.appendQueryParameters([
+//                Parameter.needLogin: true.string
+//            ])
+//            if let user = User.current, user.isValid, let string = user.toJSONString()?.base64Encoded {
+//                url.appendQueryParameters([
+//                    Parameter.currentUser: string
+//                ])
+//            }
+//        }
+        return url.absoluteString
     }
 
 }

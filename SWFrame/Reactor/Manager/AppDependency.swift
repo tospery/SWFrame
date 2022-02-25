@@ -18,8 +18,6 @@ open class AppDependency {
     public let disposeBag = DisposeBag()
     public var window: UIWindow!
     
-    public static var shared = AppDependency()
-    
     // MARK: - Initialize
     public init() {
         self.navigator = Navigator()
@@ -52,13 +50,12 @@ open class AppDependency {
         logger.print("系统版本: \(UIDevice.current.systemVersion)", module: .swframe)
         logger.print("屏幕尺寸: \(UIScreen.main.bounds.size)", module: .swframe)
         logger.print("安全区域: \(safeArea)", module: .swframe)
-        logger.print("状态栏: \(statusBarHeightConstant)", module: .swframe)
-        logger.print("导航栏: \(navigationBarHeight)", module: .swframe)
-        logger.print("标签栏: \(tabBarHeight)", module: .swframe)
+        logger.print("状态栏(\(statusBarHeightConstant))|导航栏(\(navigationBarHeight))|标签栏(\(tabBarHeight))", module: .swframe)
         // 初始化
         Runtime.shared.work()
         Library.shared.setup()
         Appearance.shared.config()
+        Router.shared.initialize(self.provider, self.navigator)
     }
     
     open func application(_ application: UIApplication, leaveDidFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
