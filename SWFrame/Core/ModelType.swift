@@ -18,12 +18,7 @@ public protocol ModelType: Mappable, CustomStringConvertible {
 public extension ModelType {
     var uuid: String { UUID.init().uuidString }
     var isValid: Bool { true }
-    
-    var description: String {
-        let json = self.toJSON()
-        let string = json.sortedJSONString
-        return string
-    }
+    var description: String { self.toJSONString() ?? "" }
 }
 
 public struct BaseModel: ModelType {

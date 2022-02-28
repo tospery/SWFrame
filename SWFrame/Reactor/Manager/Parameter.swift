@@ -11,6 +11,7 @@ public struct Parameter {
     public static let id                    = "id"
     public static let key                   = "key"
     public static let url                   = "url"
+    public static let mac                   = "mac"
     public static let code                  = "code"
     public static let type                  = "type"
     public static let name                  = "name"
