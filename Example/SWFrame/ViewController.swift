@@ -22,10 +22,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.testView.addBorder(side: .left, thickness: 2, color: UIColor.green, leftOffset: 0, rightOffset: 0, topOffset: 0, bottomOffset: 0)
-        self.testView.addBorder(side: .bottom, thickness: 2, color: UIColor.green, leftOffset: 0, rightOffset: 0, topOffset: 0, bottomOffset: 0)
-        self.view.backgroundColor = UIColor.white;
-        self.view.addSubview(self.testView)
     }
     
     override func viewDidLayoutSubviews() {
