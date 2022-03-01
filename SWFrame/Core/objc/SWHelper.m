@@ -12,7 +12,6 @@
 
 @end
 
-
 @implementation SWHelper
 
 - (CGFloat)toolBarHeight {
