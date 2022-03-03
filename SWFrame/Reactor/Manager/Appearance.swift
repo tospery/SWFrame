@@ -22,48 +22,52 @@ final public class Appearance {
     }
     
     public func config() {
+        // NavBar
+//        let appearance = NavigationBar.appearance()
+////        appearance.theme.itemColor = themeService.attribute { $0.primaryColor }
+//        appearance.theme.barColor = themeService.attribute { $0.lightColor }
+//        appearance.theme.lineColor = themeService.attribute { $0.borderColor }
+//        appearance.theme.titleColor = themeService.attribute { $0.titleColor }
+        if #available(iOS 13.0, *) {
+            let appearance = UINavigationBarAppearance.init()
+            appearance.configureWithOpaqueBackground()
+            appearance.theme.backgroundColor = themeService.attribute { $0.lightColor }
+            appearance.shadowImage = UIImage.init()
+            appearance.shadowColor = nil
+            appearance.titleTextAttributes = [
+                .foregroundColor: UIColor.background,
+                .font: UIFont.bold(17)
+            ]
+            UINavigationBar.appearance().standardAppearance = appearance
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        } else {
+            UINavigationBar.appearance().isTranslucent = false
+            UINavigationBar.appearance().theme.backgroundColor = themeService.attribute { $0.lightColor }
+            UINavigationBar.appearance().titleTextAttributes = [
+                .foregroundColor: UIColor.background,
+                .font: UIFont.bold(17)
+            ]
+        }
+        
+        // TabBar
+        if #available(iOS 13.0, *) {
+            let appearance = UITabBarAppearance.init()
+            appearance.configureWithOpaqueBackground()
+            appearance.theme.backgroundColor = themeService.attribute { $0.lightColor }
+//            appearance.shadowImage = UIImage.init()
+//            appearance.shadowColor = nil
+            UITabBar.appearance().standardAppearance = appearance
+            if #available(iOS 15.0, *) {
+                UITabBar.appearance().scrollEdgeAppearance = appearance
+            }
+        } else {
+            UITabBar.appearance().isTranslucent = false
+            UITabBar.appearance().theme.backgroundColor = themeService.attribute { $0.lightColor }
+        }
+        
         if let compatible = self as? AppearanceCompatible {
             compatible.myConfig()
         }
-        
-//        // NavBar
-//        if (@available(iOS 13.0, *)) {
-//            UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
-//            [appearance configureWithOpaqueBackground];
-//            appearance.theme_backgroundColor = ThemeColorPicker.barTint;
-//            appearance.shadowImage = [[UIImage alloc] init];
-//            appearance.shadowColor = nil;
-//            appearance.titleTextAttributes = @{
-//                NSForegroundColorAttributeName: UIColor.orangeColor,
-//                NSFontAttributeName: [UIFont boldSystemFontOfSize:17]
-//            };
-//            UINavigationBar.appearance.standardAppearance = appearance;
-//            UINavigationBar.appearance.scrollEdgeAppearance = appearance;
-//        } else {
-//            UINavigationBar.appearance.translucent = NO;
-//            UINavigationBar.appearance.theme_barTintColor = ThemeColorPicker.barTint;
-//            UINavigationBar.appearance.titleTextAttributes = @{
-//                NSForegroundColorAttributeName: UIColor.orangeColor,
-//                NSFontAttributeName: [UIFont boldSystemFontOfSize:17]
-//            };
-//        }
-//
-//        // TabBar
-//        if (@available(iOS 13.0, *)) {
-//            UITabBarAppearance *appearance = [[UITabBarAppearance alloc] init];
-//            [appearance configureWithOpaqueBackground];
-//            appearance.theme_backgroundColor = ThemeColorPicker.barTint;
-//            appearance.shadowImage = [[UIImage alloc] init];
-//            appearance.shadowColor = nil;
-//            UITabBar.appearance.standardAppearance = appearance;
-//            if (@available(iOS 15.0, *)) {
-//                UITabBar.appearance.scrollEdgeAppearance = appearance;
-//            }
-//        } else {
-//            UITabBar.appearance.translucent = NO;
-//            UITabBar.appearance.theme_barTintColor = ThemeColorPicker.barTint;
-//        }
-        
     }
     
 }
