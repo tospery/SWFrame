@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SWFrame'
-  s.version          = '2.0.1'
+  s.version          = '2.0.2'
   s.summary          = 'iOS App Framework.'
   s.description      = <<-DESC
 						iOS App Framework using Swift.
@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
     ss.source_files = 'SWFrame/Core/**/*'
 	ss.dependency 'QMUIKit/QMUICore', '4.4.3'
 	ss.dependency 'SwiftyBeaver', '1.9.5'
-	ss.dependency 'ObjectMapper', '4.2.0'
+	ss.dependency 'ObjectMapper-JX', '4.2.0-v1'
 	ss.dependency 'SwifterSwift/SwiftStdlib', '5.2.0'
   end
   

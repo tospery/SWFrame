@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import ObjectMapper
+import ObjectMapper_JX
 import SwifterSwift
 
 public class ColorTransform: TransformType {

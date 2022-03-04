@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 import Moya
-import ObjectMapper
+import ObjectMapper_JX
 
 /// Extension for processing Responses into Mappable objects through ObjectMapper
 public extension PrimitiveSequence where Trait == SingleTrait, Element == Response {

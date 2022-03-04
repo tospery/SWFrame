@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 //import RealmSwift
-import ObjectMapper
+import ObjectMapper_JX
 // import Cache
 
 public var subjects: [String: Any] = [:]

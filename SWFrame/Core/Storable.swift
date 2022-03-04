@@ -28,11 +28,19 @@ public protocol Storable: ModelType, Identifiable, Codable, Equatable {
 public extension Storable {
 
     static func objectKey(id: String? = nil) -> String {
-        "\(String(fullname: self))\(id ?? "")"
+        var key = String(fullname: self)
+        if let path = id {
+            key += "#\(path)"
+        }
+        return key
     }
 
     static func arrayKey(page: String? = nil) -> String {
-        "\(String(fullname: self))s\(page ?? "")"
+        var key = "\(String(fullname: self))s"
+        if let path = page {
+            key += "#\(path)"
+        }
+        return key
     }
     
     static func == (lhs: Self, rhs: Self) -> Bool {

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import ObjectMapper
+import ObjectMapper_JX
 
 // MARK: - 模型协议
 public protocol ModelType: Mappable, CustomStringConvertible {
@@ -22,7 +22,7 @@ public extension ModelType {
 }
 
 public struct BaseModel: ModelType {
-    
+
     public var data: Any?
     
     public var isValid: Bool { self.data != nil }

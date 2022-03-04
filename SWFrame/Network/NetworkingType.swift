@@ -8,7 +8,7 @@
 import Foundation
 import Moya
 import RxSwift
-import ObjectMapper
+import ObjectMapper_JX
 
 public protocol NetworkingType {
     associatedtype Target: TargetType

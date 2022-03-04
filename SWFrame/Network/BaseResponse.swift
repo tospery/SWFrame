@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import Moya
 import Alamofire
-import ObjectMapper
+import ObjectMapper_JX
 
 public protocol ResponseType {
     var code: Int { get }
