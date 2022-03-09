@@ -14,10 +14,10 @@ public protocol RouterCompatible {
     func isLegalHost(host: Router.Host) -> Bool
     func allowedPaths(host: Router.Host) -> [Router.Path]
     
-    func shouldRefresh(host: Router.Host) -> Bool
-    func shouldLoadMore(host: Router.Host) -> Bool
+    func shouldRefresh(host: Router.Host, path: Router.Path?) -> Bool
+    func shouldLoadMore(host: Router.Host, path: Router.Path?) -> Bool
     
-    func title(host: Router.Host) -> String?
+    func title(host: Router.Host, path: Router.Path?) -> String?
     func parameters(_ url: URLConvertible, _ values: [String: Any], _ context: Any?) -> [String: Any]?
     
     func web(_ provider: SWFrame.ProviderType, _ navigator: NavigatorType)
@@ -115,27 +115,30 @@ final public class Router {
         // 4. 标题
         var title: String? = nil
         if let compatible = self as? RouterCompatible {
-            title = compatible.title(host: host)
+            title = compatible.title(host: host, path: path)
         }
         parameters[Parameter.title] = parameters.string(for: Parameter.title) ?? title
         // 5. 刷新/加载
         var shouldRefresh = false
         var shouldLoadMore = false
         if let compatible = self as? RouterCompatible {
-            shouldRefresh = compatible.shouldRefresh(host: host)
-            shouldLoadMore = compatible.shouldLoadMore(host: host)
+            shouldRefresh = compatible.shouldRefresh(host: host, path: path)
+            shouldLoadMore = compatible.shouldLoadMore(host: host, path: path)
         }
         parameters[Parameter.shouldRefresh] = parameters.bool(for: Parameter.shouldRefresh) ?? shouldRefresh
         parameters[Parameter.shouldLoadMore] = parameters.bool(for: Parameter.shouldLoadMore) ?? shouldLoadMore
         return parameters
     }
     
-    public func urlPattern(host: Router.Host) -> String {
-        if host == Router.Host.user {
-            return "\(UIApplication.shared.urlScheme)://\(host)/<id>"
+    public func urlPattern(host: Router.Host, path: Path? = nil) -> String {
+        if let path = path {
+            return "\(UIApplication.shared.urlScheme)://\(host)/\(path)"
         }
         if host == Router.Host.popup {
             return "\(UIApplication.shared.urlScheme)://\(host)/<type:_>"
+        }
+        if host == Router.Host.user {
+            return "\(UIApplication.shared.urlScheme)://\(host)/<id>"
         }
         return "\(UIApplication.shared.urlScheme)://\(host)"
     }
@@ -177,5 +180,6 @@ extension Router.Host {
 }
 
 extension Router.Path {
+    public static var list: Router.Path { "list" }
     public static var detail: Router.Path { "detail" }
 }

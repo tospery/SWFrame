@@ -27,7 +27,7 @@ final public class Appearance {
 ////        appearance.theme.itemColor = themeService.attribute { $0.primaryColor }
 //        appearance.theme.barColor = themeService.attribute { $0.lightColor }
 //        appearance.theme.lineColor = themeService.attribute { $0.borderColor }
-//        appearance.theme.titleColor = themeService.attribute { $0.titleColor }
+//        appearance.theme.titleColor = themeService.attribute { $0.foregroundColor }
         if #available(iOS 13.0, *) {
             let appearance = UINavigationBarAppearance.init()
             appearance.configureWithOpaqueBackground()

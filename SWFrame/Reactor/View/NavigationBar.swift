@@ -22,6 +22,16 @@ public class NavigationBar: UIView {
     public var isTransparet = false
     public var style = Style.automatic
     
+//    private var myIsTransparet = false
+//    @objc public dynamic var isTransparet: Bool {
+//        get {
+//            self.myIsTransparet
+//        }
+//        set {
+//            self.myIsTransparet = newValue
+//        }
+//    }
+    
     @objc public dynamic var titleColor: UIColor? {
         get {
             return self.titleLabel.textColor

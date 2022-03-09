@@ -170,6 +170,7 @@ open class BaseViewController: UIViewController {
         self.navigationBar.theme.titleColor = themeService.attribute { $0.foregroundColor }
         self.navigationBar.theme.itemColor = themeService.attribute { $0.foregroundColor }
         self.navigationBar.theme.lineColor = themeService.attribute { $0.borderColor }
+        self.navigationBar.theme.barColor = themeService.attribute { $0.backgroundColor }
         if !self.transparetNavBar {
             self.view.theme.backgroundColor = themeService.attribute { $0.backgroundColor }
             self.navigationBar.theme.barColor = themeService.attribute { $0.backgroundColor }
