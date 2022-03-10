@@ -59,10 +59,7 @@ final public class Router {
             let base = UIApplication.shared.baseWebUrl + "/"
             if string.hasPrefix(base) {
                 let url = string.replacingOccurrences(of: base, with: UIApplication.shared.urlScheme + "://")
-                if navigator.push(url, context: context) != nil {
-                    return nil
-                }
-                if navigator.open(url, context: context) {
+                if navigator.forward(url, context: context) {
                     return nil
                 }
             }

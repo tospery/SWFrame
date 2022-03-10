@@ -35,6 +35,7 @@ public struct Parameter {
     public static let priority              = "priority"
     public static let parameter             = "parameter"
     public static let entryName             = "entryName"
+    public static let forwardType           = "forwardType"
     public static let navBarStyle           = "navBarStyle"
     public static let primaryColor          = "primaryColor"
     public static let toastMessage          = "toastMessage"

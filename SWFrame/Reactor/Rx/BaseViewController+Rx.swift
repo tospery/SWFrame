@@ -47,7 +47,12 @@ public extension Reactive where Base: BaseViewController {
                    name.contains("LoginViewController") {
                     logger.print("已处于登录页，不需要再次打开", module: .swframe)
                 } else {
-                    viewController.navigator.present( "\(UIApplication.shared.urlScheme)://login", wrap: NavigationController.self)
+                    viewController.navigator.forward(
+                        "\(UIApplication.shared.urlScheme)://login",
+                        queries: [
+                            Parameter.forwardType: ForwardType.present.rawValue.string
+                        ]
+                    )
                 }
             } else {
                 if let scrollViewController = viewController as? ScrollViewController {

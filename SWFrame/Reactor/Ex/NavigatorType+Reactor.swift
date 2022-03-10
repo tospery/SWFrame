@@ -8,17 +8,46 @@
 import UIKit
 import URLNavigator
 
+public enum ForwardType: Int {
+    case push
+    case present
+    case open
+}
+
 public extension NavigatorType {
 
+    // MARK: - Forward
     @discardableResult
     public func forward(
         _ url: URLConvertible,
+        path: String? = nil,
+        queries: [String: String]? = nil,
         context: Any? = nil,
-        from: UINavigationControllerType? = nil,
-        animated: Bool = true
+        from1: UINavigationControllerType? = nil,
+        from2: UIViewControllerType? = nil,
+        animated: Bool = true,
+        completion: (() -> Void)? = nil
     ) -> Bool {
-        if self.push(url, context: context, from: from, animated: animated) != nil {
-            return true
+        guard var url = url.urlValue else { return false }
+        if let path = path {
+            url.appendPathComponent(path)
+        }
+        if let queries = queries {
+            url.appendQueryParameters(queries)
+        }
+        let forwardType = ForwardType.init(
+            rawValue: url.queryParameters.int(for: Parameter.forwardType) ?? 0
+        )
+        switch forwardType {
+        case .push:
+            if self.push(url, context: context, from: from1, animated: animated) != nil {
+                return true
+            }
+        case .present:
+            if self.present(url, context: context, wrap: NavigationController.self, from: from2, animated: animated, completion: completion) != nil {
+                return true
+            }
+        default: break
         }
         return self.open(url, context: context)
     }
