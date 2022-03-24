@@ -7,6 +7,7 @@
 
 import Foundation
 import SwifterSwift
+import SwiftUI
 
 public extension Dictionary where Key == String {
 
@@ -23,6 +24,11 @@ public extension Dictionary where Key == String {
     func string(for key: String) -> String? {
         guard let value = self[key] else { return nil }
         return (value as? String) ?? (value as? Int)?.string
+    }
+    
+    func data(for key: String) -> Data? {
+        guard let value = self[key] else { return nil }
+        return value as? Data
     }
 
     func url(for key: String) -> URL? {

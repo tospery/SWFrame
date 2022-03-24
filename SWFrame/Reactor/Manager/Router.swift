@@ -128,20 +128,29 @@ final public class Router {
     }
     
     public func urlPattern(host: Router.Host, path: Path? = nil) -> String {
-        if let path = path {
-            return "\(UIApplication.shared.urlScheme)://\(host)/\(path)"
-        }
-        if host == Router.Host.popup {
+//        if let path = path {
+//            return "\(UIApplication.shared.urlScheme)://\(host)/\(path)"
+//        }
+//        if host == Router.Host.popup {
+//            return "\(UIApplication.shared.urlScheme)://\(host)/<type:_>"
+//        }
+//        if host == Router.Host.user {
+//            return "\(UIApplication.shared.urlScheme)://\(host)/<id>"
+//        }
+//        return "\(UIApplication.shared.urlScheme)://\(host)"
+        switch host {
+        case "manage":
+            return "\(UIApplication.shared.urlScheme)://\(host)/<userid>"
+        case .popup:
             return "\(UIApplication.shared.urlScheme)://\(host)/<type:_>"
+        default:
+            return "\(UIApplication.shared.urlScheme)://\(host)"
         }
-        if host == Router.Host.user {
-            return "\(UIApplication.shared.urlScheme)://\(host)/<id>"
-        }
-        return "\(UIApplication.shared.urlScheme)://\(host)"
     }
     
     public func urlString(host: Router.Host, path: Path? = nil, parameters: [String: String]? = nil) -> String {
         let string = self.urlPattern(host: host)
+            .replacingOccurrences(of: "/<userid>", with: "")
             .replacingOccurrences(of: "/<id>", with: "")
             .replacingOccurrences(of: "/<type:_>", with: "")
         var url = string.url!

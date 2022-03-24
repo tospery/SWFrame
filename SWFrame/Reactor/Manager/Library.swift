@@ -22,18 +22,19 @@ final public class Library {
     }
     
     public func setup() {
-        self.setupReachability()
-        self.setupSwiftyBeaver()
         if let compatible = self as? LibraryCompatible {
             compatible.mySetup()
+        } else {
+            self.setupReachability()
+            self.setupSwiftyBeaver()
         }
     }
     
-    func setupReachability() {
+    public func setupReachability() {
         ReachManager.shared.start()
     }
 
-    func setupSwiftyBeaver() {
+    public func setupSwiftyBeaver() {
         sblog.addDestination(ConsoleDestination.init())
         sblog.addDestination(FileDestination.init())
     }

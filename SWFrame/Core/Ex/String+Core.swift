@@ -81,4 +81,22 @@ public extension String {
         return from ..< to
     }
     
+    var ipValue: UInt32 {
+        let array = self.components(separatedBy: ".")
+        if array.count != 4 {
+            return 0
+        }
+        let seg1 = Int(array[0]) ?? 0
+        let seg2 = Int(array[1]) ?? 0
+        let seg3 = Int(array[2]) ?? 0
+        let seg4 = Int(array[3]) ?? 0
+        
+        var value: UInt32 = 0
+        value |= UInt32((seg1 & 0xff) << 24)
+        value |= UInt32((seg2 & 0xff) << 16)
+        value |= UInt32((seg3 & 0xff) << 8)
+        value |= UInt32((seg4 & 0xff) << 0)
+        return value
+    }
+    
 }

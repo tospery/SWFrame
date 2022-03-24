@@ -7,6 +7,7 @@
 
 import Foundation
 import ObjectMapper_JX
+import SwifterSwift
 
 // MARK: - 模型协议
 public protocol ModelType: Mappable, CustomStringConvertible {
@@ -18,7 +19,7 @@ public protocol ModelType: Mappable, CustomStringConvertible {
 public extension ModelType {
     var uuid: String { UUID.init().uuidString }
     var isValid: Bool { true }
-    var description: String { self.toJSONString() ?? "" }
+    var description: String { self.toJSON().sortedJSONString }
 }
 
 public struct BaseModel: ModelType {
