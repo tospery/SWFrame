@@ -116,7 +116,7 @@ extension ScrollViewController: DZNEmptyDataSetSource {
         if let image = self.error?.asSWError.displayImage {
             return image
         }
-        return UIImage.loading.tint(.foreground, blendMode: .color)
+        return UIImage.loading.qmui_image(withTintColor: .primary)
     }
     
     open func buttonTitle(forEmptyDataSet scrollView: UIScrollView!, for state: UIControl.State) -> NSAttributedString! {

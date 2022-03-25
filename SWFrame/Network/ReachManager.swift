@@ -8,39 +8,34 @@
 import UIKit
 import RxSwift
 import RxRelay
-import Alamofire
+import Connectivity
 
-public let reachSubject = BehaviorRelay<NetworkReachabilityManager.NetworkReachabilityStatus>.init(value: .unknown)
+public let reachSubject = BehaviorRelay<ConnectivityStatus>.init(value: .determining)
 
 final public class ReachManager {
     
+    let connectivity = Connectivity.init()
     public static let shared = ReachManager()
-    
-    let network = NetworkReachabilityManager.init()
-    
+
     init() {
-        
     }
     
     deinit {
+        self.connectivity.stopNotifier()
     }
     
     func start() {
-        self.network?.startListening(onUpdatePerforming: { status in
+        let connectivityChanged: (Connectivity) -> Void = { connectivity in
+            let status = connectivity.status
             logger.print("网络状态: \(status)", module: .swframe)
             reachSubject.accept(status)
-        })
-    }
-
-}
-
-extension NetworkReachabilityManager.NetworkReachabilityStatus: CustomStringConvertible {
-    public var description: String {
-        switch self {
-        case .unknown: return "未知网络"
-        case .notReachable: return "网络不可达"
-        case let .reachable(type): return type == .cellular ? "cellular" : "wifi"
         }
+        self.connectivity.pollingInterval = 5
+        self.connectivity.isPollingEnabled = true
+        self.connectivity.framework = .network
+        self.connectivity.whenConnected = connectivityChanged
+        self.connectivity.whenDisconnected = connectivityChanged
+        self.connectivity.startNotifier()
     }
-}
 
+}

@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 import RxRelay
 import Alamofire
+import Connectivity
 
 public let ipSubject = BehaviorRelay<String?>.init(value: nil)
 
@@ -26,7 +27,7 @@ final public class IPManager {
     
     public func start() {
         reachSubject.asObservable()
-            .filter { $0 != .unknown && $0 != .notReachable }
+            .filter { $0 != .determining }
             .flatMap { _ in self.request() }
             .subscribe(onNext: { ip in
                 ipSubject.accept(ip)
