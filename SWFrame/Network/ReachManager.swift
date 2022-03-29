@@ -27,6 +27,9 @@ final public class ReachManager {
     func start() {
         let connectivityChanged: (Connectivity) -> Void = { connectivity in
             let status = connectivity.status
+            if status == .connected {
+                return
+            }
             logger.print("网络状态: \(status)", module: .swframe)
             reachSubject.accept(status)
         }
@@ -38,4 +41,31 @@ final public class ReachManager {
         self.connectivity.startNotifier()
     }
 
+}
+
+extension ConnectivityStatus {
+    
+    public var isCellular: Bool { self == .connectedViaCellular || self == .connectedViaCellularWithoutInternet }
+    public var isWifi: Bool { self == .connectedViaWiFi || self == .connectedViaWiFiWithoutInternet }
+    public var hasInternet: Bool { self == .connectedViaCellular || self == .connectedViaWiFi }
+    
+}
+
+extension ConnectivityStatus: Equatable {
+    
+    static func == (lhs: ConnectivityStatus, rhs: ConnectivityStatus) -> Bool {
+        switch (lhs, rhs) {
+        case (.connected, .connected),
+             (.connectedViaCellular, .connectedViaCellular),
+             (.connectedViaCellularWithoutInternet, .connectedViaCellularWithoutInternet),
+             (.connectedViaWiFi, .connectedViaWiFi),
+             (.connectedViaWiFiWithoutInternet, .connectedViaWiFiWithoutInternet),
+             (.determining, .determining),
+             (.notConnected, .notConnected):
+            return true
+        default:
+            return false
+        }
+    }
+    
 }

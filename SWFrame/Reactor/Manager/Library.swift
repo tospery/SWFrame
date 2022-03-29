@@ -35,8 +35,8 @@ final public class Library {
     }
 
     public func setupSwiftyBeaver() {
-        sblog.addDestination(ConsoleDestination.init())
-        sblog.addDestination(FileDestination.init())
+        logType.addDestination(ConsoleDestination.init())
+        logType.addDestination(FileDestination.init())
     }
     
 }

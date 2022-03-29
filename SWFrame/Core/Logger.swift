@@ -8,7 +8,7 @@
 import Foundation
 import SwiftyBeaver
 
-public let sblog = SwiftyBeaver.self
+public let logType = SwiftyBeaver.self
 public let logger = Logger.init()
 
 public protocol LoggerCompatible {
@@ -52,7 +52,7 @@ public struct Logger {
                 context: context
             )
         } else {
-            sblog.custom(
+            logType.custom(
                 level: level,
                 message: "【\(module)】\(message())",
                 file: file,
