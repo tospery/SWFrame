@@ -72,6 +72,14 @@ public extension NavigatorType {
         ]))
     }
     
+    // MARK: - Login
+    public func goLogin() {
+        if self.open(Router.shared.urlString(host: .login)) {
+            return
+        }
+        self.present(Router.shared.urlString(host: .login), wrap: NavigationController.self)
+    }
+    
 //    func alert(_ title: String, _ message: String, _ actions: [AlertActionType]) {
 //        self.navigator.open(
 //            Router.urlString(host: .alert, parameters: [Parameter.title: title,Parameter.message: message]),

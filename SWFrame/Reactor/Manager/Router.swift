@@ -37,7 +37,17 @@ final public class Router {
     }
     
     public func initialize(_ provider: SWFrame.ProviderType, _ navigator: NavigatorType) {
-        // valid
+        self.buildinMatch(provider, navigator)
+        self.buildinWeb(provider, navigator)
+        self.buildinLogin(provider, navigator)
+        if let compatible = self as? RouterCompatible {
+            compatible.web(provider, navigator)
+            compatible.page(provider, navigator)
+            compatible.model(provider, navigator)
+        }
+    }
+    
+    func buildinMatch(_ provider: SWFrame.ProviderType, _ navigator: NavigatorType) {
         navigator.matcher.valueConverters["type"] = { [weak self] pathComponents, index in
             guard let `self` = self else { return nil }
             if let compatible = self as? RouterCompatible {
@@ -51,7 +61,9 @@ final public class Router {
             }
             return nil
         }
-        // web
+    }
+    
+    func buildinWeb(_ provider: SWFrame.ProviderType, _ navigator: NavigatorType) {
         let webFactory: ViewControllerFactory = { (url: URLNavigator.URLConvertible, _, context: Any?) in
             guard let url = url.urlValue else { return nil }
             // (1) 原生支持
@@ -77,14 +89,28 @@ final public class Router {
         }
         navigator.register("http://<path:_>", webFactory)
         navigator.register("https://<path:_>", webFactory)
-        // login
-//        navigator.register(self.urlPattern(host: .login)) { url, values, context in
-//            LoginViewController(navigator, LoginViewReactor.init(provider, self.parameters(url, values, context)))
-//        }
-        if let compatible = self as? RouterCompatible {
-            compatible.web(provider, navigator)
-            compatible.page(provider, navigator)
-            compatible.model(provider, navigator)
+    }
+    
+    func buildinLogin(_ provider: SWFrame.ProviderType, _ navigator: NavigatorType) {
+        navigator.register(self.urlPattern(host: .login)) { url, values, context in
+            guard let top = UIViewController.topMost?.className else { return nil }
+            if top.contains("LoginViewController") ||
+                top.contains("TXSSOLoginViewController") {
+                return nil
+            }
+            
+            if let reactorType = NSClassFromString("LoginViewReactor") as? BaseViewReactor.Type,
+               let controllerType = NSClassFromString("LoginViewController") as? BaseViewController.Type {
+                return controllerType.init(
+                    navigator,
+                    reactorType.init(
+                        provider,
+                        self.parameters(url, values, context)
+                    )
+                )
+            }
+            
+            return nil
         }
     }
     

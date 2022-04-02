@@ -43,17 +43,7 @@ public extension Reactive where Base: BaseViewController {
             guard viewController.isViewLoaded else { return }
             guard let error = error?.asSWError else { return }
             if error.isNotLoginedIn {
-                if let name = UIViewController.topMost?.className,
-                   name.contains("LoginViewController") {
-                    logger.print("已处于登录页，不需要再次打开", module: .swframe)
-                } else {
-                    viewController.navigator.forward(
-                        "\(UIApplication.shared.urlScheme)://login",
-                        queries: [
-                            Parameter.forwardType: ForwardType.present.rawValue.string
-                        ]
-                    )
-                }
+                viewController.navigator.goLogin()
             } else {
                 if let scrollViewController = viewController as? ScrollViewController {
                     // loading的错误用emptyDataset提示，不进行toast
@@ -66,11 +56,7 @@ public extension Reactive where Base: BaseViewController {
                         }
                     }
                 }
-                var url = "\(UIApplication.shared.urlScheme)://toast".url!
-                url.appendQueryParameters([
-                    Parameter.message: error.localizedDescription
-                ])
-                viewController.navigator.open(url)
+                viewController.navigator.toastMessage(error.localizedDescription)
             }
         }
     }
