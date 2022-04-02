@@ -63,7 +63,7 @@ open class AppDependency {
         self.updatePreference()
         self.updateUser()
 #if DEBUG
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 15.0) {
             self.test(launchOptions: launchOptions)
         }
 #endif

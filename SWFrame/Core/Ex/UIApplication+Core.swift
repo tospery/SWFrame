@@ -9,6 +9,14 @@ import Foundation
 
 public extension UIApplication {
     
+    var channel: Int {
+        switch self.inferredEnvironment {
+        case .debug: return 1
+        case .testFlight: return 2
+        case .appStore: return 3
+        }
+    }
+    
     var team: String {
         let query = [
             kSecClass as NSString: kSecClassGenericPassword as NSString,
@@ -86,4 +94,14 @@ public extension UIApplication {
         return scheme
     }
 
+}
+
+extension UIApplication.Environment: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .debug: return "Debug"
+        case .testFlight: return "TestFlight"
+        case .appStore: return "AppStore"
+        }
+    }
 }
