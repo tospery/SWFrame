@@ -86,4 +86,6 @@ public var safeArea: UIEdgeInsets { QMUIHelper.safeAreaInsetsForDeviceWithNotch 
 
 // MARK: - Other
 public typealias KVTuple = (key: Any, value: Any?)
+public typealias SectionData = (header: ModelType?, items: [ModelType])
+
 public var dateTimeFormatStyle1: String { "yyyy/MM/dd HH:mm:ss" }
