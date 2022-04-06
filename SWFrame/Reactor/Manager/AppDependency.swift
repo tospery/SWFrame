@@ -44,6 +44,11 @@ open class AppDependency {
     
     // MARK: - Lifecycle
     open func application(_ application: UIApplication, entryDidFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
+        // 初始化
+        Runtime.shared.work()
+        Library.shared.setup()
+        Appearance.shared.config()
+        Router.shared.initialize(self.provider, self.navigator)
         // 日志
         logger.print("运行环境: \(UIApplication.shared.inferredEnvironment)", module: .swframe)
         logger.print("设备型号: \(QMUIHelper.deviceName)", module: .swframe)
@@ -51,11 +56,6 @@ open class AppDependency {
         logger.print("屏幕尺寸: \(UIScreen.main.bounds.size)", module: .swframe)
         logger.print("安全区域: \(safeArea)", module: .swframe)
         logger.print("状态栏(\(statusBarHeightConstant))|导航栏(\(navigationBarHeight))|标签栏(\(tabBarHeight))", module: .swframe)
-        // 初始化
-        Runtime.shared.work()
-        Library.shared.setup()
-        Appearance.shared.config()
-        Router.shared.initialize(self.provider, self.navigator)
     }
     
     open func application(_ application: UIApplication, leaveDidFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
