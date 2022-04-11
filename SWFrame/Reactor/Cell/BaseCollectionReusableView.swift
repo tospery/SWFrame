@@ -13,7 +13,7 @@ import NSObject_Rx
 open class BaseCollectionReusableView: UICollectionReusableView, Supplementary {
     
     public var disposeBag = DisposeBag()
-    public var model: ModelType?
+    // public var model: ModelType?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,10 +29,10 @@ open class BaseCollectionReusableView: UICollectionReusableView, Supplementary {
         self.disposeBag = DisposeBag()
     }
     
-    open func bind(reactor: BaseCollectionReusableReactor) {
-        self.model = reactor.model
+    open func bind(reactor: BaseViewReactor) {
+        // self.model = reactor.model
     }
-    
+     
 }
 
 

@@ -28,5 +28,7 @@ open class BaseTableHeaderFooterView: UITableViewHeaderFooterView {
         self.disposeBag = DisposeBag()
     }
     
+    open func bind(reactor: BaseViewReactor) {
+    }
     
 }

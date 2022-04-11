@@ -5,8 +5,8 @@
 //  Created by liaoya on 2020/8/17.
 //
 
-import UIKit
+import Foundation
 
-open class BaseTableItem: ModelViewReactor {
+open class BaseTableItem: BaseItem {
     
 }

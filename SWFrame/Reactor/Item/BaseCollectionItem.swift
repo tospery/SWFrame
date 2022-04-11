@@ -5,11 +5,8 @@
 //  Created by 杨建祥 on 2020/4/10.
 //
 
-import UIKit
+import Foundation
 
-open class BaseCollectionItem: ModelViewReactor {
-    
-    public var size = CGSize.zero
-    public weak var parent: BaseViewReactor?
+open class BaseCollectionItem: BaseItem {
     
 }
