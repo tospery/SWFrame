@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwifterSwift
 
 public extension UIApplication {
     
