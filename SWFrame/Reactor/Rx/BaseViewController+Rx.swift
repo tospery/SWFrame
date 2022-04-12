@@ -42,7 +42,7 @@ public extension Reactive where Base: BaseViewController {
             viewController.error = error
             guard viewController.isViewLoaded else { return }
             guard let error = error?.asSWError else { return }
-            if error.isNotLoginedIn {
+            if error == .loginExpired {
                 viewController.navigator.goLogin()
             } else {
                 if let scrollViewController = viewController as? ScrollViewController {
@@ -51,7 +51,7 @@ public extension Reactive where Base: BaseViewController {
                         return
                     } else if scrollViewController.isRefreshing {
                         // refreshing的empty错误，不进行toast
-                        if error.asSWError.isListIsEmpty {
+                        if error == .listIsEmpty {
                             return
                         }
                     }

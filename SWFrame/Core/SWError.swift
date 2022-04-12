@@ -17,6 +17,7 @@ public enum SWError: Error {
     case dataFormat
     case listIsEmpty
     case notLoginedIn
+    case loginExpired
     case server(Int, String?)
     case app(Int, String?)
 }
@@ -32,6 +33,7 @@ extension SWError: CustomNSError {
         case .dataFormat: return 5
         case .listIsEmpty: return 6
         case .notLoginedIn: return 7
+        case .loginExpired: return 8
         case let .server(code, _): return code
         case let .app(code, _): return code
         }
@@ -49,6 +51,7 @@ extension SWError: LocalizedError {
         case .dataFormat: return NSLocalizedString("Error.DataFormat.Title", value: "", comment: "")
         case .listIsEmpty: return NSLocalizedString("Error.ListIsEmpty.Title", value: "", comment: "")
         case .notLoginedIn: return NSLocalizedString("Error.NotLoginedIn.Title", value: "", comment: "")
+        case .loginExpired: return NSLocalizedString("Error.LoginExpired.Title", value: "", comment: "")
         case .server: return NSLocalizedString("Error.Server.Title", value: "", comment: "")
         case .app: return NSLocalizedString("Error.App.Title", value: "", comment: "")
         }
@@ -63,6 +66,7 @@ extension SWError: LocalizedError {
         case .dataFormat: return NSLocalizedString("Error.DataFormat.Message", value: "数据异常", comment: "")
         case .listIsEmpty: return NSLocalizedString("Error.ListIsEmpty.Message", value: "列表为空", comment: "")
         case .notLoginedIn: return NSLocalizedString("Error.NotLoginedIn.Message", value: "用户未登录", comment: "")
+        case .loginExpired: return NSLocalizedString("Error.LoginExpired.Message", value: "登录过期", comment: "")
         case let .server(_, message): return message ?? NSLocalizedString("Error.Server.Message", value: "服务异常", comment: "")
         case let .app(_, message): return message ?? NSLocalizedString("Error.App.Message", value: "非法操作", comment: "")
         }
@@ -85,7 +89,8 @@ extension SWError: Equatable {
              (.navigation, .navigation),
              (.dataFormat, .dataFormat),
              (.listIsEmpty, .listIsEmpty),
-             (.notLoginedIn, .notLoginedIn):
+             (.notLoginedIn, .notLoginedIn),
+            (.loginExpired, .loginExpired):
             return true
         case (.server(let left, _), .server(let right, _)),
              (.app(let left, _), .app(let right, _)):
@@ -105,6 +110,7 @@ extension SWError: CustomStringConvertible {
         case .dataFormat: return "SWError.dataFormat"
         case .listIsEmpty: return "SWError.listIsEmpty"
         case .notLoginedIn: return "SWError.notLoginedIn"
+        case .loginExpired: return "SWError.loginExpired"
         case let .server(code, message): return "SWError.server(\(code), \(message ?? ""))"
         case let .app(code, message): return "SWError.app(\(code), \(message ?? ""))"
         }
@@ -113,28 +119,28 @@ extension SWError: CustomStringConvertible {
 
 extension SWError {
     
-    public var isNetwork: Bool {
-        self == .network
-    }
-    
-    public var isServer: Bool {
-        if case .server = self {
-            return true
-        }
-        return false
-    }
-    
-    public var isCancel: Bool {
-        self == .cancel
-    }
-    
-    public var isListIsEmpty: Bool {
-        self == .listIsEmpty
-    }
-    
-    public var isNotLoginedIn: Bool {
-        self == .notLoginedIn
-    }
+//    public var isNetwork: Bool {
+//        self == .network
+//    }
+//
+//    public var isServer: Bool {
+//        if case .server = self {
+//            return true
+//        }
+//        return false
+//    }
+//
+//    public var isCancel: Bool {
+//        self == .cancel
+//    }
+//
+//    public var isListIsEmpty: Bool {
+//        self == .listIsEmpty
+//    }
+//
+//    public var isNotLoginedIn: Bool {
+//        self == .notLoginedIn
+//    }
     
     public func isServerError(withCode errorCode: Int) -> Bool {
         if case let .server(code, _) = self {

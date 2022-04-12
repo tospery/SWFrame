@@ -16,16 +16,13 @@ import StoreKit
 extension SWError {
 
     public var displayImage: UIImage? {
-        if self.isNetwork {
-            return UIImage.networkError
-        } else if self.isServer {
-            return UIImage.serverError
-        } else if self.isListIsEmpty {
-            return UIImage.emptyError
-        } else if self.isNotLoginedIn {
-            return UIImage.expireError
+        switch self {
+        case .network: return UIImage.networkError
+        case .server: return UIImage.serverError
+        case .listIsEmpty: return UIImage.emptyError
+        case .loginExpired: return UIImage.expireError
+        default: return nil
         }
-        return nil
     }
     
 }
@@ -48,7 +45,7 @@ extension NSError: SWErrorCompatible {
             if self.code == 500 {
                 return .server(0, self.localizedDescription)
             } else if self.code == 401 {
-                return .notLoginedIn
+                return .loginExpired
             }
         }
         return .server(0, self.localizedDescription)
@@ -73,7 +70,7 @@ extension MoyaError: SWErrorCompatible {
             return (error as? SWErrorCompatible)?.swError ?? .server(0, error.localizedDescription)
         case let .statusCode(response):
             if response.statusCode == 401 {
-                return .notLoginedIn
+                return .loginExpired
             }
             return .server(0, response.data.string(encoding: .utf8))
         case let .jsonMapping(response):
