@@ -10,9 +10,10 @@ import Foundation
 public let StatusCodeOK = 200
 
 public enum SWError: Error {
-    case cancel
+    case none
     case unknown
-    case network
+    case notConnected
+    case notReachable
     case navigation
     case dataFormat
     case listIsEmpty
@@ -26,14 +27,15 @@ extension SWError: CustomNSError {
     public static let domain = Bundle.main.bundleIdentifier ?? ""
     public var errorCode: Int {
         switch self {
-        case .cancel: return 1
+        case .none: return 1
         case .unknown: return 2
-        case .network: return 3
-        case .navigation: return 4
-        case .dataFormat: return 5
-        case .listIsEmpty: return 6
-        case .notLoginedIn: return 7
-        case .loginExpired: return 8
+        case .notConnected: return 3
+        case .notReachable: return 4
+        case .navigation: return 5
+        case .dataFormat: return 6
+        case .listIsEmpty: return 7
+        case .notLoginedIn: return 8
+        case .loginExpired: return 9
         case let .server(code, _): return code
         case let .app(code, _): return code
         }
@@ -44,9 +46,10 @@ extension SWError: LocalizedError {
     /// 概述
     public var failureReason: String? {
         switch self {
-        case .cancel: return NSLocalizedString("Error.Cancel.Title", value: "", comment: "")
+        case .none: return NSLocalizedString("Error.None.Title", value: "", comment: "")
         case .unknown: return NSLocalizedString("Error.Unknown.Title", value: "", comment: "")
-        case .network: return NSLocalizedString("Error.Network.Title", value: "", comment: "")
+        case .notConnected: return NSLocalizedString("Error.NotConnected.Title", value: "", comment: "")
+        case .notReachable: return NSLocalizedString("Error.NotReachable.Title", value: "", comment: "")
         case .navigation: return NSLocalizedString("Error.Navigation.Title", value: "", comment: "")
         case .dataFormat: return NSLocalizedString("Error.DataFormat.Title", value: "", comment: "")
         case .listIsEmpty: return NSLocalizedString("Error.ListIsEmpty.Title", value: "", comment: "")
@@ -59,33 +62,36 @@ extension SWError: LocalizedError {
     /// 详情
     public var errorDescription: String? {
         switch self {
-        case .cancel: return NSLocalizedString("Error.Cancel.Message", value: "", comment: "")
-        case .unknown: return NSLocalizedString("Error.Unknown.Message", value: "未知错误", comment: "")
-        case .network: return NSLocalizedString("Error.Network.Message", value: "网络错误", comment: "")
-        case .navigation: return NSLocalizedString("Error.Navigation.Message", value: "导航错误", comment: "")
-        case .dataFormat: return NSLocalizedString("Error.DataFormat.Message", value: "数据异常", comment: "")
-        case .listIsEmpty: return NSLocalizedString("Error.ListIsEmpty.Message", value: "列表为空", comment: "")
-        case .notLoginedIn: return NSLocalizedString("Error.NotLoginedIn.Message", value: "用户未登录", comment: "")
-        case .loginExpired: return NSLocalizedString("Error.LoginExpired.Message", value: "登录过期", comment: "")
-        case let .server(_, message): return message ?? NSLocalizedString("Error.Server.Message", value: "服务异常", comment: "")
-        case let .app(_, message): return message ?? NSLocalizedString("Error.App.Message", value: "非法操作", comment: "")
+        case .none: return NSLocalizedString("Error.None.Message", value: "", comment: "")
+        case .unknown: return NSLocalizedString("Error.Unknown.Message", value: "", comment: "")
+        case .notConnected: return NSLocalizedString("Error.NotConnected.Message", value: "", comment: "")
+        case .notReachable: return NSLocalizedString("Error.NotReachable.Message", value: "", comment: "")
+        case .navigation: return NSLocalizedString("Error.Navigation.Message", value: "", comment: "")
+        case .dataFormat: return NSLocalizedString("Error.DataFormat.Message", value: "", comment: "")
+        case .listIsEmpty: return NSLocalizedString("Error.ListIsEmpty.Message", value: "", comment: "")
+        case .notLoginedIn: return NSLocalizedString("Error.NotLoginedIn.Message", value: "", comment: "")
+        case .loginExpired: return NSLocalizedString("Error.LoginExpired.Message", value: "", comment: "")
+        case let .server(_, message): return message ?? NSLocalizedString("Error.Server.Message", value: "", comment: "")
+        case let .app(_, message): return message ?? NSLocalizedString("Error.App.Message", value: "", comment: "")
         }
     }
     /// 重试
     public var recoverySuggestion: String? {
-        switch self {
-        case .network: return NSLocalizedString("Error.Network.Suggestion", value: NSLocalizedString("Retry", value: "重试", comment: ""), comment: "")
-        default: return NSLocalizedString("Retry", value: "重试", comment: "")
-        }
+        NSLocalizedString("Retry", value: "", comment: "")
+//        switch self {
+//        case .notConnected: return NSLocalizedString("Error.Network.Suggestion", value: NSLocalizedString("Retry", value: "重试", comment: ""), comment: "")
+//        default: return NSLocalizedString("Retry", value: "重试", comment: "")
+//        }
     }
 }
 
 extension SWError: Equatable {
     public static func == (lhs: SWError, rhs: SWError) -> Bool {
         switch (lhs, rhs) {
-        case (.cancel, .cancel),
+        case (.none, .none),
              (.unknown, .unknown),
-             (.network, .network),
+             (.notConnected, .notConnected),
+            (.notReachable, .notReachable),
              (.navigation, .navigation),
              (.dataFormat, .dataFormat),
              (.listIsEmpty, .listIsEmpty),
@@ -103,9 +109,10 @@ extension SWError: Equatable {
 extension SWError: CustomStringConvertible {
     public var description: String {
         switch self {
-        case .cancel: return "SWError.cancel"
+        case .none: return "SWError.none"
         case .unknown: return "SWError.unknown"
-        case .network: return "SWError.network"
+        case .notConnected: return "SWError.notConnected"
+        case .notReachable: return "SWError.notReachable"
         case .navigation: return "SWError.navigation"
         case .dataFormat: return "SWError.dataFormat"
         case .listIsEmpty: return "SWError.listIsEmpty"

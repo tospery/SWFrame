@@ -17,7 +17,7 @@ extension SWError {
 
     public var displayImage: UIImage? {
         switch self {
-        case .network: return UIImage.networkError
+        case .notConnected: return UIImage.networkError
         case .server: return UIImage.serverError
         case .listIsEmpty: return UIImage.emptyError
         case .loginExpired: return UIImage.expireError
@@ -40,7 +40,7 @@ extension NSError: SWErrorCompatible {
             }
         }
         if self.domain == NSURLErrorDomain {
-            return .network
+            return .notConnected
         } else {
             if self.code == 500 {
                 return .server(0, self.localizedDescription)
@@ -56,7 +56,7 @@ extension AFError: SWErrorCompatible {
     public var swError: SWError {
         switch self {
         case .sessionTaskFailed:
-            return .network
+            return .notConnected
         default:
             return .server(0, self.localizedDescription)
         }
@@ -85,7 +85,7 @@ extension SKError: SWErrorCompatible {
     public var swError: SWError {
         switch self.code {
         case .paymentCancelled:
-            return .cancel
+            return .none
         default:
             return .app(0, self.localizedDescription)
         }

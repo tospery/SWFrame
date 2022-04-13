@@ -33,7 +33,7 @@ final public class ReachManager {
             logger.print("网络状态: \(status)", module: .swframe)
             reachSubject.accept(status)
         }
-        self.connectivity.pollingInterval = 5
+        self.connectivity.pollingInterval = 10
         self.connectivity.isPollingEnabled = true
         self.connectivity.framework = .network
         self.connectivity.whenConnected = connectivityChanged
