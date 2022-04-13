@@ -8,64 +8,38 @@
 import UIKit
 import RxSwift
 import RxRelay
-import Connectivity
-
-public let reachSubject = BehaviorRelay<ConnectivityStatus>.init(value: .determining)
-
+import Alamofire
+ 
+public let reachSubject = BehaviorRelay<NetworkReachabilityManager.NetworkReachabilityStatus>.init(value: .unknown)
+ 
 final public class ReachManager {
     
-    let connectivity = Connectivity.init()
+    let network = NetworkReachabilityManager.default
     public static let shared = ReachManager()
 
     init() {
     }
     
     deinit {
-        self.connectivity.stopNotifier()
+        self.network?.stopListening()
     }
     
     func start() {
-        let connectivityChanged: (Connectivity) -> Void = { connectivity in
-            let status = connectivity.status
-            if status == .connected {
-                return
-            }
+        self.network?.startListening(onUpdatePerforming: { status in
             logger.print("网络状态: \(status)", module: .swframe)
             reachSubject.accept(status)
-        }
-        self.connectivity.pollingInterval = 10
-        self.connectivity.isPollingEnabled = true
-        self.connectivity.framework = .network
-        self.connectivity.whenConnected = connectivityChanged
-        self.connectivity.whenDisconnected = connectivityChanged
-        self.connectivity.startNotifier()
+        })
     }
 
 }
 
-extension ConnectivityStatus {
-    
-    public var isCellular: Bool { self == .connectedViaCellular || self == .connectedViaCellularWithoutInternet }
-    public var isWifi: Bool { self == .connectedViaWiFi || self == .connectedViaWiFiWithoutInternet }
-    public var hasInternet: Bool { self == .connectedViaCellular || self == .connectedViaWiFi }
-    
+extension NetworkReachabilityManager.NetworkReachabilityStatus: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .unknown: return "未知网络"
+        case .notReachable: return "网络不可达"
+        case let .reachable(type): return type == .cellular ? "cellular" : "wifi"
+        }
+     }
 }
 
-extension ConnectivityStatus: Equatable {
-    
-    static func == (lhs: ConnectivityStatus, rhs: ConnectivityStatus) -> Bool {
-        switch (lhs, rhs) {
-        case (.connected, .connected),
-             (.connectedViaCellular, .connectedViaCellular),
-             (.connectedViaCellularWithoutInternet, .connectedViaCellularWithoutInternet),
-             (.connectedViaWiFi, .connectedViaWiFi),
-             (.connectedViaWiFiWithoutInternet, .connectedViaWiFiWithoutInternet),
-             (.determining, .determining),
-             (.notConnected, .notConnected):
-            return true
-        default:
-            return false
-        }
-    }
-    
-}

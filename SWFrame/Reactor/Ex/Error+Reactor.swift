@@ -56,6 +56,7 @@ extension AFError: SWErrorCompatible {
     public var swError: SWError {
         switch self {
         case .sessionTaskFailed:
+            // NSURLErrorDomain Code=-1020 "目前不允许数据连接。"
             return .notConnected
         default:
             return .server(0, self.localizedDescription)

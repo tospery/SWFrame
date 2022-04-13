@@ -36,7 +36,6 @@ Pod::Spec.new do |s|
     ss.source_files = 'SWFrame/Network/**/*'
   	ss.dependency 'SWFrame/Core'
 	ss.dependency 'RxRelay', '6.2.0'
-	ss.dependency 'Connectivity', '5.0.0'
   	ss.dependency 'Moya/RxSwift', '15.0.0'
 	ss.dependency 'SwifterSwift/Foundation', '5.2.0'
   end

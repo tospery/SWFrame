@@ -7,6 +7,8 @@
 
 import UIKit
 import URLNavigator
+import RxSwift
+import RxCocoa
 
 public enum ForwardType: Int {
     case push
@@ -72,6 +74,35 @@ public extension NavigatorType {
         ]))
     }
     
+    // MARK: - Alert
+    public func alert(_ title: String, _ message: String, _ actions: [AlertActionType]) {
+        self.open(
+            Router.shared.urlString(
+                host: .alert,
+                parameters: [
+                    Parameter.title: title,
+                    Parameter.message: message
+                ]),
+            context: [
+                Parameter.actions: actions
+            ]
+        )
+    }
+
+    public func rxAlert(_ title: String, _ message: String, _ actions: [AlertActionType]) -> Observable<Any> {
+        (self as! Navigator).rx.open(
+            Router.shared.urlString(
+                host: .alert,
+                parameters: [
+                    Parameter.title: title,
+                    Parameter.message: message
+                ]),
+            context: [
+                Parameter.actions: actions
+            ]
+        )
+    }
+    
     // MARK: - Login
     public func goLogin() {
         if self.open(Router.shared.urlString(host: .login)) {
@@ -80,19 +111,6 @@ public extension NavigatorType {
         self.present(Router.shared.urlString(host: .login), wrap: NavigationController.self)
     }
     
-//    func alert(_ title: String, _ message: String, _ actions: [AlertActionType]) {
-//        self.navigator.open(
-//            Router.urlString(host: .alert, parameters: [Parameter.title: title,Parameter.message: message]),
-//            context: [Parameter.actions: actions]
-//        )
-//    }
-//
-//    func rxAlert(_ title: String, _ message: String, _ actions: [AlertActionType]) -> Observable<Any> {
-//        (self.navigator as! Navigator).rx.open(
-//            Router.urlString(host: .alert, parameters: [Parameter.title: title,Parameter.message: message]),
-//            context: [Parameter.actions: actions]
-//        )
-//    }
 //    
 //    func sheet(_ path: Router.Path, context: Any? = nil) {
 //        self.navigator.open(Router.urlString(host: .sheet, path: path), context: context)
