@@ -12,13 +12,13 @@ public let StatusCodeOK = 200
 public enum SWError: Error {
     case none
     case unknown
-    case notConnected
-    case notReachable
     case navigation
     case dataFormat
     case listIsEmpty
-    case notLoginedIn
-    case loginExpired
+    case userNotLoginedIn
+    case userLoginExpired
+    case networkNotConnected
+    case networkNotReachable
     case server(Int, String?)
     case app(Int, String?)
 }
@@ -29,13 +29,13 @@ extension SWError: CustomNSError {
         switch self {
         case .none: return 1
         case .unknown: return 2
-        case .notConnected: return 3
-        case .notReachable: return 4
-        case .navigation: return 5
-        case .dataFormat: return 6
-        case .listIsEmpty: return 7
-        case .notLoginedIn: return 8
-        case .loginExpired: return 9
+        case .navigation: return 3
+        case .dataFormat: return 4
+        case .listIsEmpty: return 5
+        case .userNotLoginedIn: return 6
+        case .userLoginExpired: return 7
+        case .networkNotConnected: return 8
+        case .networkNotReachable: return 9
         case let .server(code, _): return code
         case let .app(code, _): return code
         }
@@ -46,40 +46,62 @@ extension SWError: LocalizedError {
     /// 概述
     public var failureReason: String? {
         switch self {
-        case .none: return NSLocalizedString("Error.None.Title", value: "", comment: "")
-        case .unknown: return NSLocalizedString("Error.Unknown.Title", value: "", comment: "")
-        case .notConnected: return NSLocalizedString("Error.NotConnected.Title", value: "", comment: "")
-        case .notReachable: return NSLocalizedString("Error.NotReachable.Title", value: "", comment: "")
-        case .navigation: return NSLocalizedString("Error.Navigation.Title", value: "", comment: "")
-        case .dataFormat: return NSLocalizedString("Error.DataFormat.Title", value: "", comment: "")
-        case .listIsEmpty: return NSLocalizedString("Error.ListIsEmpty.Title", value: "", comment: "")
-        case .notLoginedIn: return NSLocalizedString("Error.NotLoginedIn.Title", value: "", comment: "")
-        case .loginExpired: return NSLocalizedString("Error.LoginExpired.Title", value: "", comment: "")
-        case .server: return NSLocalizedString("Error.Server.Title", value: "", comment: "")
-        case .app: return NSLocalizedString("Error.App.Title", value: "", comment: "")
+        case .none:
+            return NSLocalizedString("Error.None.Title", value: "", comment: "")
+        case .unknown:
+            return NSLocalizedString("Error.Unknown.Title", value: "", comment: "")
+        case .navigation:
+            return NSLocalizedString("Error.Navigation.Title", value: "", comment: "")
+        case .dataFormat:
+            return NSLocalizedString("Error.DataFormat.Title", value: "", comment: "")
+        case .listIsEmpty:
+            return NSLocalizedString("Error.ListIsEmpty.Title", value: "", comment: "")
+        case .userNotLoginedIn:
+            return NSLocalizedString("Error.UserNotLoginedIn.Title", value: "", comment: "")
+        case .userLoginExpired:
+            return NSLocalizedString("Error.UserLoginExpired.Title", value: "", comment: "")
+        case .networkNotConnected:
+            return NSLocalizedString("Error.NetworkNotConnected.Title", value: "", comment: "")
+        case .networkNotReachable:
+            return NSLocalizedString("Error.NetworkNotReachable.Title", value: "", comment: "")
+        case .server:
+            return NSLocalizedString("Error.Server.Title", value: "", comment: "")
+        case .app:
+            return NSLocalizedString("Error.App.Title", value: "", comment: "")
         }
     }
     /// 详情
     public var errorDescription: String? {
         switch self {
-        case .none: return NSLocalizedString("Error.None.Message", value: "", comment: "")
-        case .unknown: return NSLocalizedString("Error.Unknown.Message", value: "", comment: "")
-        case .notConnected: return NSLocalizedString("Error.NotConnected.Message", value: "", comment: "")
-        case .notReachable: return NSLocalizedString("Error.NotReachable.Message", value: "", comment: "")
-        case .navigation: return NSLocalizedString("Error.Navigation.Message", value: "", comment: "")
-        case .dataFormat: return NSLocalizedString("Error.DataFormat.Message", value: "", comment: "")
-        case .listIsEmpty: return NSLocalizedString("Error.ListIsEmpty.Message", value: "", comment: "")
-        case .notLoginedIn: return NSLocalizedString("Error.NotLoginedIn.Message", value: "", comment: "")
-        case .loginExpired: return NSLocalizedString("Error.LoginExpired.Message", value: "", comment: "")
-        case let .server(_, message): return message ?? NSLocalizedString("Error.Server.Message", value: "", comment: "")
-        case let .app(_, message): return message ?? NSLocalizedString("Error.App.Message", value: "", comment: "")
+        case .none:
+            return NSLocalizedString("Error.None.Message", value: "", comment: "")
+        case .unknown:
+            return NSLocalizedString("Error.Unknown.Message", value: "", comment: "")
+        case .navigation:
+            return NSLocalizedString("Error.Navigation.Message", value: "", comment: "")
+        case .dataFormat:
+            return NSLocalizedString("Error.DataFormat.Message", value: "", comment: "")
+        case .listIsEmpty:
+            return NSLocalizedString("Error.ListIsEmpty.Message", value: "", comment: "")
+        case .userNotLoginedIn:
+            return NSLocalizedString("Error.UserNotLoginedIn.Message", value: "", comment: "")
+        case .userLoginExpired:
+            return NSLocalizedString("Error.UserLoginExpired.Message", value: "", comment: "")
+        case .networkNotConnected:
+            return NSLocalizedString("Error.NetworkNotConnected.Message", value: "", comment: "")
+        case .networkNotReachable:
+            return NSLocalizedString("Error.NetworkNotReachable.Message", value: "", comment: "")
+        case let .server(_, message):
+            return message ?? NSLocalizedString("Error.Server.Message", value: "", comment: "")
+        case let .app(_, message):
+            return message ?? NSLocalizedString("Error.App.Message", value: "", comment: "")
         }
     }
     /// 重试
     public var recoverySuggestion: String? {
         NSLocalizedString("Retry", value: "", comment: "")
 //        switch self {
-//        case .notConnected: return NSLocalizedString("Error.Network.Suggestion", value: NSLocalizedString("Retry", value: "重试", comment: ""), comment: "")
+//        case .networkNotConnected: return NSLocalizedString("Error.Network.Suggestion", value: NSLocalizedString("Retry", value: "重试", comment: ""), comment: "")
 //        default: return NSLocalizedString("Retry", value: "重试", comment: "")
 //        }
     }
@@ -90,13 +112,13 @@ extension SWError: Equatable {
         switch (lhs, rhs) {
         case (.none, .none),
              (.unknown, .unknown),
-             (.notConnected, .notConnected),
-            (.notReachable, .notReachable),
              (.navigation, .navigation),
              (.dataFormat, .dataFormat),
              (.listIsEmpty, .listIsEmpty),
-             (.notLoginedIn, .notLoginedIn),
-            (.loginExpired, .loginExpired):
+             (.userNotLoginedIn, .userNotLoginedIn),
+            (.userLoginExpired, .userLoginExpired),
+            (.networkNotConnected, .networkNotConnected),
+            (.networkNotReachable, .networkNotReachable):
             return true
         case (.server(let left, _), .server(let right, _)),
              (.app(let left, _), .app(let right, _)):
@@ -111,13 +133,13 @@ extension SWError: CustomStringConvertible {
         switch self {
         case .none: return "SWError.none"
         case .unknown: return "SWError.unknown"
-        case .notConnected: return "SWError.notConnected"
-        case .notReachable: return "SWError.notReachable"
         case .navigation: return "SWError.navigation"
         case .dataFormat: return "SWError.dataFormat"
         case .listIsEmpty: return "SWError.listIsEmpty"
-        case .notLoginedIn: return "SWError.notLoginedIn"
-        case .loginExpired: return "SWError.loginExpired"
+        case .userNotLoginedIn: return "SWError.userNotLoginedIn"
+        case .userLoginExpired: return "SWError.userLoginExpired"
+        case .networkNotConnected: return "SWError.networkNotConnected"
+        case .networkNotReachable: return "SWError.networkNotReachable"
         case let .server(code, message): return "SWError.server(\(code), \(message ?? ""))"
         case let .app(code, message): return "SWError.app(\(code), \(message ?? ""))"
         }
@@ -146,7 +168,7 @@ extension SWError {
 //    }
 //
 //    public var isNotLoginedIn: Bool {
-//        self == .notLoginedIn
+//        self == .userNotLoginedIn
 //    }
     
     public func isServerError(withCode errorCode: Int) -> Bool {

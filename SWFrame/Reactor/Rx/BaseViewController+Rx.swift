@@ -42,7 +42,7 @@ public extension Reactive where Base: BaseViewController {
             viewController.error = error
             guard viewController.isViewLoaded else { return }
             guard let error = error?.asSWError else { return }
-            if error == .loginExpired {
+            if error == .userLoginExpired {
                 viewController.navigator.goLogin()
             } else {
                 if let scrollViewController = viewController as? ScrollViewController {
