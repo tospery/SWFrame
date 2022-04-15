@@ -17,7 +17,7 @@ extension SWError {
 
     public var displayImage: UIImage? {
         switch self {
-        case .networkNotConnected: return UIImage.networkError
+        case .networkNotConnected, .networkNotReachable: return UIImage.networkError
         case .server: return UIImage.serverError
         case .listIsEmpty: return UIImage.emptyError
         case .userLoginExpired: return UIImage.expireError
@@ -40,6 +40,15 @@ extension NSError: SWErrorCompatible {
             }
         }
         if self.domain == NSURLErrorDomain {
+            // NSURLErrorDomain Code=-1020 "目前不允许数据连接。"
+            // NSURLErrorCannotConnectToHost        -1004       无法连接服务器
+            if self.code >= NSURLErrorNetworkConnectionLost &&
+                self.code <= NSURLErrorCancelled {
+                return .server(ErrorCode.serverUnableConnect, self.localizedDescription)
+            } else if self.code >= NSURLErrorCannotParseResponse ||
+                        self.code <= NSURLErrorDNSLookupFailed {
+                return .server(ErrorCode.serverNoResponse, self.localizedDescription)
+            }
             return .networkNotConnected
         } else {
             if self.code == 500 {
@@ -55,9 +64,8 @@ extension NSError: SWErrorCompatible {
 extension AFError: SWErrorCompatible {
     public var swError: SWError {
         switch self {
-        case .sessionTaskFailed:
-            // NSURLErrorDomain Code=-1020 "目前不允许数据连接。"
-            return .networkNotConnected
+        case let .sessionTaskFailed(error):
+            return error.asSWError
         default:
             return .server(0, self.localizedDescription)
         }

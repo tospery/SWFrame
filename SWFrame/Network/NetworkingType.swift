@@ -176,7 +176,7 @@ public extension NetworkingType {
     }
     
     private func check(_ code: Int, _ message: String) -> SWError? {
-        guard code == StatusCodeOK else {
+        guard code == ErrorCode.ok else {
             if code == 401 {
                 return .userLoginExpired
             }

@@ -7,7 +7,11 @@
 
 import Foundation
 
-public let StatusCodeOK = 200
+public struct ErrorCode {
+    public static let ok                        = 200
+    public static let serverUnableConnect       = -10001
+    public static let serverNoResponse          = -10002
+}
 
 public enum SWError: Error {
     case none
@@ -140,6 +144,8 @@ extension SWError: CustomStringConvertible {
         case .userLoginExpired: return "SWError.userLoginExpired"
         case .networkNotConnected: return "SWError.networkNotConnected"
         case .networkNotReachable: return "SWError.networkNotReachable"
+//        case .serverCantEnable: return "SWError.serverCantEnable"
+//        case .serverNoResponse: return "SWError.serverNoResponse"
         case let .server(code, message): return "SWError.server(\(code), \(message ?? ""))"
         case let .app(code, message): return "SWError.app(\(code), \(message ?? ""))"
         }
