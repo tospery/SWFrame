@@ -90,6 +90,16 @@ extension MoyaError: SWErrorCompatible {
     }
 }
 
+extension RxError: SWErrorCompatible {
+    public var swError: SWError {
+        switch self {
+        case .unknown: return .unknown
+        case .timeout: return .timeout
+        default: return .app(0, self.localizedDescription)
+        }
+    }
+}
+
 extension SKError: SWErrorCompatible {
     public var swError: SWError {
         switch self.code {

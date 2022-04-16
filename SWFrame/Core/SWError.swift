@@ -16,6 +16,7 @@ public struct ErrorCode {
 public enum SWError: Error {
     case none
     case unknown
+    case timeout
     case navigation
     case dataFormat
     case listIsEmpty
@@ -31,8 +32,9 @@ extension SWError: CustomNSError {
     public static let domain = Bundle.main.bundleIdentifier ?? ""
     public var errorCode: Int {
         switch self {
-        case .none: return 1
-        case .unknown: return 2
+        case .none: return 0
+        case .unknown: return 1
+        case .timeout: return 2
         case .navigation: return 3
         case .dataFormat: return 4
         case .listIsEmpty: return 5
@@ -54,6 +56,8 @@ extension SWError: LocalizedError {
             return NSLocalizedString("Error.None.Title", value: "", comment: "")
         case .unknown:
             return NSLocalizedString("Error.Unknown.Title", value: "", comment: "")
+        case .timeout:
+            return NSLocalizedString("Error.Timeout.Title", value: "", comment: "")
         case .navigation:
             return NSLocalizedString("Error.Navigation.Title", value: "", comment: "")
         case .dataFormat:
@@ -81,6 +85,8 @@ extension SWError: LocalizedError {
             return NSLocalizedString("Error.None.Message", value: "", comment: "")
         case .unknown:
             return NSLocalizedString("Error.Unknown.Message", value: "", comment: "")
+        case .timeout:
+            return NSLocalizedString("Error.Timeout.Message", value: "", comment: "")
         case .navigation:
             return NSLocalizedString("Error.Navigation.Message", value: "", comment: "")
         case .dataFormat:
@@ -116,6 +122,7 @@ extension SWError: Equatable {
         switch (lhs, rhs) {
         case (.none, .none),
              (.unknown, .unknown),
+            (.timeout, .timeout),
              (.navigation, .navigation),
              (.dataFormat, .dataFormat),
              (.listIsEmpty, .listIsEmpty),
@@ -137,6 +144,7 @@ extension SWError: CustomStringConvertible {
         switch self {
         case .none: return "SWError.none"
         case .unknown: return "SWError.unknown"
+        case .timeout: return "SWError.timeout"
         case .navigation: return "SWError.navigation"
         case .dataFormat: return "SWError.dataFormat"
         case .listIsEmpty: return "SWError.listIsEmpty"
