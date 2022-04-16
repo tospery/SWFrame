@@ -52,12 +52,33 @@ extension NSError: SWErrorCompatible {
             return .networkNotConnected
         } else {
             if self.code == 500 {
-                return .server(0, self.localizedDescription)
+                return .server(ErrorCode.serverInternalError, self.localizedDescription)
             } else if self.code == 401 {
                 return .userLoginExpired
             }
         }
-        return .server(0, self.localizedDescription)
+        return .server(ErrorCode.nserror, self.localizedDescription)
+    }
+}
+
+extension SKError: SWErrorCompatible {
+    public var swError: SWError {
+        switch self.code {
+        case .paymentCancelled:
+            return .none
+        default:
+            return .app(ErrorCode.skerror, self.localizedDescription)
+        }
+    }
+}
+
+extension RxError: SWErrorCompatible {
+    public var swError: SWError {
+        switch self {
+        case .unknown: return .unknown
+        case .timeout: return .timeout
+        default: return .app(ErrorCode.rxerror, self.localizedDescription)
+        }
     }
 }
 
@@ -67,7 +88,7 @@ extension AFError: SWErrorCompatible {
         case let .sessionTaskFailed(error):
             return error.asSWError
         default:
-            return .server(0, self.localizedDescription)
+            return .server(ErrorCode.aferror, self.localizedDescription)
         }
     }
 }
@@ -81,32 +102,11 @@ extension MoyaError: SWErrorCompatible {
             if response.statusCode == 401 {
                 return .userLoginExpired
             }
-            return .server(0, response.data.string(encoding: .utf8))
+            return .server(ErrorCode.moyaError, response.data.string(encoding: .utf8))
         case let .jsonMapping(response):
-            return .server(response.statusCode, self.localizedDescription)
+            return .server(ErrorCode.moyaError, self.localizedDescription)
         default:
-            return .server(0, self.localizedDescription)
-        }
-    }
-}
-
-extension RxError: SWErrorCompatible {
-    public var swError: SWError {
-        switch self {
-        case .unknown: return .unknown
-        case .timeout: return .timeout
-        default: return .app(0, self.localizedDescription)
-        }
-    }
-}
-
-extension SKError: SWErrorCompatible {
-    public var swError: SWError {
-        switch self.code {
-        case .paymentCancelled:
-            return .none
-        default:
-            return .app(0, self.localizedDescription)
+            return .server(ErrorCode.moyaError, self.localizedDescription)
         }
     }
 }

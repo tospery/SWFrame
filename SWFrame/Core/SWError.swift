@@ -10,7 +10,13 @@ import Foundation
 public struct ErrorCode {
     public static let ok                        = 200
     public static let serverUnableConnect       = -10001
-    public static let serverNoResponse          = -10002
+    public static let serverInternalError       = -10002
+    public static let serverNoResponse          = -10003
+    public static let nserror                   = -20001
+    public static let skerror                   = -20002
+    public static let rxerror                   = -20003
+    public static let aferror                   = -20004
+    public static let moyaError                 = -20005
 }
 
 public enum SWError: Error {
