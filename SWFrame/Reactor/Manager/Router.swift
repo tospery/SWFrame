@@ -14,6 +14,9 @@ public protocol RouterCompatible {
     func isLegalHost(host: Router.Host) -> Bool
     func allowedPaths(host: Router.Host) -> [Router.Path]
     
+    func hasType(host: Router.Host) -> Bool
+    func forDetail(host: Router.Host) -> Bool
+    
     func shouldRefresh(host: Router.Host, path: Router.Path?) -> Bool
     func shouldLoadMore(host: Router.Host, path: Router.Path?) -> Bool
     
@@ -154,29 +157,41 @@ final public class Router {
     }
     
     public func urlPattern(host: Router.Host, path: Path? = nil) -> String {
-//        if let path = path {
-//            return "\(UIApplication.shared.urlScheme)://\(host)/\(path)"
-//        }
-//        if host == Router.Host.popup {
-//            return "\(UIApplication.shared.urlScheme)://\(host)/<type:_>"
-//        }
-//        if host == Router.Host.user {
-//            return "\(UIApplication.shared.urlScheme)://\(host)/<id>"
-//        }
-//        return "\(UIApplication.shared.urlScheme)://\(host)"
-        switch host {
-        case "manage":
-            return "\(UIApplication.shared.urlScheme)://\(host)/<userid>"
-        case .popup:
-            return "\(UIApplication.shared.urlScheme)://\(host)/<type:_>"
-        default:
-            return "\(UIApplication.shared.urlScheme)://\(host)"
+        if let path = path {
+            return "\(UIApplication.shared.urlScheme)://\(host)/\(path)"
         }
+        if let compatible = self as? RouterCompatible {
+            if compatible.forDetail(host: host) {
+                return "\(UIApplication.shared.urlScheme)://\(host)/<id>"
+            }
+        } else {
+            if host == .user {
+                return "\(UIApplication.shared.urlScheme)://\(host)/<id>"
+            }
+        }
+        if let compatible = self as? RouterCompatible {
+            if compatible.hasType(host: host) {
+                return "\(UIApplication.shared.urlScheme)://\(host)/<type:_>"
+            }
+        } else {
+            if host == Router.Host.popup {
+                return "\(UIApplication.shared.urlScheme)://\(host)/<type:_>"
+            }
+        }
+        return "\(UIApplication.shared.urlScheme)://\(host)"
+//        switch host {
+//        case "manage":
+//            return "\(UIApplication.shared.urlScheme)://\(host)/<userid>"
+//        case .popup:
+//            return "\(UIApplication.shared.urlScheme)://\(host)/<type:_>"
+//        default:
+//            return "\(UIApplication.shared.urlScheme)://\(host)"
+//        }
     }
     
     public func urlString(host: Router.Host, path: Path? = nil, parameters: [String: String]? = nil) -> String {
         let string = self.urlPattern(host: host)
-            .replacingOccurrences(of: "/<userid>", with: "")
+            // .replacingOccurrences(of: "/<userid>", with: "")
             .replacingOccurrences(of: "/<id>", with: "")
             .replacingOccurrences(of: "/<type:_>", with: "")
         var url = string.url!
