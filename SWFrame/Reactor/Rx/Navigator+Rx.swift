@@ -11,7 +11,36 @@ import RxCocoa
 import URLNavigator
 
 extension Navigator: ReactiveCompatible { }
+
+/// 只有rx模式，支持登录检测
 public extension Reactive where Base: Navigator {
+    
+    func forward(
+        _ url: URLConvertible,
+        path: String? = nil,
+        queries: [String: String]? = nil,
+        context: Any? = nil,
+        from1: UINavigationControllerType? = nil,
+        from2: UIViewControllerType? = nil,
+        animated: Bool = true,
+        completion: (() -> Void)? = nil
+    ) -> Observable<Any> {
+        return .create { [weak base] observer -> Disposable in
+            guard let base = base else { return Disposables.create { } }
+            var ctx = [String: Any].init()
+            if let context = context as? [String: Any] {
+                ctx = context
+            } else {
+                ctx[Parameter.extra] = context
+            }
+            ctx[Parameter.observer] = observer
+            guard base.forward(url, path: path, queries: queries, context: ctx, from1: from1, from2: from2, animated: animated, completion: completion) else {
+                observer.onError(SWError.navigation)
+                return Disposables.create { }
+            }
+            return Disposables.create { }
+        }
+    }
     
     func push(_ url: URLConvertible, context: Any? = nil, from: UINavigationControllerType? = nil, animated: Bool = true) -> Observable<UIViewController> {
         return .create { [weak base] observer -> Disposable in
@@ -159,32 +188,5 @@ public extension Reactive where Base: Navigator {
             return Disposables.create { }
         }
     }
-    
-    func forward(
-        _ url: URLConvertible,
-        path: String? = nil,
-        queries: [String: String]? = nil,
-        context: Any? = nil,
-        from1: UINavigationControllerType? = nil,
-        from2: UIViewControllerType? = nil,
-        animated: Bool = true,
-        completion: (() -> Void)? = nil
-    ) -> Observable<Any> {
-        return .create { [weak base] observer -> Disposable in
-            guard let base = base else { return Disposables.create { } }
-            var ctx = [String: Any].init()
-            if let context = context as? [String: Any] {
-                ctx = context
-            } else {
-                ctx[Parameter.extra] = context
-            }
-            ctx[Parameter.observer] = observer
-            guard base.forward(url, path: path, queries: queries, context: ctx, from1: from1, from2: from2, animated: animated, completion: completion) else {
-                observer.onError(SWError.navigation)
-                return Disposables.create { }
-            }
-            return Disposables.create { }
-        }
-    }
-    
+
 }

@@ -53,6 +53,20 @@ public extension NavigatorType {
         }
         return self.open(url, context: context)
     }
+    
+    @discardableResult
+    public func rxForward(
+        _ url: URLConvertible,
+        path: String? = nil,
+        queries: [String: String]? = nil,
+        context: Any? = nil,
+        from1: UINavigationControllerType? = nil,
+        from2: UIViewControllerType? = nil,
+        animated: Bool = true,
+        completion: (() -> Void)? = nil
+    ) -> Observable<Any> {
+        (self as! Navigator).rx.forward(url, path: path, queries: queries, context: context, from1: from1, from2: from2, animated: animated, completion: completion)
+    }
 
     // MARK: - Toast
     public func toastMessage(_ message: String) {

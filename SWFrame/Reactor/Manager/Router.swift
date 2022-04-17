@@ -156,6 +156,10 @@ final public class Router {
         return parameters
     }
     
+    /// 注册的pattern
+    /// 对于详情页，如app://user/detail采用<id>匹配模式
+    /// 此时，需要注册两个patter，分别为app://user/42980和app://user
+    /// 前者用于跳转到指定用户的详情页，后者用户跳转到当前登录用户的详情页
     public func urlPattern(host: Router.Host, path: Path? = nil) -> String {
         if let path = path {
             return "\(UIApplication.shared.urlScheme)://\(host)/\(path)"
@@ -179,19 +183,10 @@ final public class Router {
             }
         }
         return "\(UIApplication.shared.urlScheme)://\(host)"
-//        switch host {
-//        case "manage":
-//            return "\(UIApplication.shared.urlScheme)://\(host)/<userid>"
-//        case .popup:
-//            return "\(UIApplication.shared.urlScheme)://\(host)/<type:_>"
-//        default:
-//            return "\(UIApplication.shared.urlScheme)://\(host)"
-//        }
     }
     
     public func urlString(host: Router.Host, path: Path? = nil, parameters: [String: String]? = nil) -> String {
         let string = self.urlPattern(host: host)
-            // .replacingOccurrences(of: "/<userid>", with: "")
             .replacingOccurrences(of: "/<id>", with: "")
             .replacingOccurrences(of: "/<type:_>", with: "")
         var url = string.url!
