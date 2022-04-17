@@ -18,7 +18,7 @@ public enum ForwardType: Int {
 
 public extension NavigatorType {
 
-    // MARK: - Forward
+    // MARK: - Forward（支持自动跳转登录页功能）
     @discardableResult
     public func forward(
         _ url: URLConvertible,
@@ -31,12 +31,40 @@ public extension NavigatorType {
         completion: (() -> Void)? = nil
     ) -> Bool {
         guard var url = url.urlValue else { return false }
+        guard let host = url.host else { return false }
         if let path = path {
             url.appendPathComponent(path)
         }
         if let queries = queries {
             url.appendQueryParameters(queries)
         }
+        
+        // 检测登录要求
+        var needLogin = false
+        let router = Router.shared
+        if let compatible = router as? RouterCompatible {
+            if compatible.needLogin(host: host, path: path) {
+                needLogin = true
+            }
+        } else {
+            if host == .user {
+                needLogin = true
+            }
+        }
+        if needLogin {
+            (self as! Navigator).rx.present(
+                router.urlString(host: .login),
+                wrap: NavigationController.self
+            ).subscribe(onNext: { result in
+                logger.print("自动登录(数据): \(result)")
+            }, onError: { error in
+                logger.print("自动登录(错误): \(error)")
+            }, onCompleted: {
+                logger.print("自动登录(完成)")
+            }).disposed(by: gDisposeBag)
+            return false
+        }
+        
         let forwardType = ForwardType.init(
             rawValue: url.queryParameters.int(for: Parameter.forwardType) ?? 0
         )

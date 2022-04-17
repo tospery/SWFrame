@@ -17,6 +17,9 @@ public protocol RouterCompatible {
     func hasType(host: Router.Host) -> Bool
     func forDetail(host: Router.Host) -> Bool
     
+    func needLogin(host: Router.Host, path: Router.Path?) -> Bool
+    func customLogin(_ provider: SWFrame.ProviderType, _ navigator: NavigatorType, _ url: URLConvertible, _ values: [String: Any], _ context: Any?) -> (Bool, UIViewController?)
+    
     func shouldRefresh(host: Router.Host, path: Router.Path?) -> Bool
     func shouldLoadMore(host: Router.Host, path: Router.Path?) -> Bool
     
@@ -44,10 +47,16 @@ final public class Router {
         self.buildinWeb(provider, navigator)
         self.buildinLogin(provider, navigator)
         if let compatible = self as? RouterCompatible {
+//            if !compatible.customLogin() {
+//                self.buildinLogin(provider, navigator)
+//            }
             compatible.web(provider, navigator)
             compatible.page(provider, navigator)
             compatible.model(provider, navigator)
         }
+//        else {
+//            self.buildinLogin(provider, navigator)
+//        }
     }
     
     func buildinMatch(_ provider: SWFrame.ProviderType, _ navigator: NavigatorType) {
@@ -96,6 +105,13 @@ final public class Router {
     
     func buildinLogin(_ provider: SWFrame.ProviderType, _ navigator: NavigatorType) {
         navigator.register(self.urlPattern(host: .login)) { url, values, context in
+            if let compatible = self as? RouterCompatible {
+                let result = compatible.customLogin(provider, navigator, url, values, context)
+                if result.0 {
+                    return result.1
+                }
+            }
+            
             guard let top = UIViewController.topMost?.className else { return nil }
             if top.contains("LoginViewController") ||
                 top.contains("TXSSOLoginViewController") {

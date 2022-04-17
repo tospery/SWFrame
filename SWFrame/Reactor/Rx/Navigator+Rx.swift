@@ -11,8 +11,6 @@ import RxCocoa
 import URLNavigator
 
 extension Navigator: ReactiveCompatible { }
-
-/// 只有rx模式，支持登录检测
 public extension Reactive where Base: Navigator {
     
     func forward(

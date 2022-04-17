@@ -7,6 +7,10 @@
 
 import UIKit
 import QMUIKit
+import RxSwift
+import RxCocoa
+
+public var gDisposeBag = DisposeBag()
 
 // MARK: - 变量-编译相关
 /// 判断当前是否debug编译模式
