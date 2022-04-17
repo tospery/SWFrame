@@ -51,32 +51,32 @@ public extension Reactive where Base: Navigator {
             }
             ctx[Parameter.observer] = observer
             
-            if url.queryParameters.bool(for: Parameter.needLogin) ?? false &&
-                url.queryParameters.string(for: Parameter.currentUser)?.isEmpty ?? true {
-                if let name = UIViewController.topMost?.className, name.contains("login") {
-                    observer.onCompleted()
-                    return Disposables.create { }
-                }
-                var didLogined = false
-                base.rx.present("\(UIApplication.shared.urlScheme)://login")
-                    .subscribe(onNext: { result in
-                        didLogined = true
-                        logger.print("【路由触发】登录成功: \(result)", module: .swframe)
-                        guard base.push(
-                            url, context: ctx, from: from, animated: animated
-                        ) != nil else {
-                            observer.onError(SWError.navigation)
-                            return
-                        }
-                    }, onError: { error in
-                        observer.onError(error)
-                    }, onCompleted: {
-                        if !didLogined {
-                            observer.onCompleted()
-                        }
-                    }).disposed(by: base.rx.disposeBag)
-                return Disposables.create { }
-            }
+//            if url.queryParameters.bool(for: Parameter.needLogin) ?? false &&
+//                url.queryParameters.string(for: Parameter.currentUser)?.isEmpty ?? true {
+//                if let name = UIViewController.topMost?.className, name.contains("login") {
+//                    observer.onCompleted()
+//                    return Disposables.create { }
+//                }
+//                var didLogined = false
+//                base.rx.present("\(UIApplication.shared.urlScheme)://login")
+//                    .subscribe(onNext: { result in
+//                        didLogined = true
+//                        logger.print("【路由触发】登录成功: \(result)", module: .swframe)
+//                        guard base.push(
+//                            url, context: ctx, from: from, animated: animated
+//                        ) != nil else {
+//                            observer.onError(SWError.navigation)
+//                            return
+//                        }
+//                    }, onError: { error in
+//                        observer.onError(error)
+//                    }, onCompleted: {
+//                        if !didLogined {
+//                            observer.onCompleted()
+//                        }
+//                    }).disposed(by: base.rx.disposeBag)
+//                return Disposables.create { }
+//            }
             
             guard base.push(
                 url, context: ctx, from: from, animated: animated
@@ -106,32 +106,32 @@ public extension Reactive where Base: Navigator {
             }
             ctx[Parameter.observer] = observer
             
-            if url.queryParameters.bool(for: Parameter.needLogin) ?? false &&
-                url.queryParameters.string(for: Parameter.currentUser)?.isEmpty ?? true {
-                if let name = UIViewController.topMost?.className, name.contains("login") {
-                    observer.onCompleted()
-                    return Disposables.create { }
-                }
-                var didLogined = false
-                base.rx.present("\(UIApplication.shared.urlScheme)://login")
-                    .subscribe(onNext: { result in
-                        didLogined = true
-                        logger.print("【路由触发】登录成功: \(result)", module: .swframe)
-                        guard base.present(
-                            url, context: ctx, wrap: wrap, from: from, animated: animated, completion: completion
-                        ) != nil else {
-                            observer.onError(SWError.navigation)
-                            return
-                        }
-                    }, onError: { error in
-                        observer.onError(error)
-                    }, onCompleted: {
-                        if !didLogined {
-                            observer.onCompleted()
-                        }
-                    }).disposed(by: base.rx.disposeBag)
-                return Disposables.create { }
-            }
+//            if url.queryParameters.bool(for: Parameter.needLogin) ?? false &&
+//                url.queryParameters.string(for: Parameter.currentUser)?.isEmpty ?? true {
+//                if let name = UIViewController.topMost?.className, name.contains("login") {
+//                    observer.onCompleted()
+//                    return Disposables.create { }
+//                }
+//                var didLogined = false
+//                base.rx.present("\(UIApplication.shared.urlScheme)://login")
+//                    .subscribe(onNext: { result in
+//                        didLogined = true
+//                        logger.print("【路由触发】登录成功: \(result)", module: .swframe)
+//                        guard base.present(
+//                            url, context: ctx, wrap: wrap, from: from, animated: animated, completion: completion
+//                        ) != nil else {
+//                            observer.onError(SWError.navigation)
+//                            return
+//                        }
+//                    }, onError: { error in
+//                        observer.onError(error)
+//                    }, onCompleted: {
+//                        if !didLogined {
+//                            observer.onCompleted()
+//                        }
+//                    }).disposed(by: base.rx.disposeBag)
+//                return Disposables.create { }
+//            }
             
             guard base.present(
                 url, context: ctx, wrap: wrap, from: from, animated: animated, completion: completion
@@ -154,30 +154,30 @@ public extension Reactive where Base: Navigator {
             }
             ctx[Parameter.observer] = observer
             
-            if url.queryParameters.bool(for: Parameter.needLogin) ?? false &&
-                url.queryParameters.string(for: Parameter.currentUser)?.isEmpty ?? true {
-                if let name = UIViewController.topMost?.className, name.contains("login") {
-                    observer.onCompleted()
-                    return Disposables.create { }
-                }
-                var didLogined = false
-                base.rx.present("\(UIApplication.shared.urlScheme)://login")
-                    .subscribe(onNext: { result in
-                        didLogined = true
-                        logger.print("【路由触发】登录成功: \(result)", module: .swframe)
-                        guard base.open(url, context: ctx) else {
-                            observer.onError(SWError.navigation)
-                            return
-                        }
-                    }, onError: { error in
-                        observer.onError(error)
-                    }, onCompleted: {
-                        if !didLogined {
-                            observer.onCompleted()
-                        }
-                    }).disposed(by: base.rx.disposeBag)
-                return Disposables.create { }
-            }
+//            if url.queryParameters.bool(for: Parameter.needLogin) ?? false &&
+//                url.queryParameters.string(for: Parameter.currentUser)?.isEmpty ?? true {
+//                if let name = UIViewController.topMost?.className, name.contains("login") {
+//                    observer.onCompleted()
+//                    return Disposables.create { }
+//                }
+//                var didLogined = false
+//                base.rx.present("\(UIApplication.shared.urlScheme)://login")
+//                    .subscribe(onNext: { result in
+//                        didLogined = true
+//                        logger.print("【路由触发】登录成功: \(result)", module: .swframe)
+//                        guard base.open(url, context: ctx) else {
+//                            observer.onError(SWError.navigation)
+//                            return
+//                        }
+//                    }, onError: { error in
+//                        observer.onError(error)
+//                    }, onCompleted: {
+//                        if !didLogined {
+//                            observer.onCompleted()
+//                        }
+//                    }).disposed(by: base.rx.disposeBag)
+//                return Disposables.create { }
+//            }
             
             guard base.open(url, context: ctx) else {
                 observer.onError(SWError.navigation)

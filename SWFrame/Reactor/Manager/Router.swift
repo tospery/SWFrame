@@ -11,6 +11,8 @@ import SwifterSwift
 
 public protocol RouterCompatible {
     
+    func isLogined() -> Bool
+    
     func isLegalHost(host: Router.Host) -> Bool
     func allowedPaths(host: Router.Host) -> [Router.Path]
     
@@ -18,7 +20,7 @@ public protocol RouterCompatible {
     func forDetail(host: Router.Host) -> Bool
     
     func needLogin(host: Router.Host, path: Router.Path?) -> Bool
-    func customLogin(_ provider: SWFrame.ProviderType, _ navigator: NavigatorType, _ url: URLConvertible, _ values: [String: Any], _ context: Any?) -> (Bool, UIViewController?)
+    func customLogin(_ provider: SWFrame.ProviderType, _ navigator: NavigatorType, _ url: URLConvertible, _ values: [String: Any], _ context: Any?) -> (Bool, Bool)
     
     func shouldRefresh(host: Router.Host, path: Router.Path?) -> Bool
     func shouldLoadMore(host: Router.Host, path: Router.Path?) -> Bool
@@ -104,7 +106,7 @@ final public class Router {
     }
     
     func buildinLogin(_ provider: SWFrame.ProviderType, _ navigator: NavigatorType) {
-        navigator.register(self.urlPattern(host: .login)) { url, values, context in
+        navigator.handle(self.urlPattern(host: .login)) { url, values, context in
             if let compatible = self as? RouterCompatible {
                 let result = compatible.customLogin(provider, navigator, url, values, context)
                 if result.0 {
@@ -112,24 +114,24 @@ final public class Router {
                 }
             }
             
-            guard let top = UIViewController.topMost?.className else { return nil }
+            guard let top = UIViewController.topMost?.className else { return false }
             if top.contains("LoginViewController") ||
                 top.contains("TXSSOLoginViewController") {
-                return nil
+                return false
             }
             
-            if let reactorType = NSClassFromString("LoginViewReactor") as? BaseViewReactor.Type,
-               let controllerType = NSClassFromString("LoginViewController") as? BaseViewController.Type {
-                return controllerType.init(
-                    navigator,
-                    reactorType.init(
-                        provider,
-                        self.parameters(url, values, context)
-                    )
-                )
-            }
+//            if let reactorType = NSClassFromString("LoginViewReactor") as? BaseViewReactor.Type,
+//               let controllerType = NSClassFromString("LoginViewController") as? BaseViewController.Type {
+//                return controllerType.init(
+//                    navigator,
+//                    reactorType.init(
+//                        provider,
+//                        self.parameters(url, values, context)
+//                    )
+//                )
+//            }
             
-            return nil
+            return false
         }
     }
     

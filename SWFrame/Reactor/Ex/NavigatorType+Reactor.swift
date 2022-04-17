@@ -41,8 +41,10 @@ public extension NavigatorType {
         
         // 检测登录要求
         var needLogin = false
+        var isLogined = true
         let router = Router.shared
         if let compatible = router as? RouterCompatible {
+            isLogined = compatible.isLogined()
             if compatible.needLogin(host: host, path: path) {
                 needLogin = true
             }
@@ -51,18 +53,18 @@ public extension NavigatorType {
                 needLogin = true
             }
         }
-        if needLogin {
-            (self as! Navigator).rx.present(
-                router.urlString(host: .login),
-                wrap: NavigationController.self
+        if needLogin && !isLogined {
+            (self as! Navigator).rx.open(
+                router.urlString(host: .login)
             ).subscribe(onNext: { result in
-                logger.print("自动登录(数据): \(result)")
+                logger.print("自动跳转登录页(数据): \(result)")
             }, onError: { error in
-                logger.print("自动登录(错误): \(error)")
+                logger.print("自动跳转登录页(错误): \(error)")
             }, onCompleted: {
-                logger.print("自动登录(完成)")
+                logger.print("自动跳转登录页(完成)")
+                self.forward(url, path: path, queries: queries, context: context, from1: from1, from2: from2, animated: animated, completion: completion)
             }).disposed(by: gDisposeBag)
-            return false
+            return true
         }
         
         let forwardType = ForwardType.init(
@@ -147,10 +149,7 @@ public extension NavigatorType {
     
     // MARK: - Login
     public func goLogin() {
-        if self.open(Router.shared.urlString(host: .login)) {
-            return
-        }
-        self.present(Router.shared.urlString(host: .login), wrap: NavigationController.self)
+        self.open(Router.shared.urlString(host: .login))
     }
     
 //    
