@@ -147,6 +147,17 @@ public extension NavigatorType {
         )
     }
     
+    // MARK: - Sheet
+    
+    // MARK: - Popup
+    public func popup(_ path: Router.Path, context: Any? = nil) {
+        self.open(Router.shared.urlString(host: .popup, path: path), context: context)
+    }
+    
+    public func rxPopup(_ path: Router.Path, context: Any? = nil) -> Observable<Any> {
+        (self as! Navigator).rx.open(Router.shared.urlString(host: .popup, path: path), context: context)
+    }
+    
     // MARK: - Login
     public func goLogin() {
         self.open(Router.shared.urlString(host: .login))
@@ -159,14 +170,6 @@ public extension NavigatorType {
 //    
 //    func rxSheet(_ path: Router.Path, context: Any? = nil) -> Observable<Any> {
 //        (self.navigator as! Navigator).rx.open(Router.urlString(host: .sheet, path: path), context: context)
-//    }
-//
-//    func popup(_ path: Router.Path, context: Any? = nil) {
-//        self.navigator.open(Router.urlString(host: .popup, path: path), context: context)
-//    }
-//    
-//    func rxPopup(_ path: Router.Path, context: Any? = nil) -> Observable<Any> {
-//        (self.navigator as! Navigator).rx.open(Router.urlString(host: .popup, path: path), context: context)
 //    }
     
 }
