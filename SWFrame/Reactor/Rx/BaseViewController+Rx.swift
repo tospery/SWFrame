@@ -12,7 +12,11 @@ import SwifterSwift
 import URLNavigator
 
 public extension Reactive where Base: BaseViewController {
-
+    
+    var title: Binder<String?> {
+        self.base.navigationBar.titleLabel.rx.text
+    }
+    
     var activating: Binder<Bool> {
         return Binder(self.base) { viewController, isActivating in
             viewController.isActivating = isActivating
