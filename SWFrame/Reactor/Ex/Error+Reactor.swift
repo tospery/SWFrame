@@ -41,14 +41,40 @@ extension NSError: SWErrorCompatible {
         }
         if self.domain == NSURLErrorDomain {
             // NSURLErrorDomain Code=-1020 "目前不允许数据连接。"
-            // NSURLErrorCannotConnectToHost        -1004       无法连接服务器
+
+            // NSURLErrorUnknown                        -1
+            // NSURLErrorCancelled                      -999
+            // NSURLErrorBadURL                         -1000
+            // NSURLErrorTimedOut                       -1001(请求超时)
+            // NSURLErrorUnsupportedURL                 -1002
+            // NSURLErrorCannotFindHost                 -1003
+            // NSURLErrorCannotConnectToHost            -1004(无法连接服务器)
+            // NSURLErrorNetworkConnectionLost          -1005
+            // NSURLErrorDNSLookupFailed                -1006
+            // NSURLErrorHTTPTooManyRedirects           -1007
+            // NSURLErrorResourceUnavailable            -1008
+            // NSURLErrorNotConnectedToInternet         -1009
+            // NSURLErrorRedirectToNonExistentLocation  -1010
+            // NSURLErrorBadServerResponse              -1011
+            // NSURLErrorUserCancelledAuthentication    -1012
+            // NSURLErrorUserAuthenticationRequired     -1013
+            // NSURLErrorZeroByteResource               -1014
+            // NSURLErrorCannotDecodeRawData            -1015
+            // NSURLErrorCannotDecodeContentData        -1016
+            // NSURLErrorCannotParseResponse            -1017
+            // logger.print("看看错误码: \(NSURLErrorFileDoesNotExist)")
+
+            if self.code == -1020 {
+                return .networkNotConnected
+            }
             if self.code >= NSURLErrorNetworkConnectionLost &&
                 self.code <= NSURLErrorCancelled {
                 return .server(ErrorCode.serverUnableConnect, self.localizedDescription)
-            } else if self.code >= NSURLErrorCannotParseResponse ||
-                        self.code <= NSURLErrorDNSLookupFailed {
-                return .server(ErrorCode.serverNoResponse, self.localizedDescription)
             }
+//            if self.code >= NSURLErrorDNSLookupFailed ||
+//                        self.code <= NSURLErrorCannotParseResponse {
+//                return .server(ErrorCode.serverNoResponse, self.localizedDescription)
+//            }
             return .networkNotConnected
         } else {
             if self.code == 500 {
@@ -85,6 +111,8 @@ extension RxError: SWErrorCompatible {
 extension AFError: SWErrorCompatible {
     public var swError: SWError {
         switch self {
+        case .explicitlyCancelled:
+            return .timeout
         case let .sessionTaskFailed(error):
             return error.asSWError
         default:
