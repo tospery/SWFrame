@@ -22,8 +22,8 @@ public extension NavigatorType {
     @discardableResult
     public func forward(
         _ url: URLConvertible,
-        path: String? = nil,
-        queries: [String: String]? = nil,
+//        path: String? = nil,
+//        queries: [String: String]? = nil,
         context: Any? = nil,
         from1: UINavigationControllerType? = nil,
         from2: UIViewControllerType? = nil,
@@ -32,12 +32,12 @@ public extension NavigatorType {
     ) -> Bool {
         guard var url = url.urlValue else { return false }
         guard let host = url.host else { return false }
-        if let path = path {
-            url.appendPathComponent(path)
-        }
-        if let queries = queries {
-            url.appendQueryParameters(queries)
-        }
+//        if let path = path {
+//            url.appendPathComponent(path)
+//        }
+//        if let queries = queries {
+//            url.appendQueryParameters(queries)
+//        }
         
         // 检测登录要求
         var needLogin = false
@@ -45,7 +45,7 @@ public extension NavigatorType {
         let router = Router.shared
         if let compatible = router as? RouterCompatible {
             isLogined = compatible.isLogined()
-            if compatible.needLogin(host: host, path: path) {
+            if compatible.needLogin(host: host, path: url.path) {
                 needLogin = true
             }
         } else {
@@ -62,7 +62,7 @@ public extension NavigatorType {
                 logger.print("自动跳转登录页(错误): \(error)")
             }, onCompleted: {
                 logger.print("自动跳转登录页(完成)")
-                self.forward(url, path: path, queries: queries, context: context, from1: from1, from2: from2, animated: animated, completion: completion)
+                self.forward(url, context: context, from1: from1, from2: from2, animated: animated, completion: completion)
             }).disposed(by: gDisposeBag)
             return true
         }
@@ -87,15 +87,13 @@ public extension NavigatorType {
     @discardableResult
     public func rxForward(
         _ url: URLConvertible,
-        path: String? = nil,
-        queries: [String: String]? = nil,
         context: Any? = nil,
         from1: UINavigationControllerType? = nil,
         from2: UIViewControllerType? = nil,
         animated: Bool = true,
         completion: (() -> Void)? = nil
     ) -> Observable<Any> {
-        (self as! Navigator).rx.forward(url, path: path, queries: queries, context: context, from1: from1, from2: from2, animated: animated, completion: completion)
+        (self as! Navigator).rx.forward(url, context: context, from1: from1, from2: from2, animated: animated, completion: completion)
     }
 
     // MARK: - Toast

@@ -21,11 +21,11 @@ public extension Reactive where Base: BaseViewController {
         return Binder(self.base) { viewController, isActivating in
             viewController.isActivating = isActivating
             guard viewController.isViewLoaded else { return }
-            var url = "\(UIApplication.shared.urlScheme)://toast".url!
-            url.appendQueryParameters([
-                Parameter.active: isActivating.string
-            ])
-            viewController.navigator.open(url)
+            if isActivating {
+                viewController.navigator.showToastActivity()
+            } else {
+                viewController.navigator.hideToastActivity()
+            }
         }
     }
     
@@ -33,11 +33,7 @@ public extension Reactive where Base: BaseViewController {
         return Binder(self.base) { viewController, message in
             guard viewController.isViewLoaded else { return }
             guard !message.isEmpty else { return }
-            var url = "\(UIApplication.shared.urlScheme)://toast".url!
-            url.appendQueryParameters([
-                Parameter.message: message
-            ])
-            viewController.navigator.open(url)
+            viewController.navigator.toastMessage(message)
         }
     }
     

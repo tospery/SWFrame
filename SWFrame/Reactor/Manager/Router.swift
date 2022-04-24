@@ -155,7 +155,7 @@ final public class Router {
         parameters[Parameter.host] = host
         // 3. Path
         let path = url.urlValue?.path.removingPrefix("/").removingSuffix("/")
-        parameters[Parameter.path] = path
+        parameters[Parameter.path] = path?.isEmpty ?? true ? nil : path
         // 4. 标题
         var title: String? = nil
         if let compatible = self as? RouterCompatible {
@@ -241,5 +241,4 @@ extension Router.Host {
 
 extension Router.Path {
     public static var list: Router.Path { "list" }
-    public static var detail: Router.Path { "detail" }
 }
