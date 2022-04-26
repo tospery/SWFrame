@@ -149,11 +149,17 @@ public extension NavigatorType {
     
     // MARK: - Popup
     public func popup(_ path: Router.Path, context: Any? = nil) {
-        self.open(Router.shared.urlString(host: .popup, path: path), context: context)
+        self.open(
+            Router.shared.urlString(host: .popup, path: path),
+            context: context
+        )
     }
     
     public func rxPopup(_ path: Router.Path, context: Any? = nil) -> Observable<Any> {
-        (self as! Navigator).rx.open(Router.shared.urlString(host: .popup, path: path), context: context)
+        (self as! Navigator).rx.open(
+            Router.shared.urlString(host: .popup, path: path),
+            context: context
+        )
     }
     
     // MARK: - Login
