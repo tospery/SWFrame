@@ -49,16 +49,10 @@ final public class Router {
         self.buildinWeb(provider, navigator)
         self.buildinLogin(provider, navigator)
         if let compatible = self as? RouterCompatible {
-//            if !compatible.customLogin() {
-//                self.buildinLogin(provider, navigator)
-//            }
             compatible.web(provider, navigator)
             compatible.page(provider, navigator)
             compatible.model(provider, navigator)
         }
-//        else {
-//            self.buildinLogin(provider, navigator)
-//        }
     }
     
     func buildinMatch(_ provider: SWFrame.ProviderType, _ navigator: NavigatorType) {
