@@ -33,6 +33,15 @@ final public class ReachManager {
 
 }
 
+extension NetworkReachabilityManager.NetworkReachabilityStatus {
+    
+    public var isCellular: Bool { self == .reachable(.cellular) }
+    public var isWifi: Bool { self == .reachable(.ethernetOrWiFi) }
+    public var isReachable: Bool { self != .notReachable && self != .unknown }
+    
+}
+
+
 extension NetworkReachabilityManager.NetworkReachabilityStatus: CustomStringConvertible {
     public var description: String {
         switch self {
@@ -42,4 +51,5 @@ extension NetworkReachabilityManager.NetworkReachabilityStatus: CustomStringConv
         }
      }
 }
+
 

@@ -107,19 +107,25 @@ extension SWError: LocalizedError {
             return NSLocalizedString("Error.NetworkNotConnected.Message", value: "", comment: "")
         case .networkNotReachable:
             return NSLocalizedString("Error.NetworkNotReachable.Message", value: "", comment: "")
-        case let .server(_, message):
-            return message ?? NSLocalizedString("Error.Server.Message", value: "", comment: "")
-        case let .app(_, message):
-            return message ?? NSLocalizedString("Error.App.Message", value: "", comment: "")
+        case let .server(code, message):
+            return message ?? NSLocalizedString("Error.Server.Message\(code)", value: "", comment: "")
+        case let .app(code, message):
+            return message ?? NSLocalizedString("Error.App.Message\(code)", value: "", comment: "")
         }
     }
     /// 重试
     public var recoverySuggestion: String? {
-        NSLocalizedString("Retry", value: "", comment: "")
-//        switch self {
-//        case .networkNotConnected: return NSLocalizedString("Error.Network.Suggestion", value: NSLocalizedString("Retry", value: "重试", comment: ""), comment: "")
-//        default: return NSLocalizedString("Retry", value: "重试", comment: "")
-//        }
+        var suggestion: String?
+        switch self {
+        case let .app(code, _):
+            suggestion = NSLocalizedString("Error.App.Suggestion\(code)", value: "", comment: "")
+        default:
+            break
+        }
+        if suggestion?.hasPrefix("Error.") ?? false {
+            suggestion = nil
+        }
+        return suggestion
     }
 }
 
