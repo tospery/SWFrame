@@ -17,6 +17,7 @@ public struct ErrorCode {
     public static let rxerror                   = -20003
     public static let aferror                   = -20004
     public static let moyaError                 = -20005
+    public static let appError                  = -30000
 }
 
 public enum SWError: Error {
