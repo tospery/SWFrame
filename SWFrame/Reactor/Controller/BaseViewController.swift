@@ -39,6 +39,7 @@ open class BaseViewController: UIViewController {
     
     public var result: Any?
     public var callback: AnyObserver<Any>?
+    private let mydealloc: PublishSubject<Void>!
     public var disposeBag = DisposeBag()
     public let navigator: NavigatorType
     
@@ -96,6 +97,7 @@ open class BaseViewController: UIViewController {
     
     // MARK: - Init
     required public init(_ navigator: NavigatorType, _ reactor: BaseViewReactor) {
+        self.mydealloc = reactor.mydealloc
         self.navigator = navigator
         super.init(nibName: nil, bundle: nil)
         self.hidesBottomBarWhenPushed = true
@@ -115,6 +117,7 @@ open class BaseViewController: UIViewController {
             self.callback?.onNext(self.result!)
         }
         self.callback?.onCompleted()
+        self.mydealloc.onNext(())
         #if DEBUG
         logger.print("\(self.className)已销毁！！！", module: .swframe)
         #endif

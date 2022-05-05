@@ -16,6 +16,7 @@ open class BaseViewReactor: NSObject, ReactorType {
     public let provider: ProviderType
     public var parameters: [String: Any]
     public var title: String?
+    public let mydealloc = PublishSubject<Void>.init()
     public var disposeBag = DisposeBag()
     
     required public init(_ provider: ProviderType, _ parameters: [String: Any]?) {
