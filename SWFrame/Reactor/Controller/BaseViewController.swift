@@ -217,6 +217,7 @@ open class BaseViewController: UIViewController {
     }
     
     open func didClosed() {
+        self.mydealloc.onNext(())
         // self.callback?.onCompleted()
     }
     
