@@ -11,6 +11,8 @@ import RxSwift
 import URLNavigator
 import SwifterSwift
 
+public var gDisposeBag = DisposeBag()
+
 open class AppDependency {
     
     public let navigator: NavigatorType
