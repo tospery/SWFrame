@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SWFrame'
-  s.version          = '2.1.0'
+  s.version          = '2.1.1'
   s.summary          = 'iOS App Framework.'
   s.description      = <<-DESC
 						iOS App Framework using Swift.
@@ -27,6 +27,7 @@ Pod::Spec.new do |s|
   s.subspec 'Core' do |ss|
     ss.source_files = 'SWFrame/Core/**/*'
 	ss.dependency 'QMUIKit/QMUICore', '4.4.3'
+	ss.dependency 'FCUUID', '1.3.1'
 	ss.dependency 'SwiftyBeaver', '1.9.5'
 	ss.dependency 'ObjectMapper-JX', '4.2.0-v1'
 	ss.dependency 'SwifterSwift/SwiftStdlib', '5.2.0'
@@ -52,7 +53,6 @@ Pod::Spec.new do |s|
 	ss.dependency 'URLNavigator', '2.3.0'
 	ss.dependency 'BonMot', '6.0.0'
 	ss.dependency 'SwifterSwift', '5.2.0'
-	ss.dependency 'FCUUID', '1.3.1'
 	ss.dependency 'Kingfisher', '6.3.1'
 	ss.dependency 'DZNEmptyDataSet', '1.8.1'
 	ss.dependency 'MJRefresh', '3.7.5'

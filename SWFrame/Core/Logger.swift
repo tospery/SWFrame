@@ -71,6 +71,7 @@ extension Logger.Module {
     public static var swframe: Logger.Module { "swframe" }
     public static var library: Logger.Module { "library" }
     public static var restful: Logger.Module { "restful" }
+    public static var statistic: Logger.Module { "statistic" }
     
 }
 

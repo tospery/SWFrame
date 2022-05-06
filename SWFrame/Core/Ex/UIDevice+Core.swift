@@ -1,8 +1,8 @@
 //
-//  UIDevice+Ex.swift
+//  UIDevice+Core.swift
 //  SWFrame
 //
-//  Created by 杨建祥 on 2020/4/9.
+//  Created by liaoya on 2022/5/6.
 //
 
 import UIKit
