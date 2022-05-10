@@ -152,7 +152,7 @@ extension ScrollViewController: DZNEmptyDataSetSource {
     
     open func verticalOffset(forEmptyDataSet scrollView: UIScrollView!) -> CGFloat {
         if self.error != nil {
-            return -metric(80)
+            return -80
         }
         return 0
     }
