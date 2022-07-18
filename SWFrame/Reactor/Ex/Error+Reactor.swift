@@ -69,7 +69,7 @@ extension NSError: SWErrorCompatible {
             }
             if self.code >= NSURLErrorNetworkConnectionLost &&
                 self.code <= NSURLErrorCancelled {
-                return .server(ErrorCode.serverUnableConnect, self.localizedDescription)
+                return .server(ErrorCode.serverUnableConnect, self.localizedDescription, nil)
             }
 //            if self.code >= NSURLErrorDNSLookupFailed ||
 //                        self.code <= NSURLErrorCannotParseResponse {
@@ -78,12 +78,12 @@ extension NSError: SWErrorCompatible {
             return .networkNotConnected
         } else {
             if self.code == 500 {
-                return .server(ErrorCode.serverInternalError, self.localizedDescription)
+                return .server(ErrorCode.serverInternalError, self.localizedDescription, nil)
             } else if self.code == 401 {
                 return .userLoginExpired
             }
         }
-        return .server(ErrorCode.nserror, self.localizedDescription)
+        return .server(ErrorCode.nserror, self.localizedDescription, nil)
     }
 }
 
@@ -93,7 +93,7 @@ extension SKError: SWErrorCompatible {
         case .paymentCancelled:
             return .none
         default:
-            return .app(ErrorCode.skerror, self.localizedDescription)
+            return .app(ErrorCode.skerror, self.localizedDescription, nil)
         }
     }
 }
@@ -103,7 +103,7 @@ extension RxError: SWErrorCompatible {
         switch self {
         case .unknown: return .unknown
         case .timeout: return .timeout
-        default: return .app(ErrorCode.rxerror, self.localizedDescription)
+        default: return .app(ErrorCode.rxerror, self.localizedDescription, nil)
         }
     }
 }
@@ -116,7 +116,7 @@ extension AFError: SWErrorCompatible {
         case let .sessionTaskFailed(error):
             return error.asSWError
         default:
-            return .server(ErrorCode.aferror, self.localizedDescription)
+            return .server(ErrorCode.aferror, self.localizedDescription, nil)
         }
     }
 }
@@ -125,16 +125,16 @@ extension MoyaError: SWErrorCompatible {
     public var swError: SWError {
         switch self {
         case let .underlying(error, _):
-            return (error as? SWErrorCompatible)?.swError ?? .server(0, error.localizedDescription)
+            return (error as? SWErrorCompatible)?.swError ?? .server(0, error.localizedDescription, nil)
         case let .statusCode(response):
             if response.statusCode == 401 {
                 return .userLoginExpired
             }
-            return .server(ErrorCode.moyaError, response.data.string(encoding: .utf8))
+            return .server(ErrorCode.moyaError, response.data.string(encoding: .utf8), nil)
         case let .jsonMapping(response):
-            return .server(ErrorCode.moyaError, self.localizedDescription)
+            return .server(ErrorCode.moyaError, self.localizedDescription, nil)
         default:
-            return .server(ErrorCode.moyaError, self.localizedDescription)
+            return .server(ErrorCode.moyaError, self.localizedDescription, nil)
         }
     }
 }

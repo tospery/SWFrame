@@ -31,8 +31,8 @@ public enum SWError: Error {
     case userLoginExpired
     case networkNotConnected
     case networkNotReachable
-    case server(Int, String?)
-    case app(Int, String?)
+    case server(Int, String?, [String: Any]?)
+    case app(Int, String?, [String: Any]?)
 }
 
 extension SWError: CustomNSError {
@@ -49,8 +49,8 @@ extension SWError: CustomNSError {
         case .userLoginExpired: return 7
         case .networkNotConnected: return 8
         case .networkNotReachable: return 9
-        case let .server(code, _): return code
-        case let .app(code, _): return code
+        case let .server(code, _, _): return code
+        case let .app(code, _, _): return code
         }
     }
 }
@@ -108,9 +108,9 @@ extension SWError: LocalizedError {
             return NSLocalizedString("Error.NetworkNotConnected.Message", value: "", comment: "")
         case .networkNotReachable:
             return NSLocalizedString("Error.NetworkNotReachable.Message", value: "", comment: "")
-        case let .server(code, message):
+        case let .server(code, message, _):
             return message ?? NSLocalizedString("Error.Server.Message\(code)", value: "", comment: "")
-        case let .app(code, message):
+        case let .app(code, message, _):
             return message ?? NSLocalizedString("Error.App.Message\(code)", value: "", comment: "")
         }
     }
@@ -118,7 +118,7 @@ extension SWError: LocalizedError {
     public var recoverySuggestion: String? {
         var suggestion: String?
         switch self {
-        case let .app(code, _):
+        case let .app(code, _, _):
             suggestion = NSLocalizedString("Error.App.Suggestion\(code)", value: "", comment: "")
         default:
             break
@@ -144,8 +144,8 @@ extension SWError: Equatable {
             (.networkNotConnected, .networkNotConnected),
             (.networkNotReachable, .networkNotReachable):
             return true
-        case (.server(let left, _), .server(let right, _)),
-             (.app(let left, _), .app(let right, _)):
+        case (.server(let left, _, _), .server(let right, _, _)),
+             (.app(let left, _, _), .app(let right, _, _)):
             return left == right
         default: return false
         }
@@ -167,8 +167,8 @@ extension SWError: CustomStringConvertible {
         case .networkNotReachable: return "SWError.networkNotReachable"
 //        case .serverCantEnable: return "SWError.serverCantEnable"
 //        case .serverNoResponse: return "SWError.serverNoResponse"
-        case let .server(code, message): return "SWError.server(\(code), \(message ?? ""))"
-        case let .app(code, message): return "SWError.app(\(code), \(message ?? ""))"
+        case let .server(code, message, extra): return "SWError.server(\(code), \(message ?? ""), \(extra)"
+        case let .app(code, message, extra): return "SWError.app(\(code), \(message ?? ""), \(extra))"
         }
     }
 }
@@ -199,14 +199,14 @@ extension SWError {
 //    }
     
     public func isServerError(withCode errorCode: Int) -> Bool {
-        if case let .server(code, _) = self {
+        if case let .server(code, _, _) = self {
             return errorCode == code
         }
         return false
     }
     
     public func isAppError(withCode errorCode: Int) -> Bool {
-        if case let .app(code, _) = self {
+        if case let .app(code, _, _) = self {
             return errorCode == code
         }
         return false
@@ -220,7 +220,7 @@ public protocol SWErrorCompatible: Error {
 
 extension SWErrorCompatible {
     public var swError: SWError {
-        .server(0, nil)
+        .server(0, nil, nil)
     }
 }
 
@@ -233,7 +233,7 @@ extension Error {
         if let compatible = self as? SWErrorCompatible {
             return compatible.swError
         }
-        return .server(0, self.localizedDescription)
+        return .server(0, self.localizedDescription, nil)
     }
 
 }

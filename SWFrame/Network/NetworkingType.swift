@@ -180,7 +180,7 @@ public extension NetworkingType {
             if code == 401 {
                 return .userLoginExpired
             }
-            return SWError.server(code, message)
+            return SWError.server(code, message, nil)
         }
         return nil
     }
