@@ -66,9 +66,6 @@ public extension NetworkingType {
 
 public extension NetworkingType {
     func request(_ target: Target) -> Single<Moya.Response> {
-        //        NSURLErrorTimedOut(-1001): 请求超时
-        //        NSURLErrorCannotConnectToHost(-1004): 找不到服务
-        //        NSURLErrorDataNotAllowed(-1020): 网络不可用
         self.provider.rx.request(target)/*.filterSuccessfulStatusCodes()*/.catch { Single<Moya.Response>.error($0.asSWError)
         }
     }

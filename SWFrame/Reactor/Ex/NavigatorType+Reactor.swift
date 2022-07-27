@@ -62,7 +62,13 @@ public extension NavigatorType {
                 logger.print("自动跳转登录页(错误): \(error)")
             }, onCompleted: {
                 logger.print("自动跳转登录页(完成)")
-                self.forward(url, context: context, from1: from1, from2: from2, animated: animated, completion: completion)
+                var hasLogined = false
+                if let compatible = router as? RouterCompatible {
+                    hasLogined = compatible.isLogined()
+                }
+                if hasLogined {
+                    self.forward(url, context: context, from1: from1, from2: from2, animated: animated, completion: completion)
+                }
             }).disposed(by: gDisposeBag)
             return true
         }
@@ -85,7 +91,7 @@ public extension NavigatorType {
     }
     
     @discardableResult
-    public func rxForward(
+    func rxForward(
         _ url: URLConvertible,
         context: Any? = nil,
         from1: UINavigationControllerType? = nil,
