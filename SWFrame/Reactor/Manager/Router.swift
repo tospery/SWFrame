@@ -84,7 +84,8 @@ final public class Router {
                 }
             }
             // (2) 网页跳转
-            var paramters = [Parameter.url: url.absoluteString]
+            var paramters = context as? [String: Any] ?? [:]
+            paramters[Parameter.url] = url.absoluteString
             if let title = url.queryValue(for: Parameter.title) {
                 paramters[Parameter.title] = title
             }

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SWFrame'
-  s.version          = '2.1.5'
+  s.version          = '2.1.6'
   s.summary          = 'iOS App Framework.'
   s.description      = <<-DESC
 						iOS App Framework using Swift.
